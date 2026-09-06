@@ -1,0 +1,30 @@
+# Environment & secrets
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+
+# System
+.DS_Store
+
+# Dependencies
+node_modules/
+
+# Build
+dist/
+build/
+.next/
+
+# Editors
+.vscode/
+.idea/
+
+# Logs
+*.log
+logs/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
