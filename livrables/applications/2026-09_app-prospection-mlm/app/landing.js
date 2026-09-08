@@ -68,9 +68,54 @@
     var f = document.getElementById("lf-name");
     if (f) setTimeout(function () { f.focus(); }, 400);
   });
-  document.getElementById("videoBtn").addEventListener("click", function () {
-    window.alert("Vidéo de présentation : à brancher (lien YouTube ou fichier).");
-  });
+  /* Vidéo de présentation : branchée sur config.js -> videoUrl.
+     Les deux boutons "Voir la vidéo" (hero et écran de confirmation) ouvrent
+     une modale. Si videoUrl est vide ou non reconnue, les boutons sont masqués. */
+  (function setupVideo() {
+    var url = ((window.KORA_CONFIG && window.KORA_CONFIG.videoUrl) || "").trim();
+    var btns = [document.getElementById("videoBtn"), document.getElementById("videoBtn2")].filter(Boolean);
+    var modal = document.getElementById("videoModal");
+    var frame = document.getElementById("videoModalFrame");
+
+    var embed = url ? videoEmbed(url) : null;
+    if (!embed || !modal || !frame) {
+      btns.forEach(function (b) { b.hidden = true; });
+      return;
+    }
+
+    function openVideo() {
+      frame.innerHTML = (embed.type === "video")
+        ? '<video src="' + esc(embed.src) + '" controls autoplay playsinline></video>'
+        : '<iframe src="' + esc(embed.src) + '" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>';
+      modal.hidden = false;
+      document.body.style.overflow = "hidden";
+    }
+    function closeVideo() {
+      modal.hidden = true;
+      frame.innerHTML = "";                 // coupe la lecture et le son
+      document.body.style.overflow = "";
+    }
+
+    btns.forEach(function (b) { b.hidden = false; b.addEventListener("click", openVideo); });
+    modal.addEventListener("click", function (e) {
+      if (e.target.hasAttribute("data-close")) closeVideo();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !modal.hidden) closeVideo();
+    });
+  })();
+
+  /* Transforme un lien YouTube / Vimeo / fichier vidéo en source intégrable. */
+  function videoEmbed(raw) {
+    var u = String(raw).trim();
+    var yt = u.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{6,})/);
+    if (yt) return { type: "iframe", src: "https://www.youtube.com/embed/" + yt[1] };
+    var vm = u.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+    if (vm) return { type: "iframe", src: "https://player.vimeo.com/video/" + vm[1] };
+    if (/^https?:\/\/.+\.(mp4|webm|ogg)(\?.*)?$/i.test(u)) return { type: "video", src: u };
+    if (/^https?:\/\/.+/i.test(u)) return { type: "iframe", src: u };   // autre lecteur embarquable
+    return null;
+  }
 
   /* Soumission */
   var form = document.getElementById("leadForm");

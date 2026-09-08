@@ -66,7 +66,7 @@
           <div class="thanks__check" id="thanksCheck"></div>
           <h2 id="thanksTitle">Merci, c'est enregistré</h2>
           <p id="thanksText">BONJOUR vous appelle sous 24 h sur WhatsApp. En attendant, regardez la vidéo de présentation, 2 minutes.</p>
-          <button class="btn btn--ghostdark btn--lg" type="button">Voir la vidéo</button>
+          <button class="btn btn--ghostdark btn--lg" type="button" id="videoBtn2">Voir la vidéo</button>
         </div>
 
         <form id="leadForm" novalidate>
@@ -99,6 +99,15 @@
       <span>Kora · page de <span id="agentName4">BONJOUR</span> · kora.gn/bonjour</span>
       <span>Mentions légales · Confidentialité</span>
     </footer>
+  </div>
+</div>
+
+<!-- Fenêtre vidéo. Ouverte par landing.js si config.js contient videoUrl. -->
+<div class="vmodal" id="videoModal" hidden>
+  <div class="vmodal__backdrop" data-close></div>
+  <div class="vmodal__box" role="dialog" aria-modal="true" aria-label="Vidéo de présentation">
+    <button class="vmodal__close" type="button" data-close aria-label="Fermer">&times;</button>
+    <div class="vmodal__frame" id="videoModalFrame"></div>
   </div>
 </div>
 
