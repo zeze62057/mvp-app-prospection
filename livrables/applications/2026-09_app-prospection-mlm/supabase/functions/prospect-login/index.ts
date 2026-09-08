@@ -10,9 +10,18 @@
 //      que rejoindre.js echange contre une session via verifyOtp()
 //
 // verify_jwt = false (appelee par un prospect non connecte).
+//
+// Fichier autonome (CORS inline) : deployable en CLI
+//   supabase functions deploy prospect-login --no-verify-jwt
+// ou par copier-coller dans le Dashboard > Edge Functions.
 // -------------------------------------------------------------------
-import { corsHeaders } from "../_shared/cors.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Methods": "POST, OPTIONS",
+};
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
