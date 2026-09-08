@@ -40,7 +40,7 @@ En mode live, `app.html` et `prospect.html` redirigent vers `auth.html` si perso
 | `app.html` / `app.js` | Tableau de bord agent |
 | `prospect.html` / `prospect.js` | Détail prospect |
 | `index.html` / `landing.js` | Page publique de capture |
-| `parametres.html` / `parametres.js` | Paramètres agent : comptes réseaux sociaux + message de premier contact |
+| `parametres.html` / `parametres.js` | Paramètres agent : comptes réseaux sociaux, message de premier contact, et personnalisation de la page publique (textes + photo/vidéo par upload ou lien) |
 | `notifications.html` / `notifications.js` | Veille réseaux sociaux : interactions détectées ou saisies, message pré-rempli |
 | `diag.html` | Page de diagnostic de la connexion Supabase (ne modifie rien) |
 

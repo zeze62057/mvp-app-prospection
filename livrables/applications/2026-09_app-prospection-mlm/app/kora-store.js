@@ -82,12 +82,47 @@
 
   function trimOrNull(s) { s = (s == null ? "" : String(s)).trim(); return s || null; }
 
+  /* -------- Page publique : contenu personnalisable par agent --------
+     Valeurs par defaut = le texte actuel de index.html. Source unique ici.
+     {agent} dans le sous-titre est remplace par le nom de l'agent. */
+  var KORA_LANDING_DEFAUTS = {
+    badge: "Conakry · places limitées ce mois",
+    titre: "Construisez un revenu complémentaire, depuis votre téléphone.",
+    sousTitre: "Rejoignez l'équipe de {agent}. Formation offerte, accompagnement en français, " +
+      "et vous démarrez avec ce que vous avez déjà : votre réseau et WhatsApp.",
+    cta: "Je veux en savoir plus",
+    preuve: "+120 personnes accompagnées en Guinée",
+    photoUrl: "",
+    videoUrl: ""
+  };
+  window.KORA_LANDING_DEFAUTS = KORA_LANDING_DEFAUTS;
+
+  /* Applique le nom de l'agent au jeton {agent} du sous-titre. */
+  function koraLandingSousTitre(txt, agentNom) {
+    return String(txt == null ? "" : txt).split("{agent}").join(agentNom || "votre parrain");
+  }
+  window.koraLandingSousTitre = koraLandingSousTitre;
+
+  /* Normalise l'objet landing lu en base (colonnes snake_case) -> camelCase front. */
+  function koraShapeLanding(row) {
+    row = row || {};
+    return {
+      badge: row.landing_badge || null,
+      titre: row.landing_titre || null,
+      sousTitre: row.landing_sous_titre || null,
+      cta: row.landing_cta || null,
+      preuve: row.landing_preuve || null,
+      photoUrl: row.landing_photo_url || null,
+      videoUrl: row.landing_video_url || null
+    };
+  }
+
   /* ============================================================
      MODE DÉMO
      ============================================================ */
   function memoryStore() {
     var demoSlug = cfg.defaultAgentSlug || "bonjour";
-    var demoSettings = { messageModele: KORA_MESSAGE_DEFAUT };
+    var demoSettings = { messageModele: KORA_MESSAGE_DEFAUT, landing: {} };
     var demoSocial = {
       facebook: { connected: false, pageName: null, connectedAt: null, lastScan: null },
       tiktok: { connected: false, displayName: null, connectedAt: null }
@@ -181,7 +216,18 @@
         return Promise.resolve(koraTitleFromSlug(slug));
       },
 
-      /* -------- Veille sociale (démo, en mémoire) -------- */
+      /* Contenu de la page publique d'un agent (démo : celui de KORA_AGENT). */
+      publicLanding: function () {
+        var L = demoSettings.landing || {};
+        return Promise.resolve({
+          nom: KORA_AGENT,
+          badge: L.badge || null, titre: L.titre || null, sousTitre: L.sousTitre || null,
+          cta: L.cta || null, preuve: L.preuve || null,
+          photoUrl: L.photoUrl || null, videoUrl: L.videoUrl || null
+        });
+      },
+
+      /* -------- Veille sociale + page publique (démo, en mémoire) -------- */
 
       settings: {
         get: function () {
@@ -189,12 +235,29 @@
             messageModele: demoSettings.messageModele,
             messageDefaut: KORA_MESSAGE_DEFAUT,
             slug: demoSlug,
-            lienTunnel: koraTunnelLink(demoSlug)
+            lienTunnel: koraTunnelLink(demoSlug),
+            landing: JSON.parse(JSON.stringify(demoSettings.landing || {})),
+            landingDefauts: KORA_LANDING_DEFAUTS
           });
         },
         setMessageModele: function (texte) {
           demoSettings.messageModele = (texte == null ? "" : String(texte));
           return Promise.resolve({ error: null });
+        },
+        setLanding: function (o) {
+          o = o || {};
+          demoSettings.landing = {
+            badge: trimOrNull(o.badge), titre: trimOrNull(o.titre),
+            sousTitre: trimOrNull(o.sousTitre), cta: trimOrNull(o.cta),
+            preuve: trimOrNull(o.preuve),
+            photoUrl: trimOrNull(o.photoUrl), videoUrl: trimOrNull(o.videoUrl)
+          };
+          return Promise.resolve({ error: null });
+        },
+        uploadLandingAsset: function (kind, file) {
+          // Mode démo : pas de Storage. Aperçu local uniquement, non persistant.
+          try { return Promise.resolve({ url: URL.createObjectURL(file) }); }
+          catch (e) { return Promise.reject(new Error("Aperçu impossible en mode démo.")); }
         }
       },
 
@@ -267,26 +330,46 @@
   function supabaseStore() {
     var names = {};              // cache agent_id -> nom_complet
     var mePromise = null;        // cache de l'utilisateur courant (évite les getUser répétés)
-    var meProfile = null;        // { id, name, slug, messageModele } du profil agent courant
+    var meProfile = null;        // { id, name, slug, messageModele, landing } du profil agent courant
 
     function nameOf(id) { return names[id] || "un agent"; }
+
+    /* Colonnes ajoutees par des migrations optionnelles. Chaque groupe est lu
+       independamment et en best-effort : si UNE migration n'est pas passee,
+       son select echoue mais l'autre continue, et on garde les valeurs par
+       defaut, sans casser le chargement de la page.
+         - message_modele      -> migration-veille-sociale.sql
+         - landing_*           -> migration-page-publique.sql */
+    function loadProfilOptionnel(u) {
+      var p1 = sb.from("agents").select("message_modele").eq("id", u.id).maybeSingle()
+        .then(function (r) {
+          if (r.data && r.data.message_modele) meProfile.messageModele = r.data.message_modele;
+        }, function () {});
+      var p2 = sb.from("agents")
+        .select("landing_badge,landing_titre,landing_sous_titre,landing_cta,landing_preuve,landing_photo_url,landing_video_url")
+        .eq("id", u.id).maybeSingle()
+        .then(function (r) { meProfile.landing = koraShapeLanding(r.data || {}); }, function () {});
+      return Promise.all([p1, p2]);
+    }
 
     function currentUser() {
       if (!mePromise) {
         mePromise = sb.auth.getUser().then(function (res) {
           var u = res.data && res.data.user;
           if (!u) return null;                       // pas de session : l'appelant renverra vers auth.html
-          return sb.from("agents").select("nom_complet,slug,message_modele").eq("id", u.id).maybeSingle().then(function (r) {
+          return sb.from("agents").select("nom_complet,slug").eq("id", u.id).maybeSingle().then(function (r) {
             var d = r.data || {};
             var nm = d.nom_complet || u.email || "Agent";
             names[u.id] = nm;
             meProfile = { id: u.id, name: nm,
               slug: d.slug || (cfg.defaultAgentSlug || "bonjour"),
-              messageModele: d.message_modele || KORA_MESSAGE_DEFAUT };
-            return meProfile;
+              messageModele: KORA_MESSAGE_DEFAUT,
+              landing: koraShapeLanding(null) };
+            return loadProfilOptionnel(u).then(function () { return meProfile; });
           }, function () {
             meProfile = { id: u.id, name: u.email || "Agent",
-              slug: cfg.defaultAgentSlug || "bonjour", messageModele: KORA_MESSAGE_DEFAUT };
+              slug: cfg.defaultAgentSlug || "bonjour", messageModele: KORA_MESSAGE_DEFAUT,
+              landing: koraShapeLanding(null) };
             return meProfile;   // profil illisible : on garde quand même la session
           });
         }, function () {
@@ -458,8 +541,22 @@
         }, function () { return koraTitleFromSlug(slug); });
       },
 
+      /* Contenu personnalise de la page publique d'un agent (lecture anonyme
+         via RPC SECURITY DEFINER). null si la migration n'est pas passee ou
+         si l'agent est introuvable -> la landing garde ses valeurs par defaut. */
+      publicLanding: function (slug) {
+        return sb.rpc("agent_public_landing", { agent_slug: slug }).then(function (res) {
+          if (res.error || !res.data) return null;
+          var d = Array.isArray(res.data) ? res.data[0] : res.data;
+          if (!d) return null;
+          var L = koraShapeLanding(d);
+          L.nom = d.nom_complet || null;
+          return L;
+        }, function () { return null; });
+      },
+
       /* ==========================================================
-         VEILLE SOCIALE (module Facebook)
+         PARAMETRES : message de contact + page publique
          ========================================================== */
 
       settings: {
@@ -470,7 +567,9 @@
               messageModele: (u && u.messageModele) || KORA_MESSAGE_DEFAUT,
               messageDefaut: KORA_MESSAGE_DEFAUT,
               slug: slug,
-              lienTunnel: koraTunnelLink(slug)
+              lienTunnel: koraTunnelLink(slug),
+              landing: (u && u.landing) || koraShapeLanding(null),
+              landingDefauts: KORA_LANDING_DEFAUTS
             };
           });
         },
@@ -483,6 +582,44 @@
               if (meProfile) meProfile.messageModele = val;
               return { error: null };
             });
+          });
+        },
+        setLanding: function (o) {
+          o = o || {};
+          return api.auth.user().then(function (u) {
+            if (!u) return Promise.reject(new Error("non authentifié"));
+            var patch = {
+              landing_badge: trimOrNull(o.badge),
+              landing_titre: trimOrNull(o.titre),
+              landing_sous_titre: trimOrNull(o.sousTitre),
+              landing_cta: trimOrNull(o.cta),
+              landing_preuve: trimOrNull(o.preuve),
+              landing_photo_url: trimOrNull(o.photoUrl),
+              landing_video_url: trimOrNull(o.videoUrl)
+            };
+            // .eq("id", u.id) + RLS with check(id = auth.uid()) : double garde,
+            // impossible de toucher la ligne d'un autre agent.
+            return sb.from("agents").update(patch).eq("id", u.id).then(function (res) {
+              if (res.error) return Promise.reject(res.error);
+              if (meProfile) meProfile.landing = koraShapeLanding(patch);
+              return { error: null };
+            });
+          });
+        },
+        /* kind : "photo" | "video". Renvoie { url } (URL publique du fichier). */
+        uploadLandingAsset: function (kind, file) {
+          return api.auth.user().then(function (u) {
+            if (!u) return Promise.reject(new Error("non authentifié"));
+            var ext = String(file && file.name || "").split(".").pop().toLowerCase().replace(/[^a-z0-9]/g, "");
+            var path = u.id + "/" + (kind === "video" ? "video" : "photo") + "-" +
+              Date.now().toString(36) + (ext ? "." + ext : "");
+            return sb.storage.from("landing-public")
+              .upload(path, file, { upsert: true, contentType: (file && file.type) || undefined })
+              .then(function (res) {
+                if (res.error) return Promise.reject(res.error);
+                var pub = sb.storage.from("landing-public").getPublicUrl(path);
+                return { url: (pub && pub.data && pub.data.publicUrl) || null };
+              });
           });
         }
       },

@@ -25,6 +25,10 @@
      contact par agent, `connexions_sociales`, `notifications`. Le module Facebook
      (fonctions `functions/fb-*`) et ses limites réelles sont décrits dans
      [`../VEILLE-SOCIALE.md`](../VEILLE-SOCIALE.md).
+   - [`migration-page-publique.sql`](migration-page-publique.sql) : colonnes
+     `agents.landing_*`, bucket Storage `landing-public` + policies, RPC
+     `agent_public_landing`. Permet à chaque agent de personnaliser sa landing
+     (textes, photo, vidéo) depuis Paramètres. Indépendante des deux autres.
 
 ## 3. Activer la connexion par email et mot de passe
 

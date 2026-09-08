@@ -10,11 +10,41 @@
   var root = document.getElementById("content");
 
   var state = {
-    settings: null,     // { messageModele, messageDefaut, slug, lienTunnel }
+    settings: null,     // { messageModele, messageDefaut, slug, lienTunnel, landing, landingDefauts }
     social: null,       // { facebook:{...}, tiktok:{...} }
     dirty: false,
     saving: false
   };
+
+  /* ⚠️ A VALIDER : la demande ne fixe ni taille max d'upload ni formats.
+     Valeurs par defaut retenues : photo 5 Mo, video 50 Mo, formats ci-dessous.
+     Le bucket Supabase "landing-public" applique aussi sa propre limite
+     (voir migration-page-publique.sql). */
+  var LP_MAX = { photo: 5 * 1024 * 1024, video: 50 * 1024 * 1024 };
+  var LP_TYPES = {
+    photo: ["image/jpeg", "image/png", "image/webp", "image/gif"],
+    video: ["video/mp4", "video/webm"]
+  };
+
+  function elVal(id) { var el = document.getElementById(id); return el ? el.value.trim() : ""; }
+  function elFile(id) { var el = document.getElementById(id); return el && el.files && el.files[0] ? el.files[0] : null; }
+  function setState(id, msg, cls) {
+    var el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = msg || "";
+    el.className = "save-state" + (cls ? " " + cls : "");
+  }
+  function validateFile(f, kind) {
+    if (!f) return null;
+    if (f.size > LP_MAX[kind]) {
+      return "Fichier trop lourd (max " + Math.round(LP_MAX[kind] / 1048576) + " Mo pour " +
+        (kind === "photo" ? "une photo" : "une vidéo") + ").";
+    }
+    if (LP_TYPES[kind].indexOf(f.type) === -1) {
+      return "Format non accepté (" + (f.type || "type inconnu") + ").";
+    }
+    return null;
+  }
 
   function qs(name) {
     var m = new RegExp("[?&]" + name + "=([^&]+)").exec(window.location.search);
@@ -115,13 +145,122 @@
     return ta ? ta.value : state.settings.messageModele;
   }
 
+  /* ---- Section "Ma page publique" ---- */
+
+  function landingField(id, label, value, placeholder, isTextarea) {
+    var input = isTextarea
+      ? '<textarea class="textarea" id="' + id + '" rows="3" placeholder="' + esc(placeholder || "") + '">' + esc(value || "") + '</textarea>'
+      : '<input class="input" type="text" id="' + id + '" value="' + esc(value || "") + '" placeholder="' + esc(placeholder || "") + '">';
+    return '<div class="field"><label class="field__label" for="' + id + '">' + esc(label) + '</label>' + input + '</div>';
+  }
+
+  function landingMedia(kind, label, url) {
+    var isImg = kind === "photo";
+    var thumb = "";
+    if (url) {
+      thumb = isImg
+        ? '<img class="lp-thumb" src="' + esc(url) + '" alt="">'
+        : '<a class="lp-hint" href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(url) + '</a>';
+    }
+    return '<div class="lp-media">' +
+      '<div class="lp-media__title">' + esc(label) + '</div>' +
+      '<div class="lp-media__row">' +
+        '<input class="input" type="url" id="lp' + kind + 'Url" value="' + esc(url || "") + '" placeholder="' +
+          (isImg ? "URL d\'une image déjà en ligne" : "Lien YouTube, Vimeo ou fichier .mp4") + '">' +
+      '</div>' +
+      '<div class="lp-media__row">' +
+        '<label class="lp-hint" for="lp' + kind + 'File">ou téléverse un fichier :</label>' +
+        '<input type="file" id="lp' + kind + 'File" accept="' + LP_TYPES[kind].join(",") + '">' +
+      '</div>' +
+      (thumb ? '<div class="lp-media__row">' + thumb + '</div>' : "") +
+      '<div class="lp-hint">Vide = visuel par défaut. ' +
+        (isImg ? "Formats : JPG, PNG, WebP, GIF (max 5 Mo)." : "Un lien YouTube est le plus léger. Upload : MP4 ou WebM (max 50 Mo).") +
+        '</div>' +
+    '</div>';
+  }
+
+  function landingCard() {
+    var L = state.settings.landing || {};
+    var D = state.settings.landingDefauts || {};
+    return '<div class="card">' +
+      '<div class="card__head"><div class="card__title">Ma page publique</div>' +
+        '<div class="card__meta"><a href="' + esc(state.settings.lienTunnel) + '" target="_blank" rel="noopener">Voir ma page</a></div></div>' +
+      '<div class="card__body lp-body">' +
+        landingField("lpBadge", "Badge", L.badge, D.badge) +
+        landingField("lpTitre", "Titre principal", L.titre, D.titre) +
+        landingField("lpSousTitre", "Sous-titre", L.sousTitre, koraLandingSousTitre(D.sousTitre, KORA_AGENT), true) +
+        '<div class="msg-help">Dans le sous-titre, <code>{agent}</code> est remplacé par ton nom.</div>' +
+        landingField("lpCta", "Texte du bouton d'action", L.cta, D.cta) +
+        landingField("lpPreuve", "Mention sociale", L.preuve, D.preuve) +
+        landingMedia("photo", "Photo", L.photoUrl) +
+        landingMedia("video", "Vidéo", L.videoUrl) +
+        '<div class="save-row">' +
+          '<button type="button" class="btn btn--primary" data-act="landing-save" id="lpSave">Enregistrer la page publique</button>' +
+          '<button type="button" class="btn btn--secondary" data-act="landing-reset">Tout remettre par défaut</button>' +
+          '<span class="save-state" id="lpState"></span>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function saveLanding(btn) {
+    if (state.saving) return;
+    var payload = {
+      badge: elVal("lpBadge"), titre: elVal("lpTitre"), sousTitre: elVal("lpSousTitre"),
+      cta: elVal("lpCta"), preuve: elVal("lpPreuve"),
+      photoUrl: elVal("lpphotoUrl"), videoUrl: elVal("lpvideoUrl")
+    };
+    var photoFile = elFile("lpphotoFile"), videoFile = elFile("lpvideoFile");
+    var err = validateFile(photoFile, "photo") || validateFile(videoFile, "video");
+    if (err) { setState("lpState", err, "bad"); return; }
+
+    state.saving = true;
+    if (btn) btn.disabled = true;
+    setState("lpState", "Enregistrement…");
+
+    var chain = Promise.resolve();
+    if (photoFile) {
+      chain = chain.then(function () {
+        return Kora.settings.uploadLandingAsset("photo", photoFile).then(function (r) {
+          if (r && r.url) payload.photoUrl = r.url;
+        });
+      });
+    }
+    if (videoFile) {
+      chain = chain.then(function () {
+        return Kora.settings.uploadLandingAsset("video", videoFile).then(function (r) {
+          if (r && r.url) payload.videoUrl = r.url;
+        });
+      });
+    }
+    chain.then(function () { return Kora.settings.setLanding(payload); })
+      .then(function (r) {
+        state.saving = false;
+        if (btn) btn.disabled = false;
+        if (r && r.error) { setState("lpState", "Échec : " + r.error, "bad"); return; }
+        state.settings.landing = {
+          badge: payload.badge || null, titre: payload.titre || null, sousTitre: payload.sousTitre || null,
+          cta: payload.cta || null, preuve: payload.preuve || null,
+          photoUrl: payload.photoUrl || null, videoUrl: payload.videoUrl || null
+        };
+        render();
+        setState("lpState", "Enregistré. Recharge ta page publique pour voir le résultat.", "ok");
+      })
+      .catch(function (e) {
+        state.saving = false;
+        if (btn) btn.disabled = false;
+        setState("lpState", "Échec : " + (e && e.message ? e.message : e), "bad");
+      });
+  }
+
   function render() {
     root.innerHTML =
       oauthBanner() +
       '<div class="card"><div class="card__head"><div class="card__title">Comptes réseaux sociaux</div>' +
         '<div class="card__meta">Chaque agent connecte uniquement ses propres comptes</div></div>' +
         '<div class="card__body">' + fbCard() + ttCard() + '</div></div>' +
-      messageCard();
+      messageCard() +
+      landingCard();
     wire();
   }
 
@@ -211,6 +350,20 @@
         btn.disabled = false;
         setSaveState("Échec : " + (e && e.message ? e.message : e), "bad");
       });
+      return;
+    }
+    if (act === "landing-save") {
+      saveLanding(btn);
+      return;
+    }
+    if (act === "landing-reset") {
+      if (!window.confirm("Remettre toute la page publique aux valeurs par défaut ?")) return;
+      ["lpBadge", "lpTitre", "lpSousTitre", "lpCta", "lpPreuve",
+       "lpphotoUrl", "lpvideoUrl", "lpphotoFile", "lpvideoFile"].forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.value = "";
+      });
+      saveLanding(document.getElementById("lpSave"));
       return;
     }
   }

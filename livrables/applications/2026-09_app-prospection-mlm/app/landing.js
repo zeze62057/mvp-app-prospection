@@ -56,9 +56,50 @@
   }
 
   paintAgent(agent);
-  Kora.publicAgentName(agentSlug).then(function (nm) {
+
+  /* ---- Contenu personnalisable de la page publique (par agent) ----
+     Chaque agent modifie le sien dans Paramètres > Ma page publique.
+     Valeur absente = on garde le texte par défaut déjà dans le HTML. */
+  function setLandingText(id, txt) {
+    var el = document.getElementById(id);
+    if (el && txt) el.textContent = txt;
+  }
+  function applyLanding(L) {
+    if (!L) return;
+    setLandingText("landingBadge", L.badge);
+    setLandingText("landingTitre", L.titre);
+    if (L.sousTitre) setLandingText("landingLead", koraLandingSousTitre(L.sousTitre, agent));
+    setLandingText("toFormBtn", L.cta);
+    setLandingText("landingPreuve", L.preuve);
+    if (L.photoUrl) {
+      var m = document.getElementById("heroMedia");
+      if (m) {
+        m.classList.remove("imgslot");
+        m.innerHTML = '<img src="' + esc(L.photoUrl) + '" alt="Photo de ' + esc(agent) +
+          '" style="width:100%;height:100%;object-fit:cover;display:block">';
+      }
+    }
+  }
+
+  /* Nom + contenu personnalisé, résolus ensemble. La vidéo n'est branchée
+     qu'après, pour donner la priorité au lien vidéo de l'agent sur config.js. */
+  var configVideoUrl = ((window.KORA_CONFIG && window.KORA_CONFIG.videoUrl) || "").trim();
+  ["videoBtn", "videoBtn2"].forEach(function (id) {
+    var b = document.getElementById(id);
+    if (b) b.hidden = true;                 // caché tant qu'on ne connaît pas la bonne URL
+  });
+
+  Promise.all([
+    Kora.publicAgentName(agentSlug).then(function (n) { return n; }, function () { return null; }),
+    (Kora.publicLanding ? Kora.publicLanding(agentSlug) : Promise.resolve(null))
+      .then(function (l) { return l; }, function () { return null; })
+  ]).then(function (r) {
+    var nm = r[0], L = r[1];
     if (nm && nm !== agent) paintAgent(nm);
-  }).catch(function () {});
+    else if (L && L.nom && L.nom !== agent) paintAgent(L.nom);
+    applyLanding(L);
+    setupVideo((L && L.videoUrl) || configVideoUrl);
+  });
 
   /* Défilement vers le formulaire */
   document.getElementById("toFormBtn").addEventListener("click", function () {
@@ -68,11 +109,12 @@
     var f = document.getElementById("lf-name");
     if (f) setTimeout(function () { f.focus(); }, 400);
   });
-  /* Vidéo de présentation : branchée sur config.js -> videoUrl.
-     Les deux boutons "Voir la vidéo" (hero et écran de confirmation) ouvrent
-     une modale. Si videoUrl est vide ou non reconnue, les boutons sont masqués. */
-  (function setupVideo() {
-    var url = ((window.KORA_CONFIG && window.KORA_CONFIG.videoUrl) || "").trim();
+
+  /* Vidéo de présentation : modale YouTube / Vimeo / fichier mp4-webm-ogg.
+     rawUrl = lien vidéo de l'agent, sinon config.js -> videoUrl.
+     Boutons masqués si l'URL est vide ou non reconnue. */
+  function setupVideo(rawUrl) {
+    var url = (rawUrl || "").trim();
     var btns = [document.getElementById("videoBtn"), document.getElementById("videoBtn2")].filter(Boolean);
     var modal = document.getElementById("videoModal");
     var frame = document.getElementById("videoModalFrame");
@@ -82,6 +124,7 @@
       btns.forEach(function (b) { b.hidden = true; });
       return;
     }
+    btns.forEach(function (b) { b.hidden = false; });
 
     function openVideo() {
       frame.innerHTML = (embed.type === "video")
@@ -96,14 +139,14 @@
       document.body.style.overflow = "";
     }
 
-    btns.forEach(function (b) { b.hidden = false; b.addEventListener("click", openVideo); });
+    btns.forEach(function (b) { b.addEventListener("click", openVideo); });
     modal.addEventListener("click", function (e) {
       if (e.target.hasAttribute("data-close")) closeVideo();
     });
     document.addEventListener("keydown", function (e) {
       if (e.key === "Escape" && !modal.hidden) closeVideo();
     });
-  })();
+  }
 
   /* Transforme un lien YouTube / Vimeo / fichier vidéo en source intégrable. */
   function videoEmbed(raw) {
