@@ -62,6 +62,8 @@ Entrepreneur centré sur l'intelligence artificielle et l'écosystème Claude. Z
 ## Mes projets en cours
 
 - **SaaS et applications Claude** : développement de produits à vendre sur l'écosystème Claude
+- **Plateforme e-commerce multi-vendeurs** : marketplace de produits bien-être pour la Guinée et l'Afrique de l'Ouest, avec créateur de boutiques en ligne pour les vendeurs et distributeurs (type Longrich). Zézé y a sa propre boutique. Mobile-first, paiement mobile money, prix en GNF. Design en conception dans Claude Design. Nom à définir
+- **App de prospection MLM (Kora)** : application de prospection en marketing de réseau pour BONJOUR et sa lignée de filleuls, chacun avec son compte et ses prospects. Pipeline à 7 statuts de Nouveau à Closé, historique de suivi, formulaire public de capture. Cadrage fait, implémentation front statique des 3 écrans, et branchement Supabase en cours : projet `swsjyeltuabrqwjaisew` créé, tables créées via `schema.sql`, `app/config.js` branché sur la clé publishable. Reste à valider en conditions réelles (connexion navigateur) puis à trancher les points ouverts du schéma (inscription des agents, réattribution par le parrain, formulaire public). Dossier : `livrables/applications/2026-09_app-prospection-mlm/`
 - **Formation avancée IA et marketing de réseau** : se former pour devenir formateur dans ces deux domaines
 - **Entrepreneur Académie** : conception de l'école de l'IA sur l'écosystème Claude
 - **Expertise écosystème Claude** : devenir expert reconnu sur Claude et ses outils
