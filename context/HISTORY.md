@@ -9,6 +9,17 @@
 
 ## 2026-09-08
 
+### Tunnel public de capture de prospects opérationnel (Kora)
+
+- Constat : le front (`landing.js`, `index.html`, `kora-store.js`) était déjà câblé sur les RPC `soumettre_prospect_public` et `agent_public_nom`, mais la base en service (`schema.sql` strict) ne contenait ni colonne `slug` ni ces fonctions
+- Nouveau livrable : `supabase/migration-tunnel-public.sql`, pour la base déjà peuplée. Ajoute `agents.slug` (unique, format exact laissé à valider), met `slug = bonjour` sur la racine, crée `soumettre_prospect_public` (statut `nouveau` et `mode_creation` `formulaire_public` forcés, rattachement par slug) et `agent_public_nom`, plus une limite anti-spam par IP (5 par heure, seuil à valider) via une table `soumissions_publiques` en RLS sans policy
+- Règle validée ce jour : slug choisi par l'agent à l'inscription, unique
+- reCAPTCHA non fait : demande une clé Google et un appel HTTP sortant (`pg_net` ou Edge Function) indisponibles dans l'environnement. Étapes documentées en commentaire dans le fichier SQL
+- Front : ajout du message d'erreur `trop_de_demandes` dans `kora-store.js`
+- Migration exécutée par BONJOUR dans le SQL Editor. Test de bout en bout par Claude via curl avec les clés du `.env` : soumission anonyme OK, prospect créé au bon statut, bon mode, bon agent, trigger d'audit OK, cas d'erreur `nom_requis` / `contact_requis` / `agent_introuvable` OK. Données de test supprimées, base laissée propre
+- `nom_complet` de l'agent racine renseigné à "Zézé", donc la landing affichera "avec Zézé"
+- Restent : essai visuel dans le navigateur, limite IP non testée à saturation, reCAPTCHA, déploiement
+
 ### Déblocage de la connexion agent de Kora
 
 - Symptôme : impossible de se connecter sur `auth.html`, l'email ne passait pas

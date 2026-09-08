@@ -279,7 +279,8 @@
               var map = {
                 nom_requis: "Nom manquant.",
                 contact_requis: "Renseignez un téléphone ou un email.",
-                agent_introuvable: "Cette page n'est plus active."
+                agent_introuvable: "Cette page n'est plus active.",
+                trop_de_demandes: "Trop de demandes depuis cette connexion. Réessayez dans une heure."
               };
               var msg = map[res.error.message] || "Envoi impossible pour le moment.";
               return { error: msg };
