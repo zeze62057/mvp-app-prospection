@@ -86,6 +86,38 @@
 
   function trimOrNull(s) { s = (s == null ? "" : String(s)).trim(); return s || null; }
 
+  /* -------- Positionnement de l'agent (questionnaire) -------- */
+  var KORA_SITUATIONS = [
+    { key: "etudiant", label: "Étudiant(e)" },
+    { key: "parent_foyer", label: "Parent au foyer" },
+    { key: "reconversion", label: "Salarié(e) en reconversion" },
+    { key: "sans_emploi", label: "Sans emploi" },
+    { key: "entrepreneur_diversification", label: "Déjà entrepreneur(e) en diversification" },
+    { key: "jeune_diplome", label: "Jeune diplômé(e)" }
+  ];
+  var KORA_TONS = [
+    { key: "inspirant", label: "Inspirant / motivant" },
+    { key: "pedagogue", label: "Pédagogue / explicatif" },
+    { key: "direct", label: "Direct / franc" },
+    { key: "humoristique", label: "Humoristique / léger" },
+    { key: "preuve_sociale", label: "Témoin / preuve sociale" }
+  ];
+  function koraLabelOf(list, key) {
+    for (var i = 0; i < list.length; i++) if (list[i].key === key) return list[i].label;
+    return null;
+  }
+  /* "Parent au foyer, ton inspirant" — libelle lisible du positionnement. */
+  function koraPositionnementLabel(situation, ton) {
+    var s = koraLabelOf(KORA_SITUATIONS, situation);
+    var t = koraLabelOf(KORA_TONS, ton);
+    if (!s || !t) return null;
+    return s + ", ton " + t.toLowerCase().split(" / ")[0];
+  }
+  window.KORA_SITUATIONS = KORA_SITUATIONS;
+  window.KORA_TONS = KORA_TONS;
+  window.koraLabelOf = koraLabelOf;
+  window.koraPositionnementLabel = koraPositionnementLabel;
+
   /* -------- Page publique : contenu personnalisable par agent --------
      Valeurs par defaut = le texte actuel de index.html. Source unique ici.
      {agent} dans le sous-titre est remplace par le nom de l'agent. */
@@ -127,6 +159,8 @@
   function memoryStore() {
     var demoSlug = cfg.defaultAgentSlug || "bonjour";
     var demoSettings = { messageModele: KORA_MESSAGE_DEFAUT, landing: {} };
+    var demoPositionnement = { situation: null, ton: null };
+    var demoContenus = [];   // { id, jour, hook, texte, ton, situation, createdAt }
     var demoSocial = {
       facebook: { connected: false, pageName: null, connectedAt: null, lastScan: null },
       tiktok: { connected: false, displayName: null, connectedAt: null }
@@ -234,6 +268,48 @@
           cta: L.cta || null, preuve: L.preuve || null,
           photoUrl: L.photoUrl || null, videoUrl: L.videoUrl || null
         });
+      },
+
+      /* -------- Positionnement + contenu IA (démo, en mémoire) -------- */
+
+      positionnement: {
+        get: function () {
+          return Promise.resolve({ situation: demoPositionnement.situation, ton: demoPositionnement.ton });
+        },
+        set: function (situation, ton) {
+          demoPositionnement.situation = situation || null;
+          demoPositionnement.ton = ton || null;
+          return Promise.resolve({ error: null });
+        }
+      },
+
+      contenu: {
+        dujour: function () {
+          var today = new Date().toISOString().slice(0, 10);
+          var t = demoContenus.filter(function (c) { return c.jour === today; })
+            .sort(function (a, b) { return Date.parse(b.createdAt) - Date.parse(a.createdAt); });
+          return Promise.resolve(t[0] || null);
+        },
+        generer: function () {
+          if (!demoPositionnement.situation || !demoPositionnement.ton) {
+            return Promise.reject(new Error("positionnement_absent"));
+          }
+          var sit = koraLabelOf(KORA_SITUATIONS, demoPositionnement.situation) || "";
+          var c = {
+            id: "demo-c" + Date.now().toString(36),
+            jour: new Date().toISOString().slice(0, 10),
+            hook: "Exemple de hook (mode démo, pas d'appel IA réel).",
+            texte: "Exemple de hook (mode démo, pas d'appel IA réel).\n\nEn mode démo, le contenu n'est pas généré par Claude. " +
+              "En mode live, ce texte serait un post personnalisé pour : " + sit + ".\n\nÉcris-moi en privé pour en parler.",
+            ton: demoPositionnement.ton, situation: demoPositionnement.situation,
+            createdAt: new Date().toISOString()
+          };
+          demoContenus.unshift(c);
+          return Promise.resolve(c);
+        },
+        canvaTemplate: function (ton) {
+          return Promise.resolve({ ton: ton, templateId: null, champTexte: null });
+        }
       },
 
       /* -------- Veille sociale + page publique (démo, en mémoire) -------- */
@@ -347,8 +423,9 @@
        independamment et en best-effort : si UNE migration n'est pas passee,
        son select echoue mais l'autre continue, et on garde les valeurs par
        defaut, sans casser le chargement de la page.
-         - message_modele      -> migration-veille-sociale.sql
-         - landing_*           -> migration-page-publique.sql */
+         - message_modele        -> migration-veille-sociale.sql
+         - landing_*             -> migration-page-publique.sql
+         - positionnement_*      -> migration-contenu-ia.sql */
     function loadProfilOptionnel(u) {
       var p1 = sb.from("agents").select("message_modele").eq("id", u.id).maybeSingle()
         .then(function (r) {
@@ -358,7 +435,13 @@
         .select("landing_badge,landing_titre,landing_sous_titre,landing_cta,landing_preuve,landing_photo_url,landing_video_url")
         .eq("id", u.id).maybeSingle()
         .then(function (r) { meProfile.landing = koraShapeLanding(r.data || {}); }, function () {});
-      return Promise.all([p1, p2]);
+      var p3 = sb.from("agents").select("positionnement_situation,positionnement_ton").eq("id", u.id).maybeSingle()
+        .then(function (r) {
+          var d = r.data || {};
+          meProfile.positionnementSituation = d.positionnement_situation || null;
+          meProfile.positionnementTon = d.positionnement_ton || null;
+        }, function () {});
+      return Promise.all([p1, p2, p3]);
     }
 
     function currentUser() {
@@ -580,6 +663,78 @@
       },
 
       /* ==========================================================
+         POSITIONNEMENT + CONTENU IA
+         ========================================================== */
+
+      positionnement: {
+        get: function () {
+          return api.auth.user().then(function (u) {
+            return {
+              situation: (u && u.positionnementSituation) || null,
+              ton: (u && u.positionnementTon) || null
+            };
+          });
+        },
+        set: function (situation, ton) {
+          return api.auth.user().then(function (u) {
+            if (!u) return Promise.reject(new Error("non authentifié"));
+            return sb.from("agents")
+              .update({ positionnement_situation: situation, positionnement_ton: ton })
+              .eq("id", u.id).select("id").then(function (res) {
+                if (res.error) return Promise.reject(res.error);
+                if (!res.data || !res.data.length) {
+                  return Promise.reject(new Error("aucune ligne mise à jour (profil agent introuvable ou RLS)"));
+                }
+                if (meProfile) { meProfile.positionnementSituation = situation; meProfile.positionnementTon = ton; }
+                return { error: null };
+              });
+          });
+        }
+      },
+
+      contenu: {
+        /* Contenu le plus récent pour aujourd'hui, ou null. */
+        dujour: function () {
+          var today = new Date().toISOString().slice(0, 10);
+          return sb.from("contenus_generes").select("*")
+            .eq("jour", today).order("created_at", { ascending: false }).limit(1)
+            .then(function (res) {
+              if (res.error) return Promise.reject(res.error);
+              return (res.data && res.data[0]) ? shapeContenu(res.data[0]) : null;
+            });
+        },
+        /* Appelle la fonction Edge generer-contenu (API Claude). */
+        generer: function () {
+          return sb.functions.invoke("generer-contenu", { body: {} }).then(function (res) {
+            if (res.error) {
+              // FunctionsHttpError : le detail metier est dans le corps de la reponse.
+              var ctx = res.error && res.error.context;
+              return (ctx && typeof ctx.json === "function" ? ctx.json() : Promise.resolve(null))
+                .then(function (body) {
+                  var map = {
+                    cle_api_absente: "La génération IA n'est pas encore activée : la clé API Claude doit être configurée dans Supabase (voir CONTENU-IA.md).",
+                    cle_api_invalide: "La clé API Claude configurée est invalide.",
+                    positionnement_absent: "Renseigne d'abord ton positionnement.",
+                    trop_de_demandes: "Trop de demandes vers l'IA. Réessaie dans une minute.",
+                    service_surcharge: "Le service IA est momentanément surchargé. Réessaie.",
+                    generation_refusee: "L'IA a refusé cette génération. Réessaie."
+                  };
+                  var code = body && body.error;
+                  return Promise.reject(new Error(map[code] || "Génération impossible pour le moment."));
+                });
+            }
+            return shapeContenu(res.data);
+          });
+        },
+        canvaTemplate: function (ton) {
+          return sb.from("canva_templates").select("*").eq("ton", ton).maybeSingle().then(function (res) {
+            var d = (res && res.data) || {};
+            return { ton: ton, templateId: d.template_id || null, champTexte: d.champ_texte || null };
+          }, function () { return { ton: ton, templateId: null, champTexte: null }; });
+        }
+      },
+
+      /* ==========================================================
          PARAMETRES : message de contact + page publique
          ========================================================== */
 
@@ -771,6 +926,20 @@
         messageEnvoye: !!row.message_envoye,
         lu: !!row.lu,
         prospectId: row.prospect_id || null,
+        createdAt: row.created_at
+      };
+    }
+
+    function shapeContenu(row) {
+      row = row || {};
+      return {
+        id: row.id,
+        jour: row.jour,
+        hook: row.hook || "",
+        texte: row.texte || "",
+        ton: row.ton || null,
+        situation: row.situation || null,
+        source: row.source || "ia",
         createdAt: row.created_at
       };
     }

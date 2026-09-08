@@ -253,12 +253,29 @@
       });
   }
 
+  function positionnementCard() {
+    var p = state.positionnement || {};
+    var lbl = koraPositionnementLabel(p.situation, p.ton);
+    return '<div class="card">' +
+      '<div class="card__head"><div class="card__title">Mon positionnement</div>' +
+        '<div class="card__meta">Sert à personnaliser « Mon contenu du jour »</div></div>' +
+      '<div class="card__body" style="display:flex;flex-direction:column;gap:12px">' +
+        '<div>' + (lbl
+          ? 'Actuel : <strong>' + esc(lbl) + '</strong>'
+          : '<span style="color:#B93232">Pas encore renseigné.</span>') + '</div>' +
+        '<div><a class="btn btn--secondary" href="positionnement.html">' +
+          (lbl ? "Modifier mon positionnement" : "Renseigner mon positionnement") + '</a></div>' +
+      '</div>' +
+    '</div>';
+  }
+
   function render() {
     root.innerHTML =
       oauthBanner() +
       '<div class="card"><div class="card__head"><div class="card__title">Comptes réseaux sociaux</div>' +
         '<div class="card__meta">Chaque agent connecte uniquement ses propres comptes</div></div>' +
         '<div class="card__body">' + fbCard() + ttCard() + '</div></div>' +
+      positionnementCard() +
       messageCard() +
       landingCard();
     wire();
@@ -383,9 +400,14 @@
       document.getElementById("navName").textContent = KORA_AGENT;
       document.getElementById("navAvatar").textContent = String(KORA_AGENT).charAt(0).toUpperCase();
 
-      return Promise.all([Kora.settings.get(), Kora.social.status()]).then(function (r) {
+      return Promise.all([
+        Kora.settings.get(),
+        Kora.social.status(),
+        (Kora.positionnement ? Kora.positionnement.get() : Promise.resolve(null)).catch(function () { return null; })
+      ]).then(function (r) {
         state.settings = r[0];
         state.social = r[1];
+        state.positionnement = r[2];
         render();
       });
     })

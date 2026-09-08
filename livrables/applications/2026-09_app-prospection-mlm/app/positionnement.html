@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kora — Mon positionnement</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .pos-wrap { max-width: 560px; margin: 0 auto; padding: 40px 24px 64px; }
+  .pos-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-card);
+    box-shadow: var(--shadow-card); padding: 28px; display: flex; flex-direction: column; gap: 18px; }
+  .pos-card h1 { font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+  .pos-card .intro { font-size: 14.5px; color: var(--ink-2); line-height: 1.6; }
+  .pos-card select.input { appearance: none; -webkit-appearance: none; background: var(--surface); }
+  .pos-preview { font-size: 13.5px; color: var(--ink-2); background: var(--surface-2);
+    border: 1px solid var(--line); border-radius: var(--r-field); padding: 10px 12px; }
+  .pos-state { font-size: 13px; color: var(--ink-2); }
+  .pos-state.bad { color: #B93232; }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand"><div class="brand__mark">K</div><div class="brand__name">Kora</div></div>
+    </div>
+  </header>
+  <main class="pos-wrap">
+    <div class="pos-card" id="card">
+      <p>Chargement…</p>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="kora-store.js"></script>
+<script src="positionnement.js"></script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kora — Mon contenu du jour</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .ct-hook {
+    font-size: 16px; font-weight: 700; line-height: 1.4; color: var(--ink);
+    background: var(--accent-weak); border-radius: var(--r-field); padding: 12px 14px;
+  }
+  .ct-meta { font-size: 12.5px; color: var(--ink-3); }
+  .ct-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+  .ct-state { font-size: 13px; color: var(--ink-2); align-self: center; }
+  .ct-state.ok { color: #0F7A4A; }
+  .ct-state.bad { color: #B93232; }
+  .ct-canva {
+    border: 1px dashed var(--line-2); border-radius: var(--r-field); padding: 14px;
+    font-size: 13px; color: var(--ink-2); line-height: 1.6;
+  }
+  .ct-info { background: #E7F0FD; color: #1558B0; border: 1px solid #CBDDF8;
+    border-radius: var(--r-card); padding: 14px 16px; font-size: 13.5px; line-height: 1.55; }
+  .ct-info a { color: #1558B0; font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="page" id="page">
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand"><div class="brand__mark">K</div><div class="brand__name">Kora</div></div>
+      <nav class="topnav">
+        <a href="app.html">Prospects</a>
+        <a href="notifications.html">Veille</a>
+        <a href="contenu.html" class="is-active">Contenu</a>
+        <a href="parametres.html">Paramètres</a>
+        <a href="index.html">Ma page publique</a>
+      </nav>
+      <div class="topbar__right">
+        <div class="who">
+          <div class="avatar avatar--nav" id="navAvatar">B</div>
+          <span class="who__name" id="navName">BONJOUR</span>
+        </div>
+        <button class="btn btn--tertiary" type="button" id="logoutBtn" hidden>Déconnexion</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="pagehead">
+      <div>
+        <h1>Mon contenu du jour</h1>
+        <p id="subline">Un post prêt à publier, adapté à ton positionnement.</p>
+      </div>
+    </div>
+    <div id="content"><div style="padding:24px;color:var(--ink-3)">Chargement…</div></div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="kora-store.js"></script>
+<script src="contenu.js"></script>
+</body>
+</html>

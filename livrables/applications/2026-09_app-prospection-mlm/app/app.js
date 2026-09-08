@@ -206,6 +206,24 @@
     .then(function () { return Kora.auth.guard(); })
     .then(function (ok) {
       if (!ok) return;
+      // Passage obligatoire par le questionnaire de positionnement au 1er login.
+      if (Kora.positionnement && Kora.positionnement.get) {
+        return Kora.positionnement.get().then(function (p) {
+          if (!p || !p.situation || !p.ton) { window.location.replace("positionnement.html"); return; }
+          return afterGuard();
+        }, function () { return afterGuard(); });
+      }
+      return afterGuard();
+    })
+    .catch(function (e) {
+      console.error("[Kora] init", e);
+      var detail = (e && (e.message || e.error_description || e.msg)) || String(e);
+      el.rows.innerHTML = '<div style="padding:24px;color:#B93232">Chargement impossible.<br>' +
+        'Détail : ' + koraEsc(detail) + '<br>' +
+        '<span style="color:#5A6474">Ouvrez <a href="diag.html">diag.html</a> pour un diagnostic complet.</span></div>';
+    });
+
+  function afterGuard() {
       if (el.logout) el.logout.hidden = (Kora.mode === "demo");
       el.navName.textContent = KORA_AGENT;
       el.navAvatar.textContent = KORA_AGENT.charAt(0).toUpperCase();
@@ -229,12 +247,5 @@
         renderCounts();
         renderList();
       });
-    })
-    .catch(function (e) {
-      console.error("[Kora] init", e);
-      var detail = (e && (e.message || e.error_description || e.msg)) || String(e);
-      el.rows.innerHTML = '<div style="padding:24px;color:#B93232">Chargement impossible.<br>' +
-        'Détail : ' + koraEsc(detail) + '<br>' +
-        '<span style="color:#5A6474">Ouvrez <a href="diag.html">diag.html</a> pour un diagnostic complet.</span></div>';
-    });
+  }
 })();
