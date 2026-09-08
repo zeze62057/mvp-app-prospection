@@ -43,6 +43,12 @@ alter table agents add column if not exists landing_video_url  text;
 --  public = true : une landing est publique, l'image/video doit etre lisible
 --  sans session. Les fichiers sont ranges par dossier <agent_id>/.
 --
+--  ⚠️ Sur Supabase hebergé, l'insert ci-dessous PEUT etre refuse (DML directe
+--  sur storage.buckets non autorisee depuis le SQL Editor). Si le bucket
+--  n'apparait pas dans Storage apres ce script : le creer a la main
+--  (Storage > New bucket > "landing-public", Public ACTIVE), puis passer
+--  migration-page-publique-storage.sql pour les policies.
+--
 --  ⚠️ A VALIDER (non specifie dans la demande) :
 --    - file_size_limit : laisse a NULL -> utilise la limite globale du projet
 --      Supabase (50 Mo par defaut). A ajuster ici si une limite dediee est

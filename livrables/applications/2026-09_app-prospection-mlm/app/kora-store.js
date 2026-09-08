@@ -577,8 +577,13 @@
           return api.auth.user().then(function (u) {
             if (!u) return Promise.reject(new Error("non authentifié"));
             var val = (texte == null ? "" : String(texte));
-            return sb.from("agents").update({ message_modele: val }).eq("id", u.id).then(function (res) {
+            // .select() : sans ça un update qui ne touche AUCUNE ligne (RLS,
+            // profil agent absent) renvoie { error: null } -> faux "Enregistré".
+            return sb.from("agents").update({ message_modele: val }).eq("id", u.id).select("id").then(function (res) {
               if (res.error) return Promise.reject(res.error);
+              if (!res.data || !res.data.length) {
+                return Promise.reject(new Error("aucune ligne mise à jour (profil agent introuvable ou RLS)"));
+              }
               if (meProfile) meProfile.messageModele = val;
               return { error: null };
             });
@@ -597,10 +602,13 @@
               landing_photo_url: trimOrNull(o.photoUrl),
               landing_video_url: trimOrNull(o.videoUrl)
             };
-            // .eq("id", u.id) + RLS with check(id = auth.uid()) : double garde,
-            // impossible de toucher la ligne d'un autre agent.
-            return sb.from("agents").update(patch).eq("id", u.id).then(function (res) {
+            // .eq("id", u.id) + RLS with check(id = auth.uid()) : double garde.
+            // .select() : confirme qu'une ligne a bien ete ecrite (sinon faux succes).
+            return sb.from("agents").update(patch).eq("id", u.id).select("id").then(function (res) {
               if (res.error) return Promise.reject(res.error);
+              if (!res.data || !res.data.length) {
+                return Promise.reject(new Error("aucune ligne mise à jour (profil agent introuvable ou RLS)"));
+              }
               if (meProfile) meProfile.landing = koraShapeLanding(patch);
               return { error: null };
             });
@@ -616,7 +624,15 @@
             return sb.storage.from("landing-public")
               .upload(path, file, { upsert: true, contentType: (file && file.type) || undefined })
               .then(function (res) {
-                if (res.error) return Promise.reject(res.error);
+                if (res.error) {
+                  var m = String(res.error.message || res.error);
+                  if (/bucket/i.test(m) && /not found|introuv/i.test(m)) {
+                    return Promise.reject(new Error(
+                      "Le bucket Storage « landing-public » n'existe pas. Il doit être créé " +
+                      "dans Supabase (voir DEPLOIEMENT / VEILLE-SOCIALE). En attendant, colle une URL."));
+                  }
+                  return Promise.reject(res.error);
+                }
                 var pub = sb.storage.from("landing-public").getPublicUrl(path);
                 return { url: (pub && pub.data && pub.data.publicUrl) || null };
               });
