@@ -710,17 +710,32 @@
               // FunctionsHttpError : le detail metier est dans le corps de la reponse.
               var ctx = res.error && res.error.context;
               return (ctx && typeof ctx.json === "function" ? ctx.json() : Promise.resolve(null))
+                .then(function (body) { return body; }, function () { return null; })
                 .then(function (body) {
+                  body = body || {};
+                  // Fonction absente : la passerelle Supabase renvoie code=NOT_FOUND.
+                  if (body.code === "NOT_FOUND" || /not_?found/i.test(String(res.error.message || ""))) {
+                    return Promise.reject(new Error(
+                      "La fonction « generer-contenu » n'est pas déployée sur Supabase (Edge Functions). Voir CONTENU-IA.md."));
+                  }
                   var map = {
-                    cle_api_absente: "La génération IA n'est pas encore activée : la clé API Claude doit être configurée dans Supabase (voir CONTENU-IA.md).",
-                    cle_api_invalide: "La clé API Claude configurée est invalide.",
+                    cle_api_absente: "La génération IA n'est pas activée : ANTHROPIC_API_KEY n'est pas lue par la fonction. Voir CONTENU-IA.md.",
+                    cle_api_invalide: "La clé API Claude configurée est invalide (rejetée par Anthropic).",
                     positionnement_absent: "Renseigne d'abord ton positionnement.",
                     trop_de_demandes: "Trop de demandes vers l'IA. Réessaie dans une minute.",
                     service_surcharge: "Le service IA est momentanément surchargé. Réessaie.",
-                    generation_refusee: "L'IA a refusé cette génération. Réessaie."
+                    generation_refusee: "L'IA a refusé cette génération. Réessaie.",
+                    appel_impossible: "La fonction n'a pas pu joindre l'API Anthropic.",
+                    generation_impossible: "L'API Anthropic a renvoyé une erreur.",
+                    session_invalide: "Session expirée, reconnecte-toi."
                   };
-                  var code = body && body.error;
-                  return Promise.reject(new Error(map[code] || "Génération impossible pour le moment."));
+                  var code = body.error;
+                  var msg = map[code];
+                  if (msg) return Promise.reject(new Error(msg));
+                  // Code non prevu : on montre le code + le detail brut pour diagnostiquer.
+                  return Promise.reject(new Error(
+                    "Génération impossible" + (code ? " (" + code + ")" : "") +
+                    (body.detail ? " : " + String(body.detail).slice(0, 200) : ".")));
                 });
             }
             return shapeContenu(res.data);
