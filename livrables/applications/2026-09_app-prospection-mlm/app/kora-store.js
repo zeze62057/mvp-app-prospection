@@ -703,42 +703,58 @@
               return (res.data && res.data[0]) ? shapeContenu(res.data[0]) : null;
             });
         },
-        /* Appelle la fonction Edge generer-contenu (API Claude). */
+        /* Appelle la fonction Edge generer-contenu (API Claude).
+           Appel fetch direct (pas sb.functions.invoke) : on maitrise la
+           lecture du corps et du code HTTP, donc un vrai diagnostic. */
         generer: function () {
-          return sb.functions.invoke("generer-contenu", { body: {} }).then(function (res) {
-            if (res.error) {
-              // FunctionsHttpError : le detail metier est dans le corps de la reponse.
-              var ctx = res.error && res.error.context;
-              return (ctx && typeof ctx.json === "function" ? ctx.json() : Promise.resolve(null))
-                .then(function (body) { return body; }, function () { return null; })
-                .then(function (body) {
-                  body = body || {};
-                  // Fonction absente : la passerelle Supabase renvoie code=NOT_FOUND.
-                  if (body.code === "NOT_FOUND" || /not_?found/i.test(String(res.error.message || ""))) {
-                    return Promise.reject(new Error(
-                      "La fonction « generer-contenu » n'est pas déployée sur Supabase (Edge Functions). Voir CONTENU-IA.md."));
-                  }
-                  var map = {
-                    cle_api_absente: "La génération IA n'est pas activée : ANTHROPIC_API_KEY n'est pas lue par la fonction. Voir CONTENU-IA.md.",
-                    cle_api_invalide: "La clé API Claude configurée est invalide (rejetée par Anthropic).",
-                    positionnement_absent: "Renseigne d'abord ton positionnement.",
-                    trop_de_demandes: "Trop de demandes vers l'IA. Réessaie dans une minute.",
-                    service_surcharge: "Le service IA est momentanément surchargé. Réessaie.",
-                    generation_refusee: "L'IA a refusé cette génération. Réessaie.",
-                    appel_impossible: "La fonction n'a pas pu joindre l'API Anthropic.",
-                    generation_impossible: "L'API Anthropic a renvoyé une erreur.",
-                    session_invalide: "Session expirée, reconnecte-toi."
-                  };
-                  var code = body.error;
-                  var msg = map[code];
-                  if (msg) return Promise.reject(new Error(msg));
-                  // Code non prevu : on montre le code + le detail brut pour diagnostiquer.
-                  return Promise.reject(new Error(
-                    "Génération impossible" + (code ? " (" + code + ")" : "") +
-                    (body.detail ? " : " + String(body.detail).slice(0, 200) : ".")));
-                });
+          var MAP = {
+            cle_api_absente: "Génération non activée : ANTHROPIC_API_KEY n'est pas lue par la fonction. Voir CONTENU-IA.md.",
+            cle_api_invalide: "Clé API Claude invalide (rejetée par Anthropic).",
+            positionnement_absent: "Renseigne d'abord ton positionnement.",
+            trop_de_demandes: "Trop de demandes vers l'IA. Réessaie dans une minute.",
+            service_surcharge: "Service IA momentanément surchargé. Réessaie.",
+            generation_refusee: "L'IA a refusé cette génération. Réessaie.",
+            appel_impossible: "La fonction n'a pas pu joindre l'API Anthropic.",
+            generation_impossible: "L'API Anthropic a renvoyé une erreur.",
+            session_invalide: "Session expirée, reconnecte-toi.",
+            non_authentifie: "Session absente, reconnecte-toi."
+          };
+          var fnUrl = cfg.supabaseUrl.replace(/\/+$/, "") + "/functions/v1/generer-contenu";
+          return sb.auth.getSession().then(function (s) {
+            var token = (s.data && s.data.session && s.data.session.access_token) || cfg.supabaseAnonKey;
+            return fetch(fnUrl, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "apikey": cfg.supabaseAnonKey,
+                "Authorization": "Bearer " + token
+              },
+              body: "{}"
+            });
+          }).then(function (r) {
+            return r.text().then(function (t) {
+              var body = {};
+              try { body = JSON.parse(t); } catch (e) {}
+              return { status: r.status, body: body, raw: t };
+            });
+          }).then(function (res) {
+            var b = res.body || {};
+            if (res.status >= 200 && res.status < 300 && b.texte) return shapeContenu(b);
+
+            if (res.status === 404 || b.code === "NOT_FOUND") {
+              return Promise.reject(new Error(
+                "La fonction « generer-contenu » n'est pas déployée sur Supabase " +
+                "(Edge Functions > Deploy). Voir CONTENU-IA.md."));
             }
-            return shapeContenu(res.data);
+            var code = b.error || ("http_" + res.status);
+            var msg = MAP[code];
+            if (msg) return Promise.reject(new Error(msg));
+            return Promise.reject(new Error(
+              "Génération impossible [" + code + "]" +
+              (b.detail ? " : " + String(b.detail).slice(0, 250) :
+                (res.raw && !b.error ? " : " + String(res.raw).slice(0, 250) : ""))));
+          }, function () {
+            return Promise.reject(new Error("Impossible de joindre la fonction (réseau)."));
           });
         },
         canvaTemplate: function (ton) {
