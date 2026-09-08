@@ -710,6 +710,7 @@
           var MAP = {
             cle_api_absente: "Génération non activée : ANTHROPIC_API_KEY n'est pas lue par la fonction. Voir CONTENU-IA.md.",
             cle_api_invalide: "Clé API Claude invalide (rejetée par Anthropic).",
+            credit_insuffisant: "Le compte Anthropic n'a plus de crédit. Recharge sur console.anthropic.com → Plans & Billing.",
             positionnement_absent: "Renseigne d'abord ton positionnement.",
             trop_de_demandes: "Trop de demandes vers l'IA. Réessaie dans une minute.",
             service_surcharge: "Service IA momentanément surchargé. Réessaie.",

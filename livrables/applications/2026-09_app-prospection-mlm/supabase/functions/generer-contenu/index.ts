@@ -136,6 +136,10 @@ Deno.serve(async (req) => {
       console.error("[generer-contenu] anthropic " + cRes.status + " " +
         JSON.stringify(cJson?.error ?? cJson).slice(0, 600));
       const t = cJson?.error?.type ?? "";
+      const emsg = String(cJson?.error?.message ?? "");
+      if (/credit balance is too low|purchase credits/i.test(emsg)) {
+        return json({ error: "credit_insuffisant", detail: emsg }, 402);
+      }
       const map: Record<string, string> = {
         authentication_error: "cle_api_invalide",
         permission_error: "cle_api_invalide",
