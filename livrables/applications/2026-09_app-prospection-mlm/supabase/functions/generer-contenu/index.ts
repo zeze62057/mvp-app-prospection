@@ -1,4 +1,4 @@
-// generer-contenu  (v2 : ZERO import — boot instantane)
+// generer-contenu  (v2 : ZERO import, boot instantane)
 // -------------------------------------------------------------------
 // Genere le "contenu du jour" d'un agent : un post texte pret a poster
 // (Facebook / TikTok), personnalise avec SON positionnement
@@ -133,6 +133,8 @@ Deno.serve(async (req) => {
     });
     const cJson = await cRes.json();
     if (!cRes.ok) {
+      console.error("[generer-contenu] anthropic " + cRes.status + " " +
+        JSON.stringify(cJson?.error ?? cJson).slice(0, 600));
       const t = cJson?.error?.type ?? "";
       const map: Record<string, string> = {
         authentication_error: "cle_api_invalide",
@@ -140,7 +142,10 @@ Deno.serve(async (req) => {
         rate_limit_error: "trop_de_demandes",
         overloaded_error: "service_surcharge",
       };
-      return json({ error: map[t] || "generation_impossible", detail: cJson?.error?.message ?? null }, 502);
+      return json({
+        error: map[t] || "generation_impossible",
+        detail: "HTTP " + cRes.status + " " + (t || "?") + " : " + (cJson?.error?.message ?? JSON.stringify(cJson).slice(0, 300)),
+      }, 502);
     }
     if (cJson?.stop_reason === "refusal") return json({ error: "generation_refusee" }, 502);
 

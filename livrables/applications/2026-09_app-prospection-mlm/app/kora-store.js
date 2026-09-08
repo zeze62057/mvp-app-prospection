@@ -747,12 +747,15 @@
                 "(Edge Functions > Deploy). Voir CONTENU-IA.md."));
             }
             var code = b.error || ("http_" + res.status);
+            var detail = b.detail ? String(b.detail).slice(0, 300)
+              : (res.raw && !b.error ? String(res.raw).slice(0, 300) : "");
             var msg = MAP[code];
-            if (msg) return Promise.reject(new Error(msg));
+            if (msg) {
+              // Toujours joindre le detail brut (ex. message exact d'Anthropic).
+              return Promise.reject(new Error(msg + (detail ? " — " + detail : "")));
+            }
             return Promise.reject(new Error(
-              "Génération impossible [" + code + "]" +
-              (b.detail ? " : " + String(b.detail).slice(0, 250) :
-                (res.raw && !b.error ? " : " + String(res.raw).slice(0, 250) : ""))));
+              "Génération impossible [" + code + "]" + (detail ? " : " + detail : "")));
           }, function () {
             return Promise.reject(new Error("Impossible de joindre la fonction (réseau)."));
           });
