@@ -19,6 +19,12 @@
 2. Copier tout le contenu de [`schema.sql`](schema.sql), coller, **Run**.
 3. Vérifier qu'il n'y a pas d'erreur. Le panneau **Table Editor** doit maintenant
    montrer `agents`, `prospects`, `interactions`, `changements_statut`.
+4. Migrations à passer ensuite, dans l'ordre, de la même façon :
+   - [`migration-tunnel-public.sql`](migration-tunnel-public.sql) : formulaire public.
+   - [`migration-veille-sociale.sql`](migration-veille-sociale.sql) : message de premier
+     contact par agent, `connexions_sociales`, `notifications`. Le module Facebook
+     (fonctions `functions/fb-*`) et ses limites réelles sont décrits dans
+     [`../VEILLE-SOCIALE.md`](../VEILLE-SOCIALE.md).
 
 ## 3. Activer la connexion par email et mot de passe
 

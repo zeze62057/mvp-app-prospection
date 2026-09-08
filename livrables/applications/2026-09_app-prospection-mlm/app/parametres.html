@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kora — Paramètres</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .stack-cards { display: flex; flex-direction: column; gap: 20px; padding: 8px 0 48px; }
+  .conncard { display: flex; align-items: flex-start; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); }
+  .conncard:last-child { border-bottom: 0; padding-bottom: 0; }
+  .conncard__logo {
+    width: 44px; height: 44px; border-radius: 12px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 18px; color: #fff;
+  }
+  .conncard__logo--fb { background: #1877F2; }
+  .conncard__logo--tt { background: #000; }
+  .conncard__body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+  .conncard__title { font-size: 15.5px; font-weight: 700; }
+  .conncard__status { font-size: 13.5px; color: var(--ink-2); }
+  .conncard__status .on { color: #0F7A4A; font-weight: 600; }
+  .conncard__note { font-size: 12.5px; color: var(--ink-3); line-height: 1.5; margin-top: 4px; }
+  .conncard__actions { display: flex; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
+  .msg-help { font-size: 12.5px; color: var(--ink-3); line-height: 1.55; }
+  .msg-help code {
+    font-family: var(--mono); font-size: 12px; background: #F1F3F6;
+    padding: 2px 5px; border-radius: 5px; color: var(--ink);
+  }
+  .msg-preview {
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--r-field);
+    padding: 12px 14px; font-size: 14px; line-height: 1.6; color: var(--ink); white-space: pre-wrap; word-break: break-word;
+  }
+  .msg-preview a { color: var(--accent-hover); }
+  .save-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .save-state { font-size: 13px; color: var(--ink-2); }
+  .save-state.ok { color: #0F7A4A; }
+  .save-state.bad { color: #B93232; }
+  @media (max-width: 720px) {
+    .conncard { flex-wrap: wrap; }
+    .conncard__actions { width: 100%; }
+    .conncard__actions .btn { flex: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="page" id="page">
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand">
+        <div class="brand__mark">K</div>
+        <div class="brand__name">Kora</div>
+      </div>
+      <nav class="topnav">
+        <a href="app.html">Prospects</a>
+        <a href="notifications.html">Veille</a>
+        <a href="parametres.html" class="is-active">Paramètres</a>
+        <a href="index.html">Ma page publique</a>
+      </nav>
+      <div class="topbar__right">
+        <div class="who">
+          <div class="avatar avatar--nav" id="navAvatar">B</div>
+          <span class="who__name" id="navName">BONJOUR</span>
+        </div>
+        <button class="btn btn--tertiary" type="button" id="logoutBtn" hidden>Déconnexion</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="pagehead">
+      <div>
+        <h1>Paramètres</h1>
+        <p>Comptes réseaux sociaux et message de premier contact.</p>
+      </div>
+    </div>
+
+    <div class="stack-cards" id="content">
+      <div style="padding:24px;color:var(--ink-3)">Chargement…</div>
+    </div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="kora-store.js"></script>
+<script src="parametres.js"></script>
+</body>
+</html>

@@ -33,7 +33,7 @@
     document.getElementById("filterChevron").innerHTML = koraIcon("chevD", { size: 14, stroke: "#8A93A3", width: 2 });
     document.getElementById("sortChevron").innerHTML = koraIcon("chevD", { size: 14, stroke: "#8A93A3", width: 2 });
     document.getElementById("tabIcon1").innerHTML = koraIcon("list", { size: 21, stroke: "#E8590C", width: 2 });
-    document.getElementById("tabIcon2").innerHTML = koraIcon("globe", { size: 21, stroke: "#8A93A3", width: 2 });
+    document.getElementById("tabIcon2").innerHTML = koraIcon("bell", { size: 21, stroke: "#8A93A3", width: 2 });
     document.getElementById("tabIcon3").innerHTML = koraIcon("user", { size: 21, stroke: "#8A93A3", width: 2 });
   }
 
@@ -188,6 +188,7 @@
   el.searchInput.addEventListener("input", function () { state.search = this.value; renderList(); });
   el.statusFilter.addEventListener("change", function () { state.filter = this.value; renderList(); });
   document.getElementById("addBtn").addEventListener("click", openAdd);
+  document.getElementById("bellBtn").addEventListener("click", function () { window.location.href = "notifications.html"; });
   document.getElementById("exportBtn").addEventListener("click", function () {
     window.alert("Export CSV : prévu en amélioration future (voir fonctionnalites-mvp.md).");
   });
@@ -208,6 +209,21 @@
       if (el.logout) el.logout.hidden = (Kora.mode === "demo");
       el.navName.textContent = KORA_AGENT;
       el.navAvatar.textContent = KORA_AGENT.charAt(0).toUpperCase();
+
+      if (Kora.notifications && Kora.notifications.unreadCount) {
+        Kora.notifications.unreadCount().then(function (c) {
+          var bell = document.getElementById("bellBtn");
+          if (!bell) return;
+          if (c > 0) {
+            bell.title = c + " interaction" + (c > 1 ? "s" : "") + " non lue" + (c > 1 ? "s" : "") + " dans la Veille";
+            bell.style.borderColor = "var(--accent)";
+            bell.style.color = "var(--accent-hover)";
+          } else {
+            bell.title = "Veille réseaux sociaux";
+          }
+        }).catch(function () {});
+      }
+
       return Kora.prospects.list().then(function (list) {
         prospects = list;
         renderCounts();
@@ -216,6 +232,9 @@
     })
     .catch(function (e) {
       console.error("[Kora] init", e);
-      el.rows.innerHTML = '<div style="padding:24px;color:#B93232">Chargement impossible. Vérifiez la configuration Supabase (config.js).</div>';
+      var detail = (e && (e.message || e.error_description || e.msg)) || String(e);
+      el.rows.innerHTML = '<div style="padding:24px;color:#B93232">Chargement impossible.<br>' +
+        'Détail : ' + koraEsc(detail) + '<br>' +
+        '<span style="color:#5A6474">Ouvrez <a href="diag.html">diag.html</a> pour un diagnostic complet.</span></div>';
     });
 })();

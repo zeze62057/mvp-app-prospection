@@ -258,6 +258,9 @@
     })
     .catch(function (e) {
       console.error("[Kora] init détail", e);
-      root.innerHTML = '<div style="padding:24px;color:#B93232">Chargement impossible. Vérifiez la configuration Supabase (config.js).</div>';
+      var detail = (e && (e.message || e.error_description || e.msg)) || String(e);
+      root.innerHTML = '<div style="padding:24px;color:#B93232">Chargement impossible.<br>' +
+        'Détail : ' + esc(detail) + '<br>' +
+        '<span style="color:#5A6474">Ouvrez <a href="diag.html">diag.html</a> pour un diagnostic complet.</span></div>';
     });
 })();

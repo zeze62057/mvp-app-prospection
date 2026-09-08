@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kora — Diagnostic Supabase</title>
+<style>
+  body { font: 14px/1.5 system-ui, sans-serif; margin: 0; padding: 24px; background: #0b1220; color: #e6ebf5; }
+  h1 { font-size: 18px; margin: 0 0 16px; }
+  .step { border: 1px solid #22304a; border-radius: 10px; padding: 12px 14px; margin: 10px 0; background: #111a2e; }
+  .step h2 { font-size: 13px; margin: 0 0 6px; text-transform: uppercase; letter-spacing: .04em; color: #8fa3c4; }
+  pre { margin: 0; white-space: pre-wrap; word-break: break-word; font: 12px/1.5 ui-monospace, Menlo, Consolas, monospace; }
+  .ok { color: #4ade80; }
+  .bad { color: #f87171; }
+  .warn { color: #fbbf24; }
+  button { font: inherit; padding: 8px 14px; border-radius: 8px; border: 0; background: #2563eb; color: #fff; cursor: pointer; }
+  #copyBtn { margin-top: 16px; background: #334155; }
+</style>
+</head>
+<body>
+<h1>Kora — Diagnostic de la connexion Supabase</h1>
+<p>Ouvre cette page <strong>par la même URL que l'application</strong> (le même http:// ou file://). Elle ne modifie rien.</p>
+<div id="out"></div>
+<button id="copyBtn" type="button">Copier le rapport</button>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+(function () {
+  "use strict";
+  var out = document.getElementById("out");
+  var lines = [];
+
+  function step(title, verdict, detail) {
+    var cls = verdict === "OK" ? "ok" : verdict === "ATTENTION" ? "warn" : "ERREUR";
+    var css = verdict === "OK" ? "ok" : verdict === "ATTENTION" ? "warn" : "bad";
+    var div = document.createElement("div");
+    div.className = "step";
+    div.innerHTML = '<h2>' + title + '</h2><pre class="' + css + '">[' + cls + '] ' +
+      String(detail).replace(/[&<>]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;" }[c]; }) + '</pre>';
+    out.appendChild(div);
+    lines.push("[" + cls + "] " + title + "\n" + detail + "\n");
+  }
+
+  function safe(o) { try { return JSON.stringify(o, null, 2); } catch (e) { return String(o); } }
+
+  // 1. Contexte
+  step("Contexte page", "OK", "protocol = " + location.protocol + "\norigin = " + location.origin + "\nhref = " + location.href);
+
+  // 2. Librairie supabase-js
+  var hasLib = typeof window.supabase !== "undefined" && window.supabase && !!window.supabase.createClient;
+  step("Librairie supabase-js (CDN jsDelivr)", hasLib ? "OK" : "ERREUR",
+    hasLib ? "chargée, createClient disponible" : "NON chargée. Le CDN cdn.jsdelivr.net est bloqué ou injoignable (adblock, DNS, proxy, hors ligne). Sans elle l'app bascule en mode démo.");
+
+  // 3. config.js
+  var cfg = window.KORA_CONFIG || {};
+  var urlOk = /^https:\/\/.+\.supabase\.co$/.test(cfg.supabaseUrl || "");
+  var keyKind = /^sb_publishable_/.test(cfg.supabaseAnonKey || "") ? "publishable (correct)"
+    : /^sb_secret_/.test(cfg.supabaseAnonKey || "") ? "SECRETE (à retirer d'urgence)"
+    : /^eyJ/.test(cfg.supabaseAnonKey || "") ? "anon JWT (legacy, ok)"
+    : (cfg.supabaseAnonKey ? "format inconnu" : "ABSENTE");
+  step("config.js", (urlSafe() ? "OK" : "ERREUR"),
+    "supabaseUrl = " + (cfg.supabaseUrl || "(vide)") + "  -> " + (urlOk ? "format ok" : "format inattendu") +
+    "\nsupabaseAnonKey = " + maskKey(cfg.supabaseAnonKey) + "  -> " + keyKind +
+    "\ndefaultAgentSlug = " + (cfg.defaultAgentSlug || "(vide)"));
+  function urlSafe() { return urlOk && /^sb_publishable_|^eyJ/.test(cfg.supabaseAnonKey || ""); }
+  function maskKey(k) { k = k || ""; return k ? k.slice(0, 18) + "…(" + k.length + " car.)" : "(vide)"; }
+
+  if (!hasLib || !cfg.supabaseUrl || !cfg.supabaseAnonKey) {
+    step("Suite du diagnostic", "ATTENTION", "Interrompu : il manque la librairie ou la config. Corrige les points ci-dessus d'abord.");
+    return finish();
+  }
+
+  var sb;
+  try {
+    sb = window.supabase.createClient(cfg.supabaseUrl, cfg.supabaseAnonKey);
+    step("createClient()", "OK", "client créé");
+  } catch (e) {
+    step("createClient()", "ERREUR", (e && e.message) || String(e));
+    return finish();
+  }
+
+  // 4. Session locale
+  sb.auth.getSession().then(function (r) {
+    step("Session locale (localStorage)", "OK",
+      "session présente : " + (!!(r.data && r.data.session)) +
+      (r.error ? "\nerror = " + safe(r.error) : "") +
+      (r.data && r.data.session ? "\nexpire_at = " + new Date(r.data.session.expires_at * 1000).toISOString() : ""));
+  }, function (e) {
+    step("Session locale (localStorage)", "ERREUR", "getSession a rejeté : " + ((e && e.message) || String(e)) +
+      "\n-> jeton corrompu dans le localStorage. Vide les données du site puis reconnecte-toi.");
+  }).then(function () {
+    // 5. getUser (ce que fait guard())
+    return sb.auth.getUser().then(function (r) {
+      var u = r.data && r.data.user;
+      step("getUser() (appelé par guard())", u ? "OK" : "ATTENTION",
+        "user = " + (u ? (u.email + " / " + u.id) : "null (personne de connecté)") +
+        (r.error ? "\nerror = " + safe(r.error) : "") +
+        (!u ? "\n-> normal si tu n'es pas connecté. L'app doit alors rediriger vers auth.html, PAS afficher l'erreur config.js." : ""));
+    }, function (e) {
+      step("getUser() (appelé par guard())", "ERREUR",
+        "getUser a REJETÉ : " + ((e && e.name) || "") + " " + ((e && e.message) || String(e)) +
+        "\n-> C'EST la cause du message \"Vérifiez config.js\". Souvent : jeton de session expiré/corrompu." +
+        "\n   Solution : DevTools > Application > Local Storage > supprimer les entrées 'sb-...' pour cette origine, puis recharger.");
+    });
+  }).then(function () {
+    // 6. Lecture REST anonyme
+    return sb.from("prospects").select("id").limit(1).then(function (r) {
+      step("Lecture REST /prospects (rôle courant)", r.error ? "ERREUR" : "OK",
+        r.error ? "error = " + safe(r.error) : "ok, " + ((r.data && r.data.length) || 0) + " ligne(s) visible(s) (0 est normal sans connexion, RLS).");
+    }, function (e) {
+      step("Lecture REST /prospects", "ERREUR", "fetch a rejeté : " + ((e && e.message) || String(e)) +
+        "\n-> réseau bloqué vers " + cfg.supabaseUrl + " (proxy, firewall, hors ligne, CORS).");
+    });
+  }).then(function () {
+    // 7. RPC public
+    return sb.rpc("agent_public_nom", { agent_slug: cfg.defaultAgentSlug || "bonjour" }).then(function (r) {
+      step("RPC agent_public_nom (clé publique)", r.error ? "ERREUR" : "OK",
+        r.error ? "error = " + safe(r.error) : "nom renvoyé = " + safe(r.data) + " (la clé publique fonctionne de bout en bout)");
+    }, function (e) {
+      step("RPC agent_public_nom", "ERREUR", "rejet : " + ((e && e.message) || String(e)));
+    });
+  }).then(finish, finish);
+
+  function finish() {
+    var concl = document.createElement("div");
+    concl.className = "step";
+    concl.innerHTML = '<h2>Conclusion</h2><pre>Lis les lignes ERREUR ci-dessus dans l\'ordre. ' +
+      'La première en ERREUR est la cause. Clique "Copier le rapport" et colle-le.</pre>';
+    out.appendChild(concl);
+  }
+
+  document.getElementById("copyBtn").addEventListener("click", function () {
+    var txt = "=== DIAGNOSTIC KORA ===\n" + new Date().toISOString() + "\n\n" + lines.join("\n");
+    navigator.clipboard.writeText(txt).then(function () { this.textContent = "Copié"; }.bind(this),
+      function () { window.prompt("Copie manuelle :", txt); });
+  });
+})();
+</script>
+</body>
+</html>

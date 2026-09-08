@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kora — Veille réseaux sociaux</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .veille-info {
+    background: #E7F0FD; color: #1558B0; border: 1px solid #CBDDF8;
+    border-radius: var(--r-card); padding: 14px 16px; font-size: 13.5px; line-height: 1.55; margin-bottom: 18px;
+  }
+  .veille-info a { color: #1558B0; font-weight: 600; }
+  .nlist { display: flex; flex-direction: column; gap: 12px; padding-bottom: 48px; }
+  .ncard {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-card);
+    box-shadow: var(--shadow-card); padding: 16px 18px; display: flex; flex-direction: column; gap: 10px;
+  }
+  .ncard.is-unread { border-left: 3px solid var(--accent); }
+  .ncard__top { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .ntag {
+    font-size: 11.5px; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: var(--r-pill);
+  }
+  .ntag--facebook { background: #E7F0FD; color: #1558B0; }
+  .ntag--tiktok { background: #F1F3F6; color: #4B5563; }
+  .ntag--manuel { background: #FDF3E0; color: #8F5A05; }
+  .ntag--like { background: #FDECE1; color: #B23F06; }
+  .ntag--commentaire { background: #EFEAFE; color: #5334C7; }
+  .ncard__time { font-size: 12.5px; color: var(--ink-3); margin-left: auto; }
+  .ncard__who { font-size: 15.5px; font-weight: 700; }
+  .ncard__who .muted { font-weight: 500; color: var(--ink-3); font-size: 13.5px; }
+  .ncard__pub { font-size: 13.5px; color: var(--ink-2); }
+  .ncard__pub a { color: var(--accent-hover); }
+  .ncard__quote {
+    font-size: 14px; color: var(--ink); background: var(--surface-2);
+    border-left: 2px solid var(--line-2); padding: 8px 12px; border-radius: 0 8px 8px 0;
+  }
+  .ncard__actions { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 2px; }
+  .ncard__actions .btn { height: 38px; }
+  .done-flag { font-size: 12.5px; color: #0F7A4A; font-weight: 600; align-self: center; }
+  .modal__hint { font-size: 12.5px; color: var(--ink-3); line-height: 1.5; }
+  .modal__inner .msg-preview {
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: var(--r-field);
+    padding: 10px 12px; font-size: 13.5px; line-height: 1.55; white-space: pre-wrap; word-break: break-word;
+  }
+  @media (max-width: 720px) {
+    .ncard__actions .btn { flex: 1; }
+  }
+</style>
+</head>
+<body>
+<div class="page" id="page">
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand">
+        <div class="brand__mark">K</div>
+        <div class="brand__name">Kora</div>
+      </div>
+      <nav class="topnav">
+        <a href="app.html">Prospects</a>
+        <a href="notifications.html" class="is-active">Veille</a>
+        <a href="parametres.html">Paramètres</a>
+        <a href="index.html">Ma page publique</a>
+      </nav>
+      <div class="topbar__right">
+        <div class="who">
+          <div class="avatar avatar--nav" id="navAvatar">B</div>
+          <span class="who__name" id="navName">BONJOUR</span>
+        </div>
+        <button class="btn btn--tertiary" type="button" id="logoutBtn" hidden>Déconnexion</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="pagehead">
+      <div>
+        <h1>Veille réseaux sociaux</h1>
+        <p id="subline">Interactions repérées sur tes publications.</p>
+      </div>
+      <div class="pagehead__actions">
+        <button class="btn btn--primary" type="button" id="addManualBtn">Enregistrer une interaction</button>
+      </div>
+    </div>
+
+    <div id="infoZone"></div>
+    <div class="nlist" id="nlist">
+      <div style="padding:24px;color:var(--ink-3)">Chargement…</div>
+    </div>
+  </main>
+</div>
+
+<!-- Modale : message pré-rempli, envoi manuel -->
+<dialog class="modal" id="sendModal">
+  <div class="modal__inner">
+    <h3>Envoyer le message</h3>
+    <p class="modal__hint">Rien n'est envoyé automatiquement. Tu copies le texte puis tu l'envoies toi-même
+      depuis Messenger ou la plateforme. Le lien de ton tunnel est déjà inséré.</p>
+    <div class="field">
+      <label class="field__label" for="sendText">Message (modifiable)</label>
+      <textarea class="textarea" id="sendText" rows="5"></textarea>
+    </div>
+    <div class="modal__actions" style="flex-wrap:wrap">
+      <button class="btn btn--primary" type="button" id="copyBtn">Copier le texte</button>
+      <button class="btn btn--secondary" type="button" id="openBtn">Ouvrir la publication</button>
+      <button class="btn btn--secondary" type="button" id="markSentBtn">Marquer comme envoyé</button>
+      <button class="btn btn--tertiary" type="button" id="sendClose">Fermer</button>
+    </div>
+    <p class="field__error" id="sendState" hidden></p>
+  </div>
+</dialog>
+
+<!-- Modale : saisie manuelle d'une interaction repérée -->
+<dialog class="modal" id="manualModal">
+  <form method="dialog" class="modal__inner" id="manualForm">
+    <h3>Interaction repérée</h3>
+    <p class="modal__hint">À utiliser pour un like ou un commentaire que tu as vu toi-même
+      (utile pour TikTok, ou pour Facebook sans connexion).</p>
+    <div class="field">
+      <label class="field__label" for="mf-type">Type</label>
+      <div class="select" style="width:100%">
+        <select id="mf-type" style="width:100%">
+          <option value="commentaire">Commentaire</option>
+          <option value="like">Like</option>
+        </select>
+      </div>
+    </div>
+    <div class="field">
+      <label class="field__label" for="mf-nom">Nom ou pseudo de la personne</label>
+      <input class="input" type="text" id="mf-nom" placeholder="Tel qu'affiché sur le réseau">
+    </div>
+    <div class="field">
+      <label class="field__label" for="mf-pub">Publication concernée</label>
+      <input class="input" type="text" id="mf-pub" placeholder="Titre ou description courte">
+    </div>
+    <div class="field">
+      <label class="field__label" for="mf-url">Lien de la publication <span class="field__hint">· optionnel</span></label>
+      <input class="input" type="url" id="mf-url" placeholder="https://…">
+    </div>
+    <div class="field">
+      <label class="field__label" for="mf-quote">Texte du commentaire <span class="field__hint">· optionnel</span></label>
+      <textarea class="textarea" id="mf-quote" rows="2"></textarea>
+    </div>
+    <div class="modal__actions">
+      <button class="btn btn--primary" value="ok" id="mf-submit">Ajouter à la veille</button>
+      <button class="btn btn--secondary" value="cancel" type="submit" formnovalidate>Annuler</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Modale : convertir en prospect -->
+<dialog class="modal" id="convModal">
+  <form method="dialog" class="modal__inner" id="convForm">
+    <h3>Ajouter aux prospects</h3>
+    <p class="modal__hint">Facebook et TikTok ne donnent ni téléphone ni email.
+      Complète au moins l'un des deux pour créer la fiche.</p>
+    <div class="field">
+      <label class="field__label" for="cf-nom">Nom</label>
+      <input class="input" type="text" id="cf-nom">
+    </div>
+    <div class="field">
+      <label class="field__label" for="cf-phone">Téléphone · WhatsApp</label>
+      <input class="input" type="tel" id="cf-phone" placeholder="+224 6•• •• •• ••">
+    </div>
+    <div class="field">
+      <label class="field__label" for="cf-email">Email</label>
+      <input class="input" type="email" id="cf-email">
+    </div>
+    <p class="field__error" id="cf-error" hidden>Renseigne un téléphone ou un email.</p>
+    <div class="modal__actions">
+      <button class="btn btn--primary" value="ok" id="cf-submit">Créer le prospect</button>
+      <button class="btn btn--secondary" value="cancel" type="submit" formnovalidate>Annuler</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="kora-store.js"></script>
+<script src="notifications.js"></script>
+</body>
+</html>
