@@ -160,6 +160,11 @@
             '<div class="progress">' + progressHtml() + '</div>' +
             '<div class="kv__k">Étape ' + (idx + 1) + ' sur 7 · dernier contact ' + esc(prospect.lastContact) + '.</div>' +
           '</div>' +
+          '<div class="sidecard"><h3>Espace communauté</h3>' +
+            '<div class="kv__k">Génère un lien d\'accès personnel à envoyer à ' + esc(koraFirstName(prospect.name)) + ' par WhatsApp.</div>' +
+            '<button type="button" class="btn btn--secondary btn--block" id="inviteBtn">Générer le lien d\'accès</button>' +
+            '<div id="inviteBox" hidden></div>' +
+          '</div>' +
           '<div class="sidecard"><h3>Source</h3>' +
             '<div class="sideline">' + koraIcon("globe", { size: 15, stroke: "#8A93A3", width: 2 }) + esc(srcLabel) + '</div>' +
             '<div class="sideline">' + koraIcon("user", { size: 15, stroke: "#8A93A3", width: 2 }) + 'Agent responsable : ' + esc(KORA_AGENT) + '</div>' +
@@ -225,6 +230,42 @@
     document.getElementById("waBtn").addEventListener("click", function () {
       if (prospect.phone) window.open("https://wa.me/" + prospect.phone.replace(/[^0-9]/g, ""), "_blank");
     });
+
+    var inv = document.getElementById("inviteBtn");
+    if (inv) {
+      inv.addEventListener("click", function () {
+        if (ui.busy) return;
+        ui.busy = true;
+        inv.disabled = true;
+        inv.textContent = "Génération…";
+        Kora.prospects.creerAccesLien(prospect.id).then(function (r) {
+          ui.busy = false;
+          inv.disabled = false;
+          inv.textContent = "Générer un nouveau lien";
+          var msg = "Salut " + koraFirstName(prospect.name) + " ! Voici ton accès à l'espace communauté : " +
+            r.url + "\nCe lien est personnel et à usage unique.";
+          var box = document.getElementById("inviteBox");
+          box.hidden = false;
+          box.innerHTML =
+            '<textarea class="textarea" id="inviteMsg" rows="4" readonly style="margin-top:8px">' + esc(msg) + '</textarea>' +
+            '<button type="button" class="btn btn--primary btn--block" id="inviteCopy" style="margin-top:8px">Copier le message</button>';
+          document.getElementById("inviteCopy").addEventListener("click", function () {
+            var self = this;
+            var ta = document.getElementById("inviteMsg");
+            ta.focus(); ta.select();
+            function ok() { self.textContent = "Copié"; }
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(msg).then(ok, function () {});
+            } else { try { document.execCommand("copy"); ok(); } catch (e) {} }
+          });
+        }).catch(function (e) {
+          ui.busy = false;
+          inv.disabled = false;
+          inv.textContent = "Générer le lien d'accès";
+          window.alert("Impossible de générer le lien : " + (e && e.message ? e.message : e));
+        });
+      });
+    }
   }
 
   document.addEventListener("click", function () {

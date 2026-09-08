@@ -60,15 +60,18 @@
     "Si tu veux en savoir plus sur ce que je propose, clique ici : [lien] — " +
     "je réponds à toutes tes questions !";
 
+  /* Base publique de l'app, sans slash final. publicBaseUrl de config.js
+     si renseigne, sinon deduit de la page courante (.../app/x.html -> .../app). */
+  function koraAppBase() {
+    var base = (cfg.publicBaseUrl || "").replace(/\/+$/, "");
+    if (!base) base = window.location.href.split(/[?#]/)[0].replace(/\/[^\/]*$/, "");
+    return base;
+  }
+
   /* Lien du tunnel public d'un agent, insere a la place du jeton [lien]. */
   function koraTunnelLink(slug) {
     slug = slug || cfg.defaultAgentSlug || "bonjour";
-    var base = (cfg.publicBaseUrl || "").replace(/\/+$/, "");
-    if (!base) {
-      // Deduit depuis la page courante : .../app/parametres.html -> .../app
-      base = window.location.href.split(/[?#]/)[0].replace(/\/[^\/]*$/, "");
-    }
-    return base + "/index.html?agent=" + encodeURIComponent(slug);
+    return koraAppBase() + "/index.html?agent=" + encodeURIComponent(slug);
   }
 
   /* Remplace toutes les occurrences de [lien] par l'URL reelle du tunnel. */
@@ -77,6 +80,7 @@
   }
 
   window.KORA_MESSAGE_DEFAUT = KORA_MESSAGE_DEFAUT;
+  window.koraAppBase = koraAppBase;
   window.koraTunnelLink = koraTunnelLink;
   window.koraFillMessage = koraFillMessage;
 
@@ -195,6 +199,11 @@
             p.lastContact = "à l'instant";
           }
           return Promise.resolve();
+        },
+        creerAccesLien: function (id) {
+          // Démo : pas de fonction Edge. Jeton factice pour afficher l'UI.
+          var t = "demo-" + Date.now().toString(36);
+          return Promise.resolve({ token: t, url: koraAppBase() + "/rejoindre?t=" + t });
         }
       },
 
@@ -505,6 +514,21 @@
             }).then(function (res) {
               if (res.error) return Promise.reject(res.error);
             });
+          });
+        },
+        /* Cree un lien d'acces a usage unique pour ce prospect (a envoyer
+           par WhatsApp). Renvoie { token, url }. Necessite la migration
+           migration-espace-prospect.sql (RPC creer_acces_prospect). */
+        creerAccesLien: function (id) {
+          return sb.rpc("creer_acces_prospect", { p_prospect_id: id }).then(function (res) {
+            if (res.error) {
+              if (res.error.message === "prospect_hors_perimetre") {
+                return Promise.reject(new Error("Ce prospect n'est pas dans ton périmètre."));
+              }
+              return Promise.reject(res.error);
+            }
+            var t = res.data;
+            return { token: t, url: koraAppBase() + "/rejoindre?t=" + encodeURIComponent(t) };
           });
         }
       },
