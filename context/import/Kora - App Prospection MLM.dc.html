@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<style>
+  body { margin: 0; background: #EEF0F3; font-family: "Instrument Sans", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: #C9470A; text-decoration: none; }
+  a:hover { color: #E8590C; text-decoration: underline; }
+  * { box-sizing: border-box; }
+  input, select, textarea, button { font-family: inherit; }
+  ::placeholder { color: #9AA3B2; }
+</style>
+</helmet>
+
+<section style="display:flex; flex-direction:column; gap:96px; padding:72px 64px 140px; background:#EEF0F3;">
+
+  <div style="display:flex; flex-direction:column; gap:14px; max-width:900px;">
+    <div style="display:flex; align-items:center; gap:12px;">
+      <div style="width:38px; height:38px; border-radius:11px; background:#E8590C; color:#fff; font-weight:700; font-size:19px; display:flex; align-items:center; justify-content:center;">K</div>
+      <div style="font-size:26px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">Kora — MVP prospection</div>
+    </div>
+    <div style="font-size:17px; line-height:1.55; color:#5A6474;">Trois écrans pour l'app de prospection en marketing de réseau : tableau de bord agent, détail prospect, page publique de capture. Interface en français, accent unique orange, liste filtrable (pas de kanban), une landing personnalisable par agent.</div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; padding-top:4px;">
+      <div style="font-size:13px; font-weight:600; color:#5A6474; background:#fff; border:1px solid #E6E8EC; border-radius:999px; padding:7px 14px;">Agent connecté : BONJOUR</div>
+      <div style="font-size:13px; font-weight:600; color:#5A6474; background:#fff; border:1px solid #E6E8EC; border-radius:999px; padding:7px 14px;">Desktop 1440 · Mobile 390</div>
+      <div style="font-size:13px; font-weight:600; color:#5A6474; background:#fff; border:1px solid #E6E8EC; border-radius:999px; padding:7px 14px;">Statuts, badges et composants partagés</div>
+    </div>
+  </div>
+
+  <!-- ============ SECTION A ============ -->
+  <div style="display:flex; flex-direction:column; gap:28px;">
+    <div style="display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;">
+      <div style="font-size:13px; font-weight:700; letter-spacing:0.14em; color:#E8590C;">SECTION A</div>
+      <div style="font-size:24px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">Tableau de bord agent</div>
+      <div style="font-size:15px; color:#5A6474;">Desktop d'abord · liste filtrable · état vide · variante mobile</div>
+    </div>
+
+    <div style="display:flex; gap:48px; align-items:flex-start; flex-wrap:wrap;">
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="font-size:12px; font-weight:700; letter-spacing:0.08em; color:#8A93A3;">A1 · TABLEAU DE BORD — 1440</div>
+        <div data-screen-label="A1 Dashboard desktop" style="width:1440px; background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 1px 2px rgba(11,18,32,0.06), 0 40px 60px -40px rgba(11,18,32,0.28);">
+
+          <div style="height:64px; border-bottom:1px solid #EDEFF2; display:flex; align-items:center; justify-content:space-between; padding:0 32px;">
+            <div style="display:flex; align-items:center; gap:36px;">
+              <div style="display:flex; align-items:center; gap:10px;">
+                <div style="width:30px; height:30px; border-radius:9px; background:#E8590C; color:#fff; font-weight:700; font-size:16px; display:flex; align-items:center; justify-content:center;">K</div>
+                <div style="font-size:17px; font-weight:700; color:#0B1220; letter-spacing:-0.01em;">Kora</div>
+              </div>
+              <div style="display:flex; align-items:center; gap:28px;">
+                <div style="font-size:15px; font-weight:600; color:#0B1220; padding:20px 0 19px; border-bottom:2px solid #E8590C;">Prospects</div>
+                <div style="font-size:15px; font-weight:500; color:#5A6474;">Ma page publique</div>
+                <div style="font-size:15px; font-weight:500; color:#5A6474;">Ma lignée</div>
+              </div>
+            </div>
+            <div style="display:flex; align-items:center; gap:14px;">
+              <div style="width:34px; height:34px; border-radius:50%; border:1px solid #E6E8EC; display:flex; align-items:center; justify-content:center;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.8" stroke-linecap="round"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 8-3 8h18s-3-1-3-8"></path><path d="M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px; padding-left:6px;">
+                <div style="width:34px; height:34px; border-radius:50%; background:#FDECE1; color:#C9470A; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center;">B</div>
+                <div style="font-size:14px; font-weight:600; color:#0B1220;">{{ agentName }}</div>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"></path></svg>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding:36px 40px 40px; background:#FAFBFC;">
+
+            <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:24px; padding-bottom:28px;">
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <div style="font-size:30px; font-weight:700; color:#0B1220; letter-spacing:-0.025em;">Bonjour BONJOUR</div>
+                <div style="font-size:15px; color:#5A6474;">19 prospects dans votre portefeuille · 3 nouveaux cette semaine</div>
+              </div>
+              <div style="display:flex; align-items:center; gap:12px;">
+                <button style="height:42px; padding:0 18px; border-radius:10px; border:1px solid #DCE0E6; background:#fff; color:#0B1220; font-size:14px; font-weight:600; box-shadow:0 1px 2px rgba(11,18,32,0.05); cursor:pointer;" style-hover="background:#F7F8FA;">Exporter</button>
+                <button style="height:42px; padding:0 20px; border-radius:10px; border:none; background:#E8590C; color:#fff; font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px; box-shadow:0 1px 2px rgba(200,70,10,0.35); cursor:pointer;" style-hover="background:#C9470A;">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+                  Ajouter un prospect
+                </button>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:12px; padding-bottom:24px;">
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 2px rgba(11,18,32,0.04);">
+                <div style="display:flex; align-items:center; gap:7px;"><div style="width:8px; height:8px; border-radius:50%; background:#64748B;"></div><div style="font-size:13px; font-weight:600; color:#5A6474;">Nouveau</div></div>
+                <div style="font-size:28px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">3</div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 2px rgba(11,18,32,0.04);">
+                <div style="display:flex; align-items:center; gap:7px;"><div style="width:8px; height:8px; border-radius:50%; background:#1D6FD8;"></div><div style="font-size:13px; font-weight:600; color:#5A6474;">Contacté</div></div>
+                <div style="font-size:28px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">2</div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 2px rgba(11,18,32,0.04);">
+                <div style="display:flex; align-items:center; gap:7px;"><div style="width:8px; height:8px; border-radius:50%; background:#6B4BE0;"></div><div style="font-size:13px; font-weight:600; color:#5A6474;">Dans le tunnel</div></div>
+                <div style="font-size:28px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">4</div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 2px rgba(11,18,32,0.04);">
+                <div style="display:flex; align-items:center; gap:7px;"><div style="width:8px; height:8px; border-radius:50%; background:#B0700A;"></div><div style="font-size:13px; font-weight:600; color:#5A6474;">Intéressé</div></div>
+                <div style="font-size:28px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">2</div>
+              </div>
+              <div style="background:#fff; border:2px solid #E8590C; border-radius:14px; padding:15px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 2px rgba(11,18,32,0.04);">
+                <div style="display:flex; align-items:center; gap:7px;"><div style="width:8px; height:8px; border-radius:50%; background:#E8590C;"></div><div style="font-size:13px; font-weight:600; color:#C9470A;">En négociation</div></div>
+                <div style="font-size:28px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">1</div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 2px rgba(11,18,32,0.04);">
+                <div style="display:flex; align-items:center; gap:7px;"><div style="width:8px; height:8px; border-radius:50%; background:#0F7A4A;"></div><div style="font-size:13px; font-weight:600; color:#5A6474;">Closé gagné</div></div>
+                <div style="font-size:28px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">5</div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 2px rgba(11,18,32,0.04);">
+                <div style="display:flex; align-items:center; gap:7px;"><div style="width:8px; height:8px; border-radius:50%; background:#98A2B3;"></div><div style="font-size:13px; font-weight:600; color:#5A6474;">Closé perdu</div></div>
+                <div style="font-size:28px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">2</div>
+              </div>
+            </div>
+
+            <div style="background:#fff; border:1px solid #EDEFF2; border-radius:16px; box-shadow:0 1px 2px rgba(11,18,32,0.05); overflow:hidden;">
+
+              <div style="display:flex; align-items:center; gap:12px; padding:18px 20px; border-bottom:1px solid #EDEFF2;">
+                <div style="position:relative; flex:1; max-width:420px;">
+                  <div style="position:absolute; left:13px; top:11px;">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg>
+                  </div>
+                  <input type="text" placeholder="Rechercher un prospect, un numéro…" style="width:100%; height:40px; padding:0 14px 0 38px; border-radius:10px; border:1px solid #DCE0E6; font-size:14px; color:#0B1220; background:#fff; outline:none;" style-focus="border-color:#E8590C; box-shadow:0 0 0 3px rgba(232,89,12,0.15);">
+                </div>
+                <div style="display:flex; align-items:center; gap:10px; margin-left:auto;">
+                  <div style="display:flex; align-items:center; gap:8px; height:40px; padding:0 14px; border-radius:10px; border:1px solid #DCE0E6; background:#fff; font-size:14px; font-weight:600; color:#0B1220;">
+                    Tous les statuts
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:8px; height:40px; padding:0 14px; border-radius:10px; border:1px solid #DCE0E6; background:#fff; font-size:14px; font-weight:500; color:#5A6474;">
+                    Dernier contact
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:2.2fr 2fr 1.4fr 1.2fr 1.3fr 40px; gap:16px; padding:12px 20px; background:#FAFBFC; border-bottom:1px solid #EDEFF2;">
+                <div style="font-size:12px; font-weight:700; letter-spacing:0.05em; color:#8A93A3;">PROSPECT</div>
+                <div style="font-size:12px; font-weight:700; letter-spacing:0.05em; color:#8A93A3;">CONTACT</div>
+                <div style="font-size:12px; font-weight:700; letter-spacing:0.05em; color:#8A93A3;">STATUT</div>
+                <div style="font-size:12px; font-weight:700; letter-spacing:0.05em; color:#8A93A3;">DERNIER CONTACT</div>
+                <div style="font-size:12px; font-weight:700; letter-spacing:0.05em; color:#8A93A3;">SOURCE</div>
+                <div></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:2.2fr 2fr 1.4fr 1.2fr 1.3fr 40px; gap:16px; align-items:center; padding:16px 20px; border-bottom:1px solid #F1F3F6;" style-hover="background:#FAFBFC;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <div style="width:36px; height:36px; border-radius:50%; background:#FDECE1; color:#C9470A; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;">FD</div>
+                  <div style="font-size:15px; font-weight:600; color:#0B1220;">Fatoumata Diallo</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="1.8" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3 18.6 18.6 0 0 1-5.7-5.7 19 19 0 0 1-3-8.4A2 2 0 0 1 4.8 2h4a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L10 9.8a15 15 0 0 0 5.7 5.7l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7A2 2 0 0 1 21 15Z"></path></svg>
+                  <div style="font-size:14px; color:#5A6474;">+224 622 45 18 90</div>
+                </div>
+                <div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#FDECE1; color:#B23F06;">En négociation</span></div>
+                <div style="font-size:14px; color:#5A6474;">il y a 2 jours</div>
+                <div><span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:500; color:#5A6474;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"></path></svg>Formulaire public</span></div>
+                <div style="display:flex; justify-content:flex-end;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"></path></svg></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:2.2fr 2fr 1.4fr 1.2fr 1.3fr 40px; gap:16px; align-items:center; padding:16px 20px; border-bottom:1px solid #F1F3F6;" style-hover="background:#FAFBFC;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <div style="width:36px; height:36px; border-radius:50%; background:#EEF2F7; color:#475569; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;">IB</div>
+                  <div style="font-size:15px; font-weight:600; color:#0B1220;">Ibrahima Barry</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="1.8" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3 18.6 18.6 0 0 1-5.7-5.7 19 19 0 0 1-3-8.4A2 2 0 0 1 4.8 2h4a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L10 9.8a15 15 0 0 0 5.7 5.7l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7A2 2 0 0 1 21 15Z"></path></svg>
+                  <div style="font-size:14px; color:#5A6474;">+224 655 02 77 41</div>
+                </div>
+                <div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#FDF3E0; color:#8F5A05;">Intéressé</span></div>
+                <div style="font-size:14px; color:#5A6474;">il y a 4 jours</div>
+                <div><span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:500; color:#5A6474;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Ajout manuel</span></div>
+                <div style="display:flex; justify-content:flex-end;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"></path></svg></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:2.2fr 2fr 1.4fr 1.2fr 1.3fr 40px; gap:16px; align-items:center; padding:16px 20px; border-bottom:1px solid #F1F3F6;" style-hover="background:#FAFBFC;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <div style="width:36px; height:36px; border-radius:50%; background:#EEF2F7; color:#475569; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;">AC</div>
+                  <div style="font-size:15px; font-weight:600; color:#0B1220;">Aïssatou Camara</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="1.8" stroke-linecap="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"></rect><path d="m3 6 9 6.5L21 6"></path></svg>
+                  <div style="font-size:14px; color:#5A6474;">aissatou.camara@gmail.com</div>
+                </div>
+                <div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#EFEAFE; color:#5334C7;">Dans le tunnel</span></div>
+                <div style="font-size:14px; color:#5A6474;">il y a 1 semaine</div>
+                <div><span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:500; color:#5A6474;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"></path></svg>Formulaire public</span></div>
+                <div style="display:flex; justify-content:flex-end;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"></path></svg></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:2.2fr 2fr 1.4fr 1.2fr 1.3fr 40px; gap:16px; align-items:center; padding:16px 20px; border-bottom:1px solid #F1F3F6;" style-hover="background:#FAFBFC;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <div style="width:36px; height:36px; border-radius:50%; background:#EEF2F7; color:#475569; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;">MS</div>
+                  <div style="font-size:15px; font-weight:600; color:#0B1220;">Mamadou Sylla</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="1.8" stroke-linecap="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.2 7.5L3 21l2-5.8A8.4 8.4 0 1 1 21 11.5Z"></path></svg>
+                  <div style="font-size:14px; color:#5A6474;">+224 628 31 09 55</div>
+                </div>
+                <div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#E7F0FD; color:#1558B0;">Contacté</span></div>
+                <div style="font-size:14px; color:#5A6474;">il y a 3 jours</div>
+                <div><span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:500; color:#5A6474;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Ajout manuel</span></div>
+                <div style="display:flex; justify-content:flex-end;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"></path></svg></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:2.2fr 2fr 1.4fr 1.2fr 1.3fr 40px; gap:16px; align-items:center; padding:16px 20px; border-bottom:1px solid #F1F3F6;" style-hover="background:#FAFBFC;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <div style="width:36px; height:36px; border-radius:50%; background:#EEF2F7; color:#475569; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;">KB</div>
+                  <div style="display:flex; align-items:center; gap:8px;">
+                    <div style="font-size:15px; font-weight:600; color:#0B1220;">Kadiatou Bah</div>
+                    <div style="font-size:11px; font-weight:700; color:#C9470A; background:#FDECE1; border-radius:5px; padding:2px 6px;">NOUVEAU</div>
+                  </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="1.8" stroke-linecap="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.2 7.5L3 21l2-5.8A8.4 8.4 0 1 1 21 11.5Z"></path></svg>
+                  <div style="font-size:14px; color:#5A6474;">+224 664 77 12 30</div>
+                </div>
+                <div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#F1F5F9; color:#475569;">Nouveau</span></div>
+                <div style="font-size:14px; color:#5A6474;">il y a 5 heures</div>
+                <div><span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:500; color:#5A6474;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"></path></svg>Formulaire public</span></div>
+                <div style="display:flex; justify-content:flex-end;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"></path></svg></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:2.2fr 2fr 1.4fr 1.2fr 1.3fr 40px; gap:16px; align-items:center; padding:16px 20px; border-bottom:1px solid #F1F3F6;" style-hover="background:#FAFBFC;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <div style="width:36px; height:36px; border-radius:50%; background:#E4F5EC; color:#0F7A4A; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;">SC</div>
+                  <div style="font-size:15px; font-weight:600; color:#0B1220;">Sékou Condé</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="1.8" stroke-linecap="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.2 7.5L3 21l2-5.8A8.4 8.4 0 1 1 21 11.5Z"></path></svg>
+                  <div style="font-size:14px; color:#5A6474;">+224 621 09 44 12</div>
+                </div>
+                <div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#E4F5EC; color:#0B6640;">Closé gagné</span></div>
+                <div style="font-size:14px; color:#5A6474;">il y a 2 semaines</div>
+                <div><span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:500; color:#5A6474;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>Ajout manuel</span></div>
+                <div style="display:flex; justify-content:flex-end;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"></path></svg></div>
+              </div>
+
+              <div style="display:grid; grid-template-columns:2.2fr 2fr 1.4fr 1.2fr 1.3fr 40px; gap:16px; align-items:center; padding:16px 20px;" style-hover="background:#FAFBFC;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                  <div style="width:36px; height:36px; border-radius:50%; background:#F1F3F6; color:#8A93A3; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;">MT</div>
+                  <div style="font-size:15px; font-weight:600; color:#5A6474;">Mariama Touré</div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="1.8" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3 18.6 18.6 0 0 1-5.7-5.7 19 19 0 0 1-3-8.4A2 2 0 0 1 4.8 2h4a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L10 9.8a15 15 0 0 0 5.7 5.7l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7A2 2 0 0 1 21 15Z"></path></svg>
+                  <div style="font-size:14px; color:#5A6474;">+224 610 88 23 07</div>
+                </div>
+                <div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#F1F3F6; color:#4B5563;">Closé perdu</span></div>
+                <div style="font-size:14px; color:#5A6474;">il y a 3 semaines</div>
+                <div><span style="display:inline-flex; align-items:center; gap:6px; font-size:12.5px; font-weight:500; color:#5A6474;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20M2 12h20M12 2a15 15 0 0 1 0 20 15 15 0 0 1 0-20"></path></svg>Formulaire public</span></div>
+                <div style="display:flex; justify-content:flex-end;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"></path></svg></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="font-size:12px; font-weight:700; letter-spacing:0.08em; color:#8A93A3;">A2 · ÉTAT VIDE — 1440</div>
+        <div data-screen-label="A2 Dashboard vide" style="width:1440px; background:#FAFBFC; border-radius:18px; overflow:hidden; box-shadow:0 1px 2px rgba(11,18,32,0.06), 0 40px 60px -40px rgba(11,18,32,0.28);">
+          <div style="height:64px; background:#fff; border-bottom:1px solid #EDEFF2; display:flex; align-items:center; justify-content:space-between; padding:0 32px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="width:30px; height:30px; border-radius:9px; background:#E8590C; color:#fff; font-weight:700; font-size:16px; display:flex; align-items:center; justify-content:center;">K</div>
+              <div style="font-size:17px; font-weight:700; color:#0B1220;">Kora</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="width:34px; height:34px; border-radius:50%; background:#FDECE1; color:#C9470A; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center;">B</div>
+              <div style="font-size:14px; font-weight:600; color:#0B1220;">BONJOUR</div>
+            </div>
+          </div>
+          <div style="padding:36px 40px 48px;">
+            <div style="display:flex; align-items:flex-end; justify-content:space-between; padding-bottom:28px;">
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <div style="font-size:30px; font-weight:700; color:#0B1220; letter-spacing:-0.025em;">Bonjour BONJOUR</div>
+                <div style="font-size:15px; color:#5A6474;">Aucun prospect pour l'instant</div>
+              </div>
+              <button style="height:42px; padding:0 20px; border-radius:10px; border:none; background:#E8590C; color:#fff; font-size:14px; font-weight:600; display:flex; align-items:center; gap:8px; cursor:pointer;" style-hover="background:#C9470A;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+                Ajouter un prospect
+              </button>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:12px; padding-bottom:24px; opacity:0.55;">
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px;"><div style="font-size:13px; font-weight:600; color:#5A6474;">Nouveau</div><div style="font-size:28px; font-weight:700; color:#8A93A3;">0</div></div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px;"><div style="font-size:13px; font-weight:600; color:#5A6474;">Contacté</div><div style="font-size:28px; font-weight:700; color:#8A93A3;">0</div></div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px;"><div style="font-size:13px; font-weight:600; color:#5A6474;">Dans le tunnel</div><div style="font-size:28px; font-weight:700; color:#8A93A3;">0</div></div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px;"><div style="font-size:13px; font-weight:600; color:#5A6474;">Intéressé</div><div style="font-size:28px; font-weight:700; color:#8A93A3;">0</div></div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px;"><div style="font-size:13px; font-weight:600; color:#5A6474;">En négociation</div><div style="font-size:28px; font-weight:700; color:#8A93A3;">0</div></div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px;"><div style="font-size:13px; font-weight:600; color:#5A6474;">Closé gagné</div><div style="font-size:28px; font-weight:700; color:#8A93A3;">0</div></div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:10px;"><div style="font-size:13px; font-weight:600; color:#5A6474;">Closé perdu</div><div style="font-size:28px; font-weight:700; color:#8A93A3;">0</div></div>
+            </div>
+            <div style="background:#fff; border:1px solid #EDEFF2; border-radius:16px; padding:72px 40px; display:flex; flex-direction:column; align-items:center; gap:18px; text-align:center;">
+              <div style="width:64px; height:64px; border-radius:18px; background:#FDECE1; display:flex; align-items:center; justify-content:center;">
+                <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#E8590C" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M19 8v6M22 11h-6"></path></svg>
+              </div>
+              <div style="display:flex; flex-direction:column; gap:8px; max-width:420px;">
+                <div style="font-size:20px; font-weight:700; color:#0B1220;">Votre portefeuille est vide</div>
+                <div style="font-size:15px; line-height:1.55; color:#5A6474;">Ajoutez votre premier prospect, ou partagez votre page publique pour en recevoir automatiquement au statut « Nouveau ».</div>
+              </div>
+              <div style="display:flex; align-items:center; gap:12px; padding-top:6px;">
+                <button style="height:42px; padding:0 20px; border-radius:10px; border:none; background:#E8590C; color:#fff; font-size:14px; font-weight:600; cursor:pointer;" style-hover="background:#C9470A;">Ajouter un prospect</button>
+                <button style="height:42px; padding:0 18px; border-radius:10px; border:1px solid #DCE0E6; background:#fff; color:#0B1220; font-size:14px; font-weight:600; cursor:pointer;" style-hover="background:#F7F8FA;">Partager ma page</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="font-size:12px; font-weight:700; letter-spacing:0.08em; color:#8A93A3;">A3 · VARIANTE MOBILE — 390</div>
+        <div data-screen-label="A3 Dashboard mobile" style="width:390px; background:#FAFBFC; border-radius:26px; overflow:hidden; box-shadow:0 1px 2px rgba(11,18,32,0.06), 0 40px 60px -40px rgba(11,18,32,0.28);">
+          <div style="height:32px; background:#fff; display:flex; align-items:center; justify-content:space-between; padding:0 20px;">
+            <div style="font-size:12px; font-weight:700; color:#0B1220;">09:41</div>
+            <div style="display:flex; gap:5px; align-items:center;">
+              <div style="width:16px; height:9px; border:1px solid #0B1220; border-radius:2px;"></div>
+            </div>
+          </div>
+          <div style="background:#fff; padding:12px 18px 14px; border-bottom:1px solid #EDEFF2; display:flex; align-items:center; justify-content:space-between;">
+            <div style="display:flex; align-items:center; gap:9px;">
+              <div style="width:28px; height:28px; border-radius:8px; background:#E8590C; color:#fff; font-weight:700; font-size:15px; display:flex; align-items:center; justify-content:center;">K</div>
+              <div style="font-size:16px; font-weight:700; color:#0B1220;">Kora</div>
+            </div>
+            <div style="width:32px; height:32px; border-radius:50%; background:#FDECE1; color:#C9470A; font-weight:700; font-size:13px; display:flex; align-items:center; justify-content:center;">B</div>
+          </div>
+          <div style="padding:18px 18px 96px; display:flex; flex-direction:column; gap:16px;">
+            <div style="display:flex; flex-direction:column; gap:4px;">
+              <div style="font-size:22px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">Mes prospects</div>
+              <div style="font-size:14px; color:#5A6474;">19 au total · 3 nouveaux</div>
+            </div>
+            <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px;">
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:12px; padding:11px;"><div style="font-size:11.5px; font-weight:600; color:#5A6474;">Nouveau</div><div style="font-size:20px; font-weight:700; color:#0B1220;">3</div></div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:12px; padding:11px;"><div style="font-size:11.5px; font-weight:600; color:#5A6474;">Contacté</div><div style="font-size:20px; font-weight:700; color:#0B1220;">2</div></div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:12px; padding:11px;"><div style="font-size:11.5px; font-weight:600; color:#5A6474;">Tunnel</div><div style="font-size:20px; font-weight:700; color:#0B1220;">4</div></div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:12px; padding:11px;"><div style="font-size:11.5px; font-weight:600; color:#5A6474;">Intéressé</div><div style="font-size:20px; font-weight:700; color:#0B1220;">2</div></div>
+              <div style="background:#fff; border:2px solid #E8590C; border-radius:12px; padding:10px;"><div style="font-size:11.5px; font-weight:600; color:#C9470A;">Négoc.</div><div style="font-size:20px; font-weight:700; color:#0B1220;">1</div></div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:12px; padding:11px;"><div style="font-size:11.5px; font-weight:600; color:#5A6474;">Gagné</div><div style="font-size:20px; font-weight:700; color:#0B1220;">5</div></div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <div style="position:relative; flex:1;">
+                <div style="position:absolute; left:12px; top:13px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m20 20-3.5-3.5"></path></svg></div>
+                <input type="text" placeholder="Rechercher…" style="width:100%; height:44px; padding:0 12px 0 36px; border-radius:11px; border:1px solid #DCE0E6; font-size:15px; background:#fff; outline:none;" style-focus="border-color:#E8590C; box-shadow:0 0 0 3px rgba(232,89,12,0.15);">
+              </div>
+              <div style="width:44px; height:44px; border-radius:11px; border:1px solid #DCE0E6; background:#fff; display:flex; align-items:center; justify-content:center;">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M7 12h10M10 18h4"></path></svg>
+              </div>
+            </div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 2px rgba(11,18,32,0.04);">
+                <div style="display:flex; align-items:center; gap:11px;">
+                  <div style="width:38px; height:38px; border-radius:50%; background:#FDECE1; color:#C9470A; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;">FD</div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-size:15.5px; font-weight:600; color:#0B1220;">Fatoumata Diallo</div>
+                    <div style="font-size:13px; color:#5A6474;">+224 622 45 18 90</div>
+                  </div>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"></path></svg>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between; padding-top:2px; border-top:1px solid #F1F3F6;">
+                  <span style="display:inline-flex; align-items:center; font-size:12px; font-weight:600; padding:5px 10px; border-radius:999px; background:#FDECE1; color:#B23F06; margin-top:10px;">En négociation</span>
+                  <div style="font-size:12.5px; color:#8A93A3; margin-top:10px;">il y a 2 jours · Formulaire</div>
+                </div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 2px rgba(11,18,32,0.04);">
+                <div style="display:flex; align-items:center; gap:11px;">
+                  <div style="width:38px; height:38px; border-radius:50%; background:#EEF2F7; color:#475569; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;">IB</div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-size:15.5px; font-weight:600; color:#0B1220;">Ibrahima Barry</div>
+                    <div style="font-size:13px; color:#5A6474;">+224 655 02 77 41</div>
+                  </div>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"></path></svg>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between; padding-top:2px; border-top:1px solid #F1F3F6;">
+                  <span style="display:inline-flex; align-items:center; font-size:12px; font-weight:600; padding:5px 10px; border-radius:999px; background:#FDF3E0; color:#8F5A05; margin-top:10px;">Intéressé</span>
+                  <div style="font-size:12.5px; color:#8A93A3; margin-top:10px;">il y a 4 jours · Manuel</div>
+                </div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 2px rgba(11,18,32,0.04);">
+                <div style="display:flex; align-items:center; gap:11px;">
+                  <div style="width:38px; height:38px; border-radius:50%; background:#EEF2F7; color:#475569; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;">AC</div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-size:15.5px; font-weight:600; color:#0B1220;">Aïssatou Camara</div>
+                    <div style="font-size:13px; color:#5A6474;">aissatou.camara@gmail.com</div>
+                  </div>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"></path></svg>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between; padding-top:2px; border-top:1px solid #F1F3F6;">
+                  <span style="display:inline-flex; align-items:center; font-size:12px; font-weight:600; padding:5px 10px; border-radius:999px; background:#EFEAFE; color:#5334C7; margin-top:10px;">Dans le tunnel</span>
+                  <div style="font-size:12.5px; color:#8A93A3; margin-top:10px;">il y a 1 semaine</div>
+                </div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 2px rgba(11,18,32,0.04);">
+                <div style="display:flex; align-items:center; gap:11px;">
+                  <div style="width:38px; height:38px; border-radius:50%; background:#EEF2F7; color:#475569; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;">KB</div>
+                  <div style="flex:1; min-width:0;">
+                    <div style="font-size:15.5px; font-weight:600; color:#0B1220;">Kadiatou Bah</div>
+                    <div style="font-size:13px; color:#5A6474;">+224 664 77 12 30</div>
+                  </div>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"></path></svg>
+                </div>
+                <div style="display:flex; align-items:center; justify-content:space-between; padding-top:2px; border-top:1px solid #F1F3F6;">
+                  <span style="display:inline-flex; align-items:center; font-size:12px; font-weight:600; padding:5px 10px; border-radius:999px; background:#F1F5F9; color:#475569; margin-top:10px;">Nouveau</span>
+                  <div style="font-size:12.5px; color:#8A93A3; margin-top:10px;">il y a 5 h · Formulaire</div>
+                </div>
+              </div>
+            </div>
+            <button style="height:52px; border-radius:13px; border:none; background:#E8590C; color:#fff; font-size:16px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:8px; cursor:pointer;" style-hover="background:#C9470A;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"></path></svg>
+              Ajouter un prospect
+            </button>
+          </div>
+          <div style="background:#fff; border-top:1px solid #EDEFF2; padding:10px 18px 22px; display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px;">
+            <div style="display:flex; flex-direction:column; align-items:center; gap:5px; padding:8px 0;">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#E8590C" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h10"></path></svg>
+              <div style="font-size:11.5px; font-weight:700; color:#E8590C;">Prospects</div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:5px; padding:8px 0;">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M2 12h20M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"></path></svg>
+              <div style="font-size:11.5px; font-weight:600; color:#8A93A3;">Ma page</div>
+            </div>
+            <div style="display:flex; flex-direction:column; align-items:center; gap:5px; padding:8px 0;">
+              <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3.5"></circle><path d="M21 21v-2a4 4 0 0 0-3-3.9"></path></svg>
+              <div style="font-size:11.5px; font-weight:600; color:#8A93A3;">Ma lignée</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ SECTION B ============ -->
+  <div style="display:flex; flex-direction:column; gap:28px;">
+    <div style="display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;">
+      <div style="font-size:13px; font-weight:700; letter-spacing:0.14em; color:#E8590C;">SECTION B</div>
+      <div style="font-size:24px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">Détail d'un prospect</div>
+      <div style="font-size:15px; color:#5A6474;">Sélecteur de statut fonctionnel · timeline antéchronologique · formulaire d'interaction</div>
+    </div>
+
+    <div style="display:flex; gap:48px; align-items:flex-start; flex-wrap:wrap;">
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="font-size:12px; font-weight:700; letter-spacing:0.08em; color:#8A93A3;">B1 · DÉTAIL PROSPECT — 1440 · cliquez le sélecteur de statut</div>
+        <div data-screen-label="B1 Détail desktop" style="width:1440px; background:#FAFBFC; border-radius:18px; overflow:hidden; box-shadow:0 1px 2px rgba(11,18,32,0.06), 0 40px 60px -40px rgba(11,18,32,0.28);">
+          <div style="height:64px; background:#fff; border-bottom:1px solid #EDEFF2; display:flex; align-items:center; justify-content:space-between; padding:0 32px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="width:30px; height:30px; border-radius:9px; background:#E8590C; color:#fff; font-weight:700; font-size:16px; display:flex; align-items:center; justify-content:center;">K</div>
+              <div style="font-size:17px; font-weight:700; color:#0B1220;">Kora</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="width:34px; height:34px; border-radius:50%; background:#FDECE1; color:#C9470A; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center;">B</div>
+              <div style="font-size:14px; font-weight:600; color:#0B1220;">{{ agentName }}</div>
+            </div>
+          </div>
+
+          <div style="padding:28px 40px 48px;">
+            <div style="display:flex; align-items:center; gap:8px; padding-bottom:20px;">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="2" stroke-linecap="round"><path d="m14 6-6 6 6 6"></path></svg>
+              <div style="font-size:14px; font-weight:600; color:#5A6474;">Tous les prospects</div>
+            </div>
+
+            <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:24px; padding-bottom:28px;">
+              <div style="display:flex; align-items:center; gap:16px;">
+                <div style="width:56px; height:56px; border-radius:50%; background:#FDECE1; color:#C9470A; font-size:19px; font-weight:700; display:flex; align-items:center; justify-content:center;">FD</div>
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                  <div style="font-size:28px; font-weight:700; color:#0B1220; letter-spacing:-0.025em;">Fatoumata Diallo</div>
+                  <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background: {{ statusBg }}; color: {{ statusFg }};">{{ status }}</span>
+                    <div style="font-size:13.5px; color:#8A93A3;">Créée le 22 août 2026 · via formulaire public</div>
+                  </div>
+                </div>
+              </div>
+              <div style="display:flex; align-items:center; gap:12px;">
+                <button onClick="{{ openAdd }}" style="height:42px; padding:0 18px; border-radius:10px; border:1px solid #DCE0E6; background:#fff; color:#0B1220; font-size:14px; font-weight:600; cursor:pointer;" style-hover="background:#F7F8FA;">Ajouter une interaction</button>
+                <div style="position:relative;">
+                  <button onClick="{{ toggleStatus }}" style="height:42px; padding:0 16px; border-radius:10px; border:none; background:#E8590C; color:#fff; font-size:14px; font-weight:600; display:flex; align-items:center; gap:9px; cursor:pointer;" style-hover="background:#C9470A;">
+                    Changer le statut
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round"><path d="m6 9 6 6 6-6"></path></svg>
+                  </button>
+                  <sc-if value="{{ statusOpen }}" hint-placeholder-val="{{ false }}">
+                    <div style="position:absolute; top:50px; right:0; width:268px; background:#fff; border:1px solid #E6E8EC; border-radius:14px; box-shadow:0 12px 32px -8px rgba(11,18,32,0.24); padding:8px; z-index:10;">
+                      <div style="font-size:11.5px; font-weight:700; letter-spacing:0.06em; color:#8A93A3; padding:8px 10px 6px;">DÉPLACER VERS</div>
+                      <sc-for list="{{ statuses }}" as="s" hint-placeholder-count="7">
+                        <div onClick="{{ s.pick }}" style="display:flex; align-items:center; justify-content:space-between; gap:10px; padding:9px 10px; border-radius:9px; cursor:pointer;" style-hover="background:#F7F8FA;">
+                          <span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background: {{ s.bg }}; color: {{ s.fg }};">{{ s.label }}</span>
+                          <span style="font-size:12px; color:#8A93A3;">{{ s.step }}</span>
+                        </div>
+                      </sc-for>
+                    </div>
+                  </sc-if>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:grid; grid-template-columns:1fr 380px; gap:24px; align-items:start;">
+
+              <div style="display:flex; flex-direction:column; gap:16px;">
+                <sc-if value="{{ addOpen }}" hint-placeholder-val="{{ false }}">
+                  <div style="background:#fff; border:1px solid #E8590C; border-radius:16px; padding:22px; box-shadow:0 1px 2px rgba(11,18,32,0.05); display:flex; flex-direction:column; gap:16px;">
+                    <div style="font-size:17px; font-weight:700; color:#0B1220;">Nouvelle interaction</div>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                      <div style="font-size:13px; font-weight:600; color:#5A6474;">Type d'interaction</div>
+                      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                        <div style="font-size:13.5px; font-weight:600; color:#fff; background:#E8590C; border-radius:999px; padding:8px 14px; cursor:pointer;">Appel</div>
+                        <div style="font-size:13.5px; font-weight:600; color:#5A6474; background:#fff; border:1px solid #DCE0E6; border-radius:999px; padding:8px 14px; cursor:pointer;">Message</div>
+                        <div style="font-size:13.5px; font-weight:600; color:#5A6474; background:#fff; border:1px solid #DCE0E6; border-radius:999px; padding:8px 14px; cursor:pointer;">Rendez-vous</div>
+                        <div style="font-size:13.5px; font-weight:600; color:#5A6474; background:#fff; border:1px solid #DCE0E6; border-radius:999px; padding:8px 14px; cursor:pointer;">Relance</div>
+                        <div style="font-size:13.5px; font-weight:600; color:#5A6474; background:#fff; border:1px solid #DCE0E6; border-radius:999px; padding:8px 14px; cursor:pointer;">Note</div>
+                      </div>
+                    </div>
+                    <div style="display:flex; flex-direction:column; gap:8px;">
+                      <div style="font-size:13px; font-weight:600; color:#5A6474;">Détail</div>
+                      <textarea rows="3" placeholder="Ex. Appel passé, pas de réponse" style="width:100%; padding:12px 14px; border-radius:10px; border:1px solid #DCE0E6; font-size:14.5px; color:#0B1220; resize:vertical; outline:none;" style-focus="border-color:#E8590C; box-shadow:0 0 0 3px rgba(232,89,12,0.15);"></textarea>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:10px;">
+                      <button onClick="{{ closeAdd }}" style="height:42px; padding:0 20px; border-radius:10px; border:none; background:#E8590C; color:#fff; font-size:14px; font-weight:600; cursor:pointer;" style-hover="background:#C9470A;">Enregistrer</button>
+                      <button onClick="{{ closeAdd }}" style="height:42px; padding:0 18px; border-radius:10px; border:1px solid #DCE0E6; background:#fff; color:#5A6474; font-size:14px; font-weight:600; cursor:pointer;">Annuler</button>
+                    </div>
+                  </div>
+                </sc-if>
+
+                <div style="background:#fff; border:1px solid #EDEFF2; border-radius:16px; box-shadow:0 1px 2px rgba(11,18,32,0.05); overflow:hidden;">
+                  <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 22px; border-bottom:1px solid #EDEFF2;">
+                    <div style="font-size:17px; font-weight:700; color:#0B1220;">Historique de suivi</div>
+                    <div style="font-size:13px; color:#8A93A3;">7 événements · du plus récent au plus ancien</div>
+                  </div>
+                  <div style="padding:22px 22px 8px;">
+
+                    <div style="display:grid; grid-template-columns:36px 1fr; gap:14px;">
+                      <div style="display:flex; flex-direction:column; align-items:center;">
+                        <div style="width:36px; height:36px; border-radius:50%; background:#FDECE1; display:flex; align-items:center; justify-content:center;">
+                          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2" stroke-linecap="round"><path d="M4 17h11M15 13l4 4-4 4"></path><path d="M20 7H9M9 3 5 7l4 4"></path></svg>
+                        </div>
+                        <div style="flex:1; width:2px; background:#EDEFF2; margin:6px 0;"></div>
+                      </div>
+                      <div style="padding-bottom:24px;">
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                          <div style="font-size:15px; font-weight:600; color:#0B1220;">Statut changé en</div>
+                          <span style="display:inline-flex; align-items:center; font-size:12px; font-weight:600; padding:4px 10px; border-radius:999px; background:#FDECE1; color:#B23F06;">En négociation</span>
+                        </div>
+                        <div style="font-size:13.5px; color:#8A93A3; padding-top:6px;">Hier à 18:42 · par BONJOUR</div>
+                      </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:36px 1fr; gap:14px;">
+                      <div style="display:flex; flex-direction:column; align-items:center;">
+                        <div style="width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #E6E8EC; display:flex; align-items:center; justify-content:center;">
+                          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M8 3v4M16 3v4M3 11h18"></path></svg>
+                        </div>
+                        <div style="flex:1; width:2px; background:#EDEFF2; margin:6px 0;"></div>
+                      </div>
+                      <div style="padding-bottom:24px;">
+                        <div style="font-size:15px; font-weight:600; color:#0B1220;">Rendez-vous</div>
+                        <div style="font-size:14.5px; line-height:1.55; color:#5A6474; padding-top:4px;">Rendez-vous fixé samedi 15h, au bureau de Kaloum.</div>
+                        <div style="font-size:13.5px; color:#8A93A3; padding-top:6px;">Il y a 2 jours, 11:05 · par BONJOUR</div>
+                      </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:36px 1fr; gap:14px;">
+                      <div style="display:flex; flex-direction:column; align-items:center;">
+                        <div style="width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #E6E8EC; display:flex; align-items:center; justify-content:center;">
+                          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.2 7.5L3 21l2-5.8A8.4 8.4 0 1 1 21 11.5Z"></path></svg>
+                        </div>
+                        <div style="flex:1; width:2px; background:#EDEFF2; margin:6px 0;"></div>
+                      </div>
+                      <div style="padding-bottom:24px;">
+                        <div style="font-size:15px; font-weight:600; color:#0B1220;">Message</div>
+                        <div style="font-size:14.5px; line-height:1.55; color:#5A6474; padding-top:4px;">Message WhatsApp envoyé avec la vidéo de présentation.</div>
+                        <div style="font-size:13.5px; color:#8A93A3; padding-top:6px;">Il y a 4 jours, 09:20 · par BONJOUR</div>
+                      </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:36px 1fr; gap:14px;">
+                      <div style="display:flex; flex-direction:column; align-items:center;">
+                        <div style="width:36px; height:36px; border-radius:50%; background:#FDF3E0; display:flex; align-items:center; justify-content:center;">
+                          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#8F5A05" stroke-width="2" stroke-linecap="round"><path d="M4 17h11M15 13l4 4-4 4"></path><path d="M20 7H9M9 3 5 7l4 4"></path></svg>
+                        </div>
+                        <div style="flex:1; width:2px; background:#EDEFF2; margin:6px 0;"></div>
+                      </div>
+                      <div style="padding-bottom:24px;">
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                          <div style="font-size:15px; font-weight:600; color:#0B1220;">Statut changé en</div>
+                          <span style="display:inline-flex; align-items:center; font-size:12px; font-weight:600; padding:4px 10px; border-radius:999px; background:#FDF3E0; color:#8F5A05;">Intéressé</span>
+                        </div>
+                        <div style="font-size:13.5px; color:#8A93A3; padding-top:6px;">Il y a 5 jours, 16:12 · par BONJOUR</div>
+                      </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:36px 1fr; gap:14px;">
+                      <div style="display:flex; flex-direction:column; align-items:center;">
+                        <div style="width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #E6E8EC; display:flex; align-items:center; justify-content:center;">
+                          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3 18.6 18.6 0 0 1-5.7-5.7 19 19 0 0 1-3-8.4A2 2 0 0 1 4.8 2h4a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L10 9.8a15 15 0 0 0 5.7 5.7l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7A2 2 0 0 1 21 15Z"></path></svg>
+                        </div>
+                        <div style="flex:1; width:2px; background:#EDEFF2; margin:6px 0;"></div>
+                      </div>
+                      <div style="padding-bottom:24px;">
+                        <div style="font-size:15px; font-weight:600; color:#0B1220;">Appel</div>
+                        <div style="font-size:14.5px; line-height:1.55; color:#5A6474; padding-top:4px;">Appel passé, pas de réponse.</div>
+                        <div style="font-size:13.5px; color:#8A93A3; padding-top:6px;">Il y a 1 semaine, 14:38 · par BONJOUR</div>
+                      </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:36px 1fr; gap:14px;">
+                      <div style="display:flex; flex-direction:column; align-items:center;">
+                        <div style="width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #E6E8EC; display:flex; align-items:center; justify-content:center;">
+                          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"></path><path d="M14 3v5h5M9 13h6M9 17h4"></path></svg>
+                        </div>
+                        <div style="flex:1; width:2px; background:#EDEFF2; margin:6px 0;"></div>
+                      </div>
+                      <div style="padding-bottom:24px;">
+                        <div style="font-size:15px; font-weight:600; color:#0B1220;">Note</div>
+                        <div style="font-size:14.5px; line-height:1.55; color:#5A6474; padding-top:4px;">Cherche un revenu complémentaire, disponible le week-end. Préfère WhatsApp.</div>
+                        <div style="font-size:13.5px; color:#8A93A3; padding-top:6px;">Il y a 1 semaine, 14:41 · par BONJOUR</div>
+                      </div>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns:36px 1fr; gap:14px;">
+                      <div style="display:flex; flex-direction:column; align-items:center;">
+                        <div style="width:36px; height:36px; border-radius:50%; background:#F1F5F9; display:flex; align-items:center; justify-content:center;">
+                          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#475569" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M2 12h20M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"></path></svg>
+                        </div>
+                      </div>
+                      <div style="padding-bottom:20px;">
+                        <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                          <div style="font-size:15px; font-weight:600; color:#0B1220;">Prospect créé au statut</div>
+                          <span style="display:inline-flex; align-items:center; font-size:12px; font-weight:600; padding:4px 10px; border-radius:999px; background:#F1F5F9; color:#475569;">Nouveau</span>
+                        </div>
+                        <div style="font-size:13.5px; color:#8A93A3; padding-top:6px;">22 août 2026, 20:03 · formulaire public de BONJOUR</div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div style="display:flex; flex-direction:column; gap:16px;">
+                <div style="background:#fff; border:1px solid #EDEFF2; border-radius:16px; padding:20px; box-shadow:0 1px 2px rgba(11,18,32,0.05); display:flex; flex-direction:column; gap:16px;">
+                  <div style="font-size:15px; font-weight:700; color:#0B1220;">Informations de contact</div>
+                  <div style="display:flex; flex-direction:column; gap:14px;">
+                    <div style="display:flex; align-items:center; gap:12px;">
+                      <div style="width:34px; height:34px; border-radius:10px; background:#F7F8FA; display:flex; align-items:center; justify-content:center;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3 18.6 18.6 0 0 1-5.7-5.7 19 19 0 0 1-3-8.4A2 2 0 0 1 4.8 2h4a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L10 9.8a15 15 0 0 0 5.7 5.7l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7A2 2 0 0 1 21 15Z"></path></svg>
+                      </div>
+                      <div style="flex:1;">
+                        <div style="font-size:12.5px; color:#8A93A3;">Téléphone · WhatsApp</div>
+                        <div style="font-size:15px; font-weight:600; color:#0B1220;">+224 622 45 18 90</div>
+                      </div>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:12px;">
+                      <div style="width:34px; height:34px; border-radius:10px; background:#F7F8FA; display:flex; align-items:center; justify-content:center;">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><rect x="2.5" y="4.5" width="19" height="15" rx="2.5"></rect><path d="m3 6 9 6.5L21 6"></path></svg>
+                      </div>
+                      <div style="flex:1;">
+                        <div style="font-size:12.5px; color:#8A93A3;">Email</div>
+                        <div style="font-size:15px; font-weight:600; color:#0B1220;">f.diallo@gmail.com</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div style="display:flex; gap:10px; padding-top:2px;">
+                    <button style="flex:1; height:40px; border-radius:10px; border:1px solid #DCE0E6; background:#fff; color:#0B1220; font-size:13.5px; font-weight:600; cursor:pointer;" style-hover="background:#F7F8FA;">Appeler</button>
+                    <button style="flex:1; height:40px; border-radius:10px; border:1px solid #DCE0E6; background:#fff; color:#0B1220; font-size:13.5px; font-weight:600; cursor:pointer;" style-hover="background:#F7F8FA;">WhatsApp</button>
+                  </div>
+                </div>
+
+                <div style="background:#fff; border:1px solid #EDEFF2; border-radius:16px; padding:20px; box-shadow:0 1px 2px rgba(11,18,32,0.05); display:flex; flex-direction:column; gap:14px;">
+                  <div style="font-size:15px; font-weight:700; color:#0B1220;">Avancement</div>
+                  <div style="display:flex; align-items:center; gap:5px;">
+                    <div style="height:6px; flex:1; border-radius:3px; background:#E8590C;"></div>
+                    <div style="height:6px; flex:1; border-radius:3px; background:#E8590C;"></div>
+                    <div style="height:6px; flex:1; border-radius:3px; background:#E8590C;"></div>
+                    <div style="height:6px; flex:1; border-radius:3px; background:#E8590C;"></div>
+                    <div style="height:6px; flex:1; border-radius:3px; background:#E8590C;"></div>
+                    <div style="height:6px; flex:1; border-radius:3px; background:#EDEFF2;"></div>
+                    <div style="height:6px; flex:1; border-radius:3px; background:#EDEFF2;"></div>
+                  </div>
+                  <div style="font-size:13.5px; line-height:1.5; color:#5A6474;">Étape 5 sur 7 · dernier contact il y a 2 jours. Prochaine action suggérée : confirmer le rendez-vous de samedi.</div>
+                </div>
+
+                <div style="background:#fff; border:1px solid #EDEFF2; border-radius:16px; padding:20px; box-shadow:0 1px 2px rgba(11,18,32,0.05); display:flex; flex-direction:column; gap:12px;">
+                  <div style="font-size:15px; font-weight:700; color:#0B1220;">Source</div>
+                  <div style="display:flex; align-items:center; gap:9px;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M2 12h20M12 3a15 15 0 0 1 0 18 15 15 0 0 1 0-18"></path></svg>
+                    <div style="font-size:14px; color:#5A6474;">Formulaire public · page de BONJOUR</div>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:9px;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3.5"></circle></svg>
+                    <div style="font-size:14px; color:#5A6474;">Agent responsable : BONJOUR</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="font-size:12px; font-weight:700; letter-spacing:0.08em; color:#8A93A3;">B2 · VARIANTE MOBILE — 390</div>
+        <div data-screen-label="B2 Détail mobile" style="width:390px; background:#FAFBFC; border-radius:26px; overflow:hidden; box-shadow:0 1px 2px rgba(11,18,32,0.06), 0 40px 60px -40px rgba(11,18,32,0.28);">
+          <div style="height:32px; background:#fff; display:flex; align-items:center; padding:0 20px;">
+            <div style="font-size:12px; font-weight:700; color:#0B1220;">09:41</div>
+          </div>
+          <div style="background:#fff; border-bottom:1px solid #EDEFF2; padding:12px 18px; display:flex; align-items:center; gap:12px;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0B1220" stroke-width="2" stroke-linecap="round"><path d="m14 6-6 6 6 6"></path></svg>
+            <div style="font-size:16px; font-weight:700; color:#0B1220;">Prospect</div>
+          </div>
+          <div style="padding:18px 18px 20px; display:flex; flex-direction:column; gap:16px;">
+            <div style="display:flex; align-items:center; gap:13px;">
+              <div style="width:50px; height:50px; border-radius:50%; background:#FDECE1; color:#C9470A; font-size:17px; font-weight:700; display:flex; align-items:center; justify-content:center;">FD</div>
+              <div style="display:flex; flex-direction:column; gap:6px;">
+                <div style="font-size:20px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">Fatoumata Diallo</div>
+                <span style="display:inline-flex; align-items:center; align-self:flex-start; font-size:12px; font-weight:600; padding:5px 10px; border-radius:999px; background:#FDECE1; color:#B23F06;">En négociation</span>
+              </div>
+            </div>
+            <div style="display:flex; gap:8px;">
+              <div style="flex:1; height:46px; border-radius:11px; border:1px solid #DCE0E6; background:#fff; display:flex; align-items:center; justify-content:center; gap:7px; font-size:14px; font-weight:600; color:#0B1220;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3 18.6 18.6 0 0 1-5.7-5.7 19 19 0 0 1-3-8.4A2 2 0 0 1 4.8 2h4a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L10 9.8a15 15 0 0 0 5.7 5.7l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7A2 2 0 0 1 21 15Z"></path></svg>
+                Appeler
+              </div>
+              <div style="flex:1; height:46px; border-radius:11px; border:1px solid #DCE0E6; background:#fff; display:flex; align-items:center; justify-content:center; gap:7px; font-size:14px; font-weight:600; color:#0B1220;">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.2 7.5L3 21l2-5.8A8.4 8.4 0 1 1 21 11.5Z"></path></svg>
+                WhatsApp
+              </div>
+            </div>
+            <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:12px;">
+              <div style="font-size:14px; font-weight:700; color:#0B1220;">Statut</div>
+              <div style="height:46px; border-radius:11px; border:1px solid #DCE0E6; background:#fff; display:flex; align-items:center; justify-content:space-between; padding:0 14px;">
+                <span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#FDECE1; color:#B23F06;">En négociation</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"></path></svg>
+              </div>
+              <div style="display:flex; align-items:center; gap:4px;">
+                <div style="height:5px; flex:1; border-radius:3px; background:#E8590C;"></div>
+                <div style="height:5px; flex:1; border-radius:3px; background:#E8590C;"></div>
+                <div style="height:5px; flex:1; border-radius:3px; background:#E8590C;"></div>
+                <div style="height:5px; flex:1; border-radius:3px; background:#E8590C;"></div>
+                <div style="height:5px; flex:1; border-radius:3px; background:#E8590C;"></div>
+                <div style="height:5px; flex:1; border-radius:3px; background:#EDEFF2;"></div>
+                <div style="height:5px; flex:1; border-radius:3px; background:#EDEFF2;"></div>
+              </div>
+              <div style="font-size:12.5px; color:#8A93A3;">Étape 5 sur 7 · +224 622 45 18 90</div>
+            </div>
+            <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; flex-direction:column; gap:16px;">
+              <div style="font-size:14px; font-weight:700; color:#0B1220;">Historique de suivi</div>
+              <div style="display:grid; grid-template-columns:30px 1fr; gap:12px;">
+                <div style="display:flex; flex-direction:column; align-items:center;">
+                  <div style="width:30px; height:30px; border-radius:50%; background:#FDECE1; display:flex; align-items:center; justify-content:center;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2.2" stroke-linecap="round"><path d="M4 17h11M15 13l4 4-4 4"></path><path d="M20 7H9M9 3 5 7l4 4"></path></svg>
+                  </div>
+                  <div style="flex:1; width:2px; background:#EDEFF2; margin:5px 0;"></div>
+                </div>
+                <div style="padding-bottom:16px;">
+                  <div style="font-size:14px; font-weight:600; color:#0B1220;">Statut → En négociation</div>
+                  <div style="font-size:12.5px; color:#8A93A3; padding-top:4px;">Hier 18:42 · BONJOUR</div>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:30px 1fr; gap:12px; margin-top:-16px;">
+                <div style="display:flex; flex-direction:column; align-items:center;">
+                  <div style="width:30px; height:30px; border-radius:50%; background:#fff; border:1px solid #E6E8EC; display:flex; align-items:center; justify-content:center;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M8 3v4M16 3v4M3 11h18"></path></svg>
+                  </div>
+                  <div style="flex:1; width:2px; background:#EDEFF2; margin:5px 0;"></div>
+                </div>
+                <div style="padding-bottom:16px;">
+                  <div style="font-size:14px; font-weight:600; color:#0B1220;">Rendez-vous</div>
+                  <div style="font-size:13.5px; line-height:1.5; color:#5A6474; padding-top:3px;">Rendez-vous fixé samedi 15h.</div>
+                  <div style="font-size:12.5px; color:#8A93A3; padding-top:4px;">Il y a 2 jours · BONJOUR</div>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:30px 1fr; gap:12px; margin-top:-16px;">
+                <div style="display:flex; flex-direction:column; align-items:center;">
+                  <div style="width:30px; height:30px; border-radius:50%; background:#fff; border:1px solid #E6E8EC; display:flex; align-items:center; justify-content:center;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.2 7.5L3 21l2-5.8A8.4 8.4 0 1 1 21 11.5Z"></path></svg>
+                  </div>
+                  <div style="flex:1; width:2px; background:#EDEFF2; margin:5px 0;"></div>
+                </div>
+                <div style="padding-bottom:16px;">
+                  <div style="font-size:14px; font-weight:600; color:#0B1220;">Message</div>
+                  <div style="font-size:13.5px; line-height:1.5; color:#5A6474; padding-top:3px;">Message WhatsApp envoyé avec la vidéo de présentation.</div>
+                  <div style="font-size:12.5px; color:#8A93A3; padding-top:4px;">Il y a 4 jours · BONJOUR</div>
+                </div>
+              </div>
+              <div style="display:grid; grid-template-columns:30px 1fr; gap:12px; margin-top:-16px;">
+                <div style="display:flex; flex-direction:column; align-items:center;">
+                  <div style="width:30px; height:30px; border-radius:50%; background:#fff; border:1px solid #E6E8EC; display:flex; align-items:center; justify-content:center;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3 18.6 18.6 0 0 1-5.7-5.7 19 19 0 0 1-3-8.4A2 2 0 0 1 4.8 2h4a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L10 9.8a15 15 0 0 0 5.7 5.7l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7A2 2 0 0 1 21 15Z"></path></svg>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size:14px; font-weight:600; color:#0B1220;">Appel</div>
+                  <div style="font-size:13.5px; line-height:1.5; color:#5A6474; padding-top:3px;">Appel passé, pas de réponse.</div>
+                  <div style="font-size:12.5px; color:#8A93A3; padding-top:4px;">Il y a 1 semaine · BONJOUR</div>
+                </div>
+              </div>
+              <div style="font-size:13.5px; font-weight:600; color:#C9470A;">Voir les 3 événements plus anciens</div>
+            </div>
+          </div>
+          <div style="background:#fff; border-top:1px solid #EDEFF2; padding:12px 18px 22px;">
+            <button style="width:100%; height:52px; border-radius:13px; border:none; background:#E8590C; color:#fff; font-size:16px; font-weight:700; cursor:pointer;" style-hover="background:#C9470A;">Ajouter une interaction</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ SECTION C ============ -->
+  <div style="display:flex; flex-direction:column; gap:28px;">
+    <div style="display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;">
+      <div style="font-size:13px; font-weight:700; letter-spacing:0.14em; color:#E8590C;">SECTION C</div>
+      <div style="font-size:24px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">Page publique de capture</div>
+      <div style="font-size:15px; color:#5A6474;">Mobile d'abord · une page par agent, personnalisable · soumission → prospect au statut « Nouveau »</div>
+    </div>
+
+    <div style="display:flex; gap:20px; flex-wrap:wrap; max-width:1180px;">
+      <div style="flex:1; min-width:280px; background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:18px 20px;">
+        <div style="font-size:13px; font-weight:700; color:#0B1220; padding-bottom:8px;">Personnalisable par agent</div>
+        <div style="font-size:14px; line-height:1.55; color:#5A6474;">Photo, prénom affiché, accroche, numéro WhatsApp et ville. L'URL porte l'agent : <span style="font-weight:600; color:#0B1220;">kora.gn/bonjour</span>.</div>
+      </div>
+      <div style="flex:1; min-width:280px; background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:18px 20px;">
+        <div style="font-size:13px; font-weight:700; color:#0B1220; padding-bottom:8px;">Connexions lentes</div>
+        <div style="font-size:14px; line-height:1.55; color:#5A6474;">Un seul visuel lourd, texte d'abord, aucune animation bloquante, formulaire au-dessus du pli après un tap.</div>
+      </div>
+      <div style="flex:1; min-width:280px; background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:18px 20px;">
+        <div style="font-size:13px; font-weight:700; color:#0B1220; padding-bottom:8px;">Côté application</div>
+        <div style="font-size:14px; line-height:1.55; color:#5A6474;">L'envoi crée un prospect au statut <span style="font-weight:600; color:#0B1220;">Nouveau</span>, source « Formulaire public », rattaché à l'agent de l'URL.</div>
+      </div>
+    </div>
+
+    <div style="display:flex; gap:48px; align-items:flex-start; flex-wrap:wrap;">
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="font-size:12px; font-weight:700; letter-spacing:0.08em; color:#8A93A3;">C1 · LANDING MOBILE — 390 · le formulaire fonctionne</div>
+        <div data-screen-label="C1 Landing mobile" style="width:390px; background:#fff; border-radius:26px; overflow:hidden; box-shadow:0 1px 2px rgba(11,18,32,0.06), 0 40px 60px -40px rgba(11,18,32,0.28);">
+          <div style="height:32px; background:#0B1220; display:flex; align-items:center; padding:0 20px;">
+            <div style="font-size:12px; font-weight:700; color:#fff;">09:41</div>
+          </div>
+          <div style="height:52px; border-bottom:1px solid #EDEFF2; display:flex; align-items:center; justify-content:space-between; padding:0 18px;">
+            <div style="display:flex; align-items:center; gap:9px;">
+              <div style="width:26px; height:26px; border-radius:8px; background:#E8590C; color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center;">K</div>
+              <div style="font-size:15.5px; font-weight:700; color:#0B1220;">Kora</div>
+            </div>
+            <div style="font-size:13px; font-weight:600; color:#5A6474;">avec BONJOUR</div>
+          </div>
+
+          <div style="padding:28px 20px 32px; display:flex; flex-direction:column; gap:18px;">
+            <div style="display:inline-flex; align-self:flex-start; align-items:center; gap:7px; background:#FDECE1; border-radius:999px; padding:6px 12px;">
+              <div style="width:7px; height:7px; border-radius:50%; background:#E8590C;"></div>
+              <div style="font-size:12.5px; font-weight:700; color:#B23F06;">Conakry · places limitées ce mois</div>
+            </div>
+            <div style="font-size:32px; font-weight:700; line-height:1.15; letter-spacing:-0.03em; color:#0B1220; text-wrap:pretty;">Construisez un revenu complémentaire, depuis votre téléphone.</div>
+            <div style="font-size:16px; line-height:1.6; color:#5A6474; text-wrap:pretty;">Rejoignez l'équipe de BONJOUR. Formation offerte, accompagnement en français, et vous démarrez avec ce que vous avez déjà : votre réseau et WhatsApp.</div>
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <button onClick="{{ scrollToForm }}" style="height:54px; border-radius:13px; border:none; background:#E8590C; color:#fff; font-size:16.5px; font-weight:700; cursor:pointer;" style-hover="background:#C9470A;">Je veux en savoir plus</button>
+              <button style="height:50px; border-radius:13px; border:1px solid #DCE0E6; background:#fff; color:#0B1220; font-size:15.5px; font-weight:600; display:flex; align-items:center; justify-content:center; gap:9px; cursor:pointer;" style-hover="background:#F7F8FA;">
+                <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0B1220" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M10 8.5l6 3.5-6 3.5Z"></path></svg>
+                Voir la vidéo · 2 min
+              </button>
+            </div>
+            <div style="height:220px; border-radius:16px; overflow:hidden; background:#F1F3F6; position:relative;">
+              <image-slot id="kora-hero-mobile" shape="rect" placeholder="Photo : agent souriant avec son téléphone, Conakry"></image-slot>
+            </div>
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="display:flex;">
+                <div style="width:30px; height:30px; border-radius:50%; background:#FDECE1; color:#C9470A; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid #fff;">FD</div>
+                <div style="width:30px; height:30px; border-radius:50%; background:#EEF2F7; color:#475569; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid #fff; margin-left:-9px;">IB</div>
+                <div style="width:30px; height:30px; border-radius:50%; background:#E4F5EC; color:#0F7A4A; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid #fff; margin-left:-9px;">SC</div>
+              </div>
+              <div style="font-size:13.5px; color:#5A6474;">+120 personnes accompagnées en Guinée</div>
+            </div>
+          </div>
+
+          <div style="padding:32px 20px; background:#FAFBFC; border-top:1px solid #EDEFF2; display:flex; flex-direction:column; gap:16px;">
+            <div style="font-size:22px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">Pourquoi maintenant</div>
+            <div style="display:flex; flex-direction:column; gap:12px;">
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; gap:13px;">
+                <div style="width:38px; height:38px; border-radius:11px; background:#FDECE1; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                </div>
+                <div>
+                  <div style="font-size:15.5px; font-weight:700; color:#0B1220;">Un revenu à votre rythme</div>
+                  <div style="font-size:14px; line-height:1.55; color:#5A6474; padding-top:3px;">Quelques heures par semaine suffisent pour démarrer, sans quitter votre activité actuelle.</div>
+                </div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; gap:13px;">
+                <div style="width:38px; height:38px; border-radius:11px; background:#FDECE1; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2" stroke-linecap="round"><path d="M4 19V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13"></path><path d="M4 19h16M9 9h6M9 13h4"></path></svg>
+                </div>
+                <div>
+                  <div style="font-size:15.5px; font-weight:700; color:#0B1220;">Formation offerte, en français</div>
+                  <div style="font-size:14px; line-height:1.55; color:#5A6474; padding-top:3px;">Des modules courts sur WhatsApp : quoi dire, à qui, et comment suivre vos contacts.</div>
+                </div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; gap:13px;">
+                <div style="width:38px; height:38px; border-radius:11px; background:#FDECE1; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3.5"></circle><path d="M21 21v-2a4 4 0 0 0-3-3.9"></path></svg>
+                </div>
+                <div>
+                  <div style="font-size:15.5px; font-weight:700; color:#0B1220;">Un parrain qui répond</div>
+                  <div style="font-size:14px; line-height:1.55; color:#5A6474; padding-top:3px;">BONJOUR vous suit personnellement pendant vos 90 premiers jours.</div>
+                </div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:16px; display:flex; gap:13px;">
+                <div style="width:38px; height:38px; border-radius:11px; background:#FDECE1; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2" stroke-linecap="round"><path d="M12 3 4 6v6c0 5 3.4 8.3 8 9 4.6-.7 8-4 8-9V6Z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                </div>
+                <div>
+                  <div style="font-size:15.5px; font-weight:700; color:#0B1220;">Sans frais cachés</div>
+                  <div style="font-size:14px; line-height:1.55; color:#5A6474; padding-top:3px;">Vous savez dès le premier appel ce que ça demande et ce que ça rapporte.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding:32px 20px; display:flex; flex-direction:column; gap:20px;">
+            <div style="font-size:22px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">Comment ça marche</div>
+            <div style="display:flex; flex-direction:column; gap:18px;">
+              <div style="display:flex; gap:14px;">
+                <div style="width:32px; height:32px; border-radius:50%; background:#0B1220; color:#fff; font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+                <div>
+                  <div style="font-size:16px; font-weight:700; color:#0B1220;">Vous laissez votre numéro</div>
+                  <div style="font-size:14.5px; line-height:1.55; color:#5A6474; padding-top:3px;">Trente secondes, sans engagement.</div>
+                </div>
+              </div>
+              <div style="display:flex; gap:14px;">
+                <div style="width:32px; height:32px; border-radius:50%; background:#0B1220; color:#fff; font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+                <div>
+                  <div style="font-size:16px; font-weight:700; color:#0B1220;">On vous appelle sous 24 h</div>
+                  <div style="font-size:14.5px; line-height:1.55; color:#5A6474; padding-top:3px;">BONJOUR répond à vos questions et vous envoie la vidéo de présentation.</div>
+                </div>
+              </div>
+              <div style="display:flex; gap:14px;">
+                <div style="width:32px; height:32px; border-radius:50%; background:#E8590C; color:#fff; font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</div>
+                <div>
+                  <div style="font-size:16px; font-weight:700; color:#0B1220;">Vous démarrez accompagné</div>
+                  <div style="font-size:14.5px; line-height:1.55; color:#5A6474; padding-top:3px;">Formation, outils et suivi hebdomadaire dès la première semaine.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div ref="{{ formRef }}" style="padding:32px 20px 36px; background:#0B1220;">
+            <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+              <div style="display:flex; flex-direction:column; gap:18px;">
+                <div style="display:flex; flex-direction:column; gap:8px;">
+                  <div style="font-size:24px; font-weight:700; color:#fff; letter-spacing:-0.02em;">Être recontacté</div>
+                  <div style="font-size:15px; line-height:1.55; color:#B7BFCC;">Laissez vos coordonnées, BONJOUR vous appelle sous 24 h.</div>
+                </div>
+                <div style="background:#fff; border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:14px;">
+                  <div style="display:flex; flex-direction:column; gap:7px;">
+                    <div style="font-size:13.5px; font-weight:600; color:#0B1220;">Nom complet</div>
+                    <input type="text" placeholder="Fatoumata Diallo" style="width:100%; height:48px; padding:0 14px; border-radius:11px; border:1px solid #DCE0E6; font-size:15.5px; color:#0B1220; outline:none;" style-focus="border-color:#E8590C; box-shadow:0 0 0 3px rgba(232,89,12,0.15);">
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:7px;">
+                    <div style="font-size:13.5px; font-weight:600; color:#0B1220;">Téléphone · WhatsApp</div>
+                    <input type="tel" placeholder="+224 6•• •• •• ••" style="width:100%; height:48px; padding:0 14px; border-radius:11px; border:1px solid #DCE0E6; font-size:15.5px; color:#0B1220; outline:none;" style-focus="border-color:#E8590C; box-shadow:0 0 0 3px rgba(232,89,12,0.15);">
+                  </div>
+                  <div style="display:flex; flex-direction:column; gap:7px;">
+                    <div style="font-size:13.5px; font-weight:600; color:#0B1220;">Email <span style="font-weight:500; color:#8A93A3;">· optionnel</span></div>
+                    <input type="email" placeholder="vous@exemple.com" style="width:100%; height:48px; padding:0 14px; border-radius:11px; border:1px solid #DCE0E6; font-size:15.5px; color:#0B1220; outline:none;" style-focus="border-color:#E8590C; box-shadow:0 0 0 3px rgba(232,89,12,0.15);">
+                  </div>
+                  <button onClick="{{ submit }}" style="height:54px; border-radius:13px; border:none; background:#E8590C; color:#fff; font-size:16.5px; font-weight:700; cursor:pointer; margin-top:4px;" style-hover="background:#C9470A;">Être recontacté</button>
+                  <div style="font-size:12.5px; line-height:1.5; color:#8A93A3; text-align:center;">Vos coordonnées ne servent qu'à ce rappel. Aucun paiement demandé.</div>
+                </div>
+              </div>
+            </sc-if>
+            <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex; flex-direction:column; align-items:center; gap:16px; text-align:center; padding:20px 0;">
+                <div style="width:60px; height:60px; border-radius:50%; background:#E8590C; display:flex; align-items:center; justify-content:center;">
+                  <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4.5 4.5L19 7"></path></svg>
+                </div>
+                <div style="font-size:24px; font-weight:700; color:#fff; letter-spacing:-0.02em;">Merci, c'est enregistré</div>
+                <div style="font-size:15.5px; line-height:1.6; color:#B7BFCC; max-width:300px;">BONJOUR vous appelle sous 24 h sur WhatsApp. En attendant, regardez la vidéo de présentation, 2 minutes.</div>
+                <button style="height:50px; padding:0 22px; border-radius:13px; border:1px solid #33405A; background:transparent; color:#fff; font-size:15.5px; font-weight:600; cursor:pointer;" style-hover="background:#182338;">Voir la vidéo</button>
+              </div>
+            </sc-if>
+          </div>
+        </div>
+        <div style="font-size:13px; color:#8A93A3; max-width:390px; line-height:1.5;">Tap sur « Être recontacté » → état de confirmation ci-contre. Côté app, un prospect « Nouveau » apparaît dans la liste de BONJOUR.</div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="font-size:12px; font-weight:700; letter-spacing:0.08em; color:#8A93A3;">C2 · CONFIRMATION — 390</div>
+        <div data-screen-label="C2 Confirmation" style="width:390px; background:#fff; border-radius:26px; overflow:hidden; box-shadow:0 1px 2px rgba(11,18,32,0.06), 0 40px 60px -40px rgba(11,18,32,0.28);">
+          <div style="height:32px; background:#fff; display:flex; align-items:center; padding:0 20px;">
+            <div style="font-size:12px; font-weight:700; color:#0B1220;">09:42</div>
+          </div>
+          <div style="height:52px; border-bottom:1px solid #EDEFF2; display:flex; align-items:center; gap:9px; padding:0 18px;">
+            <div style="width:26px; height:26px; border-radius:8px; background:#E8590C; color:#fff; font-weight:700; font-size:14px; display:flex; align-items:center; justify-content:center;">K</div>
+            <div style="font-size:15.5px; font-weight:700; color:#0B1220;">Kora</div>
+          </div>
+          <div style="padding:44px 22px 32px; display:flex; flex-direction:column; align-items:center; gap:18px; text-align:center;">
+            <div style="width:72px; height:72px; border-radius:50%; background:#FDECE1; display:flex; align-items:center; justify-content:center;">
+              <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#E8590C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m5 13 4.5 4.5L19 7"></path></svg>
+            </div>
+            <div style="font-size:26px; font-weight:700; color:#0B1220; letter-spacing:-0.025em;">Merci Fatoumata !</div>
+            <div style="font-size:16px; line-height:1.6; color:#5A6474;">Votre demande est bien arrivée chez BONJOUR. Vous serez appelée sous 24 h sur WhatsApp au +224 622 45 18 90.</div>
+          </div>
+          <div style="padding:0 22px 28px;">
+            <div style="background:#FAFBFC; border:1px solid #EDEFF2; border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:16px;">
+              <div style="font-size:14px; font-weight:700; color:#0B1220;">La suite</div>
+              <div style="display:flex; gap:12px;">
+                <div style="width:28px; height:28px; border-radius:50%; background:#E8590C; color:#fff; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+                <div style="font-size:14.5px; line-height:1.55; color:#5A6474;"><span style="font-weight:600; color:#0B1220;">Aujourd'hui</span> · vous recevez la vidéo de présentation sur WhatsApp.</div>
+              </div>
+              <div style="display:flex; gap:12px;">
+                <div style="width:28px; height:28px; border-radius:50%; background:#fff; border:1px solid #DCE0E6; color:#5A6474; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+                <div style="font-size:14.5px; line-height:1.55; color:#5A6474;"><span style="font-weight:600; color:#0B1220;">Sous 24 h</span> · appel de BONJOUR pour répondre à vos questions.</div>
+              </div>
+              <div style="display:flex; gap:12px;">
+                <div style="width:28px; height:28px; border-radius:50%; background:#fff; border:1px solid #DCE0E6; color:#5A6474; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</div>
+                <div style="font-size:14.5px; line-height:1.55; color:#5A6474;"><span style="font-weight:600; color:#0B1220;">Cette semaine</span> · rendez-vous d'information, en ligne ou à Conakry.</div>
+              </div>
+            </div>
+          </div>
+          <div style="padding:0 22px 32px; display:flex; flex-direction:column; gap:10px;">
+            <button style="height:54px; border-radius:13px; border:none; background:#E8590C; color:#fff; font-size:16.5px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:9px; cursor:pointer;" style-hover="background:#C9470A;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.2 7.5L3 21l2-5.8A8.4 8.4 0 1 1 21 11.5Z"></path></svg>
+              Écrire à BONJOUR maintenant
+            </button>
+            <button style="height:50px; border-radius:13px; border:1px solid #DCE0E6; background:#fff; color:#0B1220; font-size:15.5px; font-weight:600; cursor:pointer;" style-hover="background:#F7F8FA;">Voir la vidéo · 2 min</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="font-size:12px; font-weight:700; letter-spacing:0.08em; color:#8A93A3;">C3 · VARIANTE DESKTOP — 1440</div>
+        <div data-screen-label="C3 Landing desktop" style="width:1440px; background:#fff; border-radius:18px; overflow:hidden; box-shadow:0 1px 2px rgba(11,18,32,0.06), 0 40px 60px -40px rgba(11,18,32,0.28);">
+          <div style="height:68px; border-bottom:1px solid #EDEFF2; display:flex; align-items:center; justify-content:space-between; padding:0 48px;">
+            <div style="display:flex; align-items:center; gap:10px;">
+              <div style="width:30px; height:30px; border-radius:9px; background:#E8590C; color:#fff; font-weight:700; font-size:16px; display:flex; align-items:center; justify-content:center;">K</div>
+              <div style="font-size:17px; font-weight:700; color:#0B1220;">Kora</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:24px;">
+              <div style="font-size:14.5px; font-weight:500; color:#5A6474;">L'opportunité</div>
+              <div style="font-size:14.5px; font-weight:500; color:#5A6474;">Comment ça marche</div>
+              <button style="height:40px; padding:0 18px; border-radius:10px; border:none; background:#E8590C; color:#fff; font-size:14px; font-weight:600; cursor:pointer;" style-hover="background:#C9470A;">Être recontacté</button>
+            </div>
+          </div>
+          <div style="padding:64px 48px 56px; display:grid; grid-template-columns:1.05fr 0.95fr; gap:56px; align-items:center;">
+            <div style="display:flex; flex-direction:column; gap:22px;">
+              <div style="display:inline-flex; align-self:flex-start; align-items:center; gap:7px; background:#FDECE1; border-radius:999px; padding:7px 13px;">
+                <div style="width:7px; height:7px; border-radius:50%; background:#E8590C;"></div>
+                <div style="font-size:13px; font-weight:700; color:#B23F06;">Conakry · places limitées ce mois</div>
+              </div>
+              <div style="font-size:52px; font-weight:700; line-height:1.08; letter-spacing:-0.035em; color:#0B1220; max-width:600px; text-wrap:pretty;">Construisez un revenu complémentaire, depuis votre téléphone.</div>
+              <div style="font-size:18px; line-height:1.6; color:#5A6474; max-width:540px; text-wrap:pretty;">Rejoignez l'équipe de BONJOUR. Formation offerte, accompagnement en français, et vous démarrez avec ce que vous avez déjà : votre réseau et WhatsApp.</div>
+              <div style="display:flex; align-items:center; gap:12px; padding-top:6px;">
+                <button style="height:52px; padding:0 26px; border-radius:12px; border:none; background:#E8590C; color:#fff; font-size:16px; font-weight:700; cursor:pointer;" style-hover="background:#C9470A;">Je veux en savoir plus</button>
+                <button style="height:52px; padding:0 22px; border-radius:12px; border:1px solid #DCE0E6; background:#fff; color:#0B1220; font-size:15.5px; font-weight:600; display:flex; align-items:center; gap:9px; cursor:pointer;" style-hover="background:#F7F8FA;">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#0B1220" stroke-width="1.9" stroke-linecap="round"><circle cx="12" cy="12" r="9"></circle><path d="M10 8.5l6 3.5-6 3.5Z"></path></svg>
+                  Voir la vidéo · 2 min
+                </button>
+              </div>
+              <div style="display:flex; align-items:center; gap:12px; padding-top:8px;">
+                <div style="display:flex;">
+                  <div style="width:34px; height:34px; border-radius:50%; background:#FDECE1; color:#C9470A; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid #fff;">FD</div>
+                  <div style="width:34px; height:34px; border-radius:50%; background:#EEF2F7; color:#475569; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid #fff; margin-left:-10px;">IB</div>
+                  <div style="width:34px; height:34px; border-radius:50%; background:#E4F5EC; color:#0F7A4A; font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid #fff; margin-left:-10px;">SC</div>
+                </div>
+                <div style="font-size:14.5px; color:#5A6474;">+120 personnes accompagnées en Guinée</div>
+              </div>
+            </div>
+            <div style="height:420px; border-radius:20px; overflow:hidden; background:#F1F3F6; position:relative;">
+              <image-slot id="kora-hero-desktop" shape="rect" placeholder="Photo : agent souriant avec son téléphone, Conakry"></image-slot>
+            </div>
+          </div>
+
+          <div style="padding:56px 48px; background:#FAFBFC; border-top:1px solid #EDEFF2; display:flex; flex-direction:column; gap:28px;">
+            <div style="font-size:32px; font-weight:700; color:#0B1220; letter-spacing:-0.025em;">Pourquoi maintenant</div>
+            <div style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:20px;">
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:14px;">
+                <div style="width:42px; height:42px; border-radius:12px; background:#FDECE1; display:flex; align-items:center; justify-content:center;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2" stroke-linecap="round"><path d="M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                </div>
+                <div style="font-size:17px; font-weight:700; color:#0B1220;">Un revenu à votre rythme</div>
+                <div style="font-size:14.5px; line-height:1.6; color:#5A6474;">Quelques heures par semaine suffisent pour démarrer, sans quitter votre activité actuelle.</div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:14px;">
+                <div style="width:42px; height:42px; border-radius:12px; background:#FDECE1; display:flex; align-items:center; justify-content:center;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2" stroke-linecap="round"><path d="M4 19V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13"></path><path d="M4 19h16M9 9h6M9 13h4"></path></svg>
+                </div>
+                <div style="font-size:17px; font-weight:700; color:#0B1220;">Formation offerte, en français</div>
+                <div style="font-size:14.5px; line-height:1.6; color:#5A6474;">Des modules courts sur WhatsApp : quoi dire, à qui, et comment suivre vos contacts.</div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:14px;">
+                <div style="width:42px; height:42px; border-radius:12px; background:#FDECE1; display:flex; align-items:center; justify-content:center;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3.5"></circle><path d="M21 21v-2a4 4 0 0 0-3-3.9"></path></svg>
+                </div>
+                <div style="font-size:17px; font-weight:700; color:#0B1220;">Un parrain qui répond</div>
+                <div style="font-size:14.5px; line-height:1.6; color:#5A6474;">BONJOUR vous suit personnellement pendant vos 90 premiers jours.</div>
+              </div>
+              <div style="background:#fff; border:1px solid #EDEFF2; border-radius:16px; padding:24px; display:flex; flex-direction:column; gap:14px;">
+                <div style="width:42px; height:42px; border-radius:12px; background:#FDECE1; display:flex; align-items:center; justify-content:center;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2" stroke-linecap="round"><path d="M12 3 4 6v6c0 5 3.4 8.3 8 9 4.6-.7 8-4 8-9V6Z"></path><path d="m9 12 2 2 4-4"></path></svg>
+                </div>
+                <div style="font-size:17px; font-weight:700; color:#0B1220;">Sans frais cachés</div>
+                <div style="font-size:14.5px; line-height:1.6; color:#5A6474;">Vous savez dès le premier appel ce que ça demande et ce que ça rapporte.</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding:56px 48px; display:grid; grid-template-columns:1fr 480px; gap:64px; align-items:start;">
+            <div style="display:flex; flex-direction:column; gap:28px;">
+              <div style="font-size:32px; font-weight:700; color:#0B1220; letter-spacing:-0.025em;">Comment ça marche</div>
+              <div style="display:flex; flex-direction:column; gap:22px;">
+                <div style="display:flex; gap:16px;">
+                  <div style="width:36px; height:36px; border-radius:50%; background:#0B1220; color:#fff; font-size:15px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">1</div>
+                  <div>
+                    <div style="font-size:18px; font-weight:700; color:#0B1220;">Vous laissez votre numéro</div>
+                    <div style="font-size:15.5px; line-height:1.6; color:#5A6474; padding-top:4px; max-width:480px;">Trente secondes, sans engagement.</div>
+                  </div>
+                </div>
+                <div style="display:flex; gap:16px;">
+                  <div style="width:36px; height:36px; border-radius:50%; background:#0B1220; color:#fff; font-size:15px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">2</div>
+                  <div>
+                    <div style="font-size:18px; font-weight:700; color:#0B1220;">On vous appelle sous 24 h</div>
+                    <div style="font-size:15.5px; line-height:1.6; color:#5A6474; padding-top:4px; max-width:480px;">BONJOUR répond à vos questions et vous envoie la vidéo de présentation.</div>
+                  </div>
+                </div>
+                <div style="display:flex; gap:16px;">
+                  <div style="width:36px; height:36px; border-radius:50%; background:#E8590C; color:#fff; font-size:15px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0;">3</div>
+                  <div>
+                    <div style="font-size:18px; font-weight:700; color:#0B1220;">Vous démarrez accompagné</div>
+                    <div style="font-size:15.5px; line-height:1.6; color:#5A6474; padding-top:4px; max-width:480px;">Formation, outils et suivi hebdomadaire dès la première semaine.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div style="background:#0B1220; border-radius:20px; padding:32px;">
+              <div style="display:flex; flex-direction:column; gap:8px; padding-bottom:20px;">
+                <div style="font-size:24px; font-weight:700; color:#fff; letter-spacing:-0.02em;">Être recontacté</div>
+                <div style="font-size:15px; line-height:1.55; color:#B7BFCC;">BONJOUR vous appelle sous 24 h.</div>
+              </div>
+              <div style="background:#fff; border-radius:16px; padding:22px; display:flex; flex-direction:column; gap:14px;">
+                <div style="display:flex; flex-direction:column; gap:7px;">
+                  <div style="font-size:13.5px; font-weight:600; color:#0B1220;">Nom complet</div>
+                  <input type="text" placeholder="Fatoumata Diallo" style="width:100%; height:48px; padding:0 14px; border-radius:11px; border:1px solid #DCE0E6; font-size:15.5px; color:#0B1220; outline:none;" style-focus="border-color:#E8590C; box-shadow:0 0 0 3px rgba(232,89,12,0.15);">
+                </div>
+                <div style="display:flex; flex-direction:column; gap:7px;">
+                  <div style="font-size:13.5px; font-weight:600; color:#0B1220;">Téléphone · WhatsApp</div>
+                  <input type="tel" placeholder="+224 6•• •• •• ••" style="width:100%; height:48px; padding:0 14px; border-radius:11px; border:1px solid #DCE0E6; font-size:15.5px; color:#0B1220; outline:none;" style-focus="border-color:#E8590C; box-shadow:0 0 0 3px rgba(232,89,12,0.15);">
+                </div>
+                <div style="display:flex; flex-direction:column; gap:7px;">
+                  <div style="font-size:13.5px; font-weight:600; color:#0B1220;">Email <span style="font-weight:500; color:#8A93A3;">· optionnel</span></div>
+                  <input type="email" placeholder="vous@exemple.com" style="width:100%; height:48px; padding:0 14px; border-radius:11px; border:1px solid #DCE0E6; font-size:15.5px; color:#0B1220; outline:none;" style-focus="border-color:#E8590C; box-shadow:0 0 0 3px rgba(232,89,12,0.15);">
+                </div>
+                <button style="height:54px; border-radius:13px; border:none; background:#E8590C; color:#fff; font-size:16.5px; font-weight:700; cursor:pointer; margin-top:4px;" style-hover="background:#C9470A;">Être recontacté</button>
+                <div style="font-size:12.5px; line-height:1.5; color:#8A93A3; text-align:center;">Vos coordonnées ne servent qu'à ce rappel. Aucun paiement demandé.</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="padding:28px 48px 36px; border-top:1px solid #EDEFF2; display:flex; align-items:center; justify-content:space-between;">
+            <div style="font-size:13.5px; color:#8A93A3;">Kora · page de BONJOUR · kora.gn/bonjour</div>
+            <div style="font-size:13.5px; color:#8A93A3;">Mentions légales · Confidentialité</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ SECTION D ============ -->
+  <div style="display:flex; flex-direction:column; gap:28px;">
+    <div style="display:flex; align-items:baseline; gap:16px; flex-wrap:wrap;">
+      <div style="font-size:13px; font-weight:700; letter-spacing:0.14em; color:#E8590C;">SECTION D</div>
+      <div style="font-size:24px; font-weight:700; color:#0B1220; letter-spacing:-0.02em;">Planche de composants</div>
+      <div style="font-size:15px; color:#5A6474;">Sept badges, boutons, champs, cellule de timeline, carte prospect, couleurs</div>
+    </div>
+
+    <div style="display:flex; gap:24px; flex-wrap:wrap; align-items:flex-start;">
+
+      <div style="width:560px; background:#fff; border-radius:18px; padding:28px; box-shadow:0 1px 2px rgba(11,18,32,0.06), 0 30px 50px -40px rgba(11,18,32,0.25); display:flex; flex-direction:column; gap:20px;">
+        <div style="font-size:17px; font-weight:700; color:#0B1220;">Badges de statut · pipeline en 7 étapes</div>
+        <div style="display:flex; flex-direction:column; gap:12px;">
+          <div style="display:flex; align-items:center; gap:14px;"><div style="width:20px; font-size:13px; font-weight:700; color:#8A93A3;">1</div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#F1F5F9; color:#475569;">Nouveau</span><div style="font-size:13px; color:#8A93A3; font-family:ui-monospace, monospace;">#F1F5F9 / #475569</div></div>
+          <div style="display:flex; align-items:center; gap:14px;"><div style="width:20px; font-size:13px; font-weight:700; color:#8A93A3;">2</div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#E7F0FD; color:#1558B0;">Contacté</span><div style="font-size:13px; color:#8A93A3; font-family:ui-monospace, monospace;">#E7F0FD / #1558B0</div></div>
+          <div style="display:flex; align-items:center; gap:14px;"><div style="width:20px; font-size:13px; font-weight:700; color:#8A93A3;">3</div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#EFEAFE; color:#5334C7;">Dans le tunnel</span><div style="font-size:13px; color:#8A93A3; font-family:ui-monospace, monospace;">#EFEAFE / #5334C7</div></div>
+          <div style="display:flex; align-items:center; gap:14px;"><div style="width:20px; font-size:13px; font-weight:700; color:#8A93A3;">4</div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#FDF3E0; color:#8F5A05;">Intéressé</span><div style="font-size:13px; color:#8A93A3; font-family:ui-monospace, monospace;">#FDF3E0 / #8F5A05</div></div>
+          <div style="display:flex; align-items:center; gap:14px;"><div style="width:20px; font-size:13px; font-weight:700; color:#8A93A3;">5</div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#FDECE1; color:#B23F06;">En négociation</span><div style="font-size:13px; color:#8A93A3; font-family:ui-monospace, monospace;">#FDECE1 / #B23F06</div></div>
+          <div style="display:flex; align-items:center; gap:14px;"><div style="width:20px; font-size:13px; font-weight:700; color:#8A93A3;">6</div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#E4F5EC; color:#0B6640;">Closé gagné</span><div style="font-size:13px; color:#8A93A3; font-family:ui-monospace, monospace;">#E4F5EC / #0B6640</div></div>
+          <div style="display:flex; align-items:center; gap:14px;"><div style="width:20px; font-size:13px; font-weight:700; color:#8A93A3;">7</div><span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#F1F3F6; color:#4B5563;">Closé perdu</span><div style="font-size:13px; color:#8A93A3; font-family:ui-monospace, monospace;">#F1F3F6 / #4B5563</div></div>
+        </div>
+        <div style="font-size:13.5px; line-height:1.55; color:#5A6474; border-top:1px solid #EDEFF2; padding-top:16px;">Progression gris → bleu → violet → ambre → orange, puis vert pour le gain et gris neutre pour la perte. Contraste du texte ≥ 4,5:1 sur chaque fond.</div>
+      </div>
+
+      <div style="width:420px; background:#fff; border-radius:18px; padding:28px; box-shadow:0 1px 2px rgba(11,18,32,0.06), 0 30px 50px -40px rgba(11,18,32,0.25); display:flex; flex-direction:column; gap:22px;">
+        <div style="font-size:17px; font-weight:700; color:#0B1220;">Boutons</div>
+        <div style="display:flex; flex-direction:column; gap:14px;">
+          <button style="height:44px; border-radius:11px; border:none; background:#E8590C; color:#fff; font-size:15px; font-weight:700; cursor:pointer;" style-hover="background:#C9470A;">Primaire</button>
+          <button style="height:44px; border-radius:11px; border:1px solid #DCE0E6; background:#fff; color:#0B1220; font-size:15px; font-weight:600; cursor:pointer;" style-hover="background:#F7F8FA;">Secondaire</button>
+          <button style="height:44px; border-radius:11px; border:none; background:transparent; color:#C9470A; font-size:15px; font-weight:600; cursor:pointer;" style-hover="background:#FDECE1;">Tertiaire</button>
+          <button style="height:44px; border-radius:11px; border:1px solid #EDEFF2; background:#F7F8FA; color:#B4BAC5; font-size:15px; font-weight:600;">Désactivé</button>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:10px; border-top:1px solid #EDEFF2; padding-top:20px;">
+          <div style="font-size:15px; font-weight:700; color:#0B1220;">Couleurs</div>
+          <div style="display:grid; grid-template-columns:repeat(4, minmax(0,1fr)); gap:10px;">
+            <div><div style="height:52px; border-radius:10px; background:#E8590C;"></div><div style="font-size:11.5px; color:#8A93A3; padding-top:6px; font-family:ui-monospace, monospace;">#E8590C</div></div>
+            <div><div style="height:52px; border-radius:10px; background:#0B1220;"></div><div style="font-size:11.5px; color:#8A93A3; padding-top:6px; font-family:ui-monospace, monospace;">#0B1220</div></div>
+            <div><div style="height:52px; border-radius:10px; background:#5A6474;"></div><div style="font-size:11.5px; color:#8A93A3; padding-top:6px; font-family:ui-monospace, monospace;">#5A6474</div></div>
+            <div><div style="height:52px; border-radius:10px; background:#F7F8FA; border:1px solid #EDEFF2;"></div><div style="font-size:11.5px; color:#8A93A3; padding-top:6px; font-family:ui-monospace, monospace;">#F7F8FA</div></div>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:6px; border-top:1px solid #EDEFF2; padding-top:20px;">
+          <div style="font-size:15px; font-weight:700; color:#0B1220;">Typographie · Instrument Sans</div>
+          <div style="font-size:28px; font-weight:700; color:#0B1220; letter-spacing:-0.025em;">Titre 28/700</div>
+          <div style="font-size:17px; font-weight:700; color:#0B1220;">Sous-titre 17/700</div>
+          <div style="font-size:15px; color:#0B1220;">Corps 15/400 — texte courant</div>
+          <div style="font-size:13px; color:#8A93A3;">Légende 13/400 — métadonnées</div>
+        </div>
+      </div>
+
+      <div style="width:420px; background:#fff; border-radius:18px; padding:28px; box-shadow:0 1px 2px rgba(11,18,32,0.06), 0 30px 50px -40px rgba(11,18,32,0.25); display:flex; flex-direction:column; gap:22px;">
+        <div style="font-size:17px; font-weight:700; color:#0B1220;">Champs de formulaire</div>
+        <div style="display:flex; flex-direction:column; gap:7px;">
+          <div style="font-size:13.5px; font-weight:600; color:#0B1220;">Par défaut</div>
+          <input type="text" placeholder="Nom du prospect" style="width:100%; height:46px; padding:0 14px; border-radius:11px; border:1px solid #DCE0E6; font-size:15px; color:#0B1220; outline:none;" style-focus="border-color:#E8590C; box-shadow:0 0 0 3px rgba(232,89,12,0.15);">
+        </div>
+        <div style="display:flex; flex-direction:column; gap:7px;">
+          <div style="font-size:13.5px; font-weight:600; color:#0B1220;">Focus</div>
+          <div style="width:100%; height:46px; padding:0 14px; border-radius:11px; border:1px solid #E8590C; box-shadow:0 0 0 3px rgba(232,89,12,0.15); font-size:15px; color:#0B1220; display:flex; align-items:center;">+224 622 45 18 90</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:7px;">
+          <div style="font-size:13.5px; font-weight:600; color:#0B1220;">Erreur</div>
+          <div style="width:100%; height:46px; padding:0 14px; border-radius:11px; border:1px solid #D64545; font-size:15px; color:#0B1220; display:flex; align-items:center;">622 45</div>
+          <div style="font-size:12.5px; color:#B93232;">Numéro incomplet — 9 chiffres attendus.</div>
+        </div>
+        <div style="display:flex; flex-direction:column; gap:7px;">
+          <div style="font-size:13.5px; font-weight:600; color:#0B1220;">Sélecteur</div>
+          <div style="width:100%; height:46px; padding:0 14px; border-radius:11px; border:1px solid #DCE0E6; display:flex; align-items:center; justify-content:space-between;">
+            <span style="display:inline-flex; align-items:center; font-size:12.5px; font-weight:600; padding:5px 11px; border-radius:999px; background:#F1F5F9; color:#475569;">Nouveau</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m6 9 6 6 6-6"></path></svg>
+          </div>
+        </div>
+      </div>
+
+      <div style="width:480px; background:#fff; border-radius:18px; padding:28px; box-shadow:0 1px 2px rgba(11,18,32,0.06), 0 30px 50px -40px rgba(11,18,32,0.25); display:flex; flex-direction:column; gap:22px;">
+        <div style="font-size:17px; font-weight:700; color:#0B1220;">Cellule de timeline</div>
+        <div style="display:grid; grid-template-columns:36px 1fr; gap:14px; background:#FAFBFC; border:1px dashed #DCE0E6; border-radius:14px; padding:16px;">
+          <div style="display:flex; flex-direction:column; align-items:center;">
+            <div style="width:36px; height:36px; border-radius:50%; background:#fff; border:1px solid #E6E8EC; display:flex; align-items:center; justify-content:center;">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.2 7.5L3 21l2-5.8A8.4 8.4 0 1 1 21 11.5Z"></path></svg>
+            </div>
+            <div style="flex:1; width:2px; background:#EDEFF2; margin:6px 0; min-height:12px;"></div>
+          </div>
+          <div>
+            <div style="font-size:15px; font-weight:600; color:#0B1220;">Message</div>
+            <div style="font-size:14.5px; line-height:1.55; color:#5A6474; padding-top:4px;">Message WhatsApp envoyé avec la vidéo de présentation.</div>
+            <div style="font-size:13.5px; color:#8A93A3; padding-top:6px;">Il y a 4 jours, 09:20 · par BONJOUR</div>
+          </div>
+        </div>
+        <div style="display:flex; gap:10px; flex-wrap:wrap;">
+          <div style="display:flex; align-items:center; gap:7px; font-size:13px; font-weight:600; color:#5A6474; border:1px solid #EDEFF2; border-radius:999px; padding:6px 12px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2.2 2 19 19 0 0 1-8.3-3 18.6 18.6 0 0 1-5.7-5.7 19 19 0 0 1-3-8.4A2 2 0 0 1 4.8 2h4a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L10 9.8a15 15 0 0 0 5.7 5.7l1.2-1.2a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.8.7A2 2 0 0 1 21 15Z"></path></svg>Appel</div>
+          <div style="display:flex; align-items:center; gap:7px; font-size:13px; font-weight:600; color:#5A6474; border:1px solid #EDEFF2; border-radius:999px; padding:6px 12px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.2 7.5L3 21l2-5.8A8.4 8.4 0 1 1 21 11.5Z"></path></svg>Message</div>
+          <div style="display:flex; align-items:center; gap:7px; font-size:13px; font-weight:600; color:#5A6474; border:1px solid #EDEFF2; border-radius:999px; padding:6px 12px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M8 3v4M16 3v4M3 11h18"></path></svg>Rendez-vous</div>
+          <div style="display:flex; align-items:center; gap:7px; font-size:13px; font-weight:600; color:#5A6474; border:1px solid #EDEFF2; border-radius:999px; padding:6px 12px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v4h4"></path></svg>Relance</div>
+          <div style="display:flex; align-items:center; gap:7px; font-size:13px; font-weight:600; color:#5A6474; border:1px solid #EDEFF2; border-radius:999px; padding:6px 12px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5A6474" stroke-width="1.9" stroke-linecap="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8Z"></path><path d="M14 3v5h5"></path></svg>Note</div>
+          <div style="display:flex; align-items:center; gap:7px; font-size:13px; font-weight:600; color:#C9470A; background:#FDECE1; border-radius:999px; padding:6px 12px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2" stroke-linecap="round"><path d="M4 17h11M15 13l4 4-4 4"></path><path d="M20 7H9M9 3 5 7l4 4"></path></svg>Changement de statut</div>
+        </div>
+        <div style="border-top:1px solid #EDEFF2; padding-top:20px; display:flex; flex-direction:column; gap:12px;">
+          <div style="font-size:17px; font-weight:700; color:#0B1220;">Carte prospect · mobile</div>
+          <div style="background:#fff; border:1px solid #EDEFF2; border-radius:14px; padding:14px; display:flex; flex-direction:column; gap:10px; box-shadow:0 1px 2px rgba(11,18,32,0.04);">
+            <div style="display:flex; align-items:center; gap:11px;">
+              <div style="width:38px; height:38px; border-radius:50%; background:#EEF2F7; color:#475569; font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center;">MS</div>
+              <div style="flex:1; min-width:0;">
+                <div style="font-size:15.5px; font-weight:600; color:#0B1220;">Mamadou Sylla</div>
+                <div style="font-size:13px; color:#5A6474;">+224 628 31 09 55</div>
+              </div>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A93A3" stroke-width="2" stroke-linecap="round"><path d="m9 6 6 6-6 6"></path></svg>
+            </div>
+            <div style="display:flex; align-items:center; justify-content:space-between; border-top:1px solid #F1F3F6; padding-top:10px;">
+              <span style="display:inline-flex; align-items:center; font-size:12px; font-weight:600; padding:5px 10px; border-radius:999px; background:#E7F0FD; color:#1558B0;">Contacté</span>
+              <div style="font-size:12.5px; color:#8A93A3;">il y a 3 jours · Manuel</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;agentName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;BONJOUR&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contenu&quot;}}">
+const STATUSES = [
+  { label: "Nouveau", bg: "#F1F5F9", fg: "#475569" },
+  { label: "Contacté", bg: "#E7F0FD", fg: "#1558B0" },
+  { label: "Dans le tunnel", bg: "#EFEAFE", fg: "#5334C7" },
+  { label: "Intéressé", bg: "#FDF3E0", fg: "#8F5A05" },
+  { label: "En négociation", bg: "#FDECE1", fg: "#B23F06" },
+  { label: "Closé gagné", bg: "#E4F5EC", fg: "#0B6640" },
+  { label: "Closé perdu", bg: "#F1F3F6", fg: "#4B5563" }
+];
+
+class Component extends DCLogic {
+  state = { status: "En négociation", statusOpen: false, addOpen: false, sent: false };
+
+  componentDidMount() { this.formEl = null; }
+
+  renderVals() {
+    const current = STATUSES.find(s => s.label === this.state.status) || STATUSES[4];
+    return {
+      agentName: this.props.agentName ?? "BONJOUR",
+      status: current.label,
+      statusBg: current.bg,
+      statusFg: current.fg,
+      statusOpen: this.state.statusOpen,
+      addOpen: this.state.addOpen,
+      sent: this.state.sent,
+      notSent: !this.state.sent,
+      statuses: STATUSES.map((s, i) => ({
+        label: s.label, bg: s.bg, fg: s.fg, step: "Étape " + (i + 1),
+        pick: () => this.setState({ status: s.label, statusOpen: false })
+      })),
+      toggleStatus: () => this.setState(s => ({ statusOpen: !s.statusOpen })),
+      openAdd: () => this.setState({ addOpen: true }),
+      closeAdd: () => this.setState({ addOpen: false }),
+      submit: () => this.setState({ sent: true }),
+      formRef: el => { this.formEl = el; },
+      scrollToForm: () => {
+        if (!this.formEl) return;
+        const top = this.formEl.getBoundingClientRect().top + window.scrollY - 40;
+        window.scrollTo({ top: top, behavior: "smooth" });
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

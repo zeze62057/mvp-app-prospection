@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kora — Connexion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<style>
+  .auth-wrap { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .auth-card { width: min(400px, 100%); background: var(--surface); border: 1px solid var(--line);
+    border-radius: 18px; box-shadow: 0 30px 60px -30px rgba(11,18,32,0.28); padding: 32px; }
+  .auth-card .brand { justify-content: center; padding-bottom: 20px; }
+  .auth-card h1 { font-size: 22px; font-weight: 700; text-align: center; letter-spacing: -0.02em; }
+  .auth-card p.sub { font-size: 14px; color: var(--ink-2); text-align: center; padding: 6px 0 22px; }
+  .auth-card form { display: flex; flex-direction: column; gap: 14px; }
+  .auth-note { margin-top: 16px; font-size: 13px; line-height: 1.55; color: var(--ink-2);
+    background: var(--surface-2); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+  .auth-error { font-size: 13px; color: #B93232; }
+  .auth-error[hidden] { display: none; }
+</style>
+</head>
+<body>
+<div class="auth-wrap">
+  <div class="auth-card">
+    <div class="brand">
+      <div class="brand__mark">K</div>
+      <div class="brand__name">Kora</div>
+    </div>
+    <h1>Connexion agent</h1>
+    <p class="sub">Accédez à votre portefeuille de prospects.</p>
+
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label for="email">Email</label>
+        <input class="input" type="email" id="email" autocomplete="email" placeholder="vous@exemple.com">
+      </div>
+      <div class="field">
+        <label for="password">Mot de passe</label>
+        <input class="input" type="password" id="password" autocomplete="current-password" placeholder="••••••••">
+      </div>
+      <p class="auth-error" id="err" hidden></p>
+      <button class="btn btn--primary btn--lg btn--block" type="submit" id="submitBtn">Se connecter</button>
+    </form>
+
+    <div class="auth-note" id="demoNote" hidden>
+      Mode démo actif : aucune authentification. <a href="app.html">Ouvrir le tableau de bord</a>.
+      Renseignez <code>config.js</code> pour activer Supabase.
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="kora-store.js"></script>
+<script src="auth.js"></script>
+</body>
+</html>

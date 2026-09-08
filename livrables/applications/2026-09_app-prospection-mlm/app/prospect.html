@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kora — Détail prospect</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page" id="page">
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand">
+        <div class="brand__mark">K</div>
+        <div class="brand__name">Kora</div>
+      </div>
+      <nav class="topnav">
+        <a href="app.html" class="is-active">Prospects</a>
+        <a href="index.html">Ma page publique</a>
+        <a href="#" aria-disabled="true">Ma lignée</a>
+      </nav>
+      <div class="topbar__right">
+        <div class="who">
+          <div class="avatar avatar--nav" id="navAvatar">B</div>
+          <span class="who__name" id="navName">BONJOUR</span>
+        </div>
+        <button class="btn btn--tertiary" type="button" id="logoutBtn" hidden>Déconnexion</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap" id="detailRoot">
+    <a class="backlink" href="app.html" id="backLink">Tous les prospects</a>
+    <div id="detail"></div>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="kora-store.js"></script>
+<script src="prospect.js"></script>
+</body>
+</html>

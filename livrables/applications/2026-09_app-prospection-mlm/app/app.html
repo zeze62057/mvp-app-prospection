@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kora — Tableau de bord</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page has-tabbar" id="page">
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand">
+        <div class="brand__mark">K</div>
+        <div class="brand__name">Kora</div>
+      </div>
+      <nav class="topnav">
+        <a href="app.html" class="is-active">Prospects</a>
+        <a href="index.html">Ma page publique</a>
+        <a href="#" aria-disabled="true">Ma lignée</a>
+      </nav>
+      <div class="topbar__right">
+        <button class="iconbtn" type="button" aria-label="Notifications" id="bellBtn"></button>
+        <div class="who">
+          <div class="avatar avatar--nav" id="navAvatar">B</div>
+          <span class="who__name" id="navName">BONJOUR</span>
+        </div>
+        <button class="btn btn--tertiary" type="button" id="logoutBtn" hidden>Déconnexion</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="pagehead">
+      <div>
+        <h1 id="hello">Bonjour BONJOUR</h1>
+        <p id="portfolioLine">19 prospects dans votre portefeuille</p>
+      </div>
+      <div class="pagehead__actions">
+        <button class="btn btn--secondary" type="button" id="exportBtn">Exporter</button>
+        <button class="btn btn--primary" type="button" id="addBtn">
+          <span id="addBtnIcon"></span> Ajouter un prospect
+        </button>
+      </div>
+    </div>
+
+    <div class="counts" id="counts"></div>
+
+    <section class="card" id="listCard">
+      <div class="toolbar">
+        <label class="search">
+          <span id="searchIcon"></span>
+          <span class="visually-hidden">Rechercher un prospect</span>
+          <input type="text" class="input" id="searchInput" placeholder="Rechercher un prospect, un numéro…">
+        </label>
+        <div class="select">
+          <label class="visually-hidden" for="statusFilter">Filtrer par statut</label>
+          <select id="statusFilter">
+            <option value="">Tous les statuts</option>
+          </select>
+          <span id="filterChevron"></span>
+        </div>
+        <div class="select select--muted">Dernier contact <span id="sortChevron"></span></div>
+      </div>
+
+      <div class="rows" id="rows"></div>
+
+      <div id="emptyState" hidden></div>
+    </section>
+  </main>
+
+  <nav class="tabbar">
+    <a href="app.html" class="is-active"><span id="tabIcon1"></span>Prospects</a>
+    <a href="index.html"><span id="tabIcon2"></span>Ma page</a>
+    <a href="#"><span id="tabIcon3"></span>Ma lignée</a>
+  </nav>
+</div>
+
+<dialog class="modal" id="addModal">
+  <form method="dialog" class="modal__inner" id="addForm">
+    <h3>Nouveau prospect</h3>
+    <div class="field">
+      <label for="np-name">Nom complet</label>
+      <input class="input" type="text" id="np-name" required placeholder="Ex. Fatoumata Diallo">
+    </div>
+    <div class="field">
+      <label for="np-phone">Téléphone · WhatsApp</label>
+      <input class="input" type="tel" id="np-phone" placeholder="+224 6•• •• •• ••">
+    </div>
+    <div class="field">
+      <label for="np-email">Email <span class="field__hint">· optionnel</span></label>
+      <input class="input" type="email" id="np-email" placeholder="prospect@exemple.com">
+    </div>
+    <p class="field__error" id="np-error" hidden>Renseignez au moins un téléphone ou un email.</p>
+    <div class="modal__actions">
+      <button class="btn btn--primary" value="ok" id="np-submit">Ajouter au statut « Nouveau »</button>
+      <button class="btn btn--secondary" value="cancel" type="submit" formnovalidate>Annuler</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="kora-store.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

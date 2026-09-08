@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kora — Rejoindre l'équipe de BONJOUR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="page landing">
+
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand">
+        <div class="brand__mark">K</div>
+        <div class="brand__name">Kora</div>
+      </div>
+      <div class="lnav-note">avec <span id="agentName">BONJOUR</span></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <section class="hero">
+      <div>
+        <div class="hero__eyebrow"><span class="dot"></span> Conakry · places limitées ce mois</div>
+        <h1>Construisez un revenu complémentaire, depuis votre téléphone.</h1>
+        <p class="hero__lead">Rejoignez l'équipe de <span id="agentName2">BONJOUR</span>. Formation offerte, accompagnement en français, et vous démarrez avec ce que vous avez déjà : votre réseau et WhatsApp.</p>
+        <div class="hero__cta">
+          <button class="btn btn--primary btn--lg" type="button" id="toFormBtn">Je veux en savoir plus</button>
+          <button class="btn btn--secondary btn--lg" type="button" id="videoBtn"><span id="playIcon"></span> Voir la vidéo · 2 min</button>
+        </div>
+        <div class="hero__proof">
+          <div class="stack">
+            <span class="avatar avatar--accent">FD</span>
+            <span class="avatar avatar--neutral">IB</span>
+            <span class="avatar avatar--green">SC</span>
+          </div>
+          <span class="hero__lead" style="font-size:14.5px;padding-top:0">+120 personnes accompagnées en Guinée</span>
+        </div>
+      </div>
+      <div class="hero__media imgslot">
+        <span>Photo : agent souriant avec son téléphone, Conakry (emplacement image à remplacer)</span>
+      </div>
+    </section>
+  </main>
+
+  <section class="section-tint">
+    <div class="wrap block">
+      <h2>Pourquoi maintenant</h2>
+      <div class="benefits" id="benefits"></div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="how">
+      <div>
+        <h2>Comment ça marche</h2>
+        <div class="steps" id="steps"></div>
+      </div>
+
+      <div class="formcard" id="formAnchor">
+        <div class="thanks" id="thanks" hidden>
+          <div class="thanks__check" id="thanksCheck"></div>
+          <h2 id="thanksTitle">Merci, c'est enregistré</h2>
+          <p id="thanksText">BONJOUR vous appelle sous 24 h sur WhatsApp. En attendant, regardez la vidéo de présentation, 2 minutes.</p>
+          <button class="btn btn--ghostdark btn--lg" type="button">Voir la vidéo</button>
+        </div>
+
+        <form id="leadForm" novalidate>
+          <div class="formcard__head">
+            <h2>Être recontacté</h2>
+            <p>Laissez vos coordonnées, <span id="agentName3">BONJOUR</span> vous appelle sous 24 h.</p>
+          </div>
+          <div class="formcard__inner">
+            <div class="field">
+              <label for="lf-name">Nom complet</label>
+              <input class="input" type="text" id="lf-name" placeholder="Fatoumata Diallo" autocomplete="name">
+            </div>
+            <div class="field" id="lf-phone-field">
+              <label for="lf-phone">Téléphone · WhatsApp</label>
+              <input class="input" type="tel" id="lf-phone" placeholder="+224 6•• •• •• ••" autocomplete="tel">
+              <span class="field__error" id="lf-phone-error" hidden>Numéro incomplet, 9 chiffres attendus après l'indicatif.</span>
+            </div>
+            <div class="field">
+              <label for="lf-email">Email <span class="field__hint">· optionnel</span></label>
+              <input class="input" type="email" id="lf-email" placeholder="vous@exemple.com" autocomplete="email">
+            </div>
+            <button class="btn btn--primary btn--lg btn--block" type="submit">Être recontacté</button>
+            <p class="formcard__legal">Vos coordonnées ne servent qu'à ce rappel. Aucun paiement demandé.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <footer class="lfoot">
+      <span>Kora · page de <span id="agentName4">BONJOUR</span> · kora.gn/bonjour</span>
+      <span>Mentions légales · Confidentialité</span>
+    </footer>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script src="data.js"></script>
+<script src="kora-store.js"></script>
+<script src="landing.js"></script>
+</body>
+</html>
