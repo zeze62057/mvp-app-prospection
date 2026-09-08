@@ -242,21 +242,40 @@
           ui.busy = false;
           inv.disabled = false;
           inv.textContent = "Générer un nouveau lien";
-          var msg = "Salut " + koraFirstName(prospect.name) + " ! Voici ton accès à l'espace communauté : " +
+          var msg = "Salut " + koraFirstName(prospect.name) + " ! Voici ton accès à l'espace communauté :\n" +
             r.url + "\nCe lien est personnel et à usage unique.";
           var box = document.getElementById("inviteBox");
           box.hidden = false;
           box.innerHTML =
-            '<textarea class="textarea" id="inviteMsg" rows="4" readonly style="margin-top:8px">' + esc(msg) + '</textarea>' +
-            '<button type="button" class="btn btn--primary btn--block" id="inviteCopy" style="margin-top:8px">Copier le message</button>';
-          document.getElementById("inviteCopy").addEventListener("click", function () {
-            var self = this;
-            var ta = document.getElementById("inviteMsg");
-            ta.focus(); ta.select();
-            function ok() { self.textContent = "Copié"; }
+            '<div class="kv__k" style="margin-top:10px">Lien d\'accès</div>' +
+            '<input class="input" id="inviteUrl" readonly value="' + esc(r.url) + '" style="margin-top:4px;font-size:12px">' +
+            '<button type="button" class="btn btn--secondary btn--block" id="inviteCopyUrl" style="margin-top:6px">Copier le lien</button>' +
+            '<textarea class="textarea" id="inviteMsg" rows="4" readonly style="margin-top:10px">' + esc(msg) + '</textarea>' +
+            '<button type="button" class="btn btn--primary btn--block" id="inviteCopyMsg" style="margin-top:6px">Copier le message complet</button>' +
+            '<div class="field__error" id="inviteCopyState" hidden></div>';
+
+          function copier(text, elId, btn, label) {
+            var el = document.getElementById(elId);
+            var st = document.getElementById("inviteCopyState");
+            function done() { btn.textContent = label + " ✓"; st.hidden = true; }
+            function fail() {
+              st.hidden = false; st.style.color = "#B93232";
+              st.textContent = "Copie automatique bloquée. Sélectionne le texte ci-dessus et fais Ctrl+C.";
+            }
+            function viaExec() {
+              el.focus(); el.select();
+              try { if (document.execCommand("copy")) { done(); return; } } catch (e) {}
+              fail();
+            }
             if (navigator.clipboard && navigator.clipboard.writeText) {
-              navigator.clipboard.writeText(msg).then(ok, function () {});
-            } else { try { document.execCommand("copy"); ok(); } catch (e) {} }
+              navigator.clipboard.writeText(text).then(done, viaExec);
+            } else { viaExec(); }
+          }
+          document.getElementById("inviteCopyUrl").addEventListener("click", function () {
+            copier(r.url, "inviteUrl", this, "Lien copié");
+          });
+          document.getElementById("inviteCopyMsg").addEventListener("click", function () {
+            copier(msg, "inviteMsg", this, "Message copié");
           });
         }).catch(function (e) {
           ui.busy = false;

@@ -10,10 +10,17 @@
   var out = document.getElementById("msg");
   function show(t) { if (out) out.textContent = t; }
 
-  var m = /[?&]t=([^&#]+)/.exec(window.location.search);
+  // location.search d'abord ; repli sur href complet (certains contextes de
+  // collage perdent .search mais gardent l'URL entiere).
+  var m = /[?&]t=([^&#\s]+)/.exec(window.location.search) ||
+          /[?&]t=([^&#\s]+)/.exec(window.location.href);
   var token = m ? decodeURIComponent(m[1]) : "";
 
-  if (!token) { show("Lien invalide : il manque le code d'accès."); return; }
+  if (!token) {
+    show("Ce lien est incomplet : le code d'accès (la partie « ?t=… » à la fin) " +
+      "n'y est pas. Vérifie que tu as bien collé toute l'adresse.");
+    return;
+  }
   if (!window.supabase || !cfg.supabaseUrl || !cfg.supabaseAnonKey) {
     show("Configuration indisponible. Réessaie dans un moment."); return;
   }
