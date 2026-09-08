@@ -16,7 +16,7 @@ window.KORA_CONFIG = {
      Laisse vide ("") pour deduire l'URL depuis la page courante
      (fonctionne en http://, pas en file://).
      ---------------------------------------------------------------- */
-  publicBaseUrl: "",
+  publicBaseUrl: "https://mvp-app-prospection-p2rh.vercel.app",
 
   /* ----------------------------------------------------------------
      VEILLE RESEAUX SOCIAUX (module Facebook).
