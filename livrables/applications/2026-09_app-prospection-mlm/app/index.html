@@ -79,6 +79,14 @@
   /* ---- Footer sobre en bandeau ---- */
   .lfoot { background: var(--surface-2); }
 
+  /* ---- Pourquoi maintenant : carte d'argumentaire, ligne d'accent a gauche ---- */
+  .why-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-card);
+    border-left: 4px solid var(--accent); box-shadow: var(--shadow-card);
+    padding: 26px 28px; margin-top: 22px; max-width: 780px;
+  }
+  .why-card p { margin: 0; font-size: 16.5px; line-height: 1.7; color: var(--ink-2); }
+
   /* ---- Media hero : legere mise en avant (memes tokens, pas de couleur ajoutee) ---- */
   .hero__media { box-shadow: var(--shadow-pop); }
 
@@ -147,10 +155,12 @@
     </div>
   </section>
 
-  <!-- Pourquoi maintenant (bloc de valeur existant, personnalise par agent via landing.js) -->
+  <!-- Pourquoi maintenant -->
   <div class="wrap lp-section">
-    <h2>Pourquoi maintenant</h2>
-    <div class="benefits" id="benefits"></div>
+    <h2>Pourquoi rejoindre maintenant</h2>
+    <div class="why-card">
+      <p>Dans le marketing de réseau, la position dans l'équipe compte autant que l'effort fourni. Les premiers agents d'un groupe ont plus de temps pour construire leur réseau, se former, et devenir à leur tour des parrains. <span id="agentName7">BONJOUR</span> limite volontairement le nombre de nouveaux agents accompagnés chaque mois, pour garder un suivi individuel avec chacun dès la première semaine.</p>
+    </div>
   </div>
 
   <!-- 3. Programme de demarrage, semaine par semaine -->

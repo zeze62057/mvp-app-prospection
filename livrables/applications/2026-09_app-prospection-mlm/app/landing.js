@@ -20,37 +20,20 @@
   document.getElementById("playIcon").innerHTML = koraIcon("play", { size: 17, stroke: "#0B1220", width: 1.9 });
   document.getElementById("thanksCheck").innerHTML = koraIcon("check", { size: 30, stroke: "#fff", width: 2.4 });
 
-  var BENEFITS = [
-    { icon: "M12 2v20M17 6H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6", title: "Un revenu à votre rythme", text: "Quelques heures par semaine suffisent pour démarrer, sans quitter votre activité actuelle." },
-    { icon: "M4 19V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v13M4 19h16M9 9h6M9 13h4", title: "Formation offerte, en français", text: "Des modules courts sur WhatsApp : quoi dire, à qui, et comment suivre vos contacts." },
-    { icon: "M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2M9.5 7a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7ZM21 21v-2a4 4 0 0 0-3-3.9", title: "Un parrain qui répond", text: "" },
-    { icon: "M12 3 4 6v6c0 5 3.4 8.3 8 9 4.6-.7 8-4 8-9V6ZM9 12l2 2 4-4", title: "Sans frais cachés", text: "Vous savez dès le premier appel ce que ça demande et ce que ça rapporte." }
-  ];
   var STEPS = [
-    { title: "Vous laissez votre numéro", text: "Trente secondes, sans engagement." },
-    { title: "On vous appelle sous 24 h", text: "" },
-    { title: "Vous démarrez accompagné", text: "Formation, outils et suivi hebdomadaire dès la première semaine." }
+    { title: "Premier contact.", text: "" },
+    { title: "Formation guidée.", text: "Vous recevez les modules de la semaine 1 sur WhatsApp. Votre parrain vous accompagne à chaque étape, à votre rythme." },
+    { title: "Premiers pas avec votre équipe.", text: "Vous contactez vos premières personnes en suivant les messages fournis, et vous débriefez chaque échange avec votre parrain." }
   ];
 
   function paintAgent(name) {
     agent = name;
-    ["agentName", "agentName2", "agentName3", "agentName4", "agentName5", "agentName6"].forEach(function (id) {
+    ["agentName", "agentName2", "agentName3", "agentName4", "agentName5", "agentName6", "agentName7"].forEach(function (id) {
       var n = document.getElementById(id);
       if (n) n.textContent = name;
     });
 
-    BENEFITS[2].text = name + " vous suit personnellement pendant vos 90 premiers jours.";
-    var benEl = document.getElementById("benefits");
-    if (benEl) {
-      benEl.innerHTML = BENEFITS.map(function (b) {
-        return '<div class="benefit">' +
-          '<div class="benefit__ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-          '<path d="' + b.icon + '"></path></svg></div>' +
-          '<h3>' + esc(b.title) + '</h3><p>' + esc(b.text) + '</p></div>';
-      }).join("");
-    }
-
-    STEPS[1].text = name + " répond à vos questions et vous envoie la vidéo de présentation.";
+    STEPS[0].text = "Vous laissez votre nom et votre numéro WhatsApp. " + name + " vous appelle sous 24 h pour répondre à vos questions et confirmer votre place.";
     var stEl = document.getElementById("steps");
     if (stEl) {
       stEl.innerHTML = STEPS.map(function (s, i) {
