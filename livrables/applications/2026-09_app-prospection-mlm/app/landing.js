@@ -34,25 +34,31 @@
 
   function paintAgent(name) {
     agent = name;
-    ["agentName", "agentName2", "agentName3", "agentName4"].forEach(function (id) {
+    ["agentName", "agentName2", "agentName3", "agentName4", "agentName5", "agentName6"].forEach(function (id) {
       var n = document.getElementById(id);
       if (n) n.textContent = name;
     });
 
     BENEFITS[2].text = name + " vous suit personnellement pendant vos 90 premiers jours.";
-    document.getElementById("benefits").innerHTML = BENEFITS.map(function (b) {
-      return '<div class="benefit">' +
-        '<div class="benefit__ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
-        '<path d="' + b.icon + '"></path></svg></div>' +
-        '<h3>' + esc(b.title) + '</h3><p>' + esc(b.text) + '</p></div>';
-    }).join("");
+    var benEl = document.getElementById("benefits");
+    if (benEl) {
+      benEl.innerHTML = BENEFITS.map(function (b) {
+        return '<div class="benefit">' +
+          '<div class="benefit__ic"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9470A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' +
+          '<path d="' + b.icon + '"></path></svg></div>' +
+          '<h3>' + esc(b.title) + '</h3><p>' + esc(b.text) + '</p></div>';
+      }).join("");
+    }
 
     STEPS[1].text = name + " répond à vos questions et vous envoie la vidéo de présentation.";
-    document.getElementById("steps").innerHTML = STEPS.map(function (s, i) {
-      return '<div class="step">' +
-        '<div class="step__n' + (i === 2 ? " step__n--accent" : "") + '">' + (i + 1) + '</div>' +
-        '<div><h3>' + esc(s.title) + '</h3><p>' + esc(s.text) + '</p></div></div>';
-    }).join("");
+    var stEl = document.getElementById("steps");
+    if (stEl) {
+      stEl.innerHTML = STEPS.map(function (s, i) {
+        return '<div class="step">' +
+          '<div class="step__n' + (i === 2 ? " step__n--accent" : "") + '">' + (i + 1) + '</div>' +
+          '<div><h3>' + esc(s.title) + '</h3><p>' + esc(s.text) + '</p></div></div>';
+      }).join("");
+    }
   }
 
   paintAgent(agent);
