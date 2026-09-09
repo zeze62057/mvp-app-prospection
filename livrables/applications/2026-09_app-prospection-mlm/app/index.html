@@ -90,6 +90,30 @@
   /* ---- Media hero : legere mise en avant (memes tokens, pas de couleur ajoutee) ---- */
   .hero__media { box-shadow: var(--shadow-pop); }
 
+  /* ---- Ajustements hero : structure/style uniquement, aucun texte touche.
+     styles.css repasse .hero en colonne empilee sous 980px ; on reprend la
+     disposition 2 colonnes ici et on ne la relache qu'en dessous de 640px.
+     Titre agrandi (fluide), espace badge->titre augmente, CTA principal
+     elargi (cible #toFormBtn uniquement, pas le bouton video secondaire).
+     Uniquement des tokens deja definis dans styles.css. ---- */
+  .hero { grid-template-columns: 1.05fr 0.95fr; }
+  .hero h1 { font-size: clamp(34px, 5.4vw, 58px); margin-top: 22px; }
+  #toFormBtn { padding-left: 44px; padding-right: 44px; }
+
+  /* styles.css ramene .hero__media/.imgslot a 220px sous 980px (pense pour
+     la version empilee) ; comme cette plage reste desormais a 2 colonnes,
+     on redonne une hauteur coherente avec une video a cote du texte,
+     seulement sur la plage 641-980px (mobile <=640px et desktop >980px
+     inchanges). */
+  @media (min-width: 641px) and (max-width: 980px) {
+    .hero__media, .imgslot { min-height: 320px; }
+  }
+
+  @media (max-width: 640px) {
+    .hero { grid-template-columns: 1fr; gap: 28px; padding: 40px 0; }
+    .hero__media, .imgslot { min-height: 220px; }
+  }
+
   @media (max-width: 720px) {
     .lp-section { padding: 44px 0; }
     .lp-section h2 { font-size: 24px; }
