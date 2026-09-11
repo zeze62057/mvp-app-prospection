@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suivi formation IA — Distributeurs Longrich</title>
+<style>
+  :root {
+    --green: #0E7C4A;
+    --green-dark: #0A5A36;
+    --green-light: #E7F6EE;
+    --ink: #1B2422;
+    --gray: #5D6864;
+    --border: #DCE5E0;
+    --bg: #F6FAF8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+  }
+  header {
+    background: var(--green-dark);
+    color: #fff;
+    padding: 24px 32px;
+  }
+  header h1 { margin: 0; font-size: 20px; }
+  header p { margin: 4px 0 0; color: #BFE3D0; font-size: 13px; }
+
+  main { max-width: 1000px; margin: 0 auto; padding: 28px 24px; }
+
+  .progress-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .progress-number {
+    font-size: 36px;
+    font-weight: 800;
+    color: var(--green);
+  }
+  .progress-label { font-size: 13px; color: var(--gray); }
+  .progress-bar-track {
+    flex: 1;
+    min-width: 200px;
+    height: 10px;
+    background: var(--green-light);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--green);
+    border-radius: 6px;
+    transition: width 0.3s;
+  }
+
+  .panel {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 22px;
+    margin-bottom: 24px;
+  }
+  .panel h2 { font-size: 15px; margin: 0 0 16px; }
+
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+  @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+  label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 5px; }
+  input, select, textarea {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: inherit;
+  }
+  .full-width { grid-column: 1 / -1; }
+  button {
+    background: var(--green);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    margin-top: 14px;
+  }
+  button:hover { opacity: 0.9; }
+  button.secondary {
+    background: #fff;
+    color: var(--green-dark);
+    border: 1px solid var(--green);
+  }
+  button.danger {
+    background: #fff;
+    color: #B3261E;
+    border: 1px solid #B3261E;
+    padding: 5px 10px;
+    font-size: 12px;
+    margin: 0;
+  }
+
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--border); }
+  th { color: var(--gray); font-weight: 600; font-size: 11px; text-transform: uppercase; }
+  .niveau-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 9px;
+    border-radius: 10px;
+  }
+  .niveau-debutant { background: #FDF0DA; color: #92620A; }
+  .niveau-aise { background: #E4EEFB; color: #1E5697; }
+  .niveau-autonome { background: var(--green-light); color: var(--green-dark); }
+  #empty-state { color: var(--gray); font-size: 13px; padding: 20px 0; text-align: center; }
+  .table-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Suivi formation IA — Distributeurs Longrich</h1>
+  <p>Vers l'objectif des 20 premiers distributeurs formés à l'IA</p>
+</header>
+
+<main>
+  <div class="progress-card">
+    <div>
+      <div class="progress-number" id="progress-count">0</div>
+      <div class="progress-label">/ 20 distributeurs formés</div>
+    </div>
+    <div class="progress-bar-track">
+      <div class="progress-bar-fill" id="progress-bar" style="width:0%"></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2>Ajouter une formation</h2>
+    <form id="training-form">
+      <div class="form-grid">
+        <div>
+          <label for="nom">Nom du distributeur</label>
+          <input type="text" id="nom" required placeholder="Ex. Fatoumata Camara">
+        </div>
+        <div>
+          <label for="date">Date de la formation</label>
+          <input type="date" id="date" required>
+        </div>
+        <div>
+          <label for="module">Module couvert</label>
+          <select id="module" required>
+            <option value="">Choisir...</option>
+            <option value="Module 1 — Écosystème Claude">Module 1 — Écosystème Claude</option>
+            <option value="Module 2 — n8n">Module 2 — n8n</option>
+            <option value="Module 3 — Mindset & Business IA">Module 3 — Mindset & Business IA</option>
+            <option value="Module 4 — RGPD / AI Act">Module 4 — RGPD / AI Act</option>
+            <option value="Module 5 — Prospection">Module 5 — Prospection</option>
+          </select>
+        </div>
+        <div>
+          <label for="niveau">Niveau d'autonomie observé</label>
+          <select id="niveau" required>
+            <option value="">Choisir...</option>
+            <option value="debutant">Débutant, a besoin d'accompagnement</option>
+            <option value="aise">À l'aise, pratique avec un peu d'aide</option>
+            <option value="autonome">Autonome sur ce module</option>
+          </select>
+        </div>
+        <div class="full-width">
+          <label for="notes">Notes (optionnel)</label>
+          <textarea id="notes" placeholder="Points forts, difficultés rencontrées, prochaine étape..."></textarea>
+        </div>
+      </div>
+      <button type="submit">Ajouter</button>
+    </form>
+  </div>
+
+  <div class="panel">
+    <div class="table-actions">
+      <h2 style="margin:0">Historique des formations</h2>
+      <button class="secondary" id="export-btn" type="button">Exporter en CSV</button>
+    </div>
+    <div id="empty-state">Aucune formation enregistrée pour l'instant. Ajoute la première ci-dessus.</div>
+    <table id="training-table" style="display:none">
+      <thead>
+        <tr>
+          <th>Distributeur</th>
+          <th>Date</th>
+          <th>Module</th>
+          <th>Niveau</th>
+          <th>Notes</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody id="training-tbody"></tbody>
+    </table>
+  </div>
+</main>
+
+<script>
+const STORAGE_KEY = 'longrich-suivi-formation';
+
+function loadEntries() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    return raw ? JSON.parse(raw) : [];
+  } catch (e) {
+    console.error('Lecture localStorage impossible', e);
+    return [];
+  }
+}
+
+function saveEntries(entries) {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(entries));
+  } catch (e) {
+    console.error('Écriture localStorage impossible', e);
+    alert("La sauvegarde a échoué. Pense à exporter en CSV pour ne rien perdre.");
+  }
+}
+
+const niveauLabels = {
+  debutant: { text: 'Débutant', cls: 'niveau-debutant' },
+  aise: { text: 'À l\'aise', cls: 'niveau-aise' },
+  autonome: { text: 'Autonome', cls: 'niveau-autonome' }
+};
+
+function render() {
+  const entries = loadEntries();
+  const tbody = document.getElementById('training-tbody');
+  const table = document.getElementById('training-table');
+  const emptyState = document.getElementById('empty-state');
+
+  const uniqueDistributeurs = new Set(entries.map(e => e.nom.trim().toLowerCase())).size;
+  document.getElementById('progress-count').textContent = uniqueDistributeurs;
+  const pct = Math.min(100, Math.round((uniqueDistributeurs / 20) * 100));
+  document.getElementById('progress-bar').style.width = pct + '%';
+
+  if (entries.length === 0) {
+    table.style.display = 'none';
+    emptyState.style.display = 'block';
+    return;
+  }
+  emptyState.style.display = 'none';
+  table.style.display = 'table';
+
+  const sorted = [...entries].sort((a, b) => b.date.localeCompare(a.date));
+  tbody.innerHTML = '';
+  sorted.forEach(entry => {
+    const tr = document.createElement('tr');
+    const niveau = niveauLabels[entry.niveau] || { text: entry.niveau, cls: '' };
+    tr.innerHTML = `
+      <td>${escapeHtml(entry.nom)}</td>
+      <td>${formatDate(entry.date)}</td>
+      <td>${escapeHtml(entry.module)}</td>
+      <td><span class="niveau-badge ${niveau.cls}">${niveau.text}</span></td>
+      <td>${escapeHtml(entry.notes || '—')}</td>
+      <td><button class="danger" data-id="${entry.id}">Supprimer</button></td>
+    `;
+    tbody.appendChild(tr);
+  });
+
+  tbody.querySelectorAll('button.danger').forEach(btn => {
+    btn.addEventListener('click', function () {
+      const id = this.getAttribute('data-id');
+      const remaining = loadEntries().filter(e => e.id !== id);
+      saveEntries(remaining);
+      render();
+    });
+  });
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function formatDate(iso) {
+  const d = new Date(iso + 'T00:00:00');
+  if (isNaN(d)) return iso;
+  return d.toLocaleDateString('fr-FR');
+}
+
+document.getElementById('training-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+  const entry = {
+    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+    nom: document.getElementById('nom').value.trim(),
+    date: document.getElementById('date').value,
+    module: document.getElementById('module').value,
+    niveau: document.getElementById('niveau').value,
+    notes: document.getElementById('notes').value.trim()
+  };
+  const entries = loadEntries();
+  entries.push(entry);
+  saveEntries(entries);
+  this.reset();
+  render();
+});
+
+document.getElementById('export-btn').addEventListener('click', function () {
+  const entries = loadEntries();
+  if (entries.length === 0) {
+    alert("Aucune donnée à exporter pour l'instant.");
+    return;
+  }
+  const header = ['Nom', 'Date', 'Module', 'Niveau', 'Notes'];
+  const rows = entries.map(e => [
+    e.nom, e.date, e.module, niveauLabels[e.niveau]?.text || e.niveau, (e.notes || '').replace(/\n/g, ' ')
+  ]);
+  const csv = [header, ...rows]
+    .map(row => row.map(cell => `"${String(cell).replace(/"/g, '""')}"`).join(','))
+    .join('\n');
+  const blob = new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8;' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `suivi-formation-longrich-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+});
+
+render();
+</script>
+
+</body>
+</html>
