@@ -1,5 +1,7 @@
 # Section 2 — 🧠 La Méthode
 
+> Fiche pratique associée : [02-methode-prompts.md](02-methode-prompts.md), des vrais prompts prêts à l'emploi pour les chapitres 2 et 3.
+
 ## Chapitre 1 : Agentic Coding vs Vibe Coding, la vraie différence
 
 ### Le constat de départ
