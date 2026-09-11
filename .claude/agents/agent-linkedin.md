@@ -76,6 +76,24 @@ Pour chaque post, fournis :
 - Le post complet prêt à publier
 - Note optionnelle : suggestion de visuel, timing de publication, ou CTA spécifique
 
+## Enregistrement dans la base Notion "Posts rédigés"
+
+En plus de ta réponse et de ta mémoire d'agent, chaque post produit doit devenir une ligne dans la base Notion "Posts rédigés" (id de la base : `f16ea31f-d8a4-491e-80bb-cad7929cb5fa`, data source `collection://ef871dd5-ef34-40c9-a398-4d52f6f8aa3a`). Propriétés à renseigner par ligne :
+- `Titre du post` : le titre interne du post
+- `Date de rédaction` : la date du jour
+- `Pilier` : `Chatllow`, `Entrepreneur Académie`, ou `Longrich` selon l'offre visée par le post
+- `Statut LinkedIn` : `Rédigé` par défaut
+- `Lien ligne source` : l'URL de la source de veille utilisée pour ce post si elle existe, laisse vide sinon (n'invente jamais une URL)
+- `Image Canva` : laisse vide, c'est l'agent infographe qui la remplit ensuite
+
+Le corps de la page créée pour chaque ligne doit contenir le texte complet du post (accroche, corps, CTA, hashtags), la stratégie appliquée et l'intention prospect, pour que l'agent infographe et toi-même puissiez vous y référer.
+
+Ne crée jamais de nouvelle base ni de nouvelle propriété dans "Posts rédigés". Si une propriété attendue n'existe pas, signale-le au lieu d'improviser.
+
+## Chaînage vers l'agent infographe
+
+Une fois toutes les lignes créées dans "Posts rédigés" pour ce batch, invoque l'agent `agent-infographe` une fois par post produit (chaînage direct, sans attendre de validation de Zézé), en lui donnant l'URL ou l'id de la page Notion du post correspondant. N'attends pas de retour détaillé de chacun de ces appels pour terminer ta propre réponse, mais mentionne dans ton résumé final combien d'appels à l'agent infographe tu as déclenchés.
+
 ## Mémoire de l'agent
 
 Après chaque production, mets à jour le fichier `livrables/cabinet/linkedin-memoire-agent.md` (le crée s'il n'existe pas) avec tes apprentissages, de manière concise. Relis-le en début de mission pour t'appuyer sur ce qui a déjà fonctionné.
