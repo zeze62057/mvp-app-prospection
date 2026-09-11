@@ -2,16 +2,32 @@
 
 ## Chapitre 1 : Pourquoi Claude Code va changer votre métier
 
-Jusqu'à il y a peu, écrire du code demandait de connaître la syntaxe, la structure du langage, les bibliothèques. Le rôle de celui qui "code" était de traduire une idée en instructions précises que la machine comprend.
+### Le constat de départ
 
-Claude Code change ce qui se passe entre l'idée et le résultat. Tu ne traduis plus l'idée en syntaxe toi-même, tu la décris en langage naturel, et un agent IA fait la traduction, exécute, teste, corrige. Ton rôle bascule de "traducteur vers la machine" à "architecte et validateur".
+Jusqu'à il y a peu, écrire du code demandait de connaître la syntaxe, la structure du langage, les bibliothèques. Le rôle du développeur (ou de la personne qui "code") était de traduire une idée en instructions précises que la machine comprend.
 
-Trois basculements à retenir :
-1. La barrière technique s'effondre, pas les compétences. L'effort se déplace de la syntaxe vers le cadrage et la validation.
-2. La vitesse de production change d'ordre de grandeur pour les projets simples à moyens.
-3. Le métier devient "produit de bout en bout" (terminal jusqu'au déploiement), pas juste écriture de code. Une seule personne peut livrer un produit complet à un client.
+Claude Code change ce qui se passe entre l'idée et le résultat. Tu ne traduis plus l'idée en syntaxe toi-même, tu la décris en langage naturel, et un agent IA (Claude) fait la traduction, exécute, teste, corrige. Ton rôle bascule de "traducteur vers la machine" à "architecte et validateur".
 
-Ce que ça ne change pas : Claude Code exécute bien ce qu'on lui demande bien. Un mauvais cadrage produit un mauvais résultat, rapidement. La compétence rare devient : savoir cadrer, découper, vérifier.
+### Ce que ça change concrètement pour ton métier
+
+Trois basculements à comprendre, dans l'ordre :
+
+**1. La barrière technique s'effondre, pas les compétences.**
+Ne pas savoir écrire une ligne de Python ou de JavaScript n'est plus un mur infranchissable pour construire une application. Mais attention, ça ne veut pas dire que tout devient facile sans effort. Ça veut dire que l'effort se déplace : au lieu d'apprendre une syntaxe, tu dois apprendre à bien cadrer un problème, à donner un contexte clair, à valider un résultat. C'est une autre compétence, pas une absence de compétence.
+
+**2. La vitesse de production change d'ordre de grandeur.**
+Un projet qui prenait des semaines avec une équipe de développeurs peut, pour un produit simple à moyen, se construire en heures ou en jours avec Claude Code, si la personne aux commandes sait cadrer et valider. Ça ne remplace pas un système critique bancaire, mais ça couvre une immense partie de ce que des entrepreneurs comme toi ont besoin : sites, applications internes, outils métier, MVP.
+
+**3. Le métier devient "produit de bout en bout", pas juste "code".**
+C'est le point le plus important pour toi personnellement, vu où tu veux aller (cabinet de conseil, école). Claude Code ne se limite pas à écrire du code, il t'accompagne du terminal jusqu'au déploiement (Git, hébergement, tests). Ça veut dire qu'une seule personne, toi, peut aujourd'hui livrer un produit complet à un client, sans équipe technique derrière. C'est exactement le modèle économique que Chatllow peut exploiter : conseil ET exécution, par la même personne, à un coût que peu de cabinets traditionnels peuvent égaler.
+
+### Ce que ça ne change pas (important pour ne pas survendre)
+
+Claude Code ne remplace pas le jugement. Il exécute bien ce qu'on lui demande bien. Un mauvais cadrage produit un mauvais résultat, rapidement. La compétence qui devient rare et précieuse n'est donc pas "savoir coder", c'est "savoir cadrer, découper, vérifier". C'est tout l'objet du chapitre 2 de la section suivante, "L'art de donner des instructions à Claude Code".
+
+### Pourquoi ce chapitre ouvre le module
+
+Ce chapitre n'enseigne encore aucun outil. Son rôle est de repositionner mentalement l'apprenant avant de toucher quoi que ce soit : on ne vient pas ici "apprendre à coder", on vient apprendre à diriger un agent qui code. Si un apprenant garde le réflexe de vouloir tout comprendre ligne par ligne comme un développeur classique, il va se fatiguer inutilement et sous-exploiter l'outil.
 
 **Points clés**
 - Ton rôle : architecte et validateur, pas traducteur syntaxique
