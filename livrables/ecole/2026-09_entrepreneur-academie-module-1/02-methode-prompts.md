@@ -140,6 +140,76 @@ l'exécution.
 
 ---
 
+## Partie 3 — Exemple complet, du gabarit au Validate
+
+Les deux parties précédentes montrent des prompts isolés. Voici comment ils s'enchaînent réellement sur une seule tâche, du début à la fin, avec à chaque étape pourquoi on fait ce qu'on fait.
+
+**Scénario** : un client fictif, le restaurant Le Bambou, a déjà un site vitrine simple (`/lebambou/index.html`, `/lebambou/style.css`). Il demande un formulaire de réservation.
+
+### Étape 1 — Remplir le gabarit dans sa tête avant d'écrire quoi que ce soit
+
+- Contexte : site existant, dossier `/lebambou`, pas de système de réservation actuellement
+- Objectif : un formulaire (nom, date, heure, nombre de personnes) qui envoie une demande, avec confirmation à l'écran
+- Périmètre : uniquement ce formulaire, pas touche au menu ni à la page "Notre carte"
+- Autonomie : Claude peut choisir la structure technique, mais validation avant de considérer que c'est fini
+
+Cette étape ne se saute jamais. La sauter, c'est le moment où une instruction floue s'écrit sans qu'on s'en rende compte.
+
+### Étape 2 — Le prompt Plan
+```
+Avant de coder, propose-moi un plan pour ajouter un formulaire de
+réservation sur le site du restaurant Le Bambou (dossier /lebambou,
+index.html et style.css existants, pas de système de réservation actuel).
+
+Objectif : un formulaire avec les champs nom, date, heure, nombre de
+personnes, qui affiche un message de confirmation à l'envoi (pas besoin
+d'un vrai envoi d'email pour l'instant, on simule côté front).
+
+Périmètre : uniquement l'ajout de ce formulaire. Ne touche pas au menu
+de navigation ni à la page "Notre carte".
+
+Autonomie : tu choisis la structure technique, mais ne code rien pour
+l'instant, donne-moi juste les étapes que tu comptes suivre.
+```
+On demande explicitement un plan, pas du code. C'est le moment le moins cher pour corriger une mauvaise direction.
+
+**Réponse typique de l'agent (fictive)** : plan en 4 étapes, dont une étape 4 "ajouter un lien Réserver dans le menu de navigation".
+
+### Étape 3 — Lire le plan et corriger avant l'exécution
+
+L'étape 4 du plan touche au menu de navigation, alors que le périmètre disait explicitement de ne pas y toucher. C'est repéré avant que du code soit écrit :
+```
+Le plan me va sauf l'étape 4 : n'ajoute pas de lien dans le menu de
+navigation existant, le formulaire sera accessible uniquement par un
+bouton "Réserver" déjà présent en haut de la page d'accueil. Le reste
+est bon, vas-y.
+```
+Corriger à ce stade coûte une phrase. Découvrir le lien en trop après exécution aurait coûté de défaire un travail déjà fait.
+
+### Étape 4 — Execute
+
+L'agent exécute les étapes restantes. Rien à écrire de spécial ici, c'est la phase la moins déterminante pour la qualité, à condition que les deux autres phases soient bien faites.
+
+### Étape 5 — Le prompt Validate
+```
+Montre-moi la liste des fichiers modifiés ou créés. Ensuite, ouvre
+index.html dans le navigateur, remplis le formulaire de réservation
+avec des données de test (nom, une date, une heure, 4 personnes),
+et confirme-moi que le message de confirmation s'affiche bien à l'envoi.
+```
+On ne se contente jamais d'un "c'est fait". On demande une preuve concrète, un test réellement effectué, pas une supposition.
+
+### Ce que cet exemple illustre
+
+- Le gabarit (étape 1) évite l'instruction floue dès le départ
+- Le Plan (étape 2) rend visible la direction avant tout code
+- La correction (étape 3) est peu coûteuse parce qu'elle arrive tôt
+- Le Validate (étape 5) empêche de livrer au client quelque chose jamais réellement testé
+
+C'est la même mécanique à appliquer sur un vrai projet, en remplaçant le contenu du gabarit par la réalité du projet.
+
+---
+
 ## Exercice pour l'apprenant
 
 Reprends un projet perso ou fictif que tu as sous la main. Pour une tâche que tu veux réellement faire :
