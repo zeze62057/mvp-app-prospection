@@ -80,6 +80,16 @@ Périmètre : [ce qui est concerné] / [ce qu'il ne faut surtout pas toucher]
 Autonomie : [ce que l'agent peut décider seul] / [ce qu'il doit valider avec moi avant]
 ```
 
+### Avant le gabarit : et la maquette ?
+
+Ce gabarit couvre la phase de construction avec Claude Code, pas la phase de design. Pour un projet avec une vraie interface (pas un simple ajustement), la maquette vient avant, généralement dans Claude Design (voir le chapitre 1 de la section 5, "De Lovable à Claude Code", qui décrit le même principe avec un autre outil de prototypage). Une fois la maquette validée, elle nourrit le premier élément du gabarit, le Contexte, plutôt que d'ajouter un 5e élément :
+```
+Contexte : implémentation du canvas Claude Design "[nom du canvas]" déjà
+validé par le client (fichier dans context/import/). Reprends la
+structure et le style de ce canvas, ne réinvente pas le design.
+```
+Processus complet : maquette dans Claude Design, import de la maquette dans `context/import/`, puis gabarit et cycle Plan/Execute/Validate en référençant la maquette dans le Contexte.
+
 ---
 
 ## Partie 2 — Chapitre 3 : Le workflow Plan, Execute, Validate
