@@ -1,5 +1,7 @@
 # Section 3 — 🕹️ Maîtriser l'outil
 
+> Fiche pratique associée : [03-maitriser-loutil-prompts.md](03-maitriser-loutil-prompts.md), un vrai prompt par chapitre technique.
+
 ## Chapitre 1 : Premiers pas, outils principaux et permissions
 
 ### Comment Claude Code agit concrètement

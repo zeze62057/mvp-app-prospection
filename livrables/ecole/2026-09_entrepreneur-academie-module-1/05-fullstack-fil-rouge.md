@@ -1,5 +1,7 @@
 # Section 5 — 🚀 Le Fullstack, projet fil rouge
 
+> Fiche pratique associée : [05-fullstack-fil-rouge-prompts.md](05-fullstack-fil-rouge-prompts.md), les vrais prompts du projet fil rouge Alpha Conseil, phase par phase.
+
 > Cette section applique tout ce qui précède sur un projet concret unique, mené du début à la fin. C'est la section la plus pratique du module.
 
 ## Chapitre 1 : De Lovable à Claude Code, la transition production

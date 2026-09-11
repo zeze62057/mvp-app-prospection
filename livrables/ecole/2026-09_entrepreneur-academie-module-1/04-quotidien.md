@@ -1,5 +1,7 @@
 # Section 4 — ⚡ Claude Code au quotidien
 
+> Fiche pratique associée : [04-quotidien-prompts.md](04-quotidien-prompts.md), des vrais prompts pour le second brain, les livrables et le suivi business.
+
 ## Chapitre 1 : Second Brain, organiser son quotidien
 
 ### Au-delà des projets clients
