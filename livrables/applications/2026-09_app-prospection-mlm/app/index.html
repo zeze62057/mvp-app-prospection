@@ -8,38 +8,119 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="styles.css">
 <style>
-  /* Page de vente longue. Sections propres a index.html. */
-  .lp-section { padding: 56px 0; }
+  /* Page de vente longue. Sections propres a index.html — mise en page
+     restructuree sur le modele de composants de iapreneurs.com/#calendly
+     (hero / storytelling en colonnes / timeline numerotee / temoignages en
+     bandeau horizontal / carte finale mise en avant / footer bandeau).
+     Palette et police Kora inchangees : uniquement les tokens de styles.css
+     (var(--accent) etc.), aucune couleur ajoutee. Formulaire (#leadForm et
+     toute sa logique dans landing.js) non touche. */
+
+  .lp-section { padding: 64px 0; }
   .lp-section h2 { font-size: 30px; font-weight: 700; letter-spacing: -0.025em; max-width: 720px; }
   .lp-lead { font-size: 16.5px; line-height: 1.7; color: var(--ink-2); max-width: 760px; padding-top: 12px; }
 
-  .story p { font-size: 16px; line-height: 1.78; color: var(--ink-2); max-width: 760px; margin-top: 16px; }
+  /* ---- Histoire : bloc en colonnes avec ligne verticale graphique ---- */
+  .story-grid { display: grid; grid-template-columns: 28px 1fr; gap: 28px; padding-top: 8px; }
+  .story-rail { display: flex; justify-content: center; }
+  .story-rail i {
+    width: 3px; align-self: stretch; border-radius: 2px;
+    background: linear-gradient(180deg, var(--accent) 0%, var(--line-2) 100%);
+  }
+  .story p { font-size: 16px; line-height: 1.78; color: var(--ink-2); max-width: 720px; margin-top: 18px; }
+  .story p:first-child { margin-top: 0; }
+  .story strong { color: var(--ink); font-weight: 700; }
 
-  .weeks { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding-top: 30px; }
-  .week { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-card);
-    padding: 24px; box-shadow: var(--shadow-card); }
+  /* ---- Programme de demarrage : timeline en cartes numerotees ---- */
+  .lp-timeline { display: flex; flex-direction: column; padding-top: 30px; }
+  .lp-tl { display: grid; grid-template-columns: 34px 1fr; gap: 20px; }
+  .lp-tl__rail { display: flex; flex-direction: column; align-items: center; }
+  .lp-tl__line { width: 2px; flex: 1; min-height: 12px; background: var(--line-2); }
+  .lp-tl:last-child .lp-tl__line { display: none; }
   .week__n { width: 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #fff;
-    font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; }
-  .week h3 { font-size: 17px; font-weight: 700; margin: 14px 0 8px; }
+    font-size: 15px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .week { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-card);
+    padding: 24px; box-shadow: var(--shadow-card); margin-bottom: 20px; }
+  .lp-tl:last-child .week { margin-bottom: 0; }
+  .week h3 { font-size: 17px; font-weight: 700; margin: 0 0 8px; }
   .week p { font-size: 14.5px; line-height: 1.62; color: var(--ink-2); }
   .week ul { margin: 12px 0 0; padding-left: 18px; }
   .week li { font-size: 14px; line-height: 1.7; color: var(--ink-2); }
 
+  /* ---- Temoignages : bandeau en defilement horizontal ---- */
   .tmoins__note { font-size: 14px; color: var(--ink-3); padding-top: 10px; max-width: 640px; line-height: 1.6; }
-  .tmoins { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding-top: 26px; }
-  .tmoin { background: var(--surface); border: 1px dashed var(--line-2); border-radius: var(--r-card);
-    padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+  .tmoins {
+    display: flex; gap: 20px; padding: 26px 4px 12px; margin: 0 -4px;
+    overflow-x: auto; scroll-snap-type: x proximity; -webkit-overflow-scrolling: touch;
+  }
+  .tmoin {
+    background: var(--surface); border: 1px dashed var(--line-2); border-radius: var(--r-card);
+    padding: 24px; display: flex; flex-direction: column; gap: 12px;
+    flex: 0 0 min(280px, 82vw); scroll-snap-align: start;
+  }
   .tmoin__ph { width: 52px; height: 52px; border-radius: 50%; background: #F1F3F6;
     display: flex; align-items: center; justify-content: center; color: var(--ink-3); font-size: 20px; }
   .tmoin__name { font-weight: 700; color: var(--ink-3); font-size: 14.5px; }
   .tmoin__text { font-size: 14px; color: var(--ink-3); font-style: italic; line-height: 1.6; }
 
-  .lp-formwrap { padding: 8px 0 12px; }
+  /* ---- Formulaire final : carte mise en avant (anneau accent, style carte
+     "plan" mis en avant) — #formAnchor, #leadForm et tous leurs enfants
+     gardent exactement le meme balisage, seul un conteneur visuel est ajoute
+     autour. ---- */
+  .lp-formwrap { padding: 12px 0 12px; }
+  .lp-formcard-highlight {
+    border-radius: calc(var(--r-card) + 4px);
+    background: var(--accent);
+    padding: 3px;
+    box-shadow: var(--shadow-pop);
+  }
+  .lp-formcard-highlight .formcard { border-radius: var(--r-card); box-shadow: none; }
+
+  /* ---- Footer sobre en bandeau ---- */
+  .lfoot { background: var(--surface-2); }
+
+  /* ---- Pourquoi maintenant : carte d'argumentaire, ligne d'accent a gauche ---- */
+  .why-card {
+    background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-card);
+    border-left: 4px solid var(--accent); box-shadow: var(--shadow-card);
+    padding: 26px 28px; margin-top: 22px; max-width: 780px;
+  }
+  .why-card p { margin: 0; font-size: 16.5px; line-height: 1.7; color: var(--ink-2); }
+
+  /* ---- Media hero : legere mise en avant (memes tokens, pas de couleur ajoutee) ---- */
+  .hero__media { box-shadow: var(--shadow-pop); }
+
+  /* ---- Ajustements hero : structure/style uniquement, aucun texte touche.
+     styles.css repasse .hero en colonne empilee sous 980px ; on reprend la
+     disposition 2 colonnes ici et on ne la relache qu'en dessous de 640px.
+     Titre agrandi (fluide), espace badge->titre augmente, CTA principal
+     elargi (cible #toFormBtn uniquement, pas le bouton video secondaire).
+     Uniquement des tokens deja definis dans styles.css. ---- */
+  .hero { grid-template-columns: 1.05fr 0.95fr; }
+  .hero h1 { font-size: clamp(34px, 5.4vw, 58px); margin-top: 22px; }
+  #toFormBtn { padding-left: 44px; padding-right: 44px; }
+
+  /* styles.css ramene .hero__media/.imgslot a 220px sous 980px (pense pour
+     la version empilee) ; comme cette plage reste desormais a 2 colonnes,
+     on redonne une hauteur coherente avec une video a cote du texte,
+     seulement sur la plage 641-980px (mobile <=640px et desktop >980px
+     inchanges). */
+  @media (min-width: 641px) and (max-width: 980px) {
+    .hero__media, .imgslot { min-height: 320px; }
+  }
+
+  @media (max-width: 640px) {
+    .hero { grid-template-columns: 1fr; gap: 28px; padding: 40px 0; }
+    .hero__media, .imgslot { min-height: 220px; }
+  }
 
   @media (max-width: 720px) {
-    .lp-section { padding: 40px 0; }
+    .lp-section { padding: 44px 0; }
     .lp-section h2 { font-size: 24px; }
-    .weeks, .tmoins { grid-template-columns: 1fr; }
+    .lp-timeline { padding-top: 22px; }
+    .story-grid { grid-template-columns: 1fr; gap: 0; }
+    .story-rail { display: none; }
+    .story { border-left: 3px solid var(--accent); padding-left: 16px; }
   }
 </style>
 </head>
@@ -86,17 +167,24 @@
   <section class="section-tint">
     <div class="wrap lp-section story">
       <h2>Une opportunité, et une équipe pour ne pas la vivre seul</h2>
-      <p class="lp-lead">Le marketing de réseau tient dans une idée simple : plutôt que de vendre seul, on partage un produit et une méthode, puis on aide d'autres personnes à faire de même. C'est ce qu'on appelle la duplication. Votre revenu ne dépend alors plus uniquement de vos ventes, mais de la solidité de l'équipe que vous contribuez à faire grandir.</p>
-      <p>L'équipe de <span id="agentName5">BONJOUR</span> a fait un choix : ne rien garder pour soi. Ce qui fonctionne est mis par écrit, en modules courts sur WhatsApp, pour que n'importe qui puisse le reprendre sans avoir besoin d'être un vendeur né. C'est la base d'un système qui se transmet, plutôt qu'un talent réservé à quelques-uns.</p>
-      <p>Au fil des semaines, on apprend à repérer les bâtisseurs, celles et ceux qui, une fois lancés, feront avancer le groupe bien au-delà de ce que vous feriez seul. On apprend aussi à animer des points d'équipe réguliers, à distance comme en présentiel, et à donner un retour qui aide à progresser sans casser l'envie de continuer.</p>
-      <p>Derrière tout ça, une culture simple : on avance ensemble, on partage ce qu'on sait, et chacun garde la main sur son rythme. Une vision commune, des repères clairs, et un cadre qui tient sur la durée : c'est cela, plus qu'un coup de chance, qui fait la différence.</p>
+      <div class="story-grid">
+        <div class="story-rail" aria-hidden="true"><i></i></div>
+        <div>
+          <p class="lp-lead">Le marketing de réseau tient dans une idée simple : plutôt que de vendre seul, on partage un produit et une méthode, puis on aide d'autres personnes à faire de même. <strong>C'est ce qu'on appelle la duplication.</strong> Votre revenu ne dépend alors plus uniquement de vos ventes, mais de la solidité de l'équipe que vous contribuez à faire grandir.</p>
+          <p>L'équipe de <span id="agentName5">BONJOUR</span> a fait un choix : ne rien garder pour soi. <strong>Ce qui fonctionne est mis par écrit, en modules courts sur WhatsApp</strong>, pour que n'importe qui puisse le reprendre sans avoir besoin d'être un vendeur né. C'est la base d'un système qui se transmet, plutôt qu'un talent réservé à quelques-uns.</p>
+          <p>Au fil des semaines, <strong>on apprend à repérer les bâtisseurs</strong>, celles et ceux qui, une fois lancés, feront avancer le groupe bien au-delà de ce que vous feriez seul. On apprend aussi à animer des points d'équipe réguliers, à distance comme en présentiel, et à donner un retour qui aide à progresser sans casser l'envie de continuer.</p>
+          <p>Derrière tout ça, une culture simple : <strong>on avance ensemble, on partage ce qu'on sait, et chacun garde la main sur son rythme.</strong> Une vision commune, des repères clairs, et un cadre qui tient sur la durée : c'est cela, plus qu'un coup de chance, qui fait la différence.</p>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- Pourquoi maintenant (bloc de valeur existant, personnalise par agent via landing.js) -->
+  <!-- Pourquoi maintenant -->
   <div class="wrap lp-section">
-    <h2>Pourquoi maintenant</h2>
-    <div class="benefits" id="benefits"></div>
+    <h2>Pourquoi rejoindre maintenant</h2>
+    <div class="why-card">
+      <p>Dans le marketing de réseau, la position dans l'équipe compte autant que l'effort fourni. Les premiers agents d'un groupe ont plus de temps pour construire leur réseau, se former, et devenir à leur tour des parrains. <span id="agentName7">BONJOUR</span> limite volontairement le nombre de nouveaux agents accompagnés chaque mois, pour garder un suivi individuel avec chacun dès la première semaine.</p>
+    </div>
   </div>
 
   <!-- 3. Programme de demarrage, semaine par semaine -->
@@ -104,46 +192,54 @@
     <div class="wrap lp-section">
       <h2>Votre premier mois, semaine par semaine</h2>
       <p class="lp-lead">Un parcours d'accompagnement, pas un cours magistral. Chaque semaine, quelques modules courts et un point avec votre parrain. Vous avancez à votre rythme, sur votre téléphone.</p>
-      <div class="weeks">
-        <div class="week">
-          <div class="week__n">1</div>
-          <h3>Semaine 1 — Les bases</h3>
-          <p>Comprendre le produit, l'opportunité et ce que vous proposez, en quelques phrases claires. Poser les bons réflexes dès le départ : à qui parler, quoi dire, comment noter ses contacts.</p>
-          <ul>
-            <li>Présentation du produit et de l'offre</li>
-            <li>Votre message en une phrase</li>
-            <li>Prise en main de l'outil de suivi</li>
-          </ul>
+      <div class="lp-timeline">
+        <div class="lp-tl">
+          <div class="lp-tl__rail"><div class="week__n">1</div><div class="lp-tl__line"></div></div>
+          <div class="week">
+            <h3>Semaine 1 — Les bases</h3>
+            <p>Comprendre le produit, l'opportunité et ce que vous proposez, en quelques phrases claires. Poser les bons réflexes dès le départ : à qui parler, quoi dire, comment noter ses contacts.</p>
+            <ul>
+              <li>Présentation du produit et de l'offre</li>
+              <li>Votre message en une phrase</li>
+              <li>Prise en main de l'outil de suivi</li>
+            </ul>
+          </div>
         </div>
-        <div class="week">
-          <div class="week__n">2</div>
-          <h3>Semaine 2 — Premiers contacts</h3>
-          <p>Faire ses premières approches sans forcer, en commençant par les personnes qui vous connaissent déjà. Apprendre à inviter plutôt qu'à convaincre, et à accueillir un « non » sereinement.</p>
-          <ul>
-            <li>Votre liste de premiers contacts</li>
-            <li>Des messages d'invitation à adapter</li>
-            <li>Un débrief après chaque échange</li>
-          </ul>
+        <div class="lp-tl">
+          <div class="lp-tl__rail"><div class="week__n">2</div><div class="lp-tl__line"></div></div>
+          <div class="week">
+            <h3>Semaine 2 — Premiers contacts</h3>
+            <p>Faire ses premières approches sans forcer, en commençant par les personnes qui vous connaissent déjà. Apprendre à inviter plutôt qu'à convaincre, et à accueillir un « non » sereinement.</p>
+            <ul>
+              <li>Votre liste de premiers contacts</li>
+              <li>Des messages d'invitation à adapter</li>
+              <li>Un débrief après chaque échange</li>
+            </ul>
+          </div>
         </div>
-        <div class="week">
-          <div class="week__n">3</div>
-          <h3>Semaine 3 — Développer sa visibilité</h3>
-          <p>Se rendre visible simplement : publier un contenu court par jour, raconter son parcours, montrer ce que l'on fait. Des modèles vous sont fournis, vous les personnalisez.</p>
-          <ul>
-            <li>Un rythme de publication tenable</li>
-            <li>Des modèles de posts selon votre situation</li>
-            <li>Répondre aux questions en message privé</li>
-          </ul>
+        <div class="lp-tl">
+          <div class="lp-tl__rail"><div class="week__n">3</div><div class="lp-tl__line"></div></div>
+          <div class="week">
+            <h3>Semaine 3 — Développer sa visibilité</h3>
+            <p>Se rendre visible simplement : publier un contenu court par jour, raconter son parcours, montrer ce que l'on fait. Des modèles vous sont fournis, vous les personnalisez.</p>
+            <ul>
+              <li>Un rythme de publication tenable</li>
+              <li>Des modèles de posts selon votre situation</li>
+              <li>Répondre aux questions en message privé</li>
+            </ul>
+          </div>
         </div>
-        <div class="week">
-          <div class="week__n">4</div>
-          <h3>Semaine 4 — Autonomie et croissance</h3>
-          <p>Passer d'« accompagné » à « autonome » : tenir son rythme sans qu'on ait à vous relancer, et commencer à accompagner à votre tour vos premiers filleuls, avec la même méthode.</p>
-          <ul>
-            <li>Votre routine hebdomadaire</li>
-            <li>Accompagner un premier filleul</li>
-            <li>Un point mensuel avec votre parrain</li>
-          </ul>
+        <div class="lp-tl">
+          <div class="lp-tl__rail"><div class="week__n">4</div><div class="lp-tl__line"></div></div>
+          <div class="week">
+            <h3>Semaine 4 — Autonomie et croissance</h3>
+            <p>Passer d'« accompagné » à « autonome » : tenir son rythme sans qu'on ait à vous relancer, et commencer à accompagner à votre tour vos premiers filleuls, avec la même méthode.</p>
+            <ul>
+              <li>Votre routine hebdomadaire</li>
+              <li>Accompagner un premier filleul</li>
+              <li>Un point mensuel avec votre parrain</li>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
@@ -182,37 +278,39 @@
 
   <!-- 5. Formulaire final : identique a l'ancien, uniquement deplace en bas de page -->
   <div class="wrap lp-formwrap">
-    <div class="formcard" id="formAnchor">
-      <div class="thanks" id="thanks" hidden>
-        <div class="thanks__check" id="thanksCheck"></div>
-        <h2 id="thanksTitle">Merci, c'est enregistré</h2>
-        <p id="thanksText">BONJOUR vous appelle sous 24 h sur WhatsApp. En attendant, regardez la vidéo de présentation, 2 minutes.</p>
-        <button class="btn btn--ghostdark btn--lg" type="button" id="videoBtn2">Voir la vidéo</button>
-      </div>
+    <div class="lp-formcard-highlight">
+      <div class="formcard" id="formAnchor">
+        <div class="thanks" id="thanks" hidden>
+          <div class="thanks__check" id="thanksCheck"></div>
+          <h2 id="thanksTitle">Merci, c'est enregistré</h2>
+          <p id="thanksText">BONJOUR vous appelle sous 24 h sur WhatsApp. En attendant, regardez la vidéo de présentation, 2 minutes.</p>
+          <button class="btn btn--ghostdark btn--lg" type="button" id="videoBtn2">Voir la vidéo</button>
+        </div>
 
-      <form id="leadForm" novalidate>
-        <div class="formcard__head">
-          <h2>Être recontacté</h2>
-          <p>Laissez vos coordonnées, <span id="agentName3">BONJOUR</span> vous appelle sous 24 h.</p>
-        </div>
-        <div class="formcard__inner">
-          <div class="field">
-            <label for="lf-name">Nom complet</label>
-            <input class="input" type="text" id="lf-name" placeholder="Fatoumata Diallo" autocomplete="name">
+        <form id="leadForm" novalidate>
+          <div class="formcard__head">
+            <h2>Être recontacté</h2>
+            <p>Laissez vos coordonnées, <span id="agentName3">BONJOUR</span> vous appelle sous 24 h.</p>
           </div>
-          <div class="field" id="lf-phone-field">
-            <label for="lf-phone">Téléphone · WhatsApp</label>
-            <input class="input" type="tel" id="lf-phone" placeholder="+224 6•• •• •• ••" autocomplete="tel">
-            <span class="field__error" id="lf-phone-error" hidden>Numéro incomplet, 9 chiffres attendus après l'indicatif.</span>
+          <div class="formcard__inner">
+            <div class="field">
+              <label for="lf-name">Nom complet</label>
+              <input class="input" type="text" id="lf-name" placeholder="Fatoumata Diallo" autocomplete="name">
+            </div>
+            <div class="field" id="lf-phone-field">
+              <label for="lf-phone">Téléphone · WhatsApp</label>
+              <input class="input" type="tel" id="lf-phone" placeholder="+224 6•• •• •• ••" autocomplete="tel">
+              <span class="field__error" id="lf-phone-error" hidden>Numéro incomplet, 9 chiffres attendus après l'indicatif.</span>
+            </div>
+            <div class="field">
+              <label for="lf-email">Email <span class="field__hint">· optionnel</span></label>
+              <input class="input" type="email" id="lf-email" placeholder="vous@exemple.com" autocomplete="email">
+            </div>
+            <button class="btn btn--primary btn--lg btn--block" type="submit">Être recontacté</button>
+            <p class="formcard__legal">Vos coordonnées ne servent qu'à ce rappel. Aucun paiement demandé.</p>
           </div>
-          <div class="field">
-            <label for="lf-email">Email <span class="field__hint">· optionnel</span></label>
-            <input class="input" type="email" id="lf-email" placeholder="vous@exemple.com" autocomplete="email">
-          </div>
-          <button class="btn btn--primary btn--lg btn--block" type="submit">Être recontacté</button>
-          <p class="formcard__legal">Vos coordonnées ne servent qu'à ce rappel. Aucun paiement demandé.</p>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
 
     <footer class="lfoot">
