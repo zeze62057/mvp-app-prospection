@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Générateur d'audit IA — Hôtellerie</title>
+<style>
+  :root {
+    --navy: #10213f;
+    --blue: #2f6fed;
+    --blue-light: #eaf1ff;
+    --gray: #5b6472;
+    --border: #dbe2ea;
+    --bg: #f5f7fa;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--navy); }
+  header { background: var(--navy); color: #fff; padding: 24px 32px; }
+  header h1 { margin: 0; font-size: 22px; }
+  header p { margin: 4px 0 0; color: #b9c6de; font-size: 14px; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  .panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 24px; }
+  .panel h2 { margin-top: 0; font-size: 16px; color: var(--navy); border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin: 16px 0 6px; }
+  input, select, textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 5px; font-size: 14px; font-family: inherit; }
+  textarea { min-height: 70px; resize: vertical; }
+  .hint { font-size: 12px; color: var(--gray); margin-top: 4px; }
+  button { margin-top: 24px; width: 100%; background: var(--blue); color: #fff; border: none; padding: 12px; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
+  button:hover { opacity: 0.9; }
+  #report { display: none; }
+  #report.visible { display: block; }
+  #placeholder { color: var(--gray); font-size: 14px; }
+  .report-header { border-bottom: 2px solid var(--blue); padding-bottom: 12px; margin-bottom: 16px; }
+  .report-header h3 { margin: 0 0 4px; font-size: 18px; }
+  .report-header .meta { font-size: 12px; color: var(--gray); }
+  .report-section { margin-bottom: 18px; }
+  .report-section h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--blue); margin-bottom: 6px; }
+  .report-section p, .report-section li { font-size: 14px; line-height: 1.5; }
+  .badge { display: inline-block; background: var(--blue-light); color: var(--blue); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 12px; margin-bottom: 8px; }
+  .print-btn { background: var(--navy); margin-top: 12px; }
+  @media print { header, .panel:first-child, .print-btn { display: none !important; } main { display: block; padding: 0; } .panel { border: none; padding: 0; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Générateur d'audit IA — Hôtellerie</h1>
+  <p>Préparer un compte-rendu d'audit pour un établissement hôtelier en quelques minutes</p>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>Informations recueillies</h2>
+    <form id="audit-form">
+      <label for="etablissement">Nom de l'établissement</label>
+      <input type="text" id="etablissement" required placeholder="Ex. Hôtel Le Continental">
+
+      <label for="positionnement">Positionnement</label>
+      <input type="text" id="positionnement" required placeholder="Ex. Luxe, affaires, boutique-hôtel...">
+
+      <label for="taille">Taille de l'établissement</label>
+      <select id="taille" required>
+        <option value="">Choisir...</option>
+        <option value="Boutique-hôtel (moins de 30 chambres)">Boutique-hôtel (moins de 30 chambres)</option>
+        <option value="Hôtel moyen (30 à 100 chambres)">Hôtel moyen (30 à 100 chambres)</option>
+        <option value="Grand hôtel (100 à 300 chambres)">Grand hôtel (100 à 300 chambres)</option>
+        <option value="Chaîne ou resort (plus de 300 chambres)">Chaîne ou resort (plus de 300 chambres)</option>
+      </select>
+
+      <label for="maturite">Maturité IA actuelle</label>
+      <select id="maturite" required>
+        <option value="">Choisir...</option>
+        <option value="aucun">Aucun usage identifié</option>
+        <option value="ponctuel">Usage ponctuel, non structuré (quelques services testent des outils seuls)</option>
+        <option value="structure">Usage structuré sur un périmètre précis</option>
+        <option value="avance">Usage avancé, déployé sur plusieurs services</option>
+      </select>
+
+      <label for="taches">Tâches répétitives identifiées</label>
+      <textarea id="taches" required placeholder="Une par ligne. Ex.&#10;Réponse aux avis clients en ligne&#10;Demandes de conciergerie récurrentes&#10;Personnalisation des offres de séjour"></textarea>
+      <p class="hint">Une tâche par ligne, ça alimente directement la section "Opportunités" du rapport.</p>
+
+      <label for="outils">Outils déjà utilisés (PMS, CRM, canaux de réservation...)</label>
+      <input type="text" id="outils" placeholder="Ex. Logiciel de gestion hôtelière (PMS), plateformes de réservation...">
+
+      <label for="objectif">Objectif principal recherché</label>
+      <select id="objectif" required>
+        <option value="">Choisir...</option>
+        <option value="améliorer la personnalisation du séjour client">Améliorer la personnalisation du séjour client</option>
+        <option value="gagner du temps sur la gestion des avis et demandes">Gagner du temps sur la gestion des avis et demandes</option>
+        <option value="augmenter le taux de réservation directe">Augmenter le taux de réservation directe</option>
+        <option value="se différencier par un service haut de gamme">Se différencier par un service haut de gamme</option>
+        <option value="mieux former les équipes sur l'IA">Mieux former les équipes sur l'IA</option>
+      </select>
+
+      <label for="notes">Notes libres (optionnel)</label>
+      <textarea id="notes" placeholder="Tout élément utile évoqué en rendez-vous"></textarea>
+
+      <button type="submit">Générer le rapport</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Rapport généré</h2>
+    <p id="placeholder">Remplis le formulaire à gauche et clique sur "Générer le rapport" pour voir apparaître le compte-rendu ici.</p>
+    <div id="report">
+      <div class="report-header">
+        <span class="badge">Audit IA — Hôtellerie</span>
+        <h3 id="r-etablissement"></h3>
+        <div class="meta" id="r-meta"></div>
+      </div>
+      <div class="report-section"><h4>Résumé exécutif</h4><p id="r-resume"></p></div>
+      <div class="report-section"><h4>Constat</h4><p id="r-constat"></p></div>
+      <div class="report-section"><h4>Opportunités identifiées</h4><ul id="r-opportunites"></ul></div>
+      <div class="report-section"><h4>Approche recommandée</h4><p id="r-approche"></p></div>
+      <div class="report-section"><h4>Prochaines étapes</h4><p id="r-etapes"></p></div>
+      <button class="print-btn" onclick="window.print()">Imprimer / Exporter en PDF</button>
+    </div>
+  </section>
+</main>
+
+<script>
+document.getElementById('audit-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const etablissement = document.getElementById('etablissement').value.trim();
+  const positionnement = document.getElementById('positionnement').value.trim();
+  const taille = document.getElementById('taille').value;
+  const maturite = document.getElementById('maturite').value;
+  const tachesRaw = document.getElementById('taches').value.trim();
+  const outils = document.getElementById('outils').value.trim();
+  const objectif = document.getElementById('objectif').value;
+  const notes = document.getElementById('notes').value.trim();
+
+  const taches = tachesRaw.split('\n').map(t => t.trim()).filter(t => t.length > 0);
+
+  const maturiteLabels = {
+    aucun: "aucun usage identifié de l'intelligence artificielle à ce jour",
+    ponctuel: "un usage ponctuel et non structuré, porté par quelques services isolés",
+    structure: "un usage déjà structuré, mais limité à un périmètre précis",
+    avance: "un usage avancé, déjà déployé sur plusieurs services"
+  };
+
+  const approches = {
+    aucun: "Démarrer par un cas d'usage pilote unique, à fort impact et à faible risque, par exemple la réponse assistée aux avis clients, plutôt qu'un projet transversal d'emblée.",
+    ponctuel: "Structurer et généraliser ce qui fonctionne déjà de façon isolée dans un service (réception, conciergerie), pour en faire une pratique partagée par tout l'établissement.",
+    structure: "Étendre le périmètre déjà maîtrisé à des cas d'usage voisins, et mesurer l'impact réel (temps gagné, satisfaction client, taux de réservation directe).",
+    avance: "Passer d'une logique de cas d'usage isolés à une gouvernance IA d'ensemble à l'échelle de l'établissement ou du groupe, avec formation continue des équipes."
+  };
+
+  const opportunites = taches.map(t =>
+    `${t} — à évaluer comme cas d'usage IA (réponse assistée, automatisation de la demande, ou personnalisation selon la nature exacte de la tâche)`
+  );
+
+  document.getElementById('r-etablissement').textContent = etablissement || "Établissement non renseigné";
+  document.getElementById('r-meta').textContent =
+    `${positionnement || "Positionnement non renseigné"} — ${taille || "Taille non renseignée"} — Rapport généré le ${new Date().toLocaleDateString('fr-FR')}`;
+
+  document.getElementById('r-resume').textContent =
+    `${etablissement || "L'établissement"} se positionne sur le segment ${positionnement || "non précisé"} et se situe aujourd'hui sur ${maturiteLabels[maturite] || "un niveau de maturité IA non précisé"}. ` +
+    `L'objectif prioritaire exprimé est de ${objectif || "non précisé"}. ` +
+    `${taches.length} tâche(s) répétitive(s) ont été identifiées comme point de départ possible pour un accompagnement.`;
+
+  document.getElementById('r-constat').textContent =
+    `Sur le plan technique, l'établissement utilise aujourd'hui les outils suivants : ${outils || "non précisé lors de l'échange"}. ` +
+    `Ce constat sert de base pour évaluer la compatibilité d'une intégration IA avec l'existant, sans nécessairement remplacer les outils en place.` +
+    (notes ? ` Point complémentaire relevé en échange : ${notes}` : "");
+
+  const opportunitesList = document.getElementById('r-opportunites');
+  opportunitesList.innerHTML = '';
+  if (opportunites.length === 0) {
+    const li = document.createElement('li');
+    li.textContent = "Aucune tâche répétitive n'a été renseignée, à approfondir lors d'un prochain échange.";
+    opportunitesList.appendChild(li);
+  } else {
+    opportunites.forEach(o => {
+      const li = document.createElement('li');
+      li.textContent = o;
+      opportunitesList.appendChild(li);
+    });
+  }
+
+  document.getElementById('r-approche').textContent =
+    approches[maturite] || "Approche à définir avec le client en fonction d'un diagnostic de maturité plus poussé.";
+
+  document.getElementById('r-etapes').textContent =
+    "Un échange de 30 minutes permet d'affiner ce constat et de définir ensemble le premier cas d'usage à traiter, sans engagement à ce stade.";
+
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('report').classList.add('visible');
+  document.getElementById('report').scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
+</body>
+</html>
