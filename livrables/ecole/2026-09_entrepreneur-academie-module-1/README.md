@@ -6,6 +6,7 @@
 
 ## Sommaire
 
+0. [Guide de réussite du module](00-guide-de-reussite.md) — dans quel ordre pratiquer les sections, avec quoi, et comment savoir qu'on peut passer à la suite
 1. [Les Fondations](01-fondations.md) — pourquoi Claude Code change le métier, terminal et IDE, Git/GitHub, Vercel et OVH
 2. [La Méthode](02-methode.md) — Agentic Coding vs Vibe Coding, donner des instructions, workflow Plan/Execute/Validate, débogage
 3. [Maîtriser l'outil](03-maitriser-loutil.md) — premiers pas, CLAUDE.md, Skills et Slash Commands, MCP, Hooks, structure de projet, coûts
