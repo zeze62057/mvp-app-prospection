@@ -6,7 +6,7 @@
 
 1. [Découvrir n8n](01-decouvrir-n8n.md) — découverte de n8n, credentials, triggers, logique des nœuds, nœuds clés, bons réflexes ✅ rédigé
 2. [n8n avancé](02-n8n-avance.md) — APIs et HTTP Request, manipulation des données, données binaires, sous-workflows, gestion des erreurs, astuces avancées ✅ rédigé
-3. IA et agents IA dans n8n — modèles d'IA, prompts, Langchain, nœuds IA, agents IA, RAG, multimodal *(à rédiger)*
+3. [IA et agents IA dans n8n](03-ia-agents-n8n.md) — modèles d'IA, prompts, Langchain, nœuds IA, agents IA, RAG, multimodal ✅ rédigé
 4. Construire un agent IA complet — approche multi-agents, agent routeur, assemblage final *(à rédiger)*
 5. Déploiement et observabilité — Docker, sécurité, monitoring, backups, scalabilité, Redis *(à rédiger)*
 6. Projet complet — brief, build MVP, agent automatisé de bout en bout *(à rédiger)*
@@ -18,4 +18,4 @@ Même format que le Module 1 : chaque chapitre a une leçon en profondeur, des p
 
 ## Statut
 
-Rédaction en cours (démarrée le 12 septembre 2026). Sections 1 et 2 rédigées, sections 3 à 7 à venir.
+Rédaction en cours (démarrée le 12 septembre 2026). Sections 1 à 3 rédigées, sections 4 à 7 à venir.
