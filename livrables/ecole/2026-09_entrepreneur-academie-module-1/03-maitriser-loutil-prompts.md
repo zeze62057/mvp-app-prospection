@@ -118,6 +118,49 @@ Une fois la page créée dans Notion, relis-la pour me confirmer que les
 seulement "c'est fait", montre-moi ce que la page contient réellement.
 ```
 
+### Se connecter à Google Drive
+
+Le chapitre cite Google Drive parmi les écosystèmes accessibles via MCP. Même logique de périmètre explicite que pour Notion :
+```
+Connecte-toi à Google Drive via MCP et cherche le document de brief
+envoyé par le client Menuiserie Dubois (cherche par nom "Menuiserie
+Dubois" ou "brief"). Lis son contenu et résume-moi en 5 lignes les
+informations utiles pour démarrer le projet. Ne modifie ni ne déplace
+aucun fichier, tu es uniquement en lecture pour cette tâche.
+```
+
+### Se connecter à n8n
+
+Utile quand une automatisation déjà en place doit être consultée ou déclenchée depuis Claude Code, plutôt que recréée à la main :
+```
+Connecte-toi à n8n via MCP et cherche s'il existe déjà un workflow
+lié à l'envoi de notifications pour les nouvelles soumissions du
+formulaire de contact. Si un workflow correspondant existe, montre-moi
+son état actuel (actif ou non, dernière exécution). Ne crée ni ne
+modifie rien pour l'instant, donne-moi juste ce diagnostic.
+```
+
+### Se connecter à Canva
+
+C'est exactement le cas d'usage réel de ce workspace, où un agent génère un visuel LinkedIn via Canva et l'attache à une page Notion :
+```
+Connecte-toi à Canva via MCP et génère une affiche au format post
+LinkedIn à partir du texte suivant : [titre et accroche du post]. Reste
+dans la charte graphique déjà utilisée pour les posts précédents si tu
+peux la retrouver, n'invente pas une nouvelle identité visuelle sans me
+le signaler.
+```
+
+### Se connecter à une base de données
+
+Pour un projet comme Kora, déjà branché sur Supabase :
+```
+Connecte-toi à la base Supabase du projet Kora et montre-moi, en
+lecture seule, la liste des prospects au statut "Nouveau" créés cette
+semaine. N'effectue aucune écriture ni modification sur la base pour
+cette tâche, uniquement une lecture.
+```
+
 ---
 
 ## Chapitre 5 — Hooks
