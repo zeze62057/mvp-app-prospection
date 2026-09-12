@@ -1,5 +1,7 @@
 # Partie I — Créer les bases du succès en marketing de réseau
 
+> Fiche pratique associée : [01-partie-1-exemples-pratiques.md](01-partie-1-exemples-pratiques.md), un exemple concret et réutilisable pour chaque chapitre.
+
 ## Chapitre 1.1 : Identifier son « Pourquoi »
 
 ### Pourquoi ce chapitre ouvre tout le programme

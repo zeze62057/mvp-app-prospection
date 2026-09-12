@@ -6,7 +6,7 @@
 
 ## Sommaire
 
-1. [Partie I — Créer les bases du succès](01-partie-1-bases-du-succes.md) (13 chapitres, dont 3 ajoutés d'après les 7 compétences du livre *Go Pro* d'Eric Worre)
+1. [Partie I — Créer les bases du succès](01-partie-1-bases-du-succes.md) (13 chapitres, dont 3 ajoutés d'après les 7 compétences du livre *Go Pro* d'Eric Worre) — fiche pratique : [01-partie-1-exemples-pratiques.md](01-partie-1-exemples-pratiques.md)
 2. [Partie II — Développer une équipe incroyable](02-partie-2-developper-equipe.md) (11 chapitres, dont 1 ajouté d'après *Go Pro*)
 3. [Partie III — Passer de la théorie à la pratique](03-partie-3-theorie-a-la-pratique.md) (6 chapitres)
 4. [Partie IV — Leadership pratique en MLM](04-partie-4-leadership-pratique.md) (4 chapitres)
