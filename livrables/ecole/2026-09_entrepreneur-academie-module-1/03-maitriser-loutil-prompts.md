@@ -76,6 +76,27 @@ considérer le projet terminé.
 ```
 Point de vigilance : un Skill comme celui-ci garantit que Claude suit le bon ordre et les bonnes étapes de ta méthode, il ne dispense jamais des points de validation Plan/Execute/Validate à l'intérieur de chaque tâche. Un Skill qui livrerait tout un projet client sans aucun arrêt pour ta validation irait à l'encontre du principe même de l'Agentic Coding vu au chapitre 1 de la Méthode. Si le projet a plusieurs missions vraiment distinctes (rédaction, visuels, tests), ce sont plutôt des sub-agents (chapitre 1 de la section 7) qu'il faut envisager en complément, pas un seul Skill qui ferait tout.
 
+### Cas réel tiré de ce workspace
+
+Ce n'est pas qu'une idée théorique, le besoin existe déjà dans ce workspace. `livrables/applications/` contient trois variantes du même starter, un générateur d'audit IA : `2026-09_generateur-audit-ia-chatllow` (l'original, documenté dans son fichier `METHODE.md`), `2026-09_generateur-audit-ia-immobilier` et `2026-09_generateur-audit-ia-hotellerie`, chacune dérivée de l'original en adaptant les champs et les opportunités générées au secteur visé, sans changer la structure du code (formulaire, génération du rapport, impression).
+
+Chaque nouvelle variante a jusqu'ici été recréée "à la main" en demandant de dériver le starter existant. C'est exactement le moment où un Skill devient pertinent : dès qu'une même méthode se répète une 3e fois, ça vaut la peine de la formaliser plutôt que de continuer à la refaire de mémoire.
+```
+Crée un Skill nommé "nouveau-secteur-audit-ia" qui, quand je lui donne
+un nouveau secteur (par exemple "coiffure et beauté"), dérive un nouveau
+générateur d'audit IA sur le modèle de
+livrables/applications/2026-09_generateur-audit-ia-chatllow : même
+structure de code (formulaire, génération du rapport en JavaScript,
+impression en PDF), mais avec les champs du formulaire et les
+opportunités IA générées reformulés pour ce secteur précis. Le skill
+doit créer le nouveau dossier dans livrables/applications/ en suivant
+la convention de nommage du workspace, et me signaler dans un
+README.md les points "⚠️ À valider avec Zézé" propres à ce secteur,
+exactement comme pour les starters immobilier et hôtellerie déjà
+existants.
+```
+Ce Skill ne remplace pas ta validation finale : il fait gagner le temps de reconstruire la méthode à chaque fois, mais le résultat pour un nouveau secteur reste à relire avant de l'utiliser en rendez-vous commercial, au même titre que les variantes immobilier et hôtellerie qui ont chacune leurs points "à valider" non tranchés.
+
 ---
 
 ## Chapitre 4 — MCP
