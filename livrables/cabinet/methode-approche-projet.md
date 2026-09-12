@@ -6,11 +6,11 @@
 
 9 étapes, pas toutes nécessaires sur chaque projet (voir les variantes par type plus bas).
 
-1. **Cadrage initial** — comprendre le besoin réel avant de poser la moindre brique : à qui ça s'adresse, quel problème ça résout, quelle est la vraie priorité. Poser des questions plutôt que deviner.
+1. **Cadrage initial** — comprendre le besoin réel avant de poser la moindre brique : à qui ça s'adresse, quel problème ça résout, quelle est la vraie priorité. Poser des questions plutôt que deviner. Si le projet a une composante d'automatisation (n8n), c'est ici que se décide ce qui relève du produit et ce qui relève de la plomberie entre systèmes, jamais plus tard en cours de construction.
 2. **Nom / identité, si nécessaire** — uniquement si le projet a besoin de sa propre identité (pas systématique). Explorer plusieurs pistes, vérifier qu'aucune n'existe déjà, ne jamais imposer un choix définitif seul.
 3. **Maquette / design** — dans Claude Design avant le code, pour tout ce qui a une interface visible. Jamais l'inverse.
 4. **CLAUDE.md** — créé dès l'ouverture du projet, avant la première tâche de construction. Contexte, objectif, conventions, zones sensibles.
-5. **Construction, tâche par tâche** — le gabarit à 4 éléments (Contexte, Objectif, Périmètre, Autonomie) pour cadrer chaque tâche, puis le cycle Plan, Execute, Validate pour l'exécuter.
+5. **Construction, tâche par tâche** — le gabarit à 4 éléments (Contexte, Objectif, Périmètre, Autonomie) pour cadrer chaque tâche, puis le cycle Plan, Execute, Validate pour l'exécuter. Si une automatisation n8n a été décidée à l'étape 1, elle se construit ici séparément du produit : tester chaque partie isolément (par exemple, un webhook appelé directement, sans passer par le vrai bouton de l'interface) avant de les connecter entre elles.
 6. **Validation réelle** — tester en conditions réelles (navigateur, données de test), jamais supposer qu'une tâche annoncée "terminée" est correcte.
 7. **Livraison** — checklist en 3 points : fonctionnel, sécurité, handoff (le plus souvent négligé).
 8. **Suivi** — la relation continue après la livraison : maintenance, évolution, potentiel revenu récurrent.
