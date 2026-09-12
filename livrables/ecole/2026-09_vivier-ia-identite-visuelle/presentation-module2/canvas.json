@@ -11,7 +11,7 @@
     { "file": "Closing.dc.html", "x": 11040, "y": 0, "w": 1280, "h": 720, "print": "fixed" }
   ],
   "annotations": [
-    { "id": "deck-note", "x": 0, "y": -90, "w": 1280, "text": "Module 1 — nouveau style sombre, logo Cle, illustration variee par section." }
+    { "id": "deck-note", "x": 0, "y": -90, "w": 1280, "text": "Module 2 (n8n) — meme style sombre que le Module 1, logo Cle, illustration variee par section." }
   ],
   "launch": { "view": "canvas" }
 }

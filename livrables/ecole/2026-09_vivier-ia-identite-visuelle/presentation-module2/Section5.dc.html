@@ -17,9 +17,9 @@
     .content-row { display:flex; flex-grow:1; align-items:center; gap:56px; margin-top:24px; }
     .text-col { flex:1.15; }
     .kicker { font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#FF7A4D; margin:0 0 10px; font-weight:700; }
-    .title-line { font-family:'Unbounded',sans-serif; font-weight:800; font-size:33px; margin:0 0 20px; line-height:1.15; max-width:620px; }
-    .points { display:flex; flex-direction:column; gap:14px; max-width:610px; }
-    .point { font-size:14.5px; line-height:1.5; color:#DCE7E3; }
+    .title-line { font-family:'Unbounded',sans-serif; font-weight:800; font-size:32px; margin:0 0 18px; line-height:1.15; max-width:620px; }
+    .points { display:flex; flex-direction:column; gap:13px; max-width:610px; }
+    .point { font-size:14px; line-height:1.48; color:#DCE7E3; }
     .point b { color:#5FC7B8; font-family:'Unbounded',sans-serif; font-weight:700; font-size:15px; display:block; margin-bottom:2px; }
     .illus-col { flex:0.85; display:flex; align-items:center; justify-content:center; }
     .illus-panel { width:340px; height:400px; border-radius:28px; background:rgba(242,247,245,0.05); border:1px solid rgba(242,247,245,0.12); display:flex; align-items:center; justify-content:center; }
@@ -36,33 +36,34 @@
       </svg>
       <span class="brand-word">Vivier IA</span>
     </div>
-    <div class="kicker-top">Module 1 — Écosystème Claude</div>
+    <div class="kicker-top">Module 2 — n8n</div>
   </div>
   <div class="content-row">
     <div class="text-col">
-      <p class="kicker">Section 4</p>
-      <h1 class="title-line">Claude Code au quotidien</h1>
+      <p class="kicker">Section 5</p>
+      <h1 class="title-line">Déploiement et observabilité</h1>
       <div class="points">
-        <div class="point"><b>Second Brain</b>CLAUDE.md, CONTEXT.md et HISTORY.md centralisent contexte, objectifs et historique, sans tout réexpliquer.</div>
-        <div class="point"><b>Un livrable, c'est deux choses</b>Le produit technique fonctionnel, et une présentation claire de sa valeur en langage non technique.</div>
-        <div class="point"><b>Gérer son propre business</b>Les mêmes principes de cadrage et de vérification s'appliquent à sa facturation et à ses indicateurs.</div>
-        <div class="point"><b>Centraliser évite les angles morts</b>Suivre plusieurs activités séparément fait perdre du temps et cache les signaux d'alerte.</div>
+        <div class="point"><b>Dev et production, deux mondes</b>Une permissivité utile pour itérer vite devient une faille une fois en ligne.</div>
+        <div class="point"><b>Sécuriser une instance auto-hébergée</b>HTTPS systématique, accès restreint, validation de ce que reçoivent les webhooks.</div>
+        <div class="point"><b>Health check relié à une alerte</b>Transforme une panne silencieuse en signal immédiat, avant qu'un client ne la découvre.</div>
+        <div class="point"><b>Queue et Redis, à bon escient</b>Utiles à partir d'un vrai volume, jamais par anticipation d'un besoin hypothétique.</div>
       </div>
     </div>
     <div class="illus-col">
       <div class="illus-panel">
         <svg width="200" height="200" viewBox="0 0 200 200" fill="none" stroke="#5FC7B8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="55" y="40" width="90" height="120" rx="6"/>
-          <line x1="55" y1="60" x2="145" y2="60"/>
-          <line x1="70" y1="80" x2="130" y2="80"/>
-          <line x1="70" y1="95" x2="130" y2="95"/>
-          <line x1="70" y1="110" x2="115" y2="110"/>
-          <path d="M158,38 L165,52 L158,66 L151,52 Z" fill="#FF7A4D" stroke="none"/>
+          <ellipse cx="90" cy="80" rx="35" ry="22"/>
+          <ellipse cx="60" cy="90" rx="22" ry="16"/>
+          <ellipse cx="125" cy="90" rx="24" ry="17"/>
+          <rect x="55" y="120" width="90" height="16" rx="4"/>
+          <rect x="55" y="142" width="90" height="16" rx="4"/>
+          <circle cx="130" cy="128" r="3" fill="#FF7A4D" stroke="none"/>
+          <circle cx="130" cy="150" r="3" fill="#FF7A4D" stroke="none"/>
         </svg>
       </div>
     </div>
   </div>
-  <span class="pagenum">05 / 09</span>
+  <span class="pagenum">06 / 09</span>
 </div>
 </x-dc>
 </body>

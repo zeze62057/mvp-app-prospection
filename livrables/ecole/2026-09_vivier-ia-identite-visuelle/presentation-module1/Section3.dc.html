@@ -7,67 +7,64 @@
 <body>
 <x-dc>
 <helmet>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@400;500&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Manrope:wght@400;500;600&display=swap">
   <style>
-    .slide { width:1280px; height:720px; box-sizing:border-box; background:#F2F7F5; font-family:'Manrope',system-ui,sans-serif; color:#113832; padding:64px 88px; display:flex; flex-direction:column; position:relative; overflow:hidden; }
-    .robot-bg { position:absolute; right:-30px; bottom:-20px; opacity:0.08; pointer-events:none; }
+    .slide { width:1280px; height:720px; box-sizing:border-box; background:linear-gradient(135deg,#0A1512 0%,#16332B 55%,#113832 100%); font-family:'Manrope',sans-serif; color:#F2F7F5; padding:56px 80px; display:flex; flex-direction:column; position:relative; overflow:hidden; }
     .top-row { display:flex; align-items:center; justify-content:space-between; }
     .brand { display:flex; align-items:center; gap:10px; }
-    .brand-word { font-family:'Unbounded',sans-serif; font-weight:700; font-size:16px; }
-    .kicker-top { font-size:12px; letter-spacing:0.14em; text-transform:uppercase; opacity:0.5; }
-    .kicker { font-size:12px; letter-spacing:0.14em; text-transform:uppercase; opacity:0.5; margin:34px 0 6px; }
-    .slide-title { font-family:'Unbounded',sans-serif; font-weight:700; font-size:36px; margin:0; line-height:1.15; max-width:920px; }
-    .points { margin-top:30px; display:flex; flex-direction:column; gap:16px; flex-grow:1; max-width:920px; }
-    .point { display:flex; gap:14px; align-items:flex-start; font-size:18px; line-height:1.45; }
-    .dot { width:9px; height:9px; border-radius:50%; background:#2B8C82; margin-top:7px; flex-shrink:0; }
-    .divider { height:1px; background:#113832; opacity:0.12; margin:8px 0 18px; max-width:920px; }
-    .example-label { font-family:'Unbounded',sans-serif; font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:#FF7A4D; margin:0 0 6px; }
-    .example-text { font-size:15px; line-height:1.5; opacity:0.85; margin:0; max-width:920px; }
-    .pagenum { position:absolute; bottom:28px; right:88px; font-family:monospace; font-size:12px; opacity:0.4; }
+    .brand-word { font-family:'Unbounded',sans-serif; font-weight:700; font-size:15px; }
+    .kicker-top { font-size:11px; letter-spacing:0.14em; text-transform:uppercase; opacity:0.5; }
+    .content-row { display:flex; flex-grow:1; align-items:center; gap:56px; margin-top:24px; }
+    .text-col { flex:1.15; }
+    .kicker { font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:#FF7A4D; margin:0 0 10px; font-weight:700; }
+    .title-line { font-family:'Unbounded',sans-serif; font-weight:800; font-size:33px; margin:0 0 20px; line-height:1.15; max-width:620px; }
+    .points { display:flex; flex-direction:column; gap:14px; max-width:610px; }
+    .point { font-size:14.5px; line-height:1.5; color:#DCE7E3; }
+    .point b { color:#5FC7B8; font-family:'Unbounded',sans-serif; font-weight:700; font-size:15px; display:block; margin-bottom:2px; }
+    .illus-col { flex:0.85; display:flex; align-items:center; justify-content:center; }
+    .illus-panel { width:340px; height:400px; border-radius:28px; background:rgba(242,247,245,0.05); border:1px solid rgba(242,247,245,0.12); display:flex; align-items:center; justify-content:center; }
+    .pagenum { position:absolute; bottom:26px; right:80px; font-family:monospace; font-size:12px; opacity:0.35; }
   </style>
 </helmet>
 <div class="slide">
-  <svg class="robot-bg" width="260" height="312" viewBox="0 0 200 240" fill="none" stroke="#113832" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-    <line x1="100" y1="20" x2="100" y2="4"/>
-    <circle cx="100" cy="4" r="5" fill="#113832" stroke="none"/>
-    <rect x="60" y="20" width="80" height="70" rx="18"/>
-    <circle cx="82" cy="52" r="7"/>
-    <circle cx="118" cy="52" r="7"/>
-    <line x1="85" y1="70" x2="85" y2="80"/>
-    <line x1="100" y1="70" x2="100" y2="80"/>
-    <line x1="115" y1="70" x2="115" y2="80"/>
-    <rect x="90" y="90" width="20" height="12"/>
-    <rect x="40" y="102" width="120" height="100" rx="16"/>
-    <circle cx="100" cy="140" r="18"/>
-    <circle cx="100" cy="140" r="7"/>
-    <line x1="40" y1="130" x2="14" y2="150"/>
-    <circle cx="14" cy="150" r="8"/>
-    <line x1="160" y1="130" x2="186" y2="150"/>
-    <circle cx="186" cy="150" r="8"/>
-    <rect x="55" y="202" width="24" height="34" rx="8"/>
-    <rect x="121" y="202" width="24" height="34" rx="8"/>
-  </svg>
   <div class="top-row">
     <div class="brand">
-      <svg width="40" height="27" viewBox="0 0 60 40" fill="none">
-        <g transform="translate(40,10) rotate(-10) scale(0.9)"><ellipse cx="0" cy="0" rx="12" ry="6" fill="#FF7A4D"/><polygon points="-12,0 -22,-7 -22,7" fill="#FF7A4D"/></g>
-        <g transform="translate(20,20) rotate(5) scale(0.75)" opacity="0.9"><ellipse cx="0" cy="0" rx="12" ry="6" fill="#2B8C82"/><polygon points="-12,0 -22,-7 -22,7" fill="#2B8C82"/></g>
-        <g transform="translate(6,28) rotate(-12) scale(0.6)" opacity="0.7"><ellipse cx="0" cy="0" rx="12" ry="6" fill="#2B8C82"/><polygon points="-12,0 -22,-7 -22,7" fill="#2B8C82"/></g>
+      <svg width="30" height="30" viewBox="0 0 120 120" fill="none">
+        <circle cx="45" cy="75" r="22" stroke="#5FC7B8" stroke-width="9"/>
+        <line x1="61" y1="59" x2="95" y2="25" stroke="#5FC7B8" stroke-width="9" stroke-linecap="round"/>
+        <circle cx="95" cy="25" r="9" fill="#FF7A4D"/>
       </svg>
       <span class="brand-word">Vivier IA</span>
     </div>
     <div class="kicker-top">Module 1 — Écosystème Claude</div>
   </div>
-  <p class="kicker">Section 3</p>
-  <h1 class="slide-title">Maîtriser l'outil</h1>
-  <div class="points">
-    <div class="point"><span class="dot"></span><span>CLAUDE.md est la mémoire permanente du projet, lue automatiquement à chaque session, à tenir à jour.</span></div>
-    <div class="point"><span class="dot"></span><span>Slash Command pour une séquence toujours identique, Skill pour un savoir-faire qui demande du jugement.</span></div>
-    <div class="point"><span class="dot"></span><span>MCP connecte Claude Code à des outils externes (Notion, Canva, n8n...) : plus de connexions, plus de vigilance sur le périmètre.</span></div>
+  <div class="content-row">
+    <div class="text-col">
+      <p class="kicker">Section 3</p>
+      <h1 class="title-line">Maîtriser l'outil</h1>
+      <div class="points">
+        <div class="point"><b>CLAUDE.md</b>Lu automatiquement à chaque session, il contient le contexte permanent du projet, sans tout réexpliquer à chaque fois.</div>
+        <div class="point"><b>Skill vs Slash Command</b>Une commande répète toujours la même séquence, un skill mobilise un savoir-faire qui s'adapte à chaque situation.</div>
+        <div class="point"><b>MCP</b>Connecte Claude Code à des outils externes comme Notion ou Canva, avec une vigilance croissante à chaque connexion.</div>
+        <div class="point"><b>Structurer et gérer les coûts</b>Une bonne arborescence évite le désordre, et un cadrage précis réduit fortement les itérations coûteuses.</div>
+      </div>
+    </div>
+    <div class="illus-col">
+      <div class="illus-panel">
+        <svg width="200" height="200" viewBox="0 0 200 200" fill="none" stroke="#5FC7B8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="35" y="90" width="120" height="70" rx="8"/>
+          <path d="M65,90 Q65,60 95,60 Q125,60 125,90"/>
+          <line x1="35" y1="115" x2="155" y2="115"/>
+          <rect x="85" y="105" width="20" height="20" fill="#FF7A4D" stroke="none"/>
+          <circle cx="155" cy="50" r="16"/>
+          <line x1="155" y1="30" x2="155" y2="36"/>
+          <line x1="155" y1="64" x2="155" y2="70"/>
+          <line x1="135" y1="50" x2="141" y2="50"/>
+          <line x1="169" y1="50" x2="175" y2="50"/>
+        </svg>
+      </div>
+    </div>
   </div>
-  <div class="divider"></div>
-  <p class="example-label">Exemple concret</p>
-  <p class="example-text">Les starters "générateur d'audit IA" de ce workspace (Chatllow, immobilier, hôtellerie, BTP, finance, industrie) : une même méthode dérivée secteur par secteur.</p>
   <span class="pagenum">04 / 09</span>
 </div>
 </x-dc>
