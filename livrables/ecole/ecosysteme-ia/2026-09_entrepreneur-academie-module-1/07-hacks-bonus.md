@@ -56,9 +56,15 @@ Ce chapitre invite donc à élargir le regard après avoir appris une architectu
 
 ## Chapitre 3 : Plugins et Extensions
 
-### Un écosystème qui s'étend sans tout reconstruire
+### Ce qu'un plugin contient concrètement
 
-Claude Code peut être étendu par des plugins et extensions qui ajoutent des capacités supplémentaires sans devoir tout reconstruire depuis zéro à chaque nouveau besoin : des intégrations avec des IDE spécifiques, des outils de vérification de code supplémentaires, des connecteurs vers des services particuliers non couverts nativement.
+Un plugin Claude Code n'est pas un mécanisme nouveau, c'est un emballage. Il regroupe dans un seul dossier plusieurs des briques déjà vues dans ce module, chacune sous le format exact déjà appris : des skills (`skills/`), des slash commands (`commands/`), des sub-agents (`agents/`), des configurations MCP, et des hooks, plus un fichier manifeste (`.claude-plugin/plugin.json`) qui décrit le tout. La nouveauté n'est pas le format de chaque pièce, c'est de pouvoir les partager et les installer d'un coup, plutôt que de recréer chaque fichier manuellement sur chaque nouveau projet.
+
+### Installation pratique
+
+1. Ajouter une source de plugins (un "marketplace", souvent un simple dépôt Git) : `/plugin marketplace add <dépôt>`
+2. Installer un plugin depuis cette source : `/plugin install <nom-du-plugin>`
+3. Une fois installé, tout ce que contient le plugin (commands, skills, agents, configuration MCP) devient disponible immédiatement dans le projet, sans copier-coller manuel de fichiers.
 
 ### Un outil vivant, pas figé
 
@@ -66,16 +72,16 @@ Ce chapitre, volontairement placé en toute fin de module, invite à ne pas voir
 
 ### Exemple concret
 
-Un futur client demande un projet dans un langage ou un framework peu utilisé jusqu'ici. Plutôt que de forcer une méthode générique mal adaptée, le bon réflexe est de vérifier s'il existe déjà une extension ou un plugin qui couvre spécifiquement ce besoin (vérification de code adaptée, intégration avec l'outil du client), et de l'évaluer avant de l'adopter, plutôt que de l'ignorer par simple habitude de toujours faire pareil.
+C'est le prolongement direct de l'étape "capitalisation" vue en section 6, appliqué cette fois à l'outillage lui-même plutôt qu'au code d'un projet client. Chatllow peut empaqueter en un seul plugin : le skill de cadrage de projet, l'agent dédié au cadrage, le slash command `/commit` maison, et la configuration MCP standard utilisée souvent (comme la connexion à Playwright pour tester une interface). Ce plugin s'installe alors en une seule commande sur chaque nouveau projet client, plutôt que de reconstruire ces fichiers un par un à chaque fois. C'est particulièrement utile le jour où quelqu'un d'autre que Zézé travaille sur un projet Chatllow : il installe le plugin et récupère instantanément toute la méthode, sans qu'il faille tout réexpliquer.
 
 ### Le lien avec la veille, compétence transversale du métier
 
 C'est un bon chapitre de clôture parce qu'il rappelle que ce module 1 pose des fondations solides et une méthode durable dans le temps, mais que l'écosystème autour continuera nécessairement de bouger. Une veille régulière sur ces évolutions, comme celle que fait l'agent LinkedIn de ce workspace sur les sujets IA au sens large, fait partie intégrante du métier tel qu'il se pratique aujourd'hui, pas une activité annexe optionnelle.
 
 **Points clés**
-- Les plugins et extensions étendent les capacités de Claude Code sans tout reconstruire
-- L'écosystème Claude Code évolue en continu, parfois rapidement
-- Savoir chercher et évaluer une extension utile compte plus que tout mémoriser à un instant donné
+- Un plugin regroupe skills, commands, agents, MCP et hooks déjà connus, dans un seul paquet installable
+- Il capitalise l'outillage lui-même (pas seulement le code d'un projet), pour le réutiliser ou le partager en une commande
+- L'écosystème Claude Code évolue en continu : savoir chercher et évaluer une extension utile compte plus que tout mémoriser à un instant donné
 
 ---
 
