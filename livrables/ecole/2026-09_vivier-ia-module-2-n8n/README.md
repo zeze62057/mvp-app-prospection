@@ -10,7 +10,7 @@
 4. [Construire un agent IA complet](04-agent-ia-complet.md) — approche multi-agents, agent routeur, assemblage final ✅ rédigé
 5. [Déploiement et observabilité](05-deploiement-observabilite.md) — Docker, sécurité, monitoring, backups, scalabilité, Redis ✅ rédigé
 6. [Projet complet](06-projet-complet.md) — brief, build MVP, agent automatisé de bout en bout ✅ rédigé
-7. Hacks et astuces n8n (bonus) — mises à jour, sécurisation, notes de la communauté *(à rédiger)*
+7. [Hacks et astuces n8n (bonus)](07-hacks-astuces.md) — mises à jour, sécurisation, notes de la communauté ✅ rédigé
 
 ## Comment ce module est construit
 
@@ -18,4 +18,4 @@ Même format que le Module 1 : chaque chapitre a une leçon en profondeur, des p
 
 ## Statut
 
-Rédaction en cours (démarrée le 12 septembre 2026). Sections 1 à 6 rédigées, section 7 à venir.
+Rédaction complète en plusieurs passes (12 septembre 2026), pas encore testée avec de vrais apprenants. À relire, ajuster au ton et aux exemples spécifiques à ton public, et enrichir avec tes propres cas concrets Chatllow et Longrich. Pas encore de guide de réussite dédié (voir celui du Module 1 pour le principe, à adapter ici si besoin).
