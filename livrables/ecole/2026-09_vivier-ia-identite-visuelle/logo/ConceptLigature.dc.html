@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700&family=Manrope:wght@400;500&display=swap">
+  <style>
+    .eaa-root { width:640px; height:860px; box-sizing:border-box; background:#13171F; font-family:'Manrope',system-ui,sans-serif; color:#F4F1EA; padding:64px; display:flex; flex-direction:column; }
+    .eaa-eyebrow { font-size:11px; letter-spacing:0.16em; text-transform:uppercase; opacity:0.5; color:#F4F1EA; }
+    .eaa-eyebrow strong { opacity:1; font-weight:600; }
+    .eaa-center { flex-grow:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:20px; text-align:center; }
+    .eaa-wordmark { font-family:'Bricolage Grotesque',system-ui,sans-serif; font-weight:700; font-size:56px; margin:0; letter-spacing:-0.01em; }
+    .eaa-wordmark .accent { color:#FF6B4A; }
+    .rule { width:180px; height:2px; background:#FF6B4A; position:relative; margin:4px auto 0; }
+    .rule::after { content:''; position:absolute; right:-5px; top:-4px; width:10px; height:10px; border-radius:50%; background:#FF6B4A; }
+    .eaa-tagline { font-size:15px; opacity:0.6; margin:18px 0 0; }
+    .hairline { height:1px; background:#F4F1EA; opacity:0.15; margin:8px 0 26px; }
+    .eaa-section-label { font-size:11px; letter-spacing:0.14em; text-transform:uppercase; opacity:0.45; margin:0 0 14px; }
+    .eaa-row { display:flex; gap:22px; }
+    .swatch { display:flex; flex-direction:column; align-items:center; gap:8px; }
+    .swatch-chip { width:44px; height:44px; border-radius:50%; }
+    .swatch-hex { font-family:monospace; font-size:10px; opacity:0.6; }
+    .type-block { margin-top:30px; }
+    .type-display { font-family:'Bricolage Grotesque',system-ui,sans-serif; font-weight:700; font-size:30px; display:block; }
+    .type-body { font-size:15px; opacity:0.7; display:block; margin-top:6px; }
+    .type-caption { font-family:monospace; font-size:10px; opacity:0.5; letter-spacing:0.04em; text-transform:uppercase; display:block; margin-top:4px; }
+  </style>
+</helmet>
+<div class="eaa-root">
+  <div class="eaa-eyebrow">Concept F — <strong>Ligature</strong> · aucune icône, juste le mot, registre moderne et confiant</div>
+  <div class="eaa-center">
+    <div>
+      <p class="eaa-wordmark">Vivier <span class="accent">IA</span></p>
+      <div class="rule"></div>
+      <p class="eaa-tagline">Le vivier des talents IA francophones</p>
+    </div>
+  </div>
+  <div class="hairline"></div>
+  <div>
+    <p class="eaa-section-label">Palette</p>
+    <div class="eaa-row">
+      <div class="swatch"><div class="swatch-chip" style="background:#13171F"></div><span class="swatch-hex">#13171F</span></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#FF6B4A"></div><span class="swatch-hex">#FF6B4A</span></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#F4F1EA"></div><span class="swatch-hex">#F4F1EA</span></div>
+    </div>
+  </div>
+  <div class="type-block">
+    <p class="eaa-section-label">Typographie</p>
+    <span class="type-display">Vivier</span>
+    <span class="type-caption">Bricolage Grotesque · titres</span>
+    <span class="type-body">Former, révéler, faire grandir les meilleurs.</span>
+    <span class="type-caption">Manrope · texte courant</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

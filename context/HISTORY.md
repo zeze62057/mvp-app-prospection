@@ -7,6 +7,25 @@
 
 ---
 
+## 2026-09-12
+
+### Choix du nom Vivier IA pour l'école (anciennement Entrepreneur Académie)
+
+- Décision : l'école de l'IA en francophonie s'appelle désormais **Vivier IA**, et non plus "Entrepreneur Académie"
+- Vision précisée à cette occasion : l'école doit former ET recruter les meilleurs, un vivier de talents plutôt qu'une école grand public classique, sans fermer la porte à l'entrée
+- Nom choisi après exploration de plusieurs pistes (Déclic, Essor IA, Baobab, Étincelle IA, Odyssée IA, Akili IA, Pépinière IA, Le Tremplin IA, La Relève IA), vérifiées une par une pour écarter les noms déjà pris dans le paysage des académies IA francophones (très encombré autour de "Académie IA" / "IA Académie"). La Forge IA et Le Cercle IA écartés pour collision réelle avec des entités IA existantes
+- `CLAUDE.md` (pas de nom cité) laissé inchangé, `context/CONTEXT.md` mis à jour (nom et vision) dans la section "Détails par activité" et "Mes projets en cours"
+- Travail de charte graphique en cours dans Claude Design : 3 premiers concepts de logo produits pour l'ancien nom "Entrepreneur Académie" (Ascension, Réseau, Savoir), jugés pas assez raffinés et construits pour un nom désormais obsolète. Nouveaux concepts à refaire pour "Vivier IA"
+- Note technique : Node.js absent de la machine, installé en version portable (sans droits admin) dans `%LOCALAPPDATA%\claude-node-portable` pour pouvoir assembler les canvas Claude Design
+
+### Logo retenu pour Vivier IA : le Banc
+
+- Décision : le logo de Vivier IA est le concept **Banc** (un banc de poissons stylisés, un meneur en tête du groupe), parmi 6 concepts explorés au total (3 pour l'ancien nom, 3 pour Vivier IA)
+- Palette retenue : encre `#113832`, banc en sarcelle `#2B8C82`, meneur en corail `#FF7A4D`, fond `#F2F7F5`. Typographie Unbounded (titres) + Manrope (texte courant)
+- Processus : palette choisie par essai direct sur des pastilles de couleur interactives dans Claude Design plutôt que par proposition à l'aveugle, après que les premières palettes proposées n'aient pas convaincu
+- Canvas final publié avec le logo retenu en page principale, et les 2 pistes non retenues (Sceau institutionnel navy/bronze, Ligature wordmark seul fond sombre) gardées sur une page "Explorations" pour référence, pas supprimées
+- Reste à faire : décliner ce logo sur d'autres supports (site, réseaux sociaux, PPTX du Module 1) si besoin, pas encore fait à ce stade
+
 ## 2026-09-08
 
 ### Tunnel public de capture de prospects opérationnel (Kora)

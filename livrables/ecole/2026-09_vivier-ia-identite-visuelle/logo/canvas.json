@@ -1,0 +1,16 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 640, "h": 860 },
+    { "file": "Sceau.dc.html", "x": 0, "y": 0, "w": 640, "h": 860, "page": "explorations", "is_interactive": true },
+    { "file": "ConceptLigature.dc.html", "x": 740, "y": 0, "w": 640, "h": 860, "page": "explorations" }
+  ],
+  "annotations": [
+    { "id": "main-note", "x": 0, "y": -90, "w": 640, "text": "Logo retenu pour Vivier IA." },
+    { "id": "explo-note", "x": 0, "y": -90, "w": 640, "page": "explorations", "text": "Pistes explorées mais non retenues, gardées pour référence." }
+  ],
+  "pages": [
+    { "id": "main", "name": "Vivier IA" },
+    { "id": "explorations", "name": "Explorations" }
+  ],
+  "launch": { "view": "canvas", "page": "main" }
+}

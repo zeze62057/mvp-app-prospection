@@ -18,7 +18,7 @@
 
 ### Activité principale
 
-Entrepreneur centré sur l'intelligence artificielle et l'écosystème Claude. Zézé développe simultanément plusieurs projets : une chaîne YouTube de vulgarisation IA pour rendre cette technologie accessible au plus grand nombre, un cabinet de conseil IA nommé Chatllow ciblant des clients CAC40, une grande école de l'IA en francophonie nommée Entrepreneur Académie, et une intégration de l'IA dans son activité de marketing de réseau avec Longrich.
+Entrepreneur centré sur l'intelligence artificielle et l'écosystème Claude. Zézé développe simultanément plusieurs projets : une chaîne YouTube de vulgarisation IA pour rendre cette technologie accessible au plus grand nombre, un cabinet de conseil IA nommé Chatllow ciblant des clients CAC40, une grande école de l'IA en francophonie nommée Vivier IA, et une intégration de l'IA dans son activité de marketing de réseau avec Longrich.
 
 ### Détails par activité
 
@@ -32,10 +32,11 @@ Entrepreneur centré sur l'intelligence artificielle et l'écosystème Claude. Z
 - Modèle : conseil et accompagnement à la transformation IA
 - Statut : en préparation, recherche du premier client
 
-**École de l'IA (Entrepreneur Académie)**
+**École de l'IA (Vivier IA)**
 - Ambition : créer la plus grande école de l'IA en francophonie
+- Vision : former et recruter les meilleurs, un vivier de talents plutôt qu'une simple école grand public
 - Construit sur l'écosystème Claude
-- Statut : en conception
+- Statut : en conception, nom choisi le 12 septembre 2026 (anciennement "Entrepreneur Académie")
 
 **Marketing de réseau (Longrich)**
 - Intégration de l'IA dans le recrutement, la formation et le suivi des prospects
@@ -65,7 +66,7 @@ Entrepreneur centré sur l'intelligence artificielle et l'écosystème Claude. Z
 - **Plateforme e-commerce multi-vendeurs** : marketplace de produits bien-être pour la Guinée et l'Afrique de l'Ouest, avec créateur de boutiques en ligne pour les vendeurs et distributeurs (type Longrich). Zézé y a sa propre boutique. Mobile-first, paiement mobile money, prix en GNF. Design en conception dans Claude Design. Nom à définir
 - **App de prospection MLM (Kora)** : application de prospection en marketing de réseau pour BONJOUR et sa lignée de filleuls, chacun avec son compte et ses prospects. Pipeline à 7 statuts de Nouveau à Closé, historique de suivi, formulaire public de capture. Cadrage fait, implémentation front statique des 3 écrans, et branchement Supabase en cours : projet `swsjyeltuabrqwjaisew` créé, tables créées via `schema.sql`, `app/config.js` branché sur la clé publishable. Reste à valider en conditions réelles (connexion navigateur) puis à trancher les points ouverts du schéma (inscription des agents, réattribution par le parrain, formulaire public). Dossier : `livrables/applications/2026-09_app-prospection-mlm/`
 - **Formation avancée IA et marketing de réseau** : se former pour devenir formateur dans ces deux domaines
-- **Entrepreneur Académie** : conception de l'école de l'IA sur l'écosystème Claude
+- **Vivier IA** : conception de l'école de l'IA sur l'écosystème Claude (anciennement "Entrepreneur Académie")
 - **Expertise écosystème Claude** : devenir expert reconnu sur Claude et ses outils
 - **Transition consultant** : devenir consultant multi-domaines grâce à l'IA
 

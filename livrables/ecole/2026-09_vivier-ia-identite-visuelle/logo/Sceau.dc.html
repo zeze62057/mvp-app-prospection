@@ -1,0 +1,78 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Marcellus&family=Work+Sans:wght@400;500&display=swap">
+  <style>
+    .eaa-root { width:640px; height:860px; box-sizing:border-box; background:#F5F0E3; font-family:'Work Sans',system-ui,sans-serif; padding:64px; display:flex; flex-direction:column; }
+    .eaa-eyebrow { font-size:11px; letter-spacing:0.16em; text-transform:uppercase; opacity:0.55; }
+    .eaa-eyebrow strong { opacity:1; font-weight:600; }
+    .eaa-center { flex-grow:1; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:26px; text-align:center; }
+    .eaa-wordmark { font-family:'Marcellus',Georgia,serif; font-size:44px; margin:0; letter-spacing:0.04em; }
+    .eaa-tagline { font-size:15px; opacity:0.6; margin:0; font-style:italic; }
+    .hairline { height:1px; background:currentColor; opacity:0.15; margin:8px 0 26px; }
+    .eaa-section-label { font-size:11px; letter-spacing:0.14em; text-transform:uppercase; opacity:0.5; margin:0 0 14px; }
+    .eaa-row { display:flex; gap:22px; }
+    .swatch { display:flex; flex-direction:column; align-items:center; gap:8px; }
+    .swatch-chip { width:44px; height:44px; border-radius:50%; }
+    .swatch-hex { font-family:monospace; font-size:10px; opacity:0.65; }
+    .type-block { margin-top:30px; }
+    .type-display { font-family:'Marcellus',Georgia,serif; font-size:32px; display:block; }
+    .type-body { font-size:15px; opacity:0.75; display:block; margin-top:6px; }
+    .type-caption { font-family:monospace; font-size:10px; opacity:0.5; letter-spacing:0.04em; text-transform:uppercase; display:block; margin-top:4px; }
+  </style>
+</helmet>
+<div class="eaa-root" style="color: {{ink}}">
+  <div class="eaa-eyebrow">Exploration — <strong>Sceau</strong> · piste non retenue, gardée pour référence</div>
+  <div class="eaa-center">
+    <svg width="140" height="140" viewBox="0 0 120 120" fill="none">
+      <defs>
+        <path id="arcTop2" d="M16,60 A44,44 0 0 1 104,60" fill="none"/>
+      </defs>
+      <circle cx="60" cy="60" r="56" stroke="currentColor" stroke-width="2"/>
+      <circle cx="60" cy="60" r="49" stroke="currentColor" stroke-width="1" stroke-dasharray="1 4" opacity="0.6"/>
+      <text font-size="10.5" letter-spacing="3" fill="currentColor">
+        <textPath href="#arcTop2" startOffset="50%" text-anchor="middle">VIVIER IA</textPath>
+      </text>
+      <polygon points="60,48 73,65 60,82 47,65" style="fill: {{accent}}"/>
+    </svg>
+    <div>
+      <p class="eaa-wordmark">Vivier IA</p>
+      <p class="eaa-tagline">Le vivier des talents IA francophones</p>
+    </div>
+  </div>
+  <div class="hairline"></div>
+  <div>
+    <p class="eaa-section-label">Palette</p>
+    <div class="eaa-row">
+      <div class="swatch"><div class="swatch-chip" style="background: {{ink}}"></div><span class="swatch-hex">Encre {{ink}}</span></div>
+      <div class="swatch"><div class="swatch-chip" style="background: {{accent}}"></div><span class="swatch-hex">Accent {{accent}}</span></div>
+      <div class="swatch"><div class="swatch-chip" style="background:#F5F0E3; border:1px solid rgba(0,0,0,0.15)"></div><span class="swatch-hex">Fond #F5F0E3</span></div>
+    </div>
+  </div>
+  <div class="type-block">
+    <p class="eaa-section-label">Typographie</p>
+    <span class="type-display">Vivier</span>
+    <span class="type-caption">Marcellus · titres</span>
+    <span class="type-body">Former, révéler, faire grandir les meilleurs.</span>
+    <span class="type-caption">Work Sans · texte courant</span>
+  </div>
+</div>
+</x-dc>
+<script data-dc-script data-props='{"ink":{"editor":"color","default":"#1B2440","options":["#1B2440","#123024","#3B1320","#241F4E"]},"accent":{"editor":"color","default":"#C9A24B","options":["#C9A24B","#4FA88A","#D1765C","#8E7CC9"]}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      ink: this.props.ink ?? '#1B2440',
+      accent: this.props.accent ?? '#C9A24B'
+    };
+  }
+}
+</script>
+</body>
+</html>
