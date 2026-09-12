@@ -151,6 +151,36 @@ peux la retrouver, n'invente pas une nouvelle identité visuelle sans me
 le signaler.
 ```
 
+### Cas réel — générer le support PPTX du Module 1
+
+Autre usage réel de Canva via MCP : produire un support de présentation professionnel pour animer une session de formation, à partir d'un cours déjà rédigé en Markdown, plutôt que de reconstruire les slides à la main.
+```
+Contexte : le contenu complet du Module 1 (Écosystème Claude) d'Entrepreneur
+Académie est déjà rédigé dans livrables/ecole/2026-09_entrepreneur-
+academie-module-1/ (fichiers 01-fondations.md à 07-hacks-bonus.md, plus
+le README.md). Aucune charte graphique officielle d'Entrepreneur Académie
+n'existe encore dans ce workspace.
+
+Objectif : générer via Canva un support de présentation professionnel et
+captivant pour animer une session de formation sur l'ensemble du Module
+1 : une slide de titre, une slide par section (7 au total) avec pour
+chaque section le titre, 3 à 4 points clés maximum (pas le texte intégral
+des chapitres), et un exemple concret tiré du cours, puis une slide de
+synthèse finale. Exporte le résultat en .pptx.
+
+Périmètre : le contenu vient uniquement des 7 fichiers du module, n'invente
+aucune information qui n'y figure pas. Vérifie d'abord s'il existe déjà
+un brand kit Canva pour Entrepreneur Académie ou Chatllow ; si non, choisis
+une charte sobre et professionnelle par défaut et signale-le-moi clairement
+plutôt que d'inventer une identité visuelle définitive.
+
+Autonomie : tu peux choisir la mise en page, les visuels et la structure
+slide par slide sans me demander à chaque fois, mais montre-moi le
+résultat avant l'export final en .pptx, je veux valider le contenu de
+chaque slide avant la version destinée à être présentée.
+```
+Point de vigilance : comme pour tout contenu généré à partir d'un cours déjà écrit, la phase Validate compte ici aussi. Relis chaque slide générée pour vérifier qu'elle reflète bien les points clés du chapitre correspondant, plutôt que de supposer que la synthèse faite par l'agent est fidèle au texte d'origine.
+
 ### Se connecter à une base de données
 
 Pour un projet comme Kora, déjà branché sur Supabase :
