@@ -1,6 +1,6 @@
 # Méthode — Comment aborder un projet, du début à la fin
 
-> Trame réutilisable pour tout projet (Chatllow, Kora, e-commerce, Vivier IA...), construite à partir de la méthode enseignée dans le Module 1 d'Entrepreneur Académie (voir `livrables/ecole/2026-09_entrepreneur-academie-module-1/`) et des projets réels déjà menés dans ce workspace.
+> Trame réutilisable pour tout projet (Chatllow, Kora, e-commerce, Vivier IA...), construite à partir de la méthode enseignée dans le Module 1 (Écosystème Claude, voir `livrables/ecole/2026-09_entrepreneur-academie-module-1/`) et le Module 2 (n8n, voir `livrables/ecole/2026-09_vivier-ia-module-2-n8n/`), ainsi que des projets réels déjà menés dans ce workspace.
 
 ## Le pipeline générique
 
@@ -35,9 +35,14 @@
 
 ### Automatisation (n8n / workflow)
 
+- Étape 1 : identifier précisément l'événement déclencheur réel (Webhook, Schedule, App Trigger) avant de choisir un trigger pour la facilité de configuration plutôt que pour la justesse (Module 2, section 1)
+- Étape 2 généralement absente, sauf si le workflow devient un produit à part entière
 - Étape 3 remplacée par un schéma du flux (déclencheurs, étapes, sorties), pas une maquette visuelle
-- Étape 5 : Claude Code et n8n séparés par responsabilité (produit vs plomberie entre systèmes), tester chaque nœud avant d'enchaîner le suivant
-- Étape 7 : documentation du flux et point de contact si ça casse, plus important que pour un produit visible
+- Étape 4 : le CLAUDE.md se double d'une documentation directement sur le canevas (sticky notes), et de credentials centralisées et nommées clairement, pas dispersées dans chaque nœud (Module 2, sections 1 et 7)
+- Étape 5 : Claude Code et n8n séparés par responsabilité (produit vs plomberie entre systèmes). Tester chaque nœud avant d'enchaîner le suivant. Pour une logique qui demande du jugement contextuel plutôt qu'une règle fixe, un nœud IA spécialisé ou un agent routeur plutôt qu'un agent généraliste qui fait tout (Module 2, sections 3 et 4)
+- Étape 6 : tester avec des données de test réalistes et imparfaites (données épinglées), pas seulement le cas le plus propre
+- Étape 7 : un Error Trigger qui prévient réellement d'un échec plutôt qu'un échec silencieux, documentation du flux et point de contact si ça casse. Si le workflow est critique ou à fort volume, sécuriser et rendre observable l'instance (HTTPS, health check, sauvegardes) avant la mise en service (Module 2, sections 2 et 5)
+- Étape 9 : un sous-workflow bien conçu (entrées typées, nommage descriptif) est directement l'équivalent n8n d'un starter réutilisable (Module 2, section 2)
 
 ### Audit / conseil IA (mission Chatllow)
 
