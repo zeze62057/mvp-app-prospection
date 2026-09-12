@@ -60,7 +60,9 @@ Concrètement, Claude Code peut aider à structurer un suivi de facturation coh�
 
 ### Une application directe à ta situation
 
-Pour une activité comme la tienne, avec plusieurs lignes de revenus en parallèle (Chatllow, Vivier IA, Longrich), ce chapitre est directement applicable, pas juste théorique : centraliser le suivi de chaque activité, plutôt que de gérer chacune séparément dans des outils différents et déconnectés, évite les angles morts (une activité qui décroche sans que tu t'en rendes compte à temps) et fait gagner un temps de pilotage précieux qui peut être réinvesti dans la production ou la prospection.
+Ton activité a plusieurs lignes de revenus en parallèle : Chatllow, Vivier IA, Longrich. Ce chapitre ne reste donc pas théorique pour toi, il s'applique directement.
+
+Aujourd'hui, si chaque activité est suivie séparément dans des outils différents, tu risques un angle mort : une activité qui décroche sans que tu t'en rendes compte à temps. En centralisant le suivi des trois dans un seul système piloté par Claude Code, tu élimines ce risque, et tu gagnes du temps de pilotage que tu peux réinvestir dans la production ou la prospection.
 
 **Points clés**
 - Claude Code peut structurer suivi comptable, processus répétables, et tableaux de KPIs
