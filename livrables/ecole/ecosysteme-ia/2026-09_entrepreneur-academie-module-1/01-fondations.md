@@ -29,6 +29,17 @@ Claude Code ne remplace pas le jugement. Il exécute bien ce qu'on lui demande b
 
 Un audit IA pour un client immobilier, comme les starters `2026-09_generateur-audit-ia-immobilier` construits dans ce workspace, illustre bien ce basculement. Avant, ce projet aurait demandé un développeur, un chef de projet, plusieurs semaines de travail. Avec Claude Code, une seule personne cadre l'audit, décide quelles questions poser, quel rapport produire, écrit une instruction claire, valide chaque étape, et livre un outil fonctionnel en quelques jours. Le travail ne disparaît pas, il change de nature : moins de syntaxe à écrire, plus de jugement sur ce qu'il faut construire et vérifier.
 
+### Installation pratique
+
+Claude Code s'installe en ligne de commande. Deux prérequis avant de commencer :
+
+1. **Node.js installé** (version 18 ou plus récente). Vérifie avec `node --version` dans un terminal. S'il n'est pas installé, télécharge-le sur nodejs.org (choisir la version "LTS").
+2. Une fois Node.js présent, installe Claude Code avec : `npm install -g @anthropic-ai/claude-code`
+3. Lance-le en tapant `claude` dans un terminal, à l'intérieur du dossier de ton projet.
+4. À la première utilisation, une connexion à ton compte Anthropic (ou Claude Pro/Max) est demandée, suis les instructions affichées à l'écran.
+
+Ces étapes sont identiques sur Windows, Mac et Linux, tant que Node.js est présent. Si `node` ou `npx` restent introuvables après l'installation, le problème vient presque toujours du PATH système qui n'a pas été mis à jour : redémarrer le terminal (ou l'ordinateur) résout la majorité des cas.
+
 ### Pourquoi ce chapitre ouvre le module
 
 Ce chapitre n'enseigne encore aucun outil. Son rôle est de repositionner mentalement l'apprenant avant de toucher quoi que ce soit : on ne vient pas ici "apprendre à coder", on vient apprendre à diriger un agent qui code. Si un apprenant garde le réflexe de vouloir tout comprendre ligne par ligne comme un développeur classique, il va se fatiguer inutilement et sous-exploiter l'outil.
@@ -54,6 +65,12 @@ La bonne pratique de débutant : garde les deux ouverts en parallèle. Le termin
 
 Sur ce workspace précisément, le terminal est l'endroit où tu tapes `/prime` en début de session, et où Claude Code répond "je vais lire CLAUDE.md et te faire un résumé de ta situation". L'IDE, lui, sert à vérifier visuellement qu'un fichier comme `04-quotidien.md` a bien été modifié comme demandé, en ouvrant directement la ligne concernée, sans avoir à tout relire dans le terminal.
 
+### Installation pratique
+
+1. Télécharge et installe Visual Studio Code (VS Code) sur code.visualstudio.com, gratuit, disponible sur Windows, Mac et Linux.
+2. Ouvre le terminal intégré directement dans VS Code : menu Terminal, puis "New Terminal" (raccourci Ctrl+\` sur Windows/Linux, Cmd+\` sur Mac).
+3. Installe l'extension "Claude Code" pour VS Code (onglet Extensions, recherche "Claude Code") si tu veux voir les fichiers modifiés directement dans l'éditeur, en plus du terminal.
+
 **Points clés**
 - Terminal = canal de conversation et d'action avec l'agent
 - IDE = fenêtre d'inspection visuelle du projet
@@ -78,6 +95,25 @@ Claude Code peut lui-même proposer et exécuter des commits pour toi, mais la v
 
 C'est exactement le fonctionnement du Slash Command `/commit` de ce workspace : avant chaque commit, une vérification qu'aucun fichier sensible comme `.env` n'est inclus, un message clair qui explique le pourquoi, et jamais de push sans validation explicite de ta part. Le jour où une modification casse un fichier important, revenir à la version d'avant prend quelques secondes grâce à cet historique, plutôt que de tout reconstruire de mémoire.
 
+### Installation pratique
+
+**Installer Git**
+- Windows : télécharge l'installateur sur git-scm.com, lance-le, garde les options par défaut proposées.
+- Mac : tape `git --version` dans un terminal, macOS propose d'installer les outils en ligne de commande si Git n'est pas déjà présent.
+- Linux (Debian/Ubuntu) : `sudo apt install git`
+
+**Configurer Git une seule fois, juste après l'installation**
+```
+git config --global user.name "Ton Nom"
+git config --global user.email "ton.email@exemple.com"
+```
+
+**Créer un compte GitHub et connecter ton premier projet**
+1. Crée un compte gratuit sur github.com.
+2. Crée un nouveau dépôt (repository) vide depuis le site.
+3. Depuis ton projet en local, connecte-le à ce dépôt distant et pousse ton premier commit (Claude Code peut faire cette partie techniquement pour toi, avec `/commit` puis `git push`, une fois le dépôt créé).
+4. Pour s'authentifier, GitHub demande un jeton d'accès personnel plutôt qu'un mot de passe classique (Settings, puis Developer settings, puis Personal access tokens).
+
 **Points clés**
 - Git garde un historique réversible du projet
 - GitHub héberge et sécurise cet historique en ligne
@@ -100,6 +136,18 @@ Le choix entre les deux dépend du projet : Vercel pour la rapidité et la simpl
 Un site vitrine pour Vivier IA, principalement statique, avec un déploiement automatique à chaque push GitHub, est un bon candidat pour Vercel. À l'inverse, un backend n8n auto-hébergé, comme celui utilisé dans le Module 2, a plutôt sa place sur OVH, qui donne le contrôle serveur nécessaire pour ce type d'infrastructure (installation Docker, gestion des workers, stockage des données).
 
 Ce chapitre est aussi le moment où l'apprenant comprend qu'un projet n'est "livré" que lorsqu'il est en ligne et accessible, pas seulement quand le code fonctionne en local sur sa machine.
+
+### Installation pratique
+
+**Déployer sur Vercel**
+1. Crée un compte gratuit sur vercel.com, idéalement en te connectant directement avec ton compte GitHub.
+2. Depuis le tableau de bord, clique sur "Add New Project" et choisis le dépôt GitHub du projet à déployer.
+3. Vercel détecte automatiquement la plupart des projets web et propose une configuration par défaut, valide-la.
+4. Chaque nouveau `git push` sur la branche principale redéploie automatiquement le site, sans action manuelle supplémentaire.
+
+**Créer un compte OVH**
+1. Crée un compte sur ovh.com.
+2. Choisis l'offre adaptée au besoin réel : un hébergement web mutualisé pour un site simple, un VPS (serveur privé virtuel) si le projet a besoin d'un backend auto-hébergé comme n8n (l'installation complète d'un n8n de production sur un VPS est couverte au Module 2, section 5).
 
 **Points clés**
 - Vercel : rapide, automatisé, adapté aux projets web standards

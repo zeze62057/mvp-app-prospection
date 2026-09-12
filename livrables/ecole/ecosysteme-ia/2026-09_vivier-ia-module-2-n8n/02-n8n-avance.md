@@ -20,6 +20,14 @@ L'authentification mal configurée est la cause la plus fréquente d'un HTTP Req
 
 Avant de brancher un HTTP Request sur une liste de cent éléments, le tester sur un seul appel isolé : ça confirme que l'authentification, l'URL et la structure de réponse sont correctes, avant de multiplier les appels et de rendre le diagnostic d'une erreur beaucoup plus difficile à isoler.
 
+### Installation pratique
+
+Pour s'entraîner sans dépendre d'un vrai compte ou d'une vraie clé API, deux services publics gratuits, sans inscription, servent justement à ça :
+- `https://jsonplaceholder.typicode.com/users` : renvoie une liste de faux utilisateurs, utile pour pratiquer la lecture et la transformation de données.
+- `https://httpbin.org/post` : renvoie exactement ce qu'on lui envoie, utile pour vérifier qu'un corps de requête ou des en-têtes sont bien formés avant de les pointer vers une vraie API.
+
+Ajoute un nœud HTTP Request, méthode GET, colle une de ces URLs, exécute le nœud : le résultat s'affiche directement dans n8n, sans configuration d'authentification à gérer pour ce premier essai.
+
 **Points clés**
 - HTTP Request débloque l'accès à n'importe quel service avec une API, même sans nœud dédié
 - Lire la documentation de l'API avant de configurer, pas deviner la structure attendue
@@ -123,6 +131,14 @@ Un Error Trigger relié à une notification (email, Slack, un message vers une �
 ### Distinguer une erreur transitoire d'une erreur de fond
 
 Avant d'activer un Retry automatique, se demander si l'échec a une chance réelle de se résoudre seul (un service tiers temporairement surchargé) ou s'il révèle un problème de fond (une mauvaise configuration, une donnée mal formée) qui se reproduira à l'identique. Retenter automatiquement une erreur de fond masque le problème plus qu'il ne le résout.
+
+### Installation pratique
+
+**Mettre en place un Error Trigger**
+1. Crée un nouveau workflow séparé, dédié aux erreurs (par exemple "Alertes erreurs Chatllow").
+2. Ajoute-y un nœud "Error Trigger" comme point de départ, suivi d'une action de notification (email, Slack).
+3. Dans le workflow à surveiller, ouvre "Settings" (les trois points en haut à droite), puis choisis ce workflow d'erreurs dans le champ "Error Workflow".
+4. Tout échec non rattrapé dans le workflow surveillé déclenche désormais automatiquement ce workflow d'alerte, sans rien connecter visuellement entre les deux.
 
 **Points clés**
 - Un échec silencieux coûte plus cher qu'un échec visible, rendre les erreurs visibles fait partie de la construction

@@ -18,6 +18,13 @@ Des outils comme Zapier ou Make font un travail proche, mais deux différences c
 
 Un workflow n8n a toujours la même structure logique : un déclencheur (ce qui démarre le workflow), une série de nœuds qui transforment ou transportent la donnée, et éventuellement une ou plusieurs sorties (une action finale, un résultat stocké). Comprendre un workflow déjà construit, c'est d'abord repérer ce triptyque avant de s'attarder sur le détail de chaque nœud.
 
+### Installation pratique
+
+Deux façons de commencer, selon le besoin :
+
+1. **n8n Cloud** (le plus simple pour démarrer) : crée un compte sur n8n.io, aucune installation, une instance prête en quelques minutes, payant au-delà de l'essai gratuit.
+2. **Tester en local, gratuitement** (nécessite Node.js, déjà installé au Module 1 pour Claude Code) : dans un terminal, `npx n8n` lance une instance n8n locale accessible sur `http://localhost:5678`. Pratique pour apprendre et tester un workflow, pas pour un usage réel avec de vrais clients (voir section 5 pour l'auto-hébergement sérieux, sur un serveur, avec Docker).
+
 ### Exemple concret
 
 Un workflow simple pour Chatllow : un formulaire de contact envoie une demande (le déclencheur), le workflow vérifie que l'email est valide et ajoute la date de réception (les nœuds intermédiaires), puis notifie l'équipe par email (la sortie). Trois étapes, aucun code écrit à la main.
@@ -47,6 +54,13 @@ Le Module 1 a insisté sur la vigilance nécessaire avec MCP : plus on connecte 
 
 Nommer chaque credential de façon explicite (le service et l'usage, pas juste "API Key 1"), limiter les permissions accordées au strict nécessaire quand le service le permet, et supprimer une credential dès qu'elle n'est plus utilisée par aucun workflow actif, plutôt que de la laisser traîner indéfiniment.
 
+### Installation pratique
+
+1. Dans n8n, ouvre le menu "Credentials" (barre latérale gauche), puis "Add Credential".
+2. Cherche le service voulu dans la liste (Gmail, Slack, OpenAI, HTTP Header Auth pour une API générique, etc.).
+3. Selon le service, deux cas courants : coller directement une clé API (récupérée sur le site du service), ou suivre un flux OAuth qui ouvre une fenêtre de connexion au service (cas de Gmail ou Google Sheets par exemple).
+4. Nomme la credential clairement avant d'enregistrer (le service et l'usage, comme vu ci-dessus), puis elle apparaît disponible dans le sélecteur de credential de n'importe quel nœud compatible.
+
 ### Exemple concret
 
 Le workflow de qualification commerciale de Chatllow (vu en détail au chapitre 6 de la section suivante) utilise une seule credential Gmail, nommée "Gmail - Notifications Chatllow", réutilisée par tous les workflows qui envoient une alerte à l'équipe. Si ce compte Gmail change un jour, une seule mise à jour suffit, plutôt que de corriger chaque workflow un par un.
@@ -71,6 +85,17 @@ Tout workflow n8n commence par un trigger : le nœud qui répond à la question 
 ### Choisir le bon trigger, pas le plus pratique à configurer
 
 Le réflexe à éviter : choisir un trigger parce qu'il est facile à mettre en place, plutôt que parce qu'il correspond réellement à l'événement déclencheur du besoin. Un Schedule toutes les 5 minutes pour simuler une réaction "en temps réel" à un webhook qu'on n'a pas pris le temps de configurer correctement est un choix qui coûte cher en complexité cachée (latence, appels inutiles) sur la durée.
+
+### Installation pratique
+
+**Tester un Webhook sans rien construire côté client**
+1. Ajoute un nœud Webhook, note l'URL de test qu'il affiche (l'URL de production est différente et n'apparaît qu'une fois le workflow activé).
+2. Clique sur "Listen for test event" dans n8n.
+3. Depuis un terminal, envoie une requête de test vers cette URL : `curl -X POST <url-du-webhook> -H "Content-Type: application/json" -d "{\"nom\": \"Test\"}"`.
+4. n8n affiche la donnée reçue directement dans l'éditeur, ce qui confirme que le trigger fonctionne avant même de construire la suite du workflow.
+
+**Configurer un Schedule**
+Le nœud Schedule Trigger propose des intervalles courants en clic (toutes les heures, chaque jour à une heure précise), ou une expression cron classique pour un besoin plus spécifique, par exemple `0 9 * * 1` pour "chaque lundi à 9h".
 
 ### Exemple concret
 

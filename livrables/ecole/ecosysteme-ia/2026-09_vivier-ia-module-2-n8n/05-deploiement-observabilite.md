@@ -16,6 +16,26 @@ En développement, une configuration permissive (pas de HTTPS, accès ouvert) ac
 
 Le même principe que le Module 1 sur la différence entre prototyper et produire : un environnement de développement rapide à itérer et un environnement de production durci ne sont pas la même chose, et confondre les deux expose inutilement un système réel.
 
+### Installation pratique
+
+**Installer Docker**
+- Windows et Mac : télécharge Docker Desktop sur docker.com, installe comme une application classique.
+- Linux : `curl -fsSL https://get.docker.com | sh` (script d'installation officiel), ou le gestionnaire de paquets de la distribution utilisée.
+
+**Aller plus loin : déployer n8n en production sur un serveur**
+La mise en place complète (Docker Compose, HTTPS automatique via un reverse proxy, mode queue avec plusieurs workers si le volume le justifie) est un sujet à part entière, au-delà de ce chapitre d'introduction. Un guide pas à pas existe pour déployer n8n proprement sur un VPS (OVH ou équivalent), demande-le explicitement le moment venu plutôt que d'improviser une configuration de production sans checklist.
+
+### La méthode Hostinger, retour d'expérience de Zézé
+
+Voici comment Zézé a lui-même installé son premier serveur n8n, chez l'hébergeur Hostinger, sans passer par une configuration Docker manuelle :
+
+1. **Créer un VPS chez Hostinger.** Choisir une offre VPS (serveur privé virtuel), pas un hébergement mutualisé classique : n8n a besoin de tourner en continu comme une application, ce qu'un hébergement mutualisé ne permet pas.
+2. **Utiliser l'installateur en un clic.** Hostinger propose, dans son catalogue d'applications pour VPS, une installation automatique de n8n : Docker et n8n sont alors installés et configurés à la place de l'apprenant, sans ligne de commande à taper. C'est le chemin le plus rapide pour un premier serveur, au prix de moins de contrôle fin sur la configuration que la méthode Docker Compose manuelle vue plus haut.
+3. **Accéder à l'instance.** Une fois l'installation terminée, n8n est accessible via l'adresse IP du VPS (généralement suivie d'un numéro de port), avant même qu'un nom de domaine soit connecté.
+4. **Connecter un nom de domaine et activer le HTTPS** (étape que Zézé n'a pas encore faite au moment de la rédaction de ce chapitre, mais qui reste la suite logique) : dans le gestionnaire DNS du domaine, créer un enregistrement de type A qui pointe vers l'adresse IP du VPS, puis, une fois la propagation DNS effective, utiliser le nom de domaine plutôt que l'IP pour accéder à n8n. Un certificat HTTPS peut ensuite être activé, soit via un outil intégré à Hostinger s'il en propose un pour les VPS, soit avec un reverse proxy comme Caddy (qui gère le HTTPS automatiquement). Après ce changement, penser à mettre à jour les variables d'environnement de n8n concernées (l'URL de base de l'éditeur et l'URL des webhooks), sans quoi les webhooks continuent de pointer vers l'ancienne adresse IP.
+
+**Points de vigilance pour un premier déploiement**, notamment quand c'est une découverte de l'outil comme ce fut le cas ici : vérifier que le pare-feu du VPS autorise bien le port utilisé par n8n (ou les ports 80/443 si un reverse proxy est en place), et ne pas confondre la mise à jour de n8n proposée par l'installateur en un clic avec une mise à jour manuelle d'un conteneur Docker (les deux méthodes gèrent les versions différemment, mélanger les deux peut casser l'installation). L'interface exacte de Hostinger évolue avec le temps : les noms précis des menus peuvent changer, chercher l'option équivalente plutôt que suivre une capture d'écran figée.
+
 ### Exemple concret
 
 Un backend n8n construit pour un client Chatllow tourne d'abord en local, avec des credentials de test et un accès ouvert, pendant la phase de construction. Avant la mise en service réelle, cette même instance est redéployée sur OVH via Docker, avec HTTPS activé et les vraies credentials injectées en variables d'environnement, jamais copiées dans le code.
@@ -66,6 +86,15 @@ Une instance n8n unique traite ses exécutions une à la fois (ou avec un parall
 
 Le mode "queue" sépare l'instance principale (qui reçoit les déclencheurs) des workers (qui exécutent réellement les workflows), avec une file d'attente entre les deux. Ajouter des workers permet de traiter plus d'exécutions en parallèle, sans changer la logique des workflows eux-mêmes. C'est un changement d'infrastructure, pas un changement de construction.
 
+### Installation pratique
+
+**Exporter une sauvegarde des workflows et credentials en ligne de commande**
+```
+n8n export:workflow --all --output=backup-workflows.json
+n8n export:credentials --all --output=backup-credentials.json
+```
+Ces commandes s'exécutent depuis l'instance n8n elle-même (en local ou sur le serveur), et produisent des fichiers à conserver ailleurs que sur ce même serveur (stockage externe, autre machine), pour qu'une panne du serveur n'emporte pas aussi la sauvegarde.
+
 ### Exemple concret
 
 Si Vivier IA grandit et que des centaines d'apprenants déclenchent chaque jour des automatisations (confirmation d'inscription, rappel de session, suivi de progression), une seule instance n8n commence à prendre du retard aux heures de pointe. Passer en mode queue avec 2 ou 3 workers absorbe ce pic, sans changer un seul workflow existant.
@@ -90,6 +119,14 @@ Sans Redis (mode simple, une seule instance), chaque déclenchement attend son t
 ### Quand cette optimisation devient pertinente
 
 Comme pour le mode queue en général, Redis n'apporte un bénéfice réel qu'à partir d'un volume d'exécutions qui justifie cette complexité supplémentaire. Mettre en place Redis et plusieurs workers pour un usage à faible volume ajoute de la complexité d'infrastructure sans bénéfice mesurable, l'inverse du principe de ne pas sur-construire vu en Module 1.
+
+### Installation pratique
+
+Pour tester rapidement Redis en local avant de l'intégrer à une configuration Docker Compose complète :
+```
+docker run -p 6379:6379 redis
+```
+En production, Redis rejoint le même fichier `docker-compose.yml` que n8n et ses workers, ce n'est pas un service séparé à gérer indépendamment.
 
 **Points clés**
 - Redis porte la file d'attente des exécutions entre l'instance principale et les workers

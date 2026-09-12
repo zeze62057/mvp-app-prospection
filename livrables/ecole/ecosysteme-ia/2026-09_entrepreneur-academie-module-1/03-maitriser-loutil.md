@@ -41,6 +41,10 @@ CLAUDE.md est un fichier que Claude Code lit automatiquement au début de chaque
 
 Ce qu'on y met en général : qui est l'utilisateur ou le client, quel est l'objectif du projet, quelles conventions de code ou de style suivre, quelles zones du projet sont sensibles et ne doivent pas être modifiées sans validation explicite, et comment le projet est structuré dans ses grandes lignes. Ce workspace en est lui-même un exemple concret : son CLAUDE.md définit qui est Zézé, comment communiquer avec lui, et où se trouvent les différents types de contenu.
 
+### Installation pratique
+
+Crée un fichier texte nommé `CLAUDE.md` à la racine du projet (n'importe quel éditeur suffit, y compris VS Code). Aucune configuration supplémentaire n'est nécessaire : Claude Code le détecte et le lit automatiquement au démarrage de chaque session sur ce projet, dès qu'il existe à cet emplacement précis.
+
 ### Exemple concret
 
 Le CLAUDE.md de ce workspace a dû être suivi d'une mise à jour du contenu déjà produit quand l'école a changé de nom, "Entrepreneur Académie" devenu "Vivier IA" le 12 septembre 2026. Sans relecture des fichiers existants après ce changement, Claude Code aurait continué à utiliser l'ancien nom dans tout nouveau contenu produit, exactement le problème repéré et corrigé dans les fiches de ce Module 1. Un CLAUDE.md à jour ne suffit pas seul, il faut aussi vérifier que le contenu déjà écrit suit le changement.
@@ -82,6 +86,14 @@ Un Skill est plus large qu'une commande : c'est un ensemble d'instructions et de
 
 La différence à retenir : la commande automatise un geste précis et répétitif, le skill encapsule un savoir-faire plus large qui demande encore un peu de jugement contextuel. Si la tâche est toujours identique, une commande suffit. Si la tâche demande d'adapter une méthode à chaque situation, un skill est plus approprié.
 
+### Installation pratique
+
+**Créer un Slash Command**
+Crée un fichier `.claude/commands/nom-de-la-commande.md` à la racine du projet, avec les instructions à exécuter en texte normal (Markdown). La commande devient disponible en tapant `/nom-de-la-commande` dans une session Claude Code, aucune autre configuration n'est nécessaire.
+
+**Créer un Skill**
+Crée un dossier `.claude/skills/nom-du-skill/`, avec un fichier `SKILL.md` dedans, qui commence par un en-tête (front matter) précisant au minimum un `name` et une `description` claire (c'est cette description qui permet à Claude Code de savoir quand mobiliser ce skill automatiquement). Le reste du fichier contient les instructions et connaissances du skill, en texte normal.
+
 **Points clés**
 - Slash Command : raccourci pour une séquence d'actions précise et toujours identique
 - Skill : savoir-faire mobilisable, avec du jugement contextuel, déclenché automatiquement ou sur demande
@@ -102,6 +114,21 @@ MCP est le mécanisme qui permet à Claude Code de se connecter à des outils et
 ### Exemple concret tiré de ce workspace
 
 C'est ce qui permet des cas d'usage comme ceux mis en place récemment dans ce workspace : un agent qui rédige des posts LinkedIn et les enregistre directement dans une base Notion, puis un second agent qui génère un visuel via Canva et l'attache à la bonne page, sans aucune intervention manuelle de copier-coller entre systèmes. Sans MCP, chacune de ces étapes aurait demandé un aller-retour manuel entre plusieurs outils ouverts séparément.
+
+### Installation pratique
+
+Un serveur MCP se déclare dans un fichier `.mcp.json` à la racine du projet, par exemple :
+```json
+{
+  "mcpServers": {
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest"]
+    }
+  }
+}
+```
+Ce fichier suffit : au prochain démarrage de Claude Code sur ce projet, une autorisation de connexion est demandée, puis les outils du serveur deviennent disponibles. C'est exactement ce qui a été fait dans ce workspace pour connecter Playwright (chapitre 3 de la section 5), avec une précision utile pour Windows sans Node.js déjà installé : `npx` doit être accessible dans le PATH système, sinon la connexion échoue par timeout au démarrage plutôt que par une erreur claire.
 
 ### Le point de vigilance qui grandit avec chaque connexion
 
@@ -125,6 +152,10 @@ Les hooks sont des règles automatiques qui se déclenchent à des moments préc
 Un hook permet, par exemple, de forcer une vérification systématique avant tout commit Git, d'empêcher certaines actions dans certains dossiers particulièrement sensibles (comme un dossier contenant des clés d'API), ou de déclencher une notification quand une tâche longue se termine en arrière-plan. Chacun de ces cas répond à un besoin de fiabilité qu'on ne veut plus laisser dépendre de la vigilance humaine du moment.
 
 Un hook qui bloque toute modification directe du fichier `.env` répond exactement à ce principe : plutôt que de compter sur la vigilance de chaque session pour ne jamais toucher aux clés d'API, la règle s'applique systématiquement, même un jour de fatigue ou d'inattention.
+
+### Installation pratique
+
+Les hooks se configurent dans un fichier `settings.json` (`.claude/settings.json` pour tout le projet, ou `.claude/settings.local.json` pour une configuration personnelle non partagée), sous une clé `hooks`, avec le moment de déclenchement (par exemple `PreToolUse`, avant qu'un outil s'exécute) et la commande à lancer à ce moment précis. La syntaxe exacte demande un peu de rigueur : plutôt que de l'écrire à la main dès la première fois, demander à Claude Code de la configurer directement selon le comportement souhaité reste le chemin le plus fiable.
 
 ### Un mécanisme à introduire au bon moment
 

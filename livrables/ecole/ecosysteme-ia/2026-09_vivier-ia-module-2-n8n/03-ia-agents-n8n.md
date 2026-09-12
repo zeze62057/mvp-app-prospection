@@ -33,6 +33,18 @@ La sensibilité des données pèse lourd : une donnée qui ne doit jamais sortir
 
 Le choix n'est pas binaire pour l'ensemble d'un projet : un même système n8n peut utiliser un modèle cloud pour une tâche qui demande de la qualité (rédaction, jugement fin) et un modèle local pour une tâche répétitive à très grand volume (classification simple), selon ce que chaque nœud IA du workflow demande réellement.
 
+### Installation pratique
+
+**Ajouter un modèle cloud (Claude, GPT) comme credential n8n**
+1. Crée une clé API sur le site du fournisseur : console.anthropic.com pour Claude, platform.openai.com pour GPT.
+2. Dans n8n, va dans Credentials, puis "Add Credential", choisis le type correspondant (Anthropic, OpenAI...), colle la clé.
+3. Cette credential devient réutilisable dans n'importe quel nœud IA du workflow, exactement comme vu en section 1 pour les credentials classiques.
+
+**Installer un modèle local avec Ollama**
+1. Télécharge Ollama sur ollama.com (Windows, Mac, Linux).
+2. Une fois installé, télécharge un modèle avec par exemple `ollama pull llama3`.
+3. Dans n8n, le nœud de modèle Ollama se connecte par défaut à `http://localhost:11434`, à ajuster si Ollama tourne sur une autre machine que n8n (par exemple un VPS pour n8n et un poste local pour Ollama).
+
 **Points clés**
 - Cloud : pas d'infrastructure à gérer, facturé à l'usage. Local : infrastructure à maintenir, coût fixe
 - Sensibilité des données, volume, budget, latence : les critères qui orientent le choix
@@ -158,6 +170,14 @@ Un modèle IA ne connaît que ce qui tient dans son prompt à un instant donné,
 ### Ce qui distingue un bon RAG d'un RAG médiocre
 
 Un RAG mal construit renvoie des morceaux de documents hors sujet, qui polluent la réponse finale plutôt que de l'améliorer. Un bon chunking (qui respecte les limites naturelles du contenu, pas une coupure arbitraire tous les 500 caractères) et une recherche bien réglée font l'essentiel de la différence, plus que le choix du modèle de génération final.
+
+### Installation pratique
+
+**Installer Qdrant (base vectorielle) pour tester en local**
+```
+docker run -p 6333:6333 qdrant/qdrant
+```
+Cette commande lance une instance Qdrant accessible sur `http://localhost:6333`, suffisante pour apprendre et construire un premier RAG. Pour un usage réel avec de vrais clients, Qdrant Cloud (compte sur cloud.qdrant.io) évite de gérer soi-même l'infrastructure, ou un déploiement Docker durable sur le même serveur que n8n (voir section 5).
 
 **Points clés**
 - Le RAG va chercher l'information pertinente au moment de la question, plutôt que de tout mettre dans le prompt à l'avance
