@@ -151,35 +151,41 @@ peux la retrouver, n'invente pas une nouvelle identité visuelle sans me
 le signaler.
 ```
 
-### Cas réel — générer le support PPTX du Module 1
+### Cas réel — générer le support de présentation du Module 1 (hors MCP)
 
-Autre usage réel de Canva via MCP : produire un support de présentation professionnel pour animer une session de formation, à partir d'un cours déjà rédigé en Markdown, plutôt que de reconstruire les slides à la main.
+Ce cas n'utilise pas MCP mais la skill Claude Design, à noter puisque tous les autres exemples de ce chapitre passent par MCP. Objectif : produire un support de présentation professionnel pour animer une session de formation, à partir d'un cours déjà rédigé en Markdown, plutôt que de reconstruire les slides à la main.
 ```
-Contexte : le contenu complet du Module 1 (Écosystème Claude) d'Entrepreneur
-Académie est déjà rédigé dans livrables/ecole/2026-09_entrepreneur-
-academie-module-1/ (fichiers 01-fondations.md à 07-hacks-bonus.md, plus
-le README.md). Aucune charte graphique officielle d'Entrepreneur Académie
-n'existe encore dans ce workspace.
+Crée-moi dans Claude Design un canvas de présentation au format 16:9, un
+artboard par slide, à partir du contenu déjà rédigé dans
+livrables/ecole/2026-09_entrepreneur-academie-module-1/ (fichiers
+01-fondations.md à 07-hacks-bonus.md) : une slide de titre, une slide par
+section (7 au total) avec titre, 3 à 4 points clés maximum (pas le texte
+intégral des chapitres) et un exemple concret tiré du cours, puis une
+slide de synthèse finale.
 
-Objectif : générer via Canva un support de présentation professionnel et
-captivant pour animer une session de formation sur l'ensemble du Module
-1 : une slide de titre, une slide par section (7 au total) avec pour
-chaque section le titre, 3 à 4 points clés maximum (pas le texte intégral
-des chapitres), et un exemple concret tiré du cours, puis une slide de
-synthèse finale. Exporte le résultat en .pptx.
-
-Périmètre : le contenu vient uniquement des 7 fichiers du module, n'invente
-aucune information qui n'y figure pas. Vérifie d'abord s'il existe déjà
-un brand kit Canva pour Entrepreneur Académie ou Chatllow ; si non, choisis
-une charte sobre et professionnelle par défaut et signale-le-moi clairement
-plutôt que d'inventer une identité visuelle définitive.
-
-Autonomie : tu peux choisir la mise en page, les visuels et la structure
-slide par slide sans me demander à chaque fois, mais montre-moi le
-résultat avant l'export final en .pptx, je veux valider le contenu de
-chaque slide avant la version destinée à être présentée.
+Le contenu vient uniquement des 7 fichiers, n'invente rien. Utilise une
+charte sobre et professionnelle par défaut puisqu'aucune identité
+officielle de Vivier IA n'existe encore, et signale-le plutôt
+que de l'imposer comme définitive. Je veux relire et valider le canvas
+avant export final.
 ```
-Point de vigilance : comme pour tout contenu généré à partir d'un cours déjà écrit, la phase Validate compte ici aussi. Relis chaque slide générée pour vérifier qu'elle reflète bien les points clés du chapitre correspondant, plutôt que de supposer que la synthèse faite par l'agent est fidèle au texte d'origine.
+Point de vigilance : comme pour tout contenu généré à partir d'un cours déjà écrit, la phase Validate compte ici aussi. Relis chaque slide générée pour vérifier qu'elle reflète bien les points clés du chapitre correspondant, plutôt que de supposer que la synthèse faite par l'agent est fidèle au texte d'origine. Autre point à savoir : Claude Design exporte en PNG ou PDF, pas nécessairement en .pptx natif. Le résultat est un support prêt à projeter, pas forcément un fichier PowerPoint éditable, si un vrai .pptx modifiable est requis un script dédié (python-pptx) est une meilleure option.
+
+### Ajouter une illustration de marque en filigrane sur un canvas existant
+
+Une fois un canvas multi-slides construit, un besoin fréquent : une touche visuelle de marque discrète (un mascotte, un motif) répétée sur chaque slide, sans nuire à la lisibilité du texte.
+```
+Sur le canvas de présentation déjà créé, ajoute une petite illustration
+en ligne fine (pas une photo, pas un emoji) en fond de chaque slide, en
+bas à droite, très discrète (opacité faible, autour de 8%), pour ne
+jamais gêner la lecture du texte au premier plan.
+
+Garde un style cohérent avec le reste de la charte (même épaisseur de
+trait, même courbe de teintes) et adapte la couleur du trait selon que
+le fond de la slide est clair ou sombre, pour qu'elle reste visible sur
+les deux. Ne touche à rien d'autre sur les slides existantes.
+```
+Point de vigilance : sur un fond sombre, la même couleur de trait qu'un fond clair devient invisible, il faut explicitement prévoir une variante de couleur pour ce cas plutôt que de supposer que l'opacité seule suffit.
 
 ### Se connecter à une base de données
 
