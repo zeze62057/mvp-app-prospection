@@ -98,6 +98,8 @@ L'entourage et les premiers prospects perçoivent cette attitude bien avant qu'e
 
 Après le mindset des chapitres précédents, ce chapitre est le premier geste réellement opérationnel : établir la liste des personnes à qui parler de son activité ou de ses produits. C'est la matière première de tout le reste du parcours.
 
+> **Angle Go Pro** : ce chapitre correspond à la 1ère des 7 compétences essentielles du livre *Go Pro* d'Eric Worre, "Trouver des prospects". Worre insiste sur le même principe que ci-dessous : ce n'est pas une compétence qu'on maîtrise une fois pour toutes, c'est une habitude à exercer en continu.
+
 ### Pourquoi "renouvelée à l'infini" et pas une liste figée
 
 L'erreur classique de débutant est de faire une liste unique au départ, de l'épuiser, puis de se retrouver bloqué faute de nouveaux noms. Une liste vivante s'alimente en continu : chaque nouvelle rencontre, chaque nouvel événement de vie d'un contact existant, chaque nouvelle connexion sur les réseaux sociaux est une occasion d'ajouter un nom, sans jamais attendre d'avoir "fini" la liste.
@@ -159,6 +161,8 @@ Une mauvaise édification est vague ou exagérée ("c'est le meilleur, tu vas vo
 
 ## Chapitre 1.8 : Créer un puissant dossier de démarrage
 
+> **Angle Go Pro** : ce chapitre recoupe la 6ème des 7 compétences essentielles du livre *Go Pro* d'Eric Worre, "Aider les nouveaux distributeurs à bien démarrer". Worre insiste particulièrement sur les 48 premières heures, exactement le créneau central de ce dossier de démarrage.
+
 ### Le rôle de ce dossier pour un nouveau distributeur
 
 Un nouveau distributeur qui vient de s'inscrire se retrouve souvent démuni face à la quantité d'informations à absorber. Un dossier de démarrage bien construit répond à cette surcharge en présentant, dans l'ordre, uniquement ce qui est nécessaire pour poser les toutes premières actions, sans noyer la personne sous tout ce qu'elle apprendra plus tard.
@@ -219,10 +223,89 @@ Une grande partie de cet atelier pratique porte sur les objections les plus cour
 
 > **Angle IA** : ce chapitre est approfondi dans le module croisé, section 2, chapitre 3 ("Préparer ses réponses aux objections et son closing avec l'IA"), avec un principe central : l'IA prépare des réponses à l'entraînement, jamais un script à réciter mot pour mot en situation réelle.
 
+> **Angle Go Pro** : ce chapitre correspond à la 5ème des 7 compétences essentielles du livre *Go Pro* d'Eric Worre, "Aider les prospects à devenir clients ou distributeurs". Worre emploie rarement le mot "closing" lui-même, il préfère "aider à la décision", exactement l'esprit de ce chapitre.
+
 **Points clés**
 - Cet atelier met en pratique tous les chapitres précédents de la Partie I ensemble
 - Closer, c'est accompagner vers une décision claire, pas forcer un "oui"
 - Traiter une objection commence par l'écouter et la reformuler, pas par répondre trop vite
+
+---
+
+## Chapitre 1.11 : Maîtriser l'art de l'invitation
+
+### Ce que l'invitation n'est pas
+
+Inviter n'est pas présenter. C'est une erreur fréquente de débutant que de vouloir tout expliquer du produit ou de l'opportunité dès l'invitation, alors que son seul but est d'obtenir un "oui" pour regarder quelque chose ensemble (une vidéo, un échange, un événement), pas de convaincre sur le fond à ce stade.
+
+### Les principes qui rendent une invitation efficace
+
+Une bonne invitation se formule avec une urgence authentique, pas fabriquée ("je pars dans deux jours et je voulais t'en parler avant", si c'est vrai), s'ouvre par un compliment sincère et spécifique à la personne, se pose sous forme de question plutôt que d'affirmation ("tu serais ouvert à regarder quelque chose qui pourrait t'intéresser ?"), et propose une alternative claire entre deux options plutôt qu'une question ouverte qui laisse la porte à un "non" immédiat et définitif.
+
+### Le lien avec les chapitres déjà vus
+
+Ce chapitre s'appuie directement sur le parrainage honnête du chapitre 1.6 (ne jamais promettre plus que ce que l'invitation permet de tenir) et sur les messages courts du chapitre 1.9, un des canaux les plus fréquents pour lancer une invitation aujourd'hui.
+
+> **Angle Go Pro** : ce chapitre correspond à la 2ème des 7 compétences essentielles du livre *Go Pro* d'Eric Worre, "Inviter". Worre la considère comme la compétence la plus sous-estimée du métier, alors qu'elle conditionne directement le volume de présentations réalisées.
+
+**Points clés**
+- Inviter obtient un "oui" pour regarder quelque chose, ce n'est pas encore présenter le fond
+- Urgence authentique, compliment sincère, question plutôt qu'affirmation, alternative claire : les quatre ingrédients d'une bonne invitation
+- Une invitation s'appuie sur l'honnêteté du parrainage et utilise souvent le canal des messages courts
+
+---
+
+## Chapitre 1.12 : Savoir présenter son produit et son opportunité
+
+### La seule question à laquelle une présentation doit répondre
+
+Un prospect qui a accepté l'invitation du chapitre précédent se pose une seule question pendant la présentation : "est-ce que ça peut m'aider, moi, concrètement ?". Une présentation qui s'attarde sur l'historique de l'entreprise ou des détails techniques sans jamais répondre à cette question perd le prospect, même si chaque information donnée est exacte.
+
+### Garder la présentation simple et duplicable
+
+Une présentation efficace reste assez simple pour qu'un nouveau distributeur, qui vient à peine de commencer, puisse la reproduire lui-même rapidement. Une présentation qui ne fonctionne que grâce au talent particulier ou à l'ancienneté de celui qui la délivre n'est pas duplicable, et freine donc la croissance de toute l'équipe plutôt que de l'accélérer.
+
+### Raconter plutôt qu'énumérer
+
+Une présentation qui raconte une histoire vraie (la sienne, ou celle d'un autre distributeur) marque davantage qu'une liste de caractéristiques ou d'arguments. Ce principe de storytelling sera approfondi à la Partie VI (chapitre 6.1), mais s'applique déjà concrètement à ce stade du parcours.
+
+### Les formats possibles
+
+Le home meeting du chapitre 2.6, le tête-à-tête, ou un outil digital (vidéo, support en ligne) sont autant de formats possibles pour la même présentation de fond, à adapter selon le contexte et la personne en face.
+
+> **Angle Go Pro** : ce chapitre correspond à la 3ème des 7 compétences essentielles du livre *Go Pro* d'Eric Worre, "Présenter". Worre recommande explicitement une présentation courte et simple plutôt qu'exhaustive, pour rester duplicable par n'importe quel nouveau distributeur.
+
+**Points clés**
+- Une présentation répond à une seule question réelle : est-ce que ça peut aider cette personne précise
+- Rester simple et duplicable compte plus qu'être complet ou impressionnant
+- Raconter une histoire vraie marque davantage qu'énumérer des arguments
+
+---
+
+## Chapitre 1.13 : Maîtriser le suivi (follow-up)
+
+### L'erreur la plus coûteuse du métier
+
+La majorité des décisions positives n'arrivent pas au premier contact, mais après plusieurs relances. Abandonner après un seul suivi sans réponse, ou pire ne faire aucun suivi du tout, est probablement l'erreur la plus coûteuse en marketing de réseau, bien plus que n'importe quelle maladresse dans une présentation.
+
+### Construire un système plutôt que compter sur sa mémoire
+
+Un bon suivi repose sur un système visible (un calendrier, une liste, un outil) qui indique qui recontacter et quand, plutôt que sur la mémoire du distributeur, qui oublie inévitablement des prospects au fil du temps, surtout quand leur nombre augmente.
+
+### Ce qu'un bon message de suivi contient
+
+Un suivi efficace n'est jamais un simple "tu as réfléchi ?", une question vague qui met une pression sans rien apporter de nouveau. Un bon suivi apporte un élément nouveau à chaque relance (une information complémentaire, une réponse à une objection soulevée la dernière fois, une actualité pertinente), pour donner une vraie raison de répondre plutôt qu'une simple relance de pression.
+
+### Le lien direct avec le closing
+
+Le suivi mène naturellement vers le closing du chapitre 1.10 : c'est souvent à la 3e, 4e, ou 5e relance qu'une décision claire se prend, pas nécessairement à la première conversation de présentation.
+
+> **Angle Go Pro** : ce chapitre correspond à la 4ème des 7 compétences essentielles du livre *Go Pro* d'Eric Worre, "Faire le suivi". Worre rappelle que la fortune se cache dans le suivi, une phrase reprise dans presque toute la littérature MLM depuis.
+
+**Points clés**
+- La plupart des décisions positives arrivent après plusieurs relances, pas au premier contact
+- Un système visible de suivi évite de compter sur une mémoire qui oublie inévitablement des prospects
+- Un bon suivi apporte toujours un élément nouveau, jamais une simple relance de pression
 
 ---
 
@@ -234,11 +317,13 @@ Une grande partie de cet atelier pratique porte sur les objections les plus cour
 3. Pourquoi la liste de noms doit-elle être "renouvelée à l'infini" plutôt que traitée comme une liste unique ?
 4. Qu'est-ce que l'édification, et pourquoi fonctionne-t-elle mieux qu'une auto-présentation ?
 5. Que doit contenir un dossier de démarrage, et que doit-il éviter de contenir ?
+6. Quelle est la différence entre inviter et présenter, selon les chapitres 1.11 et 1.12 ?
+7. Pourquoi l'abandon après un seul suivi sans réponse est-il une erreur particulièrement coûteuse ?
 
 ### Réflexion
-6. Écris une première ébauche de ton « Pourquoi », puis creuse-le au moins 3 fois avec la question "pourquoi c'est important", comme proposé au chapitre 1.1.
-7. Rédige un exemple d'édification précise et factuelle pour présenter un leader de ton équipe (réel ou fictif) avant une réunion.
-8. Reprends un message de prospection que tu as déjà envoyé. Identifie s'il respecte les trois piliers du chapitre 1.9 (personnalisation, concision, prochaine étape claire).
+8. Écris une première ébauche de ton « Pourquoi », puis creuse-le au moins 3 fois avec la question "pourquoi c'est important", comme proposé au chapitre 1.1.
+9. Rédige un exemple d'édification précise et factuelle pour présenter un leader de ton équipe (réel ou fictif) avant une réunion.
+10. Reprends un message de prospection que tu as déjà envoyé. Identifie s'il respecte les trois piliers du chapitre 1.9 (personnalisation, concision, prochaine étape claire).
 
 ### Éléments de correction (réservé à l'enseignant)
 - Q1 : le Pourquoi est une raison émotionnelle profonde derrière l'objectif, pas le chiffre lui-même
@@ -246,4 +331,6 @@ Une grande partie de cet atelier pratique porte sur les objections les plus cour
 - Q3 : parce qu'une liste figée finit par s'épuiser, une liste vivante s'alimente en continu à chaque nouvelle rencontre
 - Q4 : l'édification valorise une personne avant son intervention, une tierce présentation inspire plus confiance qu'une auto-présentation
 - Q5 : doit contenir les toutes premières actions, les contacts utiles, le rappel du Pourquoi, les bases du produit ; doit éviter de noyer la personne sous un programme complet de plusieurs mois
-- Q6/Q7/Q8 : pas de réponse unique, évaluer la profondeur et la sincérité de l'exercice
+- Q6 : inviter cherche seulement un "oui" pour regarder quelque chose, présenter répond à la question de fond "est-ce que ça peut m'aider"
+- Q7 : parce que la majorité des décisions positives arrivent après plusieurs relances, pas au premier contact ; abandonner tôt revient à perdre des prospects qui auraient dit oui plus tard
+- Q8/Q9/Q10 : pas de réponse unique, évaluer la profondeur et la sincérité de l'exercice

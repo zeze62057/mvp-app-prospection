@@ -6,8 +6,8 @@
 
 ## Sommaire
 
-1. [Partie I — Créer les bases du succès](01-partie-1-bases-du-succes.md) (10 chapitres)
-2. [Partie II — Développer une équipe incroyable](02-partie-2-developper-equipe.md) (10 chapitres)
+1. [Partie I — Créer les bases du succès](01-partie-1-bases-du-succes.md) (13 chapitres, dont 3 ajoutés d'après les 7 compétences du livre *Go Pro* d'Eric Worre)
+2. [Partie II — Développer une équipe incroyable](02-partie-2-developper-equipe.md) (11 chapitres, dont 1 ajouté d'après *Go Pro*)
 3. [Partie III — Passer de la théorie à la pratique](03-partie-3-theorie-a-la-pratique.md) (6 chapitres)
 4. [Partie IV — Leadership pratique en MLM](04-partie-4-leadership-pratique.md) (4 chapitres)
 5. [Partie V — Savoir guider et faire grandir ses équipes](05-partie-5-guider-faire-grandir.md) (4 chapitres)
@@ -15,7 +15,7 @@
 7. [Partie VII — Leadership & croissance](07-partie-7-leadership-croissance.md) (4 chapitres)
 8. [Partie VIII — Leadership de haut niveau](08-partie-8-leadership-haut-niveau.md) (4 chapitres)
 
-46 chapitres au total.
+50 chapitres au total (46 du programme source, plus 4 ajoutés le 12 septembre 2026 d'après les 7 compétences essentielles du livre *Go Pro* d'Eric Worre, repérées dans `context/HISTORY.md`).
 
 ## Statut
 

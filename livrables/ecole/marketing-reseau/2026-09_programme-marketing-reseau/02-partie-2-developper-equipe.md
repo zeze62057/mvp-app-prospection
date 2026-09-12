@@ -79,6 +79,8 @@ Un leader pressé par le nombre de personnes à accompagner tombe facilement dan
 
 > **Angle IA** : ce chapitre est approfondi dans le module croisé, section 3, chapitre 1 ("Suivre la progression de son équipe avec un outil IA"), avec un exemple concret déjà construit dans ce workspace : l'outil de suivi formation Longrich, qui donne au leader une vision claire de qui en est où, avant même d'ouvrir la conversation.
 
+> **Angle Go Pro** : ce chapitre recoupe aussi la 6ème des 7 compétences essentielles du livre *Go Pro* d'Eric Worre, "Aider les nouveaux distributeurs à bien démarrer", dans sa dimension durable : le dossier de démarrage (chapitre 1.8) pose les 48 premières heures, ce coaching individuel prend le relais pour les semaines suivantes.
+
 **Points clés**
 - Le coaching efficace s'adapte à la situation réelle de chaque personne, pas à un discours générique
 - Observer avec des faits concrets, écouter avant de proposer, accompagner vers une action précise
@@ -216,6 +218,29 @@ Cette pratique intensive et collective sert de transition directe vers la Partie
 
 ---
 
+## Chapitre 2.11 : Savoir promouvoir les événements
+
+### Pourquoi un événement vaut plus qu'une présentation individuelle
+
+Une réunion, une convention ou un lancement de produit réunit en un seul moment l'édification (chapitre 1.7), l'énergie de groupe déjà vue à l'atelier d'appel géant (chapitre 2.10), et une présentation portée par quelqu'un d'autre que le distributeur lui-même. Un prospect qui assiste à un événement bien préparé reçoit souvent plus de preuves sociales en une soirée qu'en plusieurs échanges individuels étalés sur des semaines.
+
+### Le rôle réel du distributeur autour de l'événement
+
+Le travail ne se limite pas à lancer une invitation une seule fois. Un distributeur efficace relance plusieurs fois avant la date (en s'appuyant sur les principes d'invitation du chapitre 1.11), confirme la présence la veille, et surtout accompagne physiquement ou virtuellement son invité le jour même plutôt que de le laisser découvrir seul un environnement inconnu.
+
+### L'erreur la plus fréquente : s'arrêter à la porte de sortie
+
+Beaucoup de distributeurs considèrent leur travail terminé une fois l'invité sorti de l'événement. C'est l'inverse : le suivi immédiat après l'événement (chapitre 1.13), pendant que l'enthousiasme est encore présent, capte une grande partie de la valeur que l'événement vient de créer. Un événement réussi mais sans suivi dans les jours qui suivent perd une large part de son impact réel.
+
+> **Angle Go Pro** : ce chapitre correspond à la 7ème et dernière des 7 compétences essentielles du livre *Go Pro* d'Eric Worre, "Promouvoir les événements". Worre la place en dernier dans sa liste, mais rappelle qu'elle démultiplie l'effet des 6 compétences précédentes plutôt que de s'y ajouter simplement.
+
+**Points clés**
+- Un événement concentre édification, énergie de groupe et présentation portée par un tiers
+- Le rôle du distributeur continue avant l'événement (relances) et pendant (accompagnement), pas seulement au moment de l'invitation
+- Le suivi immédiat après l'événement capte une grande partie de sa valeur, l'étape la plus souvent oubliée
+
+---
+
 ## Questions pour les apprenants
 
 ### Compréhension
@@ -223,14 +248,16 @@ Cette pratique intensive et collective sert de transition directe vers la Partie
 2. Que veut dire "rester en phase 1", et pourquoi le succès pousse-t-il parfois à s'en éloigner ?
 3. Explique le principe du taprooting et pourquoi il peut être plus efficace qu'une approche uniquement large.
 4. Quelle est la différence d'approche entre marché chaud et marché froid ?
+5. Pourquoi le suivi après un événement capte-t-il une grande partie de sa valeur, selon le chapitre 2.11 ?
 
 ### Réflexion
-5. Reprends ton plan journalier actuel (ou imagine-le). Identifie 2 ou 3 actions non négociables à fort impact que tu pourrais y fixer, selon le chapitre 2.2.
-6. Pense à un membre de ton équipe (réel ou fictif). Décris comment tu appliquerais les trois temps du coaching du chapitre 2.4 (observer, écouter, accompagner) à sa situation précise.
+6. Reprends ton plan journalier actuel (ou imagine-le). Identifie 2 ou 3 actions non négociables à fort impact que tu pourrais y fixer, selon le chapitre 2.2.
+7. Pense à un membre de ton équipe (réel ou fictif). Décris comment tu appliquerais les trois temps du coaching du chapitre 2.4 (observer, écouter, accompagner) à sa situation précise.
 
 ### Éléments de correction (réservé à l'enseignant)
 - Q1 : parce qu'aucune équipe ne se construit si le leader lui-même repousse les actions qui font avancer son activité, l'exemple précède la technique
 - Q2 : rester ancré dans les actions fondamentales et duplicables (parler, inviter, suivre, parrainer) ; le succès pousse à déléguer ou abandonner ces actions en pensant être "passé à autre chose"
 - Q3 : concentrer l'effort sur une ligne prometteuse pour développer un leader solide, plus efficace qu'une largeur superficielle sans suivi, qui reste fragile
 - Q4 : marché chaud = contacts déjà connus, approche par la relation existante ; marché froid = contacts sans lien préexistant, approche plus directe sur l'intention pour établir vite la confiance
-- Q5/Q6 : pas de réponse unique, évaluer la précision et l'applicabilité réelle de la réponse
+- Q5 : parce que l'enthousiasme de l'invité est au plus haut juste après l'événement ; sans suivi immédiat, cette énergie retombe et une grande partie de l'impact de l'événement se perd
+- Q6/Q7 : pas de réponse unique, évaluer la précision et l'applicabilité réelle de la réponse

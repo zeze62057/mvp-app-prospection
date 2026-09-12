@@ -36,6 +36,10 @@ Quand tu proposes une structure ou une priorisation, dis toujours pourquoi (quel
 
 Contrairement au premier programme (`programme-ecosysteme-ia`), celui-ci ne contenait aucun doublon et suit déjà une progression cohérente de bout en bout. L'ordre ci-dessous est donc celui du programme source, non retravaillé.
 
+## Note sur les ajouts Go Pro (Eric Worre)
+
+Le 12 septembre 2026, les 7 compétences essentielles du livre *Go Pro* d'Eric Worre ont été intégrées directement dans les parties existantes, plutôt qu'ajoutées comme une partie séparée. 3 compétences correspondaient déjà à un chapitre existant (marqués "Go Pro" ci-dessous) : trouver des prospects (1.5), aider à la décision/closing (1.10), aider les nouveaux à démarrer (1.8 et 2.4). Les 4 compétences sans équivalent clair ont été ajoutées comme nouveaux chapitres, en fin de partie pour ne renuméroter aucun chapitre existant : 1.11 (inviter), 1.12 (présenter), 1.13 (faire le suivi), 2.11 (promouvoir les événements). Le contenu rédigé de chacun cite explicitement cette source via un encart "Angle Go Pro".
+
 ---
 
 ## Partie I — Créer les bases du succès en marketing de réseau
@@ -43,24 +47,28 @@ Contrairement au premier programme (`programme-ecosysteme-ia`), celui-ci ne cont
 1.2 Comprendre l'industrie du MLM
 1.3 Développer l'état d'esprit du succès
 1.4 Adopter l'attitude d'un leader
-1.5 Créer une liste de noms renouvelée à l'infini
+1.5 Créer une liste de noms renouvelée à l'infini *(Go Pro : trouver des prospects)*
 1.6 Parrainez efficacement
 1.7 Comprendre l'importance de l'édification en MLM
-1.8 Créer un puissant dossier de démarrage
+1.8 Créer un puissant dossier de démarrage *(Go Pro : aider les nouveaux à démarrer)*
 1.9 Savoir utiliser les SMS et les messageries
-1.10 Atelier « Live » : Maîtriser l'art du closing
+1.10 Atelier « Live » : Maîtriser l'art du closing *(Go Pro : aider à la décision)*
+1.11 Maîtriser l'art de l'invitation *(Go Pro, ajouté le 12/09/2026)*
+1.12 Savoir présenter son produit et son opportunité *(Go Pro, ajouté le 12/09/2026)*
+1.13 Maîtriser le suivi, le follow-up *(Go Pro, ajouté le 12/09/2026)*
 
 ## Partie II — Développer une équipe incroyable
 2.1 Éradiquer la procrastination
 2.2 Élaborer un plan journalier de développement efficace
 2.3 Rester en phase 1
-2.4 Comment coacher efficacement ses équipes
+2.4 Comment coacher efficacement ses équipes *(Go Pro : aider les nouveaux à démarrer, dans la durée)*
 2.5 La clef est dans le taprooting
 2.6 Les clefs d'un home meeting réussi
 2.7 Savoir utiliser efficacement les réseaux sociaux
 2.8 Travailler et obtenir des résultats avec le marché froid
 2.9 Partir à la conquête d'une ville
 2.10 Passage à l'action : Atelier d'appel géant en « Live »
+2.11 Savoir promouvoir les événements *(Go Pro, ajouté le 12/09/2026)*
 
 ## Partie III — Passer de la théorie à la pratique
 3.1 Journée terrain : Communication & Street Marketing

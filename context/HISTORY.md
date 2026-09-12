@@ -9,6 +9,13 @@
 
 ## 2026-09-12
 
+### Intégration des 7 compétences de Go Pro (Eric Worre) au programme marketing de réseau
+
+- Décision : les 7 compétences essentielles du livre *Go Pro* d'Eric Worre ont été intégrées dans le programme marketing de réseau existant (`livrables/ecole/marketing-reseau/2026-09_programme-marketing-reseau/`), directement dans les parties existantes plutôt qu'en partie séparée
+- 3 compétences correspondaient déjà à un chapitre existant, simplement tagué "Angle Go Pro" : trouver des prospects (1.5), aider à la décision/closing (1.10), aider les nouveaux à démarrer (1.8, et 2.4 pour le suivi dans la durée)
+- 4 compétences sans équivalent clair ajoutées comme nouveaux chapitres en fin de partie concernée, pour ne renuméroter aucun chapitre existant : 1.11 (inviter), 1.12 (présenter), 1.13 (faire le suivi), 2.11 (promouvoir les événements)
+- Le programme passe de 46 à 50 chapitres. La table des matières du skill `programme-marketing-reseau` a été mise à jour en miroir du contenu réellement rédigé
+
 ### Choix du nom Vivier IA pour l'école (anciennement Entrepreneur Académie)
 
 - Décision : l'école de l'IA en francophonie s'appelle désormais **Vivier IA**, et non plus "Entrepreneur Académie"
