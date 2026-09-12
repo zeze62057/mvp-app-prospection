@@ -1,5 +1,7 @@
 # Section 6 — 💸 Le Business
 
+> Fiche pratique associée : [06-business-prompts.md](06-business-prompts.md), comment interpréter un rapport d'audit généré, choisir un pilote, et le transformer en mission vendue.
+
 ## Chapitre 1 : Préparer une livraison client (checklist, sécurité, handoff)
 
 ### Ce que "livrer" veut dire réellement
