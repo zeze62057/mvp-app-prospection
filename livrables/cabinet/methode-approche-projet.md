@@ -1,6 +1,6 @@
 # Méthode — Comment aborder un projet, du début à la fin
 
-> Trame réutilisable pour tout projet (Chatllow, Kora, e-commerce, Vivier IA...), construite à partir de la méthode enseignée dans le Module 1 (Écosystème Claude, voir `livrables/ecole/2026-09_entrepreneur-academie-module-1/`) et le Module 2 (n8n, voir `livrables/ecole/2026-09_vivier-ia-module-2-n8n/`), ainsi que des projets réels déjà menés dans ce workspace.
+> Trame réutilisable pour tout projet (Chatllow, Kora, e-commerce, Vivier IA...), construite à partir de la méthode enseignée dans le Module 1 (Écosystème Claude, voir `livrables/ecole/ecosysteme-ia/2026-09_entrepreneur-academie-module-1/`) et le Module 2 (n8n, voir `livrables/ecole/ecosysteme-ia/2026-09_vivier-ia-module-2-n8n/`), ainsi que des projets réels déjà menés dans ce workspace.
 
 ## Le pipeline générique
 

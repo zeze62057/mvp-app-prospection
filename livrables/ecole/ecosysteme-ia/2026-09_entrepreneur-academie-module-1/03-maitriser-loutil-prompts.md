@@ -157,7 +157,7 @@ Ce cas n'utilise pas MCP mais la skill Claude Design, à noter puisque tous les 
 ```
 Crée-moi dans Claude Design un canvas de présentation au format 16:9, un
 artboard par slide, à partir du contenu déjà rédigé dans
-livrables/ecole/2026-09_entrepreneur-academie-module-1/ (fichiers
+livrables/ecole/ecosysteme-ia/2026-09_entrepreneur-academie-module-1/ (fichiers
 01-fondations.md à 07-hacks-bonus.md) : une slide de titre, une slide par
 section (7 au total) avec titre, 3 à 4 points clés maximum (pas le texte
 intégral des chapitres) et un exemple concret tiré du cours, puis une

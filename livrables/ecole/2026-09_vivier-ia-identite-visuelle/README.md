@@ -40,4 +40,4 @@ Ces liens pointent vers des Artifacts Claude, privés par défaut. Si les liens 
 
 ## Statut
 
-Logo final validé par Zézé. Support Module 1 construit à partir de `livrables/ecole/2026-09_entrepreneur-academie-module-1/`, relu (balises, accents, palette, canvas.json) sans problème détecté. Pas encore décliné sur d'autres supports (site, réseaux sociaux).
+Logo final validé par Zézé. Support Module 1 construit à partir de `livrables/ecole/ecosysteme-ia/2026-09_entrepreneur-academie-module-1/`, relu (balises, accents, palette, canvas.json) sans problème détecté. Pas encore décliné sur d'autres supports (site, réseaux sociaux).
