@@ -16,6 +16,10 @@ En développement, une configuration permissive (pas de HTTPS, accès ouvert) ac
 
 Le même principe que le Module 1 sur la différence entre prototyper et produire : un environnement de développement rapide à itérer et un environnement de production durci ne sont pas la même chose, et confondre les deux expose inutilement un système réel.
 
+### Exemple concret
+
+Un backend n8n construit pour un client Chatllow tourne d'abord en local, avec des credentials de test et un accès ouvert, pendant la phase de construction. Avant la mise en service réelle, cette même instance est redéployée sur OVH via Docker, avec HTTPS activé et les vraies credentials injectées en variables d'environnement, jamais copiées dans le code.
+
 **Points clés**
 - Docker rend l'environnement n8n reproductible entre développement et production
 - Une configuration permissive en développement devient une faille si elle persiste en production
@@ -37,6 +41,10 @@ Le chapitre 5 de la section 2 a insisté sur les échecs silencieux au niveau d'
 
 Un health check est une vérification automatique et régulière que l'instance répond correctement (souvent un simple appel HTTP qui doit renvoyer un statut "ok"). Relié à une alerte, il transforme une panne silencieuse en signal immédiat, exactement le rôle que joue un Error Trigger au niveau d'un workflow, mais à l'échelle de l'infrastructure entière.
 
+### Exemple concret
+
+Un health check appelle l'instance n8n de Chatllow toutes les 5 minutes. Si trois vérifications consécutives échouent, un message part automatiquement sur Slack : "instance n8n injoignable depuis 15 minutes". Sans ce mécanisme, la panne ne serait découverte que lorsqu'un client signale qu'une automatisation ne fonctionne plus, souvent des heures plus tard.
+
 **Points clés**
 - HTTPS, accès restreint, validation des webhooks publics : les trois réflexes de sécurité de base
 - Le monitoring répond, au niveau de l'instance, au même problème que l'Error Trigger au niveau d'un workflow
@@ -57,6 +65,10 @@ Une instance n8n unique traite ses exécutions une à la fois (ou avec un parall
 ### Le mode queue et les workers multiples
 
 Le mode "queue" sépare l'instance principale (qui reçoit les déclencheurs) des workers (qui exécutent réellement les workflows), avec une file d'attente entre les deux. Ajouter des workers permet de traiter plus d'exécutions en parallèle, sans changer la logique des workflows eux-mêmes. C'est un changement d'infrastructure, pas un changement de construction.
+
+### Exemple concret
+
+Si Vivier IA grandit et que des centaines d'apprenants déclenchent chaque jour des automatisations (confirmation d'inscription, rappel de session, suivi de progression), une seule instance n8n commence à prendre du retard aux heures de pointe. Passer en mode queue avec 2 ou 3 workers absorbe ce pic, sans changer un seul workflow existant.
 
 **Points clés**
 - Une sauvegarde complète couvre workflows, credentials, et données d'exécution si nécessaire, pas seulement les workflows

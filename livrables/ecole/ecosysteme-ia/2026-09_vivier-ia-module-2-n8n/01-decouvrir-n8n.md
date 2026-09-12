@@ -18,6 +18,10 @@ Des outils comme Zapier ou Make font un travail proche, mais deux différences c
 
 Un workflow n8n a toujours la même structure logique : un déclencheur (ce qui démarre le workflow), une série de nœuds qui transforment ou transportent la donnée, et éventuellement une ou plusieurs sorties (une action finale, un résultat stocké). Comprendre un workflow déjà construit, c'est d'abord repérer ce triptyque avant de s'attarder sur le détail de chaque nœud.
 
+### Exemple concret
+
+Un workflow simple pour Chatllow : un formulaire de contact envoie une demande (le déclencheur), le workflow vérifie que l'email est valide et ajoute la date de réception (les nœuds intermédiaires), puis notifie l'équipe par email (la sortie). Trois étapes, aucun code écrit à la main.
+
 **Points clés**
 - n8n construit des automatisations visuelles, Claude Code construit le produit : les deux sont complémentaires, pas concurrents
 - L'auto-hébergement et le nœud Code sont les deux avantages qui distinguent n8n d'un outil plus fermé comme Zapier
@@ -43,6 +47,10 @@ Le Module 1 a insisté sur la vigilance nécessaire avec MCP : plus on connecte 
 
 Nommer chaque credential de façon explicite (le service et l'usage, pas juste "API Key 1"), limiter les permissions accordées au strict nécessaire quand le service le permet, et supprimer une credential dès qu'elle n'est plus utilisée par aucun workflow actif, plutôt que de la laisser traîner indéfiniment.
 
+### Exemple concret
+
+Le workflow de qualification commerciale de Chatllow (vu en détail au chapitre 6 de la section suivante) utilise une seule credential Gmail, nommée "Gmail - Notifications Chatllow", réutilisée par tous les workflows qui envoient une alerte à l'équipe. Si ce compte Gmail change un jour, une seule mise à jour suffit, plutôt que de corriger chaque workflow un par un.
+
 **Points clés**
 - Une credential centralise un identifiant de connexion, réutilisable dans plusieurs workflows
 - Centraliser évite la duplication d'une clé sensible et simplifie sa mise à jour
@@ -64,6 +72,10 @@ Tout workflow n8n commence par un trigger : le nœud qui répond à la question 
 
 Le réflexe à éviter : choisir un trigger parce qu'il est facile à mettre en place, plutôt que parce qu'il correspond réellement à l'événement déclencheur du besoin. Un Schedule toutes les 5 minutes pour simuler une réaction "en temps réel" à un webhook qu'on n'a pas pris le temps de configurer correctement est un choix qui coûte cher en complexité cachée (latence, appels inutiles) sur la durée.
 
+### Exemple concret
+
+Une demande entrante sur le formulaire de contact Chatllow appelle un Webhook, parce que l'événement (quelqu'un remplit un formulaire) arrive de façon imprévisible. À l'inverse, vérifier chaque lundi matin quels distributeurs Longrich n'ont pas encore complété leur formation IA de la semaine appelle un Schedule, parce que c'est une vérification récurrente, pas un événement ponctuel.
+
 **Points clés**
 - Un workflow sans trigger clair n'a pas de raison de s'exécuter
 - Webhook, Schedule, App Trigger, Manual : quatre familles à connaître, chacune pour un usage différent
@@ -84,6 +96,10 @@ Chaque nœud reçoit une liste d'éléments ("items") en entrée, et produit une
 ### Pourquoi la distinction action/logique aide à lire un workflow inconnu
 
 Face à un workflow déjà construit par quelqu'un d'autre (ou par soi-même plusieurs mois plus tôt), repérer d'abord les nœuds d'action donne la liste des effets réels du workflow. Repérer ensuite les nœuds de logique donne les conditions dans lesquelles ces effets se produisent. Cette lecture en deux temps est plus rapide que d'essayer de tout comprendre nœud par nœud dans l'ordre.
+
+### Exemple concret
+
+Dans le workflow de qualification commerciale Chatllow, un IF sépare une demande "chaude" (taille d'entreprise mentionnée, besoin urgent) d'une demande "à suivre plus tard" : c'est un nœud de logique, il ne fait rien à l'extérieur, il choisit juste un chemin. La notification Slack envoyée ensuite à l'équipe commerciale, elle, est un nœud d'action : un effet réel se produit.
 
 **Points clés**
 - Nœud d'action : un effet réel à l'extérieur. Nœud de logique : une orientation du flux de données, sans effet extérieur

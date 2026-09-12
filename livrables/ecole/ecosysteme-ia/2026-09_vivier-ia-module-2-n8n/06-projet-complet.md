@@ -16,6 +16,10 @@ Un brief précise ce que l'automatisation doit accomplir concrètement, ce qui d
 
 Le gabarit à 4 éléments (contexte, objectif, périmètre, autonomie) vu en Module 1 s'applique tel quel à un brief n8n : le contexte est le processus actuel (souvent manuel) à automatiser, l'objectif est ce que le workflow doit produire, le périmètre délimite les cas couverts par cette première version, et l'autonomie précise ce qui peut être décidé seul versus ce qui doit être validé avant mise en service réelle.
 
+### Exemple concret
+
+Pour Longrich, un bon premier candidat est l'envoi du récapitulatif hebdomadaire aux distributeurs actifs, aujourd'hui fait à la main chaque dimanche soir. Contexte : liste des distributeurs dans un tableur, message envoyé manuellement un par un. Objectif : un message automatique envoyé chaque dimanche à 18h. Périmètre : seulement le récapitulatif standard, pas les messages personnalisés. Autonomie : le contenu du message peut être généré automatiquement, mais Zézé valide le modèle avant la première activation.
+
 **Points clés**
 - Choisir un processus récurrent, chronophage, et à faible risque d'erreur pour une première automatisation
 - Un brief précise l'objectif, ce qui définit un succès mesurable, et ce qui reste hors périmètre
@@ -36,6 +40,10 @@ Comment les données existantes entrent dans le système est une question à par
 ### Tester le MVP avec des données réalistes, pas des cas parfaits
 
 Le cycle Plan, Execute, Validate du Module 1 s'applique ici : tester le MVP avec des données qui ressemblent à ce qui arrivera réellement (un nom mal formaté, un champ vide, une valeur inattendue), pas uniquement avec le cas le plus propre possible qui ne révèle jamais les failles réelles d'un workflow.
+
+### Exemple concret
+
+Pour le récapitulatif hebdomadaire Longrich, le MVP couvre d'abord le cas où tous les distributeurs ont un email valide et des données complètes dans le tableur. Les cas particuliers (un email mal orthographié, une ligne vide, un distributeur ajouté en cours de semaine) viennent après, une fois que l'envoi de base fonctionne de façon fiable sur le cas normal.
 
 **Points clés**
 - Construire et valider le chemin principal avant d'ajouter les cas particuliers

@@ -39,6 +39,10 @@ Claude Code peut se connecter, via MCP vu en section 3, à de nombreux autres é
 
 n8n est un excellent choix par défaut pour l'automatisation, et le module en a fait la démonstration en profondeur. Mais le bon réflexe, celui qu'un professionnel expérimenté développe avec le temps, est toujours de partir du besoin réel du client ou du projet, pas de l'outil qu'on maîtrise déjà par habitude ou par confort personnel. Un projet peut très bien n'avoir besoin d'aucune automatisation n8n et se suffire entièrement d'une connexion directe entre Claude Code et un ou deux services externes bien choisis.
 
+### Exemple concret
+
+L'agent qui rédige des posts LinkedIn pour Zézé et les enregistre dans Notion, avant de déclencher un second agent qui génère un visuel via Canva, n'utilise aucun workflow n8n : tout passe par des connexions MCP directes depuis Claude Code. Ajouter n8n dans ce cas précis n'aurait rien apporté de plus, juste une brique intermédiaire superflue pour un besoin déjà bien couvert autrement.
+
 ### Pourquoi ce chapitre ferme utilement le module Fullstack
 
 Ce chapitre invite donc à élargir le regard après avoir appris une architecture précise et détaillée dans le module Fullstack, pour ne pas la considérer comme la seule solution valable en toute situation rencontrée à l'avenir. C'est une mise en garde utile contre le réflexe du "marteau qui voit tous les problèmes comme des clous".
@@ -59,6 +63,10 @@ Claude Code peut être étendu par des plugins et extensions qui ajoutent des ca
 ### Un outil vivant, pas figé
 
 Ce chapitre, volontairement placé en toute fin de module, invite à ne pas voir Claude Code comme un outil figé une fois pour toutes, mais comme un écosystème qui continue d'évoluer dans le temps, avec de nouvelles capacités qui apparaissent régulièrement, parfois à un rythme rapide. La compétence à développer ici n'est donc pas de mémoriser chaque plugin existant à un instant donné, ce qui deviendrait vite obsolète, mais de savoir où chercher et comment évaluer si un plugin ou une extension répond réellement à un besoin du projet en cours, plutôt que de l'adopter simplement parce qu'il existe.
+
+### Exemple concret
+
+Un futur client demande un projet dans un langage ou un framework peu utilisé jusqu'ici. Plutôt que de forcer une méthode générique mal adaptée, le bon réflexe est de vérifier s'il existe déjà une extension ou un plugin qui couvre spécifiquement ce besoin (vérification de code adaptée, intégration avec l'outil du client), et de l'évaluer avant de l'adopter, plutôt que de l'ignorer par simple habitude de toujours faire pareil.
 
 ### Le lien avec la veille, compétence transversale du métier
 

@@ -14,6 +14,10 @@ Dix workflows se retrouvent facilement sans organisation particulière. Cent wor
 
 Un workflow qui ne sert plus mais reste actif dans la liste ajoute du bruit et peut même continuer à consommer des ressources ou à représenter un risque de sécurité oublié (une credential encore active, par exemple). L'archiver ou le désactiver explicitement, plutôt que de le laisser simplement de côté, garde la bibliothèque de workflows propre et sûre.
 
+### Exemple concret
+
+Après quelques mois d'activité, l'instance n8n de Chatllow compte des workflows pour plusieurs clients différents. Un dossier par client, avec un tag "actif" ou "archivé", permet de retrouver en quelques secondes le bon workflow, plutôt que de faire défiler une liste de cinquante noms génériques sans distinction.
+
 **Points clés**
 - Tester une mise à jour n8n ailleurs qu'en production avant de l'appliquer partout
 - Une structure de dossiers et de tags posée dès le début évite un désordre coûteux à rattraper plus tard
@@ -34,6 +38,10 @@ Un workflow qui fonctionnait parfaitement au lancement peut casser silencieuseme
 ### Une checklist de revue périodique
 
 À intervalle régulier : quelles credentials sont encore réellement utilisées, quels workflows n'ont pas tourné depuis longtemps, quelles erreurs reviennent dans les logs sans avoir été traitées. Cette revue coûte peu de temps répétée régulièrement, beaucoup plus si elle n'est jamais faite et qu'un problème s'accumule silencieusement pendant des mois.
+
+### Exemple concret
+
+Une revue trimestrielle de l'instance Chatllow révèle une credential Gmail créée pour un client dont la mission s'est terminée quatre mois plus tôt, toujours active. La désactiver referme un accès qui n'avait plus aucune raison de rester ouvert.
 
 **Points clés**
 - La sécurité est une habitude continue, pas une étape ponctuelle au lancement

@@ -20,6 +20,10 @@ Le handoff est souvent le point le plus négligé par les débutants, alors qu'i
 
 Une checklist de livraison type inclut concrètement : vérification fonctionnelle complète du parcours utilisateur, contrôle explicite qu'aucun secret n'est exposé quelque part, documentation d'utilisation réellement transmise et pas juste promise, accès correctement configurés du côté du client, et un point de contact clair pour la suite de la relation.
 
+### Exemple concret
+
+Pour le projet fil rouge Alpha Conseil, livrer "fini" veut dire concrètement : les 3 phases (intake, dashboard, statut) testées avec Playwright en conditions réelles, une vérification qu'aucune clé d'API n'apparaît dans le code poussé sur GitHub, un petit guide qui explique au client comment consulter son dashboard, et une personne de contact claire s'il rencontre un problème après la mise en ligne.
+
 **Points clés**
 - Une livraison couvre fonctionnement, sécurité, et transmission (handoff), les trois ensemble
 - Le handoff mal fait peut gâcher la perception d'un travail pourtant techniquement réussi
@@ -40,6 +44,10 @@ Maintenir un projet demande une discipline différente de celle de sa constructi
 ### Un angle économique à ne pas négliger
 
 Pour un cabinet de conseil, la maintenance peut devenir un revenu récurrent grâce à un contrat de suivi, et pas seulement une charge ponctuelle qui vient après la vente initiale sans être valorisée. C'est un point de modèle économique à considérer dès la phase de vente elle-même, abordée au chapitre suivant, plutôt que d'y penser après coup une fois le projet déjà livré et facturé une seule fois.
+
+### Exemple concret
+
+Un distributeur Longrich formé à un outil de suivi de ses filleuls revient trois mois plus tard : il veut ajouter une colonne pour suivre un nouveau type de bonus. Avant de toucher au code, la bonne démarche est de relire le CLAUDE.md du projet pour se remémorer sa structure, puis d'évaluer si ce changement touche d'autres parties du système (un export, un calcul existant) avant de l'implémenter, plutôt que de foncer directement sur la demande telle quelle.
 
 **Points clés**
 - La relation client continue généralement bien après la livraison initiale
@@ -66,6 +74,10 @@ Ce qu'il faut éviter de promettre sans une prudence réelle : des garanties de 
 
 La règle de fond : vendre ce que la méthode de ce module permet réellement de livrer avec fiabilité et régularité, pas ce que l'enthousiasme ambiant autour de l'IA laisse imaginer de façon exagérée à des clients pas toujours bien informés. C'est particulièrement important pour construire une réputation durable auprès de clients CAC40, où la confiance se gagne lentement, projet après projet, et se perd très vite au premier engagement non tenu.
 
+### Exemple concret
+
+Promesse risquée : "l'IA va automatiser 100% de votre service client d'ici la semaine prochaine, sans aucune supervision." Promesse tenable : "on construit d'abord un agent qui traite les demandes les plus courantes et répétitives, testé sur deux semaines avec une supervision humaine, puis on élargit son périmètre progressivement selon les résultats réels observés." La seconde version reflète ce que la méthode Plan-Execute-Validate permet réellement de garantir.
+
 **Points clés**
 - Vendre des produits complets, des audits ciblés, de la formation, de la maintenance récurrente
 - Ne jamais promettre au-delà de ce que la méthode permet réellement de garantir
@@ -86,6 +98,10 @@ L'intérêt économique est direct et se mesure facilement : plus la bibliothèq
 ### La discipline nécessaire pour bien la construire
 
 Construire cette bibliothèque demande une discipline particulière, à ne pas prendre à la légère. Il faut généraliser un projet client, c'est-à-dire retirer tout ce qui est spécifique à ce client précis, sans jamais copier ou réutiliser des informations qui lui sont confidentielles. Il faut documenter clairement ce que fait chaque starter et pour quel type de besoin il est réellement adapté, pour éviter de le réutiliser à mauvais escient sur un cas qui ne s'y prête pas. Il faut enfin le maintenir à jour au fil du temps, pour qu'il ne devienne pas obsolète et transmette de mauvaises pratiques à un projet futur qui s'en inspirerait.
+
+### Exemple concret
+
+C'est exactement ce que sont devenus les générateurs d'audit IA de ce workspace (`2026-09_generateur-audit-ia-immobilier`, `-hotellerie`, `-btp`, `-finance`, `-industrie`, `-chatllow`) : un même starter de base, généralisé une première fois, puis adapté secteur par secteur. Chaque nouveau secteur a coûté une fraction du temps du tout premier, parce que la structure, la logique de scoring, et le format de rapport n'ont pas eu besoin d'être reconstruits depuis zéro.
 
 ### Le lien avec la promesse d'ouverture du module
 

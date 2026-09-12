@@ -20,6 +20,10 @@ L'intérêt d'un second brain n'est pas seulement le gain de temps, même s'il e
 
 Pour quelqu'un qui mène plusieurs activités en parallèle, comme c'est ton cas avec Chatllow, Vivier IA, la chaîne YouTube et Longrich, ce second brain devient presque indispensable : sans lui, le risque de contredire une décision passée ou d'oublier un engagement pris avec un interlocuteur grandit avec le nombre de fronts ouverts en même temps.
 
+### Exemple concret
+
+Le 12 septembre 2026, l'école a changé de nom, "Entrepreneur Académie" est devenu "Vivier IA". Cette décision a été notée dans `context/HISTORY.md`. Résultat concret : n'importe quelle session future, même des mois plus tard, peut retrouver pourquoi ce changement a eu lieu et quand, sans avoir à demander à Zézé de le réexpliquer de mémoire.
+
 **Points clés**
 - Le second brain centralise contexte, objectifs, historique dans des fichiers accessibles
 - Il évite de tout réexpliquer à chaque nouvelle session de travail
@@ -40,6 +44,10 @@ Un bon livrable comprend en général trois éléments : le produit lui-même (a
 ### Le rôle de Claude Code, et ce qu'il ne remplace pas
 
 Claude Code peut t'aider efficacement à générer cette documentation et ces supports de présentation. Mais le soin réellement apporté à la présentation, le choix de ce qui mérite d'être mis en avant pour ce client précis, reste une compétence humaine différenciante. C'est particulièrement vrai pour un cabinet comme Chatllow qui vise des clients CAC40, où la forme professionnelle du livrable compte autant, parfois plus, que le fond technique aux yeux d'un dirigeant qui ne lira jamais une ligne de code.
+
+### Exemple concret
+
+Pour un audit IA hôtellerie, la liste technique livrée pourrait être : "webhook n8n connecté au PMS, scoring automatique des leads, export CSV quotidien". Reformulée pour le dirigeant qui reçoit ce livrable : "vous savez en temps réel quelles réservations mériteraient un appel de relance, sans qu'un employé ait à trier les demandes à la main chaque matin." C'est la même fonctionnalité, mais seule la seconde version convainc quelqu'un qui ne lira jamais le code.
 
 **Points clés**
 - Un livrable, c'est le produit ET sa présentation, les deux comptent
@@ -63,6 +71,10 @@ Concrètement, Claude Code peut aider à structurer un suivi de facturation coh�
 Ton activité a plusieurs lignes de revenus en parallèle : Chatllow, Vivier IA, Longrich. Ce chapitre ne reste donc pas théorique pour toi, il s'applique directement.
 
 Aujourd'hui, si chaque activité est suivie séparément dans des outils différents, tu risques un angle mort : une activité qui décroche sans que tu t'en rendes compte à temps. En centralisant le suivi des trois dans un seul système piloté par Claude Code, tu élimines ce risque, et tu gagnes du temps de pilotage que tu peux réinvestir dans la production ou la prospection.
+
+### Exemple concret
+
+C'est exactement ce qui a été mis en place dans `livrables/pilotage-business/2026-09_suivi-activites/` : un tableau de facturation unique pour les trois activités, plus un tableau de KPIs hebdomadaire par activité (prospects pour Chatllow, vidéos publiées pour Vivier IA, distributeurs formés pour Longrich). Une phrase donnée à Claude Code ("cette semaine sur Chatllow : 12 prospects contactés, 3 RDV") suffit à mettre à jour la bonne ligne du bon fichier.
 
 **Points clés**
 - Claude Code peut structurer suivi comptable, processus répétables, et tableaux de KPIs

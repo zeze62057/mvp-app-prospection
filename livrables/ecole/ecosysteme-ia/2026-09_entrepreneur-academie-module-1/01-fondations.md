@@ -25,6 +25,10 @@ C'est le point le plus important pour toi personnellement, vu où tu veux aller 
 
 Claude Code ne remplace pas le jugement. Il exécute bien ce qu'on lui demande bien. Un mauvais cadrage produit un mauvais résultat, rapidement. La compétence qui devient rare et précieuse n'est donc pas "savoir coder", c'est "savoir cadrer, découper, vérifier". C'est tout l'objet du chapitre 2 de la section suivante, "L'art de donner des instructions à Claude Code".
 
+### Exemple concret
+
+Un audit IA pour un client immobilier, comme les starters `2026-09_generateur-audit-ia-immobilier` construits dans ce workspace, illustre bien ce basculement. Avant, ce projet aurait demandé un développeur, un chef de projet, plusieurs semaines de travail. Avec Claude Code, une seule personne cadre l'audit, décide quelles questions poser, quel rapport produire, écrit une instruction claire, valide chaque étape, et livre un outil fonctionnel en quelques jours. Le travail ne disparaît pas, il change de nature : moins de syntaxe à écrire, plus de jugement sur ce qu'il faut construire et vérifier.
+
 ### Pourquoi ce chapitre ouvre le module
 
 Ce chapitre n'enseigne encore aucun outil. Son rôle est de repositionner mentalement l'apprenant avant de toucher quoi que ce soit : on ne vient pas ici "apprendre à coder", on vient apprendre à diriger un agent qui code. Si un apprenant garde le réflexe de vouloir tout comprendre ligne par ligne comme un développeur classique, il va se fatiguer inutilement et sous-exploiter l'outil.
@@ -46,6 +50,10 @@ Deux environnements composent ton poste de travail avec Claude Code.
 
 La bonne pratique de débutant : garde les deux ouverts en parallèle. Le terminal pour diriger l'agent, l'IDE pour inspecter visuellement ce qui a été produit. Tu n'as pas besoin de savoir écrire du code dans l'IDE, seulement de savoir t'y repérer : quel fichier fait quoi, où se trouve telle fonctionnalité.
 
+### Exemple concret
+
+Sur ce workspace précisément, le terminal est l'endroit où tu tapes `/prime` en début de session, et où Claude Code répond "je vais lire CLAUDE.md et te faire un résumé de ta situation". L'IDE, lui, sert à vérifier visuellement qu'un fichier comme `04-quotidien.md` a bien été modifié comme demandé, en ouvrant directement la ligne concernée, sans avoir à tout relire dans le terminal.
+
 **Points clés**
 - Terminal = canal de conversation et d'action avec l'agent
 - IDE = fenêtre d'inspection visuelle du projet
@@ -66,6 +74,10 @@ Trois réflexes à installer dès le départ :
 
 Claude Code peut lui-même proposer et exécuter des commits pour toi, mais la validation finale (surtout avant un push) doit rester une décision consciente de ta part, jamais un réflexe automatique non contrôlé.
 
+### Exemple concret
+
+C'est exactement le fonctionnement du Slash Command `/commit` de ce workspace : avant chaque commit, une vérification qu'aucun fichier sensible comme `.env` n'est inclus, un message clair qui explique le pourquoi, et jamais de push sans validation explicite de ta part. Le jour où une modification casse un fichier important, revenir à la version d'avant prend quelques secondes grâce à cet historique, plutôt que de tout reconstruire de mémoire.
+
 **Points clés**
 - Git garde un historique réversible du projet
 - GitHub héberge et sécurise cet historique en ligne
@@ -82,6 +94,10 @@ Une fois un projet construit, il doit être accessible sur internet pour qu'un c
 **OVH** est un hébergeur plus traditionnel, notamment utile quand le projet a besoin d'un serveur dédié, d'une base de données auto-hébergée, ou de contraintes spécifiques (données hébergées en Europe ou en Afrique selon les besoins du client, coûts maîtrisés sur la durée).
 
 Le choix entre les deux dépend du projet : Vercel pour la rapidité et la simplicité d'un déploiement web standard, OVH ou un hébergeur équivalent quand le projet a des besoins d'infrastructure plus larges (comme un backend n8n auto-hébergé, vu dans le module Fullstack).
+
+### Exemple concret
+
+Un site vitrine pour Vivier IA, principalement statique, avec un déploiement automatique à chaque push GitHub, est un bon candidat pour Vercel. À l'inverse, un backend n8n auto-hébergé, comme celui utilisé dans le Module 2, a plutôt sa place sur OVH, qui donne le contrôle serveur nécessaire pour ce type d'infrastructure (installation Docker, gestion des workers, stockage des données).
 
 Ce chapitre est aussi le moment où l'apprenant comprend qu'un projet n'est "livré" que lorsqu'il est en ligne et accessible, pas seulement quand le code fonctionne en local sur sa machine.
 

@@ -22,6 +22,10 @@ Claude Code prend le relais à ce moment précis, pas avant. On garde l'idée va
 
 Ce chapitre pose donc un principe simple mais souvent oublié : prototyper vite avec les outils adaptés au prototypage, puis passer en production avec les outils adaptés à la production, sans confondre les deux étapes ni essayer de faire vivre indéfiniment un prototype comme s'il était un produit fini. Beaucoup de projets échouent en essayant de faire l'inverse : pousser un prototype toujours plus loin au lieu de basculer au bon moment.
 
+### Exemple concret
+
+Pour le projet fil rouge Alpha Conseil, un premier écran de formulaire d'intake peut être maquetté dans Lovable en une heure, pour valider avec le client à quoi ressemblera l'expérience. Une fois cette maquette approuvée, ce n'est pas ce prototype qui part en production : Claude Code reconstruit le formulaire avec une vraie validation des données, un vrai stockage, et une vraie sécurité, en gardant la maquette comme simple référence visuelle.
+
 **Points clés**
 - Lovable et équivalents : excellents pour prototyper vite, pas pour la production durable
 - Claude Code prend le relais pour la production réelle, extensible sur la durée
@@ -39,9 +43,23 @@ Le projet fil rouge de cette section combine deux briques complémentaires, chac
 
 Cette répartition suit une logique claire, pas un choix arbitraire. Ce qui est directement visible et utilisé par l'utilisateur final, le produit en tant que tel, est construit et maintenu dans le code, avec toute la rigueur que ça demande. Ce qui relève de la plomberie entre systèmes, déclencher une action quand un événement précis se produit, automatiser un processus métier récurrent, est géré par n8n, de façon visuelle et modifiable sans avoir besoin de redéployer le code de l'application.
 
+### Exemple concret sur le formulaire d'intake
+
+Claude Code construit le formulaire lui-même : les champs, la validation, l'enregistrement en base de données. C'est le produit.
+
+Une fois le formulaire soumis, plusieurs choses doivent se passer automatiquement. C'est là que n8n intervient. Envoyer un email de confirmation au prospect. Notifier Zézé sur Slack ou par email qu'un nouveau lead vient d'arriver. Ajouter automatiquement la ligne dans un CRM ou un Google Sheet de suivi. Éventuellement, faire appel à une IA pour qualifier le lead avant même qu'un humain le regarde, chaud, tiède ou froid selon les réponses données.
+
+Sans n8n, il faudrait coder chacune de ces automatisations directement dans l'application. Possible, mais chaque petit ajustement demanderait de retoucher le code et de redéployer. Avec n8n, ces automatisations sont visuelles, séparées du code, et modifiables en quelques clics.
+
+### Exemple concret sur le dashboard
+
+Le dashboard lui-même, filtres, tri, affichage des prospects, est construit par Claude Code : c'est l'interface.
+
+Mais un rapport hebdomadaire automatique envoyé par email tous les lundis matins, "voici les 5 nouveaux prospects de la semaine, voici ceux sans réponse depuis 3 jours", relève de n8n. Ça tourne sur une planification, ça touche un système externe (l'email), et ça n'a pas besoin d'interaction en temps réel avec l'utilisateur.
+
 ### Pourquoi c'est adapté à un cabinet de conseil
 
-C'est une architecture particulièrement adaptée à un cabinet de conseil comme Chatllow. Elle permet de livrer un produit fonctionnel rapidement grâce à Claude Code, tout en gardant une couche d'automatisation flexible et évolutive grâce à n8n, que le client lui-même, ou toi en maintenance, peut ajuster sans avoir à redévelopper l'application à chaque petit changement de processus métier.
+Un client CAC40 va vouloir, au fil du temps, ajuster ses processus métier : changer le seuil qui déclenche une alerte, ajouter une notification vers un nouvel outil interne, modifier le contenu d'un email automatique. Si tout ça était codé en dur dans l'application, chaque changement demanderait un nouveau développement facturé et un redéploiement. Avec n8n, le client, ou Zézé en maintenance, ouvre le workflow visuel et ajuste directement, sans toucher au code de l'application.
 
 ### Le lien avec ce qu'on a vu jusqu'ici
 

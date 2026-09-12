@@ -18,6 +18,10 @@ Le problème apparaît quand ce mode de travail est utilisé pour un projet dest
 
 L'Agentic Coding consiste à traiter Claude Code comme un agent autonome à qui on confie un objectif clair, avec un plan, des étapes vérifiables, et des points de validation. L'agent peut explorer le projet, prendre des décisions techniques dans un périmètre défini, mais toujours dans un cadre que tu as posé en amont. Ce n'est pas plus lent que le Vibe Coding sur la durée, c'est plus lent au tout début (le temps de cadrer) et beaucoup plus rapide ensuite, parce qu'on évite les retours en arrière coûteux.
 
+### Exemple concret
+
+Tester une idée de landing page pour un audit IA BTP en Vibe Coding, en itérant à l'instinct pour voir vite le rendu visuel, est parfaitement légitime à ce stade. Mais livrer ce même audit à un vrai client du secteur BTP exige l'Agentic Coding : un objectif clair (quelles données collecter, quel rapport produire), un plan validé avant l'exécution, une vérification réelle du résultat avant la livraison. Le même outil, deux disciplines différentes, selon que le résultat reste entre tes mains ou part chez un client.
+
 ### Ce que ça implique pour toi concrètement
 
 La différence n'est pas l'outil utilisé, c'est la discipline autour. Deux personnes avec exactement le même Claude Code peuvent produire un résultat solide ou un résultat bancal, selon qu'elles pratiquent l'un ou l'autre. Pour un projet perso ou une idée à tester, le Vibe Coding a toute sa place. Pour un livrable qui portera ton nom professionnellement, ou celui de Chatllow, l'Agentic Coding n'est pas négociable.
@@ -42,6 +46,10 @@ Une bonne instruction contient en général :
 - **L'objectif précis** : ce qui doit être vrai une fois la tâche terminée, pas seulement "améliore ça". Un objectif précis se vérifie, un objectif vague se discute indéfiniment.
 - **Le périmètre** : ce qui est concerné, et surtout ce qui ne doit pas être touché. C'est souvent l'élément oublié, et celui qui cause le plus de dégâts quand il manque : l'agent modifie quelque chose qui fonctionnait très bien et qu'on ne voulait pas voir changer.
 - **Le niveau d'autonomie souhaité** : est-ce que l'agent doit demander avant d'agir sur un point sensible, ou peut-il avancer seul jusqu'à un certain point. Ce niveau peut varier selon la confiance acquise sur un projet donné.
+
+### Exemple concret
+
+Instruction floue : "améliore le générateur d'audit IA". Instruction complète : "Dans le projet `2026-09_generateur-audit-ia-hotellerie`, l'objectif est que le rapport final inclue une section chiffrée de ROI estimé. Le périmètre est uniquement le template de rapport, ne touche pas au formulaire de collecte de données. Propose-moi la méthode de calcul avant de l'implémenter, je veux la valider." La seconde donne à l'agent tout ce qu'un collègue qui découvre le projet aujourd'hui aurait besoin de savoir, la première le laisse deviner.
 
 ### L'erreur classique, et pourquoi elle coûte cher
 
@@ -69,6 +77,10 @@ C'est le cœur méthodologique de tout ce module, en trois temps qui se répète
 **Execute.** Une fois le plan validé, l'agent exécute les étapes, une à une ou par blocs cohérents. C'est la phase où le code est réellement écrit, modifié, testé. C'est aussi la phase la plus spectaculaire à regarder, mais la moins déterminante pour la qualité finale si les deux autres étapes sont mal faites.
 
 **Validate.** À la fin, ou à des points intermédiaires pour les tâches longues, on vérifie que le résultat correspond bien à l'objectif posé au départ. Ça peut être un test manuel (ouvrir l'application, cliquer, vérifier), une vérification automatisée, ou une relecture ciblée du résultat produit.
+
+### Exemple concret
+
+Sur le projet fil rouge Alpha Conseil (section 5), avant de construire le formulaire d'intake, l'agent propose un plan : quels champs demander, quelle validation appliquer, où stocker les données. Une fois ce plan validé, il construit (Execute). Puis, avec Playwright, il ouvre réellement le formulaire, le remplit avec des données de test, et vérifie que tout s'enregistre correctement (Validate), plutôt que de simplement affirmer que le code semble correct après une relecture.
 
 ### Les deux raccourcis dangereux
 
@@ -98,6 +110,10 @@ Même avec une bonne méthode, un projet finit toujours par rencontrer une erreu
 **2. Isoler le problème.** Est-ce que ça casse partout, ou seulement dans un cas précis (un certain type de donnée, une certaine action, un certain moment) ? Cette information oriente énormément la recherche de la cause, et évite de chercher au mauvais endroit.
 
 **3. Demander à l'agent de diagnostiquer avant de corriger**, plutôt que de lui demander directement "corrige ça". Comprendre la cause évite de masquer un symptôme sans régler le vrai problème, qui peut revenir plus tard sous une autre forme, parfois plus difficile à repérer la seconde fois.
+
+### Exemple concret
+
+Un formulaire d'intake qui refuse tous les emails valides. Premier réflexe : donner à Claude Code le message d'erreur complet affiché dans la console, pas juste "ça marche pas". Deuxième réflexe : vérifier si ça casse pour tous les emails ou seulement pour certains formats précis (par exemple ceux avec un "+" dedans). Troisième réflexe : demander à l'agent de diagnostiquer la règle de validation avant de la corriger à l'aveugle, pour éviter qu'un correctif rapide masque juste le symptôme sans régler la vraie cause.
 
 ### Pourquoi tester tôt coûte moins cher que tester tard
 
