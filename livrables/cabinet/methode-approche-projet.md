@@ -33,6 +33,15 @@
 - Étape 7 renforcée : sécurité des données (RLS, accès), pas seulement "ça marche"
 - Étape 9 : rarement généralisable tel quel, sauf si pensé comme starter dès le départ
 
+### Fullstack (Claude Code + n8n, type projet fil rouge)
+
+- Étape 1 : poser explicitement la répartition avant de construire quoi que ce soit : ce qui relève du produit (Claude Code) et ce qui relève de la plomberie entre systèmes (n8n), jamais supposer implicitement (Module 1, section 5, chapitre 2)
+- Étape 3 : une maquette pour la partie produit (Claude Design) et un schéma de flux pour la partie n8n (Module 2, section 1), les deux ensemble, pas l'un à la place de l'autre
+- Étape 5 : construire les deux parties séparément et les tester chacune seule avant de les connecter (par exemple, tester un webhook par un appel direct avant de le relier au vrai bouton de l'interface)
+- Étape 6 renforcée : valider la chaîne complète de bout en bout (déclencheur réel → traitement n8n → effet visible dans le produit), avec un outil de test réel type MCP Playwright si l'interface le permet (Module 1, section 5, chapitre 3)
+- Étape 7 : la checklist de livraison couvre les deux côtés à la fois, fonctionnel et sécurité du produit (accès, données) et de l'automatisation (credentials scopées, Error Trigger) ; le handoff précise qui maintient quoi, le produit, le workflow n8n, ou les deux
+- Étape 9 : les starters produit (Claude Code) et les sous-workflows n8n grandissent dans deux bibliothèques séparées, mais la documentation d'un projet fullstack référence toujours les deux
+
 ### Automatisation (n8n / workflow)
 
 - Étape 1 : identifier précisément l'événement déclencheur réel (Webhook, Schedule, App Trigger) avant de choisir un trigger pour la facilité de configuration plutôt que pour la justesse (Module 2, section 1)
