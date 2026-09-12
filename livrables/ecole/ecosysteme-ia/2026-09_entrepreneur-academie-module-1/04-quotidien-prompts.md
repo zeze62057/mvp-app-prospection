@@ -67,7 +67,7 @@ fonctionnalités techniques qu'il ne saura pas interpréter.
 ### Structurer un suivi de facturation simple
 ```
 Aide-moi à structurer un suivi de facturation pour mes 3 activités
-(Chatllow, Entrepreneur Académie, Longrich). Je veux un tableau (format
+(Chatllow, Vivier IA, Longrich). Je veux un tableau (format
 Markdown ou CSV, à ton choix) avec les colonnes : activité, client,
 montant, statut (à facturer, facturé, payé), date. Propose-moi la
 structure avant de créer le fichier, je veux valider les colonnes.

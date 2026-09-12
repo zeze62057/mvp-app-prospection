@@ -100,7 +100,7 @@ Le module est réellement acquis, pas seulement lu, si tu peux répondre oui aux
 2. Tu as vécu au moins une fois le cycle complet Plan, Execute, Validate sur une vraie tâche, pas un exemple de cours
 3. Tu as un second brain fonctionnel sur au moins un pan de ton activité réelle
 4. Tu as livré, même à toi-même, un mini-projet à 3 briques testé de bout en bout (le fil rouge ou un équivalent)
-5. Tu peux expliquer en une phrase à un futur apprenant d'Entrepreneur Académie la différence entre Vibe Coding et Agentic Coding, sans relire le cours
+5. Tu peux expliquer en une phrase à un futur apprenant de Vivier IA la différence entre Vibe Coding et Agentic Coding, sans relire le cours
 
 Si un de ces points est non, la bonne réaction n'est pas de continuer vers le module suivant, c'est de revenir à l'étape correspondante et de la pratiquer réellement avant d'avancer.
 

@@ -1,6 +1,6 @@
 # Module 1 — Écosystème Claude
 
-> Matériel pédagogique pour Entrepreneur Académie, rédigé par Claude à partir de la table des matières du skill `programme-ecosysteme-ia`. Contenu de cours original (pas une copie d'un cours existant), à ajuster par Zézé avant utilisation avec de vrais apprenants.
+> Matériel pédagogique pour Vivier IA, rédigé par Claude à partir de la table des matières du skill `programme-ecosysteme-ia`. Contenu de cours original (pas une copie d'un cours existant), à ajuster par Zézé avant utilisation avec de vrais apprenants.
 
 **Objectif du module (rappel du programme source) :** à la fin, livrer des produits complets à des clients, du terminal au déploiement, et faire de chaque projet un starter réutilisable et revendable.
 

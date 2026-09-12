@@ -18,7 +18,7 @@ L'intérêt d'un second brain n'est pas seulement le gain de temps, même s'il e
 
 ### Pour qui c'est particulièrement précieux
 
-Pour quelqu'un qui mène plusieurs activités en parallèle, comme c'est ton cas avec Chatllow, Entrepreneur Académie, la chaîne YouTube et Longrich, ce second brain devient presque indispensable : sans lui, le risque de contredire une décision passée ou d'oublier un engagement pris avec un interlocuteur grandit avec le nombre de fronts ouverts en même temps.
+Pour quelqu'un qui mène plusieurs activités en parallèle, comme c'est ton cas avec Chatllow, Vivier IA, la chaîne YouTube et Longrich, ce second brain devient presque indispensable : sans lui, le risque de contredire une décision passée ou d'oublier un engagement pris avec un interlocuteur grandit avec le nombre de fronts ouverts en même temps.
 
 **Points clés**
 - Le second brain centralise contexte, objectifs, historique dans des fichiers accessibles
@@ -60,7 +60,7 @@ Concrètement, Claude Code peut aider à structurer un suivi de facturation coh�
 
 ### Une application directe à ta situation
 
-Pour une activité comme la tienne, avec plusieurs lignes de revenus en parallèle (Chatllow, Entrepreneur Académie, Longrich), ce chapitre est directement applicable, pas juste théorique : centraliser le suivi de chaque activité, plutôt que de gérer chacune séparément dans des outils différents et déconnectés, évite les angles morts (une activité qui décroche sans que tu t'en rendes compte à temps) et fait gagner un temps de pilotage précieux qui peut être réinvesti dans la production ou la prospection.
+Pour une activité comme la tienne, avec plusieurs lignes de revenus en parallèle (Chatllow, Vivier IA, Longrich), ce chapitre est directement applicable, pas juste théorique : centraliser le suivi de chaque activité, plutôt que de gérer chacune séparément dans des outils différents et déconnectés, évite les angles morts (une activité qui décroche sans que tu t'en rendes compte à temps) et fait gagner un temps de pilotage précieux qui peut être réinvesti dans la production ou la prospection.
 
 **Points clés**
 - Claude Code peut structurer suivi comptable, processus répétables, et tableaux de KPIs

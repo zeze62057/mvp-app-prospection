@@ -80,7 +80,7 @@ C'est un bon chapitre de clôture parce qu'il rappelle que ce module 1 pose des 
 
 ### Réflexion (synthèse de fin de module)
 4. En repensant à l'ensemble du module 1, quel chapitre te semble le plus directement applicable à ton activité actuelle (Chatllow, Kora, ou autre) ? Pourquoi ?
-5. Si tu devais expliquer ce module en une seule phrase à un futur apprenant d'Entrepreneur Académie, que dirais-tu ?
+5. Si tu devais expliquer ce module en une seule phrase à un futur apprenant de Vivier IA, que dirais-tu ?
 
 ### Éléments de correction (réservé à l'enseignant)
 - Q1 : agent avec mission précise et contexte propre ; spécialiser réduit le risque de dérive et permet l'enchaînement automatique d'étapes

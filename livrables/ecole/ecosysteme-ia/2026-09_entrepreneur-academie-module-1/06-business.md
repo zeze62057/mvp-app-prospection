@@ -56,7 +56,7 @@ Toutes les compétences acquises dans ce module n'ont pas la même valeur de ven
 
 ### Ce qui se vend bien
 
-Ce qui se vend bien concrètement : des produits complets et fonctionnels comme des sites, des applications, des automatisations livrées clé en main ; des audits qui identifient précisément où l'IA peut apporter de la valeur réelle dans une entreprise donnée, sans généralités ; de la formation et de l'accompagnement, exactement ce que propose Entrepreneur Académie ; et de la maintenance ainsi que de l'évolution de projets déjà existants, vue au chapitre précédent.
+Ce qui se vend bien concrètement : des produits complets et fonctionnels comme des sites, des applications, des automatisations livrées clé en main ; des audits qui identifient précisément où l'IA peut apporter de la valeur réelle dans une entreprise donnée, sans généralités ; de la formation et de l'accompagnement, exactement ce que propose Vivier IA ; et de la maintenance ainsi que de l'évolution de projets déjà existants, vue au chapitre précédent.
 
 ### Ce qu'il faut éviter de promettre sans prudence
 
