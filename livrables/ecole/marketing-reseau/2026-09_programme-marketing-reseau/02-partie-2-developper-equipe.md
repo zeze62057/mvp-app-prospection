@@ -1,5 +1,7 @@
 # Partie II — Développer une équipe incroyable
 
+> Fiche pratique associée : [02-partie-2-exemples-pratiques.md](02-partie-2-exemples-pratiques.md), un exemple concret et réutilisable pour chaque chapitre.
+
 ## Chapitre 2.1 : Éradiquer la procrastination
 
 ### Pourquoi ce chapitre ouvre la Partie II
