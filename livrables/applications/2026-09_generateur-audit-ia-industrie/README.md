@@ -1,0 +1,29 @@
+# Générateur d'audit IA — Industrie
+
+Starter dérivé du générateur d'audit IA Chatllow (`livrables/applications/2026-09_generateur-audit-ia-chatllow/`), adapté au secteur industriel (agroalimentaire, textile, métallurgie, assemblage...). Conçu pour être personnalisé et vendu à une entreprise cliente du secteur.
+
+## But
+
+Démontrer, en rendez-vous avec une entreprise industrielle, où l'IA peut apporter de la valeur concrète : contrôle qualité, planification de production, gestion des stocks, maintenance préventive des machines.
+
+## Ce qui change par rapport au starter Chatllow
+
+Les champs et les opportunités générées sont reformulés pour le secteur industriel (type de production, taille en nombre de salariés/sites, outils type ERP ou GMAO) au lieu des champs génériques entreprise. La structure du code (formulaire, génération du rapport, impression) reste identique.
+
+## Prérequis
+
+Aucun. Fichier HTML autonome.
+
+## Comment lancer
+
+Ouvrir `index.html` dans un navigateur.
+
+## Statut
+
+V1, même limite que le starter d'origine : front-end statique, pas de sauvegarde, pas de branchement Notion.
+
+## ⚠️ À valider avec Zézé
+
+- Charte graphique : reprend le bleu Chatllow par défaut, à changer si ce produit doit avoir sa propre identité pour être vendu séparément.
+- À qui ce produit est-il destiné : à Chatllow qui le propose à des clients industriels, ou à revendre directement comme produit sous licence ?
+- Les exemples de tâches répétitives (qualité, stocks, maintenance) sont un premier jet basé sur des enjeux industriels courants, à ajuster selon les vrais retours d'un rendez-vous réel.

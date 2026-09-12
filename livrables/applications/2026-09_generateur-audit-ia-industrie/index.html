@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Générateur d'audit IA — Industrie</title>
+<style>
+  :root {
+    --navy: #10213f;
+    --blue: #2f6fed;
+    --blue-light: #eaf1ff;
+    --gray: #5b6472;
+    --border: #dbe2ea;
+    --bg: #f5f7fa;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color: var(--navy); }
+  header { background: var(--navy); color: #fff; padding: 24px 32px; }
+  header h1 { margin: 0; font-size: 22px; }
+  header p { margin: 4px 0 0; color: #b9c6de; font-size: 14px; }
+  main { max-width: 1100px; margin: 0 auto; padding: 32px; display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  .panel { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 24px; }
+  .panel h2 { margin-top: 0; font-size: 16px; color: var(--navy); border-bottom: 1px solid var(--border); padding-bottom: 12px; }
+  label { display: block; font-size: 13px; font-weight: 600; margin: 16px 0 6px; }
+  input, select, textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--border); border-radius: 5px; font-size: 14px; font-family: inherit; }
+  textarea { min-height: 70px; resize: vertical; }
+  .hint { font-size: 12px; color: var(--gray); margin-top: 4px; }
+  button { margin-top: 24px; width: 100%; background: var(--blue); color: #fff; border: none; padding: 12px; border-radius: 6px; font-size: 15px; font-weight: 600; cursor: pointer; }
+  button:hover { opacity: 0.9; }
+  #report { display: none; }
+  #report.visible { display: block; }
+  #placeholder { color: var(--gray); font-size: 14px; }
+  .report-header { border-bottom: 2px solid var(--blue); padding-bottom: 12px; margin-bottom: 16px; }
+  .report-header h3 { margin: 0 0 4px; font-size: 18px; }
+  .report-header .meta { font-size: 12px; color: var(--gray); }
+  .report-section { margin-bottom: 18px; }
+  .report-section h4 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--blue); margin-bottom: 6px; }
+  .report-section p, .report-section li { font-size: 14px; line-height: 1.5; }
+  .badge { display: inline-block; background: var(--blue-light); color: var(--blue); font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 12px; margin-bottom: 8px; }
+  .print-btn { background: var(--navy); margin-top: 12px; }
+  @media print { header, .panel:first-child, .print-btn { display: none !important; } main { display: block; padding: 0; } .panel { border: none; padding: 0; } }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Générateur d'audit IA — Industrie</h1>
+  <p>Préparer un compte-rendu d'audit pour une entreprise industrielle en quelques minutes</p>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>Informations recueillies</h2>
+    <form id="audit-form">
+      <label for="entreprise">Nom de l'entreprise</label>
+      <input type="text" id="entreprise" required placeholder="Ex. Industries de Guinée SA">
+
+      <label for="typeproduction">Type de production</label>
+      <input type="text" id="typeproduction" required placeholder="Ex. Agroalimentaire, textile, métallurgie, assemblage...">
+
+      <label for="taille">Taille de l'entreprise</label>
+      <select id="taille" required>
+        <option value="">Choisir...</option>
+        <option value="Atelier artisanal (1 à 10 salariés)">Atelier artisanal (1 à 10 salariés)</option>
+        <option value="PME industrielle (11 à 250 salariés)">PME industrielle (11 à 250 salariés)</option>
+        <option value="ETI industrielle (251 à 5000 salariés)">ETI industrielle (251 à 5000 salariés)</option>
+        <option value="Groupe industriel (plus de 5000 salariés)">Groupe industriel (plus de 5000 salariés)</option>
+      </select>
+
+      <label for="maturite">Maturité IA actuelle</label>
+      <select id="maturite" required>
+        <option value="">Choisir...</option>
+        <option value="aucun">Aucun usage identifié</option>
+        <option value="ponctuel">Usage ponctuel, non structuré (quelques personnes testent des outils seuls)</option>
+        <option value="structure">Usage structuré sur un périmètre précis</option>
+        <option value="avance">Usage avancé, déployé sur plusieurs lignes ou sites</option>
+      </select>
+
+      <label for="taches">Tâches répétitives identifiées</label>
+      <textarea id="taches" required placeholder="Une par ligne. Ex.&#10;Contrôle qualité visuel sur la chaîne&#10;Planification de la production&#10;Gestion et suivi des stocks&#10;Maintenance préventive des machines"></textarea>
+      <p class="hint">Une tâche par ligne, ça alimente directement la section "Opportunités" du rapport.</p>
+
+      <label for="outils">Outils déjà utilisés (ERP, GMAO...)</label>
+      <input type="text" id="outils" placeholder="Ex. ERP, Excel, logiciel de GMAO...">
+
+      <label for="objectif">Objectif principal recherché</label>
+      <select id="objectif" required>
+        <option value="">Choisir...</option>
+        <option value="réduire les arrêts de production">Réduire les arrêts de production</option>
+        <option value="améliorer le contrôle qualité">Améliorer le contrôle qualité</option>
+        <option value="optimiser la gestion des stocks">Optimiser la gestion des stocks</option>
+        <option value="rester compétitif face à la concurrence">Rester compétitif face à la concurrence</option>
+        <option value="mieux former les équipes sur l'IA">Mieux former les équipes sur l'IA</option>
+      </select>
+
+      <label for="notes">Notes libres (optionnel)</label>
+      <textarea id="notes" placeholder="Tout élément utile évoqué en rendez-vous"></textarea>
+
+      <button type="submit">Générer le rapport</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <h2>Rapport généré</h2>
+    <p id="placeholder">Remplis le formulaire à gauche et clique sur "Générer le rapport" pour voir apparaître le compte-rendu ici.</p>
+    <div id="report">
+      <div class="report-header">
+        <span class="badge">Audit IA — Industrie</span>
+        <h3 id="r-entreprise"></h3>
+        <div class="meta" id="r-meta"></div>
+      </div>
+      <div class="report-section"><h4>Résumé exécutif</h4><p id="r-resume"></p></div>
+      <div class="report-section"><h4>Constat</h4><p id="r-constat"></p></div>
+      <div class="report-section"><h4>Opportunités identifiées</h4><ul id="r-opportunites"></ul></div>
+      <div class="report-section"><h4>Approche recommandée</h4><p id="r-approche"></p></div>
+      <div class="report-section"><h4>Prochaines étapes</h4><p id="r-etapes"></p></div>
+      <button class="print-btn" onclick="window.print()">Imprimer / Exporter en PDF</button>
+    </div>
+  </section>
+</main>
+
+<script>
+document.getElementById('audit-form').addEventListener('submit', function (e) {
+  e.preventDefault();
+
+  const entreprise = document.getElementById('entreprise').value.trim();
+  const typeproduction = document.getElementById('typeproduction').value.trim();
+  const taille = document.getElementById('taille').value;
+  const maturite = document.getElementById('maturite').value;
+  const tachesRaw = document.getElementById('taches').value.trim();
+  const outils = document.getElementById('outils').value.trim();
+  const objectif = document.getElementById('objectif').value;
+  const notes = document.getElementById('notes').value.trim();
+
+  const taches = tachesRaw.split('\n').map(t => t.trim()).filter(t => t.length > 0);
+
+  const maturiteLabels = {
+    aucun: "aucun usage identifié de l'intelligence artificielle à ce jour",
+    ponctuel: "un usage ponctuel et non structuré, porté par quelques personnes isolées",
+    structure: "un usage déjà structuré, mais limité à un périmètre précis",
+    avance: "un usage avancé, déjà déployé sur plusieurs lignes ou sites"
+  };
+
+  const approches = {
+    aucun: "Démarrer par un cas d'usage pilote unique, à fort impact et à faible risque, par exemple l'assistance au contrôle qualité sur une ligne, plutôt qu'un projet transversal d'emblée.",
+    ponctuel: "Structurer et généraliser ce qui fonctionne déjà de façon isolée sur certaines lignes ou certains postes, pour en faire une pratique partagée sur l'ensemble du site.",
+    structure: "Étendre le périmètre déjà maîtrisé à des cas d'usage voisins, et mesurer l'impact réel (taux de rebut, temps d'arrêt machine, précision des stocks).",
+    avance: "Passer d'une logique de cas d'usage isolés à une gouvernance IA d'ensemble à l'échelle du site ou du groupe, avec formation continue des équipes de production et de maintenance."
+  };
+
+  const opportunites = taches.map(t =>
+    `${t} — à évaluer comme cas d'usage IA (automatisation, vision industrielle, ou traitement de données selon la nature exacte de la tâche)`
+  );
+
+  document.getElementById('r-entreprise').textContent = entreprise || "Entreprise non renseignée";
+  document.getElementById('r-meta').textContent =
+    `${typeproduction || "Type de production non renseigné"} — ${taille || "Taille non renseignée"} — Rapport généré le ${new Date().toLocaleDateString('fr-FR')}`;
+
+  document.getElementById('r-resume').textContent =
+    `${entreprise || "L'entreprise"} produit principalement dans le secteur ${typeproduction || "non précisé"} et se situe aujourd'hui sur ${maturiteLabels[maturite] || "un niveau de maturité IA non précisé"}. ` +
+    `L'objectif prioritaire exprimé est de ${objectif || "non précisé"}. ` +
+    `${taches.length} tâche(s) répétitive(s) ont été identifiées comme point de départ possible pour un accompagnement.`;
+
+  document.getElementById('r-constat').textContent =
+    `Sur le plan technique, l'entreprise utilise aujourd'hui les outils suivants : ${outils || "non précisé lors de l'échange"}. ` +
+    `Ce constat sert de base pour évaluer la compatibilité d'une intégration IA avec l'existant, sans nécessairement remplacer les outils en place.` +
+    (notes ? ` Point complémentaire relevé en échange : ${notes}` : "");
+
+  const opportunitesList = document.getElementById('r-opportunites');
+  opportunitesList.innerHTML = '';
+  if (opportunites.length === 0) {
+    const li = document.createElement('li');
+    li.textContent = "Aucune tâche répétitive n'a été renseignée, à approfondir lors d'un prochain échange.";
+    opportunitesList.appendChild(li);
+  } else {
+    opportunites.forEach(o => {
+      const li = document.createElement('li');
+      li.textContent = o;
+      opportunitesList.appendChild(li);
+    });
+  }
+
+  document.getElementById('r-approche').textContent =
+    approches[maturite] || "Approche à définir avec le client en fonction d'un diagnostic de maturité plus poussé.";
+
+  document.getElementById('r-etapes').textContent =
+    "Un échange de 30 minutes permet d'affiner ce constat et de définir ensemble le premier cas d'usage à traiter, sans engagement à ce stade.";
+
+  document.getElementById('placeholder').style.display = 'none';
+  document.getElementById('report').classList.add('visible');
+  document.getElementById('report').scrollIntoView({ behavior: 'smooth' });
+});
+</script>
+
+</body>
+</html>
