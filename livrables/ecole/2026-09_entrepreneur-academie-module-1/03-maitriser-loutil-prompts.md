@@ -62,6 +62,20 @@ structuré avec ce qui va et ce qui doit être corrigé, pas juste corriger
 sans me montrer le diagnostic.
 ```
 
+### Un Skill pour formaliser toute une méthode de livraison client
+
+Un Skill peut aller plus loin qu'un savoir-faire ponctuel : il peut encapsuler ta méthode complète de livraison pour un type de projet récurrent (par exemple tous tes futurs sites vitrines d'artisans), ce qui en fait un vrai starter réutilisable au sens du chapitre 4 de la section 6.
+```
+Crée un Skill nommé "nouveau-projet-vitrine" qui, pour chaque nouveau
+client de ce type, suit dans l'ordre : création du CLAUDE.md avec les
+informations du client, import de la maquette Claude Design si elle
+existe déjà, puis rappel du gabarit à 4 éléments (contexte, objectif,
+périmètre, autonomie) avant chaque tâche de construction, et enfin la
+checklist de livraison (fonctionnel, sécurité, handoff) avant de
+considérer le projet terminé.
+```
+Point de vigilance : un Skill comme celui-ci garantit que Claude suit le bon ordre et les bonnes étapes de ta méthode, il ne dispense jamais des points de validation Plan/Execute/Validate à l'intérieur de chaque tâche. Un Skill qui livrerait tout un projet client sans aucun arrêt pour ta validation irait à l'encontre du principe même de l'Agentic Coding vu au chapitre 1 de la Méthode. Si le projet a plusieurs missions vraiment distinctes (rédaction, visuels, tests), ce sont plutôt des sub-agents (chapitre 1 de la section 7) qu'il faut envisager en complément, pas un seul Skill qui ferait tout.
+
 ---
 
 ## Chapitre 4 — MCP
