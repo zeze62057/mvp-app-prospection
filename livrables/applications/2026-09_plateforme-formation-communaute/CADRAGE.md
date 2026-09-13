@@ -41,10 +41,9 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 
 ## 5. Priorité
 
-Deux niveaux de priorité, à ne pas confondre :
+**Ordre de construction tranché le 2026-09-13** : le trio complet (communauté gratuite + communauté payante + page individuelle) se construit d'abord entièrement pour un seul espace, **Vivier IA**, avant de répliquer sur l'espace marketing de réseau. Pas de construction en parallèle sur les deux espaces, et pas de découpage par brique transversale (par exemple "toutes les communautés gratuites des deux espaces d'abord") : un espace de bout en bout, puis l'autre.
 
-- **Entre le socle et la communauté payante** : l'accès fiable au contenu (comptes, paiement, consultation des modules, page individuelle) passe avant la communauté payante (exercices, interactions entre élèves). Confirmé par la volonté de Zézé de développer petit à petit.
-- **La communauté gratuite est à part** : elle n'est pas "après" le reste, c'est le moteur d'acquisition qui alimente tout le système (sans elle, pas de nouveaux payants). Sa place exacte dans l'ordre des lots de construction reste à trancher avec Zézé (voir points à trancher) : elle pourrait très bien passer avant le socle payant si l'urgence est de commencer à capter des prospects dès maintenant.
+À l'intérieur du trio Vivier IA, l'accès fiable au contenu (comptes, paiement, consultation des modules, page individuelle) reste construit avant la communauté payante (exercices, interactions entre élèves), conformément à la volonté de Zézé de développer petit à petit. La communauté gratuite (moteur d'acquisition) fait partie de ce premier trio, son ordre exact par rapport au socle payant reste à préciser au moment du découpage des tâches (étape 5 du pipeline).
 
 ## 6. Répartition produit / automatisation
 
@@ -69,14 +68,14 @@ Deux niveaux de priorité, à ne pas confondre :
 
 ## 7. Périmètre
 
-**Probable en V1** (premier lot incrémental, ordre exact des trois briques encore à trancher avec Zézé, voir section 5) :
+**Probable en V1** (premier lot incrémental, uniquement l'espace **Vivier IA**, voir section 5) :
 - Comptes payants activés via Mobile Money et n8n
-- Deux espaces séparés (Vivier IA / Marketing de réseau)
 - Consultation des modules déjà rédigés, page individuelle de progression
 - Communauté gratuite avec lien d'invitation et approbation manuelle
-
-**Vient après**, une fois le socle stable :
 - Communauté payante (exercices, interactions entre élèves)
+
+**Vient après**, une fois le trio Vivier IA stable :
+- Réplication du même trio pour l'espace marketing de réseau
 - Lead magnets sur les vidéos, statistiques avancées de communauté
 - Outil d'enregistrement vidéo intégré (si retenu)
 - Ajout manuel d'élève en formation payante (si retenu)
@@ -93,7 +92,6 @@ Deux niveaux de priorité, à ne pas confondre :
 
 ## 9. Points encore à trancher
 
-- **Ordre des trois briques dans les lots incrémentaux** : la communauté gratuite (acquisition) peut-elle passer avant le socle payant, vu son rôle moteur pour générer des clients ?
 - **Relation avec le portail existant** `livrables/sites-web/2026-09_portail-academie/` : une vitrine publique est voulue pour les deux espaces (nouveau, confirmé le 2026-09-13) — ce portail existant devient-il cette vitrine, pour les deux espaces, ou est-il remplacé par quelque chose de nouveau ?
 - **Identité** : nom et image de la plateforme globale, et nom à trouver pour l'espace "marketing de réseau" (générique, pas "Longrich")
 - **Délai de lancement** : aucune date connue pour l'instant
@@ -116,5 +114,7 @@ Deux niveaux de priorité, à ne pas confondre :
 - Confirmé : le second espace ne doit pas porter le nom "Longrich", pour rester ouvert à d'autres entreprises de marketing de réseau
 - Confirmé : approbation manuelle uniquement pour la communauté gratuite, accès automatique par paiement pour la partie payante
 - Notés comme souhaits non bloquants : ajout manuel d'élève en formation payante, outil d'enregistrement vidéo intégré, lead magnets sur les vidéos
+
+**2026-09-13 (suite)** — Ordre de construction tranché : le trio complet (gratuite + payante + individuelle) se construit d'abord pour l'espace Vivier IA en entier, avant de répliquer sur l'espace marketing de réseau.
 
 Non tranché à ce stade : voir section 9.
