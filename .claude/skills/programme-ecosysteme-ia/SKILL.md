@@ -6,17 +6,18 @@ description: >-
   RGPD/AI Act, Lemlist), organisée par ordre de priorité, doublons
   supprimés. Se déclenche uniquement quand Zézé le demande explicitement,
   par exemple "utilise le programme", "où est-ce que je place ce sujet dans
-  le programme", "aide-moi à construire Entrepreneur Académie avec ce
-  programme", "quels modules il me manque". Sert de référence pour
-  structurer et faire évoluer le contenu d'Entrepreneur Académie, pas de
-  contenu de cours détaillé (seuls les titres de chapitres sont disponibles).
+  le programme", "aide-moi à construire Vivier IA avec ce programme",
+  "quels modules il me manque". Sert de référence pour structurer et faire
+  évoluer le contenu de Vivier IA (école de l'IA en francophonie,
+  anciennement "Entrepreneur Académie"), pas de contenu de cours détaillé
+  (seuls les titres de chapitres sont disponibles).
 ---
 
 # Skill : Programme Écosystème IA
 
 ## Mission
 
-Servir de base de référence structurée pour Entrepreneur Académie, l'école de l'IA francophone que Zézé construit. Ce skill ne se déclenche jamais automatiquement, seulement quand Zézé le demande explicitement.
+Servir de base de référence structurée pour Vivier IA, l'école de l'IA francophone que Zézé construit (anciennement "Entrepreneur Académie", renommée le 12 septembre 2026). Ce skill ne se déclenche jamais automatiquement, seulement quand Zézé le demande explicitement.
 
 Ce fichier contient uniquement une **table des matières** (titres de modules et de chapitres), pas le contenu détaillé de chaque leçon. Ne jamais inventer de contenu de cours qui n'est pas dans cette liste : si Zézé demande le détail d'un chapitre, dis clairement que seul le titre est disponible ici et demande-lui la source si il veut aller plus loin.
 
@@ -26,7 +27,7 @@ Selon la demande de Zézé, ce skill sert à :
 - **Situer un sujet** : dans quel module et quel chapitre un thème donné se trouve
 - **Repérer des trous** : quels sujets utiles pour Entrepreneur Académie ne sont couverts par aucun des 5 modules
 - **Proposer une séquence pédagogique** : dans quel ordre enseigner ces modules à des apprenants francophones, en tenant compte du profil visé (débutant, entrepreneur, futur consultant)
-- **Comparer avec le positionnement d'Entrepreneur Académie** : ce qui colle à la vulgarisation IA en francophonie que vise Zézé, ce qui est trop technique ou hors sujet, ce qui pourrait être un module payant premium vs un module d'appel gratuit
+- **Comparer avec le positionnement de Vivier IA** : ce qui colle à la vulgarisation IA en francophonie que vise Zézé, ce qui est trop technique ou hors sujet, ce qui pourrait être un module payant premium vs un module d'appel gratuit
 
 Quand tu proposes une structure ou une priorisation, dis toujours pourquoi (quel objectif de Zézé ou quel profil d'apprenant ça sert), ne te contente pas de réordonner sans justification.
 
@@ -234,6 +235,10 @@ Priorisé selon le besoin prioritaire actuel de Zézé (développement sur l'éc
 
 ## Module 5 — Lemlist / prospection froide
 
+> À la fin : remplir son carnet de clients par la prospection par email.
+
+### 📖 Vocabulaire de base de ce parcours
+
 ### 👨‍🔬 Mise en place & Warm-up
 - Introduction, roadmap, mindset et état d'esprit
 - Présentation de Lemlist et ses alternatives
@@ -261,7 +266,7 @@ Priorisé selon le besoin prioritaire actuel de Zézé (développement sur l'éc
 ## Règles importantes
 
 - Ce fichier est une table des matières, pas un cours. Ne jamais inventer le contenu détaillé d'un chapitre non développé ici.
-- Ne jamais présenter ce programme comme celui d'Entrepreneur Académie déjà finalisé : c'est une référence externe à adapter, pas le programme final de Zézé.
+- Ne jamais présenter ce programme comme celui de Vivier IA déjà finalisé : c'est une référence externe à adapter, pas le programme final de Zézé.
 - Si Zézé signale que ce programme a changé (nouveaux modules, réordonnancement), propose de mettre ce fichier à jour plutôt que de garder une version obsolète.
 - Pas de tirets longs (em dashes) dans les réponses.
 - Communication en français systématique.
