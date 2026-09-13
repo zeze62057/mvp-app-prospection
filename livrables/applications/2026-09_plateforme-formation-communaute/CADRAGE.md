@@ -1,6 +1,8 @@
-# Cadrage — Plateforme de formation et communauté
+# Cadrage — Vivier Academies (plateforme de formation et communauté)
 
 Date du cadrage : 2026-09-12, mis à jour le 2026-09-13.
+
+Nom de la plateforme globale : **Vivier Academies** (tranché le 2026-09-13, aucune collision directe trouvée).
 
 ## 0. Architecture
 
@@ -33,7 +35,7 @@ Construction voulue de façon incrémentale ("on développe petit à petit"), pa
 Deux espaces distincts, non mélangés, chacun avec son trio communauté gratuite / communauté payante / page individuelle :
 
 - **Vivier IA** : apprenants du programme écosystème IA, prospectés notamment via YouTube
-- **Marketing de réseau** : distributeurs Longrich formés par Zézé, **et** distributeurs d'autres entreprises de marketing de réseau que Zézé compte aussi prospecter et former avec ses équipes. Décision explicite : ce second espace ne doit **pas** afficher le nom "Longrich", pour rester ouvert à ces autres entreprises. Nom de l'espace encore à trouver (voir points à trancher).
+- **Bâtisseur Pro** (nom tranché le 2026-09-13) : distributeurs Longrich formés par Zézé, **et** distributeurs d'autres entreprises de marketing de réseau que Zézé compte aussi prospecter et former avec ses équipes. Décision explicite : cet espace ne doit **pas** afficher le nom "Longrich", pour rester ouvert à ces autres entreprises. Point de vigilance : proximité de nom avec "Le Bâtisseur" (`formation-lebatisseur.fr`, formation en communication pour dirigeants), secteur différent mais à garder en tête, pas une collision directe.
 
 ## 4. Problème réel résolu
 
@@ -96,7 +98,7 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 ## 9. Points encore à trancher
 
 - **Relation avec le portail existant** `livrables/sites-web/2026-09_portail-academie/` : une vitrine publique est voulue pour les deux espaces (nouveau, confirmé le 2026-09-13) — ce portail existant devient-il cette vitrine, pour les deux espaces, ou est-il remplacé par quelque chose de nouveau ?
-- **Identité** : nom et image de la plateforme globale, et nom à trouver pour l'espace "marketing de réseau" (générique, pas "Longrich")
+- ~~Identité de la plateforme globale~~ : tranché, voir en-tête du document (Vivier Academies, nom visible de la plateforme qui héberge Vivier IA, Bâtisseur Pro et la vitrine Chatllow).
 - **Délai de lancement** : aucune date connue pour l'instant
 - **Hors périmètre explicite pour la V1** : à définir précisément avec Zézé
 - **Détail technique de l'intégration Mobile Money** : quel agrégateur ou API pour capter les paiements Orange/MTN en Guinée
@@ -123,5 +125,11 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 **2026-09-13 (suite)** — Ajout confirmé comme extension future (pas V1) : agent IA de veille et qualification sociale, avec réserve technique sur les limites réelles de l'automatisation de prospection sortante sur les réseaux sociaux. Exigence esthétique explicite ajoutée aux contraintes : la plateforme doit être soignée visuellement, elle est pensée pour être largement promue et attirer une clientèle importante.
 
 **2026-09-13 (suite)** — Ajout confirmé comme extension future (pas V1) : une vitrine Chatllow (page de présentation du cabinet avec appel à l'action), visible par la communauté, plus légère qu'un espace complet.
+
+**2026-09-13 (suite)** — Nom de l'espace marketing de réseau tranché : **Bâtisseur Pro**. Piste retenue après exploration de plusieurs options ("MLMpreneur Pro" écarté pour collision directe avec mlmpreneur.com, "Vivier Réseau" et "Essor Réseau" proposés sans collision trouvée). Zézé a choisi Bâtisseur Pro malgré la recommandation de Claude pour Vivier Réseau ; point de vigilance noté sur la proximité avec "Le Bâtisseur" (secteur différent).
+
+**2026-09-13 (suite)** — Nom de la plateforme globale tranché : **Vivier Academies**. "Le Tremplin" et "Constellation" écartés pour collision réelle (tremplindeselus.fr et autres, constellation.academy).
+
+Toutes les identités sont maintenant tranchées : plateforme = Vivier Academies, espace 1 = Vivier IA, espace 2 = Bâtisseur Pro.
 
 Non tranché à ce stade : voir section 9.
