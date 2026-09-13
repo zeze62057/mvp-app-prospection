@@ -40,6 +40,16 @@ Claude Code s'installe en ligne de commande. Deux prérequis avant de commencer 
 
 Ces étapes sont identiques sur Windows, Mac et Linux, tant que Node.js est présent. Si `node` ou `npx` restent introuvables après l'installation, le problème vient presque toujours du PATH système qui n'a pas été mis à jour : redémarrer le terminal (ou l'ordinateur) résout la majorité des cas.
 
+### Pièges fréquents à l'installation (surtout sur Windows)
+
+Deux blocages reviennent souvent chez un apprenant qui installe Claude Code pour la première fois. Les connaître à l'avance évite de les prendre pour un échec personnel, ce sont des blocages courants avec une solution connue.
+
+**Une installation coupée en cours de route.** Si la connexion internet flanche pendant `npm install -g @anthropic-ai/claude-code`, l'installation peut sembler terminée mais rester incomplète (`claude --version` renvoie alors une erreur du type "binaire natif non installé"). Le réflexe : ne pas relancer l'installation par-dessus, mais repartir propre avec `npm uninstall -g @anthropic-ai/claude-code` puis réinstaller une fois la connexion stable.
+
+**Windows qui bloque l'exécution des scripts.** Taper `claude` peut afficher une erreur PowerShell du type "l'exécution de scripts est désactivée sur ce système". C'est une protection de sécurité activée par défaut sur Windows, pas un problème avec Claude Code lui-même. La commande `Get-ExecutionPolicy -List` montre alors une politique "Undefined" pour le compte utilisateur, ce qui revient à tout bloquer. La correction : `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned`, qui autorise les scripts locaux (comme celui de `claude`) sans pour autant exécuter n'importe quel script téléchargé depuis internet sans signature, la sécurité reste réelle.
+
+Ces deux cas illustrent directement le réflexe du Module 1, section 2, chapitre 4 : lire le message d'erreur en entier et diagnostiquer avant de corriger, plutôt que de recommencer à l'aveugle en espérant que ça passe.
+
 ### Pourquoi ce chapitre ouvre le module
 
 Ce chapitre n'enseigne encore aucun outil. Son rôle est de repositionner mentalement l'apprenant avant de toucher quoi que ce soit : on ne vient pas ici "apprendre à coder", on vient apprendre à diriger un agent qui code. Si un apprenant garde le réflexe de vouloir tout comprendre ligne par ligne comme un développeur classique, il va se fatiguer inutilement et sous-exploiter l'outil.
