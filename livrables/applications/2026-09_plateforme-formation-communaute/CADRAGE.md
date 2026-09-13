@@ -79,11 +79,13 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 - Lead magnets sur les vidéos, statistiques avancées de communauté
 - Outil d'enregistrement vidéo intégré (si retenu)
 - Ajout manuel d'élève en formation payante (si retenu)
+- **Agent IA de veille et qualification sociale** : détecte les interactions entrantes (commentaires, mentions, messages) sur les réseaux sociaux et route vers la communauté gratuite. Réserve technique explicite : les plateformes sociales limitent fortement l'automatisation de la prospection sortante (messages non sollicités), risque de bannissement de compte. Le réalisable est la détection et la réponse à ce qui arrive, pas le démarchage à froid automatisé. À investiguer en détail au moment de cadrer cette brique précisément, plateforme par plateforme.
 
 **Hors périmètre explicite** : pas encore défini précisément par Zézé (voir points à trancher).
 
 ## 8. Contraintes connues
 
+- **Exigence esthétique explicite** : cette plateforme est destinée à être largement promue et doit attirer une clientèle importante. Le soin visuel (Claude Design pour la maquette, étape 3) n'est pas secondaire ici, il conditionne directement l'objectif d'acquisition
 - Paiement en Mobile Money (Orange Money, MTN Money), spécifique au marché guinéen
 - Construction volontairement incrémentale, pas de "tout en un bloc"
 - Le second espace ne doit jamais afficher la marque "Longrich", pour rester ouvert à d'autres entreprises de marketing de réseau
@@ -116,5 +118,7 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 - Notés comme souhaits non bloquants : ajout manuel d'élève en formation payante, outil d'enregistrement vidéo intégré, lead magnets sur les vidéos
 
 **2026-09-13 (suite)** — Ordre de construction tranché : le trio complet (gratuite + payante + individuelle) se construit d'abord pour l'espace Vivier IA en entier, avant de répliquer sur l'espace marketing de réseau.
+
+**2026-09-13 (suite)** — Ajout confirmé comme extension future (pas V1) : agent IA de veille et qualification sociale, avec réserve technique sur les limites réelles de l'automatisation de prospection sortante sur les réseaux sociaux. Exigence esthétique explicite ajoutée aux contraintes : la plateforme doit être soignée visuellement, elle est pensée pour être largement promue et attirer une clientèle importante.
 
 Non tranché à ce stade : voir section 9.
