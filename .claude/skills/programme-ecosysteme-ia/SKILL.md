@@ -25,7 +25,7 @@ Ce fichier contient uniquement une **table des matières** (titres de modules et
 
 Selon la demande de Zézé, ce skill sert à :
 - **Situer un sujet** : dans quel module et quel chapitre un thème donné se trouve
-- **Repérer des trous** : quels sujets utiles pour Entrepreneur Académie ne sont couverts par aucun des 5 modules
+- **Repérer des trous** : quels sujets utiles pour Vivier IA ne sont couverts par aucun des 5 modules
 - **Proposer une séquence pédagogique** : dans quel ordre enseigner ces modules à des apprenants francophones, en tenant compte du profil visé (débutant, entrepreneur, futur consultant)
 - **Comparer avec le positionnement de Vivier IA** : ce qui colle à la vulgarisation IA en francophonie que vise Zézé, ce qui est trop technique ou hors sujet, ce qui pourrait être un module payant premium vs un module d'appel gratuit
 
