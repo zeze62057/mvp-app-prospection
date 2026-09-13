@@ -80,6 +80,7 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 - Outil d'enregistrement vidéo intégré (si retenu)
 - Ajout manuel d'élève en formation payante (si retenu)
 - **Agent IA de veille et qualification sociale** : détecte les interactions entrantes (commentaires, mentions, messages) sur les réseaux sociaux et route vers la communauté gratuite. Réserve technique explicite : les plateformes sociales limitent fortement l'automatisation de la prospection sortante (messages non sollicités), risque de bannissement de compte. Le réalisable est la détection et la réponse à ce qui arrive, pas le démarchage à froid automatisé. À investiguer en détail au moment de cadrer cette brique précisément, plateforme par plateforme.
+- **Vitrine Chatllow** : une page ou section de présentation du cabinet de conseil IA, visible par les membres de la communauté (dirigeants, entrepreneurs, décideurs), avec un appel à l'action (contact, appel découverte). Pas un espace complet avec sa propre communauté ou son propre paiement, une simple page de présentation à faible coût de construction.
 
 **Hors périmètre explicite** : pas encore défini précisément par Zézé (voir points à trancher).
 
@@ -120,5 +121,7 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 **2026-09-13 (suite)** — Ordre de construction tranché : le trio complet (gratuite + payante + individuelle) se construit d'abord pour l'espace Vivier IA en entier, avant de répliquer sur l'espace marketing de réseau.
 
 **2026-09-13 (suite)** — Ajout confirmé comme extension future (pas V1) : agent IA de veille et qualification sociale, avec réserve technique sur les limites réelles de l'automatisation de prospection sortante sur les réseaux sociaux. Exigence esthétique explicite ajoutée aux contraintes : la plateforme doit être soignée visuellement, elle est pensée pour être largement promue et attirer une clientèle importante.
+
+**2026-09-13 (suite)** — Ajout confirmé comme extension future (pas V1) : une vitrine Chatllow (page de présentation du cabinet avec appel à l'action), visible par la communauté, plus légère qu'un espace complet.
 
 Non tranché à ce stade : voir section 9.
