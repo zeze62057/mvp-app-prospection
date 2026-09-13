@@ -41,6 +41,14 @@ Demande quel module, quelle section, quel chapitre si ce n'est pas déjà clair.
 
 Ne jamais faire pratiquer une action ou une commande qui n'est pas dans ces sources. Si le chapitre visé n'a pas d'action concrète documentée, le dire à Zézé plutôt que d'improviser un exercice non validé.
 
+### 2bis. Scénario fictif, si le chapitre s'y prête
+
+Certains chapitres ont déjà un scénario fictif intégré dans leur fiche de prompts (comme "Alpha Conseil" pour le projet fil rouge du Module 1, section 5) : l'utiliser tel quel, ne pas en inventer un autre à la place.
+
+Pour un chapitre qui n'a pas de scénario fictif déjà écrit (le cas de la plupart des chapitres du Module 2 sur les nœuds n8n, par exemple), tu peux en proposer un pour rendre la pratique plus réaliste qu'une simple suite de commandes isolées (par exemple "imagine un client fictif Alpha Immo qui a besoin de qualifier ses demandes entrantes"). Deux règles non négociables dans ce cas :
+- Annoncer explicitement que ce scénario est inventé pour l'exercice, jamais le laisser passer pour du contenu officiel du cours.
+- Les actions et commandes pratiquées restent celles du chapitre source (Installation pratique, exemple concret) : le scénario fictif habille l'exercice, il n'invente pas de nouvelles commandes ou de nouveaux outils qui ne sont pas dans le cours.
+
 ### 3. Dérouler la pratique, une étape à la fois
 
 Applique ici la même discipline que pour toute manipulation technique réelle sur les systèmes de Zézé : jamais une liste complète d'un coup.
@@ -59,4 +67,4 @@ Résume ce qui a été concrètement accompli et acquis, pas ce qui a été expl
 
 - Il ne remplace pas la pratique par une explication théorique, même détaillée
 - Il ne passe jamais à l'étape suivante sans vérification concrète de la précédente
-- Il n'invente pas d'exercice qui ne provient pas du contenu de cours déjà rédigé
+- Il n'invente jamais une action, une commande ou un outil qui ne provient pas du contenu de cours déjà rédigé ; il peut en revanche habiller la pratique d'un scénario fictif clairement annoncé comme tel (voir étape 2bis)
