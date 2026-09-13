@@ -72,9 +72,10 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 
 **Probable en V1** (premier lot incrémental, uniquement l'espace **Vivier IA**, voir section 5) :
 - Comptes payants activés via Mobile Money et n8n
-- Consultation des modules déjà rédigés, page individuelle de progression
+- Consultation des modules déjà rédigés, page individuelle de progression, **avec lecture vidéo intégrée** (les modules incluent du contenu vidéo, confirmé requis dès la V1, pas une évolution ultérieure)
 - Communauté gratuite avec lien d'invitation et approbation manuelle
 - Communauté payante (exercices, interactions entre élèves)
+- **Version mobile** : la plateforme doit être utilisable sur mobile dès la V1 (confirmé le 2026-09-13), pas seulement desktop. Le format exact (site responsive ou application dédiée) reste à trancher à l'étape 3 (maquette) selon le budget et le délai réels de construction
 
 **Vient après**, une fois le trio Vivier IA stable :
 - Réplication du même trio pour l'espace marketing de réseau
@@ -84,7 +85,7 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 - **Agent IA de veille et qualification sociale** : détecte les interactions entrantes (commentaires, mentions, messages) sur les réseaux sociaux et route vers la communauté gratuite. Réserve technique explicite : les plateformes sociales limitent fortement l'automatisation de la prospection sortante (messages non sollicités), risque de bannissement de compte. Le réalisable est la détection et la réponse à ce qui arrive, pas le démarchage à froid automatisé. À investiguer en détail au moment de cadrer cette brique précisément, plateforme par plateforme.
 - **Vitrine Chatllow** : une page ou section de présentation du cabinet de conseil IA, visible par les membres de la communauté (dirigeants, entrepreneurs, décideurs), avec un appel à l'action (contact, appel découverte). Pas un espace complet avec sa propre communauté ou son propre paiement, une simple page de présentation à faible coût de construction.
 
-**Hors périmètre explicite** : pas encore défini précisément par Zézé (voir points à trancher).
+**Hors périmètre explicite pour la V1** : aucune exclusion demandée par Zézé (2026-09-13). Au contraire, la version mobile et la lecture vidéo sont confirmées comme requises dès la V1, pas des évolutions ultérieures.
 
 ## 8. Contraintes connues
 
@@ -92,15 +93,16 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 - Paiement en Mobile Money (Orange Money, MTN Money), spécifique au marché guinéen
 - Construction volontairement incrémentale, pas de "tout en un bloc"
 - Le second espace ne doit jamais afficher la marque "Longrich", pour rester ouvert à d'autres entreprises de marketing de réseau
-- Aucun délai de lancement communiqué pour l'instant
+- Aucun délai de lancement, confirmé le 2026-09-13 : pas de date cible pour l'instant
+- Version mobile et lecture vidéo intégrée requises dès la V1 (confirmé le 2026-09-13)
 - Aucune contrainte de budget communiquée
 
 ## 9. Points encore à trancher
 
-- **Relation avec le portail existant** `livrables/sites-web/2026-09_portail-academie/` : une vitrine publique est voulue pour les deux espaces (nouveau, confirmé le 2026-09-13) — ce portail existant devient-il cette vitrine, pour les deux espaces, ou est-il remplacé par quelque chose de nouveau ?
+- ~~Relation avec le portail existant~~ : tranché le 2026-09-13. `livrables/sites-web/2026-09_portail-academie/` est **absorbé** par Vivier Academies plutôt que maintenu séparément : la nouvelle plateforme devient elle-même la vitrine publique, pour les deux espaces. Le portail existant sera à archiver ou rediriger une fois la vitrine construite (étape 3).
 - ~~Identité de la plateforme globale~~ : tranché, voir en-tête du document (Vivier Academies, nom visible de la plateforme qui héberge Vivier IA, Bâtisseur Pro et la vitrine Chatllow).
-- **Délai de lancement** : aucune date connue pour l'instant
-- **Hors périmètre explicite pour la V1** : à définir précisément avec Zézé
+- ~~Délai de lancement~~ : tranché, aucune contrainte pour l'instant.
+- ~~Hors périmètre explicite pour la V1~~ : tranché, rien d'exclu ; mobile et vidéo confirmés requis dès la V1.
 - **Détail technique de l'intégration Mobile Money** : quel agrégateur ou API pour capter les paiements Orange/MTN en Guinée
 - **"Plusieurs paramètres" de la communauté** : au-delà du nombre d'abonnés, quels autres indicateurs ou réglages Zézé veut voir
 - **Ajout manuel en formation payante** : à confirmer techniquement en construction, non bloquant si trop complexe
@@ -132,4 +134,6 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 
 Toutes les identités sont maintenant tranchées : plateforme = Vivier Academies, espace 1 = Vivier IA, espace 2 = Bâtisseur Pro.
 
-Non tranché à ce stade : voir section 9.
+**2026-09-13 (suite)** — Dernier tour de cadrage : portail existant absorbé par Vivier Academies (pas maintenu séparément), aucun délai de lancement, aucune exclusion de périmètre demandée. Version mobile et lecture vidéo intégrée confirmées comme requises dès la V1 Vivier IA, pas des évolutions ultérieures.
+
+Il ne reste que des points d'exécution technique à trancher pendant la construction (voir section 9) : le cadrage est considéré comme suffisant pour passer à l'étape 3 (maquette Claude Design).
