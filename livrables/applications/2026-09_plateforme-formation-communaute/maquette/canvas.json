@@ -1,0 +1,11 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1280, "h": 1680, "title": "Vitrine + communauté gratuite", "print": "flow", "is_interactive": true },
+    { "file": "Communaute.dc.html", "x": 1380, "y": 0, "w": 1280, "h": 960, "title": "Fil de la communaute gratuite", "print": "flow", "is_interactive": true },
+    { "file": "Tunnel.dc.html", "x": 2760, "y": 0, "w": 1280, "h": 880, "title": "Tunnel de paiement Mobile Money", "print": "flow", "is_interactive": true }
+  ],
+  "annotations": [
+    { "id": "brief-note", "x": 0, "y": -140, "w": 500, "text": "Vivier Academies — prototype cliquable, espace Vivier IA. Socle : vitrine -> communaute gratuite -> tunnel de paiement Mobile Money. Base sur le cadrage du 2026-09-13." }
+  ],
+  "launch": { "view": "canvas" }
+}

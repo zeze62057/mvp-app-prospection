@@ -1,0 +1,210 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;600;700;800&family=Manrope:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --encre: #113832; --encre-2: #16443c;
+      --sarcelle: #2B8C82; --sarcelle-light: #5FC7B8;
+      --corail: #FF7A4D;
+      --fond: #F2F7F5; --fond-carte: #FFFFFF;
+      --ligne: rgba(17,56,50,0.10);
+      --texte: #0F2E29; --texte-mute: rgba(15,46,41,0.6);
+      --sur-encre: #EAF5F2; --sur-encre-mute: rgba(234,245,242,0.6);
+      --display: 'Unbounded', sans-serif; --corps: 'Manrope', sans-serif; --mono: 'Space Mono', monospace;
+    }
+    html, body { margin:0; background:var(--fond); }
+    .slide { width:1280px; background:var(--fond); font-family:var(--corps); color:var(--texte); }
+
+    .topbar { display:flex; align-items:center; justify-content:space-between; padding:16px 28px; border-bottom:1px solid var(--ligne); background:var(--fond-carte); }
+    .brand { display:flex; align-items:center; gap:9px; }
+    .brand-word { font-family:var(--display); font-weight:700; font-size:14.5px; }
+    .topnav { display:flex; gap:26px; font-size:13px; font-weight:700; color:var(--texte-mute); }
+    .topnav span.active { color:var(--sarcelle); border-bottom:2px solid var(--sarcelle); padding-bottom:14px; margin-bottom:-15px; }
+    .topbar-right { display:flex; align-items:center; gap:12px; }
+    .me-avatar { width:30px; height:30px; border-radius:50%; background:var(--corail); }
+
+    .layout { display:grid; grid-template-columns:700px 1fr; gap:24px; padding:28px 28px 40px; }
+
+    .composer { background:var(--fond-carte); border:1px solid var(--ligne); border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+    .composer-avatar { width:34px; height:34px; border-radius:50%; background:var(--sarcelle); flex-shrink:0; }
+    .composer-fake-input { flex:1; background:var(--fond); border:1px solid var(--ligne); border-radius:100px; padding:10px 16px; font-size:13px; color:var(--texte-mute); }
+
+    .unlock-banner { background:var(--encre); color:var(--sur-encre); border-radius:14px; padding:20px 24px; display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; position:relative; overflow:hidden; }
+    .unlock-banner::after { content:""; position:absolute; right:-30px; top:-30px; width:110px; height:110px; border-radius:50%; border:1px solid rgba(95,199,184,0.25); }
+    .unlock-text b { font-family:var(--display); display:block; font-size:14.5px; margin-bottom:3px; font-weight:700; }
+    .unlock-text span { font-size:12px; color:var(--sur-encre-mute); }
+    .btn-unlock { position:relative; background:var(--corail); color:var(--encre); border:none; padding:11px 18px; border-radius:9px; font-family:var(--corps); font-weight:800; font-size:12.5px; cursor:pointer; white-space:nowrap; }
+
+    .post { background:var(--fond-carte); border:1px solid var(--ligne); border-radius:14px; padding:18px 20px; margin-bottom:14px; display:flex; gap:16px; }
+    .vote { display:flex; flex-direction:column; align-items:center; gap:2px; flex-shrink:0; width:34px; padding-top:2px; cursor:pointer; user-select:none; }
+    .vote-arrow { font-size:15px; color:var(--texte-mute); line-height:1; }
+    .vote.voted .vote-arrow { color:var(--sarcelle); }
+    .vote-count { font-family:var(--mono); font-weight:700; font-size:13px; }
+    .vote.voted .vote-count { color:var(--sarcelle); }
+    .post-body { flex:1; min-width:0; }
+    .post-head { display:flex; align-items:center; gap:9px; margin-bottom:8px; flex-wrap:wrap; }
+    .post-avatar { width:26px; height:26px; border-radius:50%; background:var(--sarcelle); flex-shrink:0; }
+    .post-name { font-weight:700; font-size:12.5px; }
+    .post-level { font-family:var(--mono); font-size:9.5px; color:var(--sarcelle); background:rgba(43,140,130,0.1); padding:1px 6px; border-radius:5px; }
+    .post-time { font-family:var(--mono); font-size:10.5px; color:var(--texte-mute); }
+    .tag { font-family:var(--mono); font-size:9.5px; text-transform:uppercase; letter-spacing:0.04em; padding:3px 8px; border-radius:5px; font-weight:700; }
+    .tag-victoire { background:rgba(43,140,130,0.12); color:var(--sarcelle); }
+    .tag-question { background:rgba(255,122,77,0.12); color:var(--corail); }
+    .tag-annonce { background:var(--encre); color:var(--sur-encre); }
+    .post-title { font-family:var(--display); font-weight:700; font-size:14.5px; margin:2px 0 6px; }
+    .post-text { font-size:13.5px; line-height:1.55; color:var(--texte); margin:0 0 10px; }
+    .post-actions { display:flex; gap:18px; font-family:var(--mono); font-size:11.5px; color:var(--texte-mute); }
+
+    .side { display:flex; flex-direction:column; gap:16px; }
+    .side-card { background:var(--fond-carte); border:1px solid var(--ligne); border-radius:14px; padding:18px; }
+    .side-card-title { font-family:var(--display); font-weight:700; font-size:13px; margin-bottom:14px; }
+    .side-stat-row { display:flex; gap:0; }
+    .side-stat { flex:1; text-align:center; }
+    .side-stat + .side-stat { border-left:1px solid var(--ligne); }
+    .side-stat-num { font-family:var(--display); font-weight:800; font-size:19px; color:var(--sarcelle); }
+    .side-stat-label { font-family:var(--mono); font-size:9.5px; color:var(--texte-mute); margin-top:2px; }
+
+    .rank-row { display:flex; align-items:center; gap:10px; padding:8px 0; }
+    .rank-row:not(:last-child) { border-bottom:1px solid var(--ligne); }
+    .rank-num { font-family:var(--mono); font-weight:700; font-size:12px; color:var(--texte-mute); width:16px; }
+    .rank-row:nth-child(1) .rank-num, .rank-row.r1 .rank-num { color:var(--corail); }
+    .rank-avatar { width:28px; height:28px; border-radius:50%; background:var(--sarcelle); flex-shrink:0; }
+    .rank-name { font-weight:700; font-size:12px; flex:1; }
+    .rank-pts { font-family:var(--mono); font-size:11px; color:var(--texte-mute); }
+
+    .side-nav-item { padding:9px 10px; border-radius:8px; font-size:12.5px; color:var(--texte-mute); }
+    .side-nav-item.active { background:rgba(43,140,130,0.1); color:var(--sarcelle); font-weight:700; }
+  </style>
+</helmet>
+<div class="slide">
+  <div class="topbar">
+    <div class="brand">
+      <svg width="24" height="24" viewBox="0 0 120 120" fill="none">
+        <circle cx="45" cy="75" r="22" stroke="#2B8C82" stroke-width="9"/>
+        <line x1="61" y1="59" x2="95" y2="25" stroke="#2B8C82" stroke-width="9" stroke-linecap="round"/>
+        <circle cx="95" cy="25" r="9" fill="#FF7A4D"/>
+      </svg>
+      <span class="brand-word">Vivier IA</span>
+    </div>
+    <div class="topnav">
+      <span class="active">Communauté</span>
+      <span>Contenu gratuit</span>
+      <span>Classement</span>
+      <span>Membres</span>
+    </div>
+    <div class="topbar-right">
+      <div class="me-avatar"></div>
+    </div>
+  </div>
+
+  <div class="layout">
+    <div class="feed">
+      <div class="unlock-banner">
+        <div class="unlock-text">
+          <b>Débloque la formation complète</b>
+          <span>Paiement Mobile Money — accès activé dès réception.</span>
+        </div>
+        <button class="btn-unlock" onclick="this.textContent='Voir le tunnel →'; this.style.opacity=0.85;">Débloquer</button>
+      </div>
+
+      <div class="composer">
+        <div class="composer-avatar"></div>
+        <div class="composer-fake-input">Partage une victoire, pose une question...</div>
+      </div>
+
+      <div class="post">
+        <div class="vote" onclick="this.classList.toggle('voted'); var c=this.querySelector('.vote-count'); c.textContent = this.classList.contains('voted') ? 143 : 142;">
+          <span class="vote-arrow">▲</span>
+          <span class="vote-count">142</span>
+        </div>
+        <div class="post-body">
+          <div class="post-head">
+            <div class="post-avatar" style="background:#FF7A4D;"></div>
+            <span class="post-name">Équipe Vivier IA</span>
+            <span class="post-level">Admin</span>
+            <span class="tag tag-annonce">annonce</span>
+            <span class="post-time">il y a 1 jour</span>
+          </div>
+          <p class="post-title">Nouvelle vidéo gratuite : Agentic Coding vs Vibe Coding</p>
+          <p class="post-text">La vraie différence n'est pas l'outil, c'est la discipline autour. Regarde-la puis viens en discuter ici.</p>
+          <div class="post-actions"><span>💬 31 commentaires</span></div>
+        </div>
+      </div>
+
+      <div class="post">
+        <div class="vote" onclick="this.classList.toggle('voted'); var c=this.querySelector('.vote-count'); c.textContent = this.classList.contains('voted') ? 25 : 24;">
+          <span class="vote-arrow">▲</span>
+          <span class="vote-count">24</span>
+        </div>
+        <div class="post-body">
+          <div class="post-head">
+            <div class="post-avatar"></div>
+            <span class="post-name">Fatoumata C.</span>
+            <span class="post-level">Niveau 3</span>
+            <span class="tag tag-victoire">victoire</span>
+            <span class="post-time">il y a 2h</span>
+          </div>
+          <p class="post-title">Premier site déployé sur Vercel !</p>
+          <p class="post-text">Premier prompt réussi avec Claude Code aujourd'hui, mon site vitrine est en ligne. Merci pour le contenu gratuit, hâte de voir la formation complète.</p>
+          <div class="post-actions"><span>💬 6 commentaires</span></div>
+        </div>
+      </div>
+
+      <div class="post">
+        <div class="vote" onclick="this.classList.toggle('voted'); var c=this.querySelector('.vote-count'); c.textContent = this.classList.contains('voted') ? 9 : 8;">
+          <span class="vote-arrow">▲</span>
+          <span class="vote-count">8</span>
+        </div>
+        <div class="post-body">
+          <div class="post-head">
+            <div class="post-avatar" style="background:#5FC7B8;"></div>
+            <span class="post-name">Ousmane B.</span>
+            <span class="post-level">Niveau 1</span>
+            <span class="tag tag-question">question</span>
+            <span class="post-time">il y a 5h</span>
+          </div>
+          <p class="post-title">OVH plutôt que Vercel pour un projet avec base de données ?</p>
+          <p class="post-text">Je débute la section Fondations, je me demande dans quel cas basculer vers OVH plutôt que Vercel.</p>
+          <div class="post-actions"><span>💬 4 commentaires</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="side-card">
+        <div class="side-card-title">Vivier IA</div>
+        <div class="side-stat-row">
+          <div class="side-stat"><div class="side-stat-num">2 480</div><div class="side-stat-label">membres</div></div>
+          <div class="side-stat"><div class="side-stat-num">94</div><div class="side-stat-label">en ligne</div></div>
+        </div>
+      </div>
+
+      <div class="side-card">
+        <div class="side-card-title">Classement · 7 jours</div>
+        <div class="rank-row r1"><span class="rank-num">1</span><div class="rank-avatar" style="background:#FF7A4D;"></div><span class="rank-name">Fatoumata C.</span><span class="rank-pts">+210</span></div>
+        <div class="rank-row"><span class="rank-num">2</span><div class="rank-avatar"></div><span class="rank-name">Aïssatou D.</span><span class="rank-pts">+165</span></div>
+        <div class="rank-row"><span class="rank-num">3</span><div class="rank-avatar" style="background:#5FC7B8;"></div><span class="rank-name">Ibrahima S.</span><span class="rank-pts">+140</span></div>
+        <div class="rank-row"><span class="rank-num">4</span><div class="rank-avatar"></div><span class="rank-name">Ousmane B.</span><span class="rank-pts">+95</span></div>
+      </div>
+
+      <div class="side-card">
+        <div class="side-card-title">Naviguer</div>
+        <div class="side-nav-item active">Fil de la communauté</div>
+        <div class="side-nav-item">Contenu gratuit</div>
+        <div class="side-nav-item">Formation complète</div>
+        <div class="side-nav-item">Mon profil</div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
