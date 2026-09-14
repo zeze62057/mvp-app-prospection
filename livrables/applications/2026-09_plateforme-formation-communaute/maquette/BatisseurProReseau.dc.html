@@ -1,0 +1,122 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&family=Public+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --encre: #113832; --encre-2: #16443c;
+      --sarcelle: #2B8C82; --sarcelle-light: #5FC7B8;
+      --corail: #FF7A4D;
+      --fond: #F2F7F5; --fond-carte: #FFFFFF;
+      --ligne: rgba(17,56,50,0.10);
+      --texte: #0F2E29; --texte-mute: rgba(15,46,41,0.6);
+      --sur-encre: #EAF5F2; --sur-encre-mute: rgba(234,245,242,0.6);
+      --display: 'Fraunces', serif; --corps: 'Public Sans', sans-serif; --mono: 'Space Mono', monospace;
+    }
+    html, body { margin:0; background:var(--fond); }
+    .slide { width:1280px; background:var(--fond); font-family:var(--corps); color:var(--texte); }
+    h1,p { margin:0; text-wrap:balance; }
+
+    .nav { display:flex; align-items:center; justify-content:space-between; padding:26px 64px; }
+    .brand { display:flex; align-items:center; gap:10px; }
+    .brand-word { font-family:var(--display); font-weight:600; font-size:17px; }
+    .brand-sub { font-family:var(--mono); font-size:10px; color:var(--texte-mute); }
+
+    .hero { display:flex; align-items:center; gap:56px; padding:30px 64px 60px; }
+    .hero-text { flex:1.1; }
+    .kicker { display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:11.5px; color:var(--corail); background:rgba(255,122,77,0.09); border:1px solid rgba(255,122,77,0.28); padding:6px 12px; border-radius:100px; margin-bottom:22px; }
+    .hero-title { font-family:var(--display); font-weight:600; font-size:42px; line-height:1.12; margin-bottom:20px; max-width:540px; }
+    .hero-title em { font-style:italic; font-weight:500; color:var(--corail); }
+    .hero-sub { font-size:16px; line-height:1.6; color:var(--texte-mute); max-width:440px; margin-bottom:30px; }
+    .btn-primary { background:var(--encre); color:var(--sur-encre); border:none; padding:16px 26px; border-radius:10px; font-weight:700; font-size:14.5px; cursor:pointer; box-shadow:0 10px 24px rgba(17,56,50,0.2); }
+    .stat-note { font-size:12.5px; color:var(--texte-mute); margin-left:14px; }
+
+    .hero-visual { flex:1; display:flex; align-items:center; justify-content:center; }
+    .leader-card { width:320px; background:var(--fond-carte); border:1px solid var(--ligne); border-radius:18px; padding:26px; box-shadow:0 24px 50px rgba(17,56,50,0.1); text-align:center; }
+    .leader-photo { width:76px; height:76px; border-radius:50%; margin:0 auto 14px; background:linear-gradient(135deg,var(--corail),var(--encre)); display:flex; align-items:center; justify-content:center; font-family:var(--display); font-weight:700; color:var(--sur-encre); }
+    .leader-name { font-family:var(--display); font-weight:700; font-size:15px; }
+    .leader-role { font-size:12px; color:var(--texte-mute); margin:4px 0 16px; }
+    .leader-stats { display:flex; justify-content:center; gap:20px; padding-top:14px; border-top:1px solid var(--ligne); }
+    .leader-stat-num { font-family:var(--display); font-weight:800; font-size:17px; color:var(--sarcelle); }
+    .leader-stat-label { font-family:var(--mono); font-size:9.5px; color:var(--texte-mute); }
+
+    .band { padding:56px 64px; }
+    .band-title { font-family:var(--display); font-weight:700; font-size:24px; text-align:center; margin-bottom:34px; max-width:620px; margin-left:auto; margin-right:auto; }
+    .cards { display:flex; gap:22px; }
+    .card { flex:1; background:var(--fond-carte); border:1px solid var(--ligne); border-radius:14px; padding:22px; }
+    .card-num { font-family:var(--mono); font-size:12px; color:var(--sarcelle); margin-bottom:10px; }
+    .card-title { font-family:var(--display); font-weight:700; font-size:15px; margin-bottom:8px; }
+    .card-text { font-size:13px; line-height:1.55; color:var(--texte-mute); }
+
+    .footer { padding:26px 64px; display:flex; justify-content:space-between; font-size:11.5px; color:var(--texte-mute); font-family:var(--mono); border-top:1px solid var(--ligne); }
+  </style>
+</helmet>
+<div class="slide">
+  <div class="nav">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 120 120" fill="none">
+        <circle cx="45" cy="75" r="22" stroke="#2B8C82" stroke-width="9"/>
+        <line x1="61" y1="59" x2="95" y2="25" stroke="#2B8C82" stroke-width="9" stroke-linecap="round"/>
+        <circle cx="95" cy="25" r="9" fill="#FF7A4D"/>
+      </svg>
+      <div><span class="brand-word">Bâtisseur Pro</span><div class="brand-sub">par Vivier Academies</div></div>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-text">
+      <div class="kicker">page 2 · rejoindre l'équipe</div>
+      <h1 class="hero-title">Tu es déjà dans le marketing de réseau. Viens le faire <em>avec l'IA de ton côté</em>.</h1>
+      <p class="hero-sub">Peu importe ton entreprise actuelle : rejoins une équipe qui forme ses distributeurs à l'IA pour prospecter, recruter et suivre plus efficacement.</p>
+      <button class="btn-primary">Discuter avec l'équipe</button>
+      <span class="stat-note">Premier échange gratuit</span>
+    </div>
+    <div class="hero-visual">
+      <div class="leader-card">
+        <div class="leader-photo">ZB</div>
+        <p class="leader-name">Zézé Bilivogui</p>
+        <p class="leader-role">Leader Bâtisseur Pro · photo à intégrer</p>
+        <div class="leader-stats">
+          <div><div class="leader-stat-num">1 200+</div><div class="leader-stat-label">équipe</div></div>
+          <div><div class="leader-stat-num">8</div><div class="leader-stat-label">compétences Go Pro</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="band">
+    <p class="band-title">Pourquoi rejoindre cette équipe précisément</p>
+    <div class="cards">
+      <div class="card">
+        <p class="card-num">01</p>
+        <p class="card-title">Un système, pas juste un produit</p>
+        <p class="card-text">Une méthode de duplication déjà écrite, pas à réinventer seul de zéro.</p>
+      </div>
+      <div class="card">
+        <p class="card-num">02</p>
+        <p class="card-title">L'IA en plus, pas à la place</p>
+        <p class="card-text">Les fondamentaux du marketing de réseau restent les mêmes, l'IA accélère l'exécution.</p>
+      </div>
+      <div class="card">
+        <p class="card-num">03</p>
+        <p class="card-title">Une communauté active</p>
+        <p class="card-text">Des home meetings, un suivi réel, pas un groupe qui dort après l'inscription.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    <span>bâtisseur pro</span>
+    <span>une académie vivier academies</span>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>

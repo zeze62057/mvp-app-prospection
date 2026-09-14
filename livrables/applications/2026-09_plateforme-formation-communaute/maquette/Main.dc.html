@@ -127,6 +127,12 @@
     .proof-foot { display:flex; gap:16px; font-family:var(--mono); font-size:11px; color:var(--texte-mute); }
     .proof-note { font-size:11px; color:var(--texte-mute); font-style:italic; margin-top:22px; }
 
+    .offer-band { position:relative; z-index:1; margin:0 64px 60px; background:linear-gradient(120deg,var(--corail),#FF9068); border-radius:20px; padding:30px 36px; display:flex; align-items:center; justify-content:space-between; color:var(--encre); }
+    .offer-eyebrow { font-family:var(--mono); font-size:11px; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:8px; opacity:0.75; }
+    .offer-title { font-family:var(--display); font-weight:700; font-size:19px; max-width:520px; }
+    .offer-title b { font-weight:800; }
+    .btn-offer { background:var(--encre); color:var(--sur-encre); border:none; padding:15px 26px; border-radius:10px; font-weight:800; font-size:13.5px; cursor:pointer; white-space:nowrap; }
+
     .footer { position:relative; z-index:1; padding:30px 64px; display:flex; justify-content:space-between; align-items:center; font-size:11.5px; color:var(--texte-mute); border-top:1px solid var(--ligne); font-family:var(--mono); }
   </style>
 </helmet>
@@ -277,6 +283,14 @@
       </div>
     </div>
     <p class="proof-note">Inspiré de la structure de iapreneurs.com (preuve via posts réels de communauté), adapté au visuel Vivier IA</p>
+  </div>
+
+  <div class="offer-band">
+    <div>
+      <p class="offer-eyebrow">offre de lancement · places limitées</p>
+      <p class="offer-title">Les <b>50 premiers</b> membres de la communauté gratuite reçoivent <b>3 mois d'accès offerts</b> à la communauté payante à leur inscription.</p>
+    </div>
+    <button class="btn-offer">Rejoindre maintenant</button>
   </div>
 
   <div class="footer">

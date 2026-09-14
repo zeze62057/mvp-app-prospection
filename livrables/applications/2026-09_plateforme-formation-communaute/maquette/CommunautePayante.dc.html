@@ -50,11 +50,17 @@
     .post-avatar { width:28px; height:28px; border-radius:50%; background:var(--sarcelle); flex-shrink:0; }
     .post-name { font-weight:700; font-size:12.5px; }
     .post-level { font-family:var(--mono); font-size:9.5px; color:var(--sarcelle); background:rgba(43,140,130,0.1); padding:1px 6px; border-radius:5px; }
+    .post-level.expert { color:var(--encre); background:var(--corail); font-weight:700; }
     .post-time { font-family:var(--mono); font-size:10.5px; color:var(--texte-mute); }
     .post-text { font-size:13.5px; line-height:1.55; color:var(--texte); margin:0 0 12px; }
     .media-row { display:flex; gap:8px; margin-bottom:12px; }
-    .media-thumb { flex:1; height:110px; border-radius:10px; background:repeating-linear-gradient(135deg,var(--sarcelle) 0,var(--sarcelle) 8px,var(--encre-2) 8px,var(--encre-2) 16px); display:flex; align-items:center; justify-content:center; color:var(--sur-encre-mute); font-family:var(--mono); font-size:10px; }
+    .media-thumb { position:relative; flex:1; height:110px; border-radius:10px; background:repeating-linear-gradient(135deg,var(--sarcelle) 0,var(--sarcelle) 8px,var(--encre-2) 8px,var(--encre-2) 16px); display:flex; align-items:center; justify-content:center; color:var(--sur-encre-mute); font-family:var(--mono); font-size:10px; }
     .media-thumb.video::before { content:"▶"; color:#fff; font-size:20px; }
+    .magnet-badge { position:absolute; top:8px; left:8px; display:flex; align-items:center; gap:4px; background:var(--corail); color:var(--encre); font-family:var(--mono); font-size:9px; font-weight:700; padding:3px 8px; border-radius:100px; }
+    .expert-card { background:var(--fond-carte); border:1px dashed var(--corail); border-radius:14px; padding:18px 20px; margin-bottom:18px; display:flex; align-items:center; justify-content:space-between; }
+    .expert-card-text b { display:block; font-family:var(--display); font-size:14px; margin-bottom:3px; }
+    .expert-card-text span { font-size:12px; color:var(--texte-mute); }
+    .btn-expert { background:var(--corail); color:var(--encre); border:none; padding:10px 18px; border-radius:9px; font-weight:800; font-size:12.5px; cursor:pointer; white-space:nowrap; }
     .post-actions { display:flex; gap:18px; font-family:var(--mono); font-size:11.5px; color:var(--texte-mute); }
     .post-actions .liked { color:var(--corail); font-weight:700; }
 
@@ -83,6 +89,7 @@
       <span>Ma progression</span>
       <span class="active">Communauté payante</span>
       <span>Formation</span>
+      <span>Devenir Expert</span>
     </div>
     <div class="me-avatar"></div>
   </div>
@@ -102,17 +109,28 @@
         <div class="composer-icons">📷 🎥</div>
       </div>
 
+      <div class="expert-card">
+        <div class="expert-card-text">
+          <b>Deviens Expert Vivier IA</b>
+          <span>Les membres les plus actifs peuvent être invités à mentorer, animer un atelier, ou rejoindre l'équipe</span>
+        </div>
+        <button class="btn-expert">Postuler</button>
+      </div>
+
       <div class="post">
         <div class="post-head">
           <div class="post-avatar"></div>
           <span class="post-name">Fatoumata C.</span>
-          <span class="post-level">Niveau 4</span>
+          <span class="post-level expert">★ Expert</span>
           <span class="post-time">il y a 3h</span>
         </div>
-        <p class="post-text">Exercice de la semaine terminé ! Capture de mon site déployé + une petite vidéo du parcours utilisateur.</p>
+        <p class="post-text">Exercice de la semaine terminé ! Capture de mon site déployé + une petite vidéo du parcours utilisateur, avec le lien du template offert pour ceux qui veulent partir de la même base.</p>
         <div class="media-row">
           <div class="media-thumb">capture d'écran</div>
-          <div class="media-thumb video">vidéo 0:42</div>
+          <div class="media-thumb video">
+            <span class="magnet-badge">🧲 template offert</span>
+            vidéo 0:42
+          </div>
         </div>
         <div class="post-actions"><span class="liked">♥ 19</span><span>💬 5 commentaires</span></div>
       </div>

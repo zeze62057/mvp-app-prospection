@@ -6,12 +6,15 @@ Voir `CADRAGE.md` pour le cadrage complet du projet (objectif, cible, architectu
 
 Prototype cliquable construit dans Claude Design, pour l'espace **Vivier IA** (premier espace construit, voir `CADRAGE.md` section 5).
 
-**Écrans couverts** (trio complet Vivier IA) :
-- `maquette/Main.dc.html` — vitrine publique : hero avec terminal Claude Code, section fondateur, preuve communautaire (posts illustratifs), inspiré de iapreneurs.com
-- `maquette/Communaute.dc.html` — fil de la communauté gratuite, inspiré de Skool (vote, tags de catégorie, niveaux, classement)
+**Écrans couverts** (trio complet Vivier IA + extensions + premières vitrines Bâtisseur Pro) :
+- `maquette/Main.dc.html` — vitrine publique Vivier IA : hero avec terminal Claude Code, section fondateur, preuve communautaire, bandeau offre de lancement, inspiré de iapreneurs.com
+- `maquette/Communaute.dc.html` — fil de la communauté gratuite, inspiré de Skool (vote, tags de catégorie, niveaux, classement, lead magnet sur vidéo)
 - `maquette/Tunnel.dc.html` — tunnel de paiement Mobile Money (Orange Money / MTN Money)
-- `maquette/Progression.dc.html` — page individuelle de progression de l'élève (modules, anneau de progression, streak)
-- `maquette/CommunautePayante.dc.html` — communauté payante : exercice de la semaine, posts avec pièces jointes, membres en ligne
+- `maquette/Progression.dc.html` — page individuelle de progression de l'élève (modules, anneau de progression, streak, formulaire de témoignage)
+- `maquette/CommunautePayante.dc.html` — communauté payante : exercice de la semaine, badge Expert, carte de recrutement d'experts, posts avec pièces jointes et lead magnet
+- `maquette/Prompts.dc.html` — bibliothèque de prompts de la communauté gratuite (filtres, cartes copiables)
+- `maquette/BatisseurProFormation.dc.html` — vitrine Bâtisseur Pro, angle formation (méthode Go Pro)
+- `maquette/BatisseurProReseau.dc.html` — vitrine Bâtisseur Pro, angle recrutement d'équipe
 
 Palette reprise de l'identité Vivier IA déjà validée (`livrables/ecole/2026-09_vivier-ia-identite-visuelle/`) : encre `#113832`, sarcelle `#2B8C82`/`#5FC7B8`, corail `#FF7A4D`, fond clair `#F2F7F5`. Typographie de la maquette : **Fraunces** (titres) + **Public Sans** (texte courant) + **Space Mono** (détails techniques, terminal) — différente d'Unbounded + Manrope utilisés ailleurs dans la marque Vivier IA (logo, decks de cours). Ce choix n'est pas encore étendu au reste de la marque, voir `CLAUDE.md`.
 
@@ -25,4 +28,10 @@ Pour rouvrir et modifier : reconstruire le canvas avec le helper `seed-canvas.mj
 
 ## Statut
 
-Maquette en cours de validation avec Zézé. Écrans restants à concevoir : page individuelle de progression de l'élève, communauté payante (exercices et interactions entre élèves). Photo réelle de Zézé à intégrer (emplacement placeholder présent sur la vitrine).
+Trio Vivier IA complet et validé, plus des extensions (bibliothèque de prompts, badge Expert, lead magnets, offre de lancement) et les deux premières vitrines Bâtisseur Pro. Photo réelle de Zézé à intégrer (emplacements placeholder présents sur les vitrines).
+
+Décisions de fond notées mais volontairement pas encore construites, en attente d'un cadrage dédié (voir `CADRAGE.md`) :
+- Paiement en plusieurs tranches (1, 2 ou 3 fois)
+- Prix des formations modifiables par un admin
+- Création facilitée d'un nouveau "compte espace" avec les mêmes paramètres pour de futures formations
+- Possibilité pour les prospects de créer leur propre communauté sur la plateforme (pivot potentiel du modèle produit)

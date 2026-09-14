@@ -1,0 +1,111 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&family=Public+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --encre: #113832; --encre-2: #16443c;
+      --sarcelle: #2B8C82; --sarcelle-light: #5FC7B8;
+      --corail: #FF7A4D;
+      --fond: #F2F7F5; --fond-carte: #FFFFFF;
+      --ligne: rgba(17,56,50,0.10);
+      --texte: #0F2E29; --texte-mute: rgba(15,46,41,0.6);
+      --sur-encre: #EAF5F2; --sur-encre-mute: rgba(234,245,242,0.6);
+      --display: 'Fraunces', serif; --corps: 'Public Sans', sans-serif; --mono: 'Space Mono', monospace;
+    }
+    html, body { margin:0; background:var(--fond); }
+    .slide { width:1280px; background:var(--fond); font-family:var(--corps); color:var(--texte); }
+
+    .topbar { display:flex; align-items:center; justify-content:space-between; padding:16px 28px; border-bottom:1px solid var(--ligne); background:var(--fond-carte); }
+    .brand { display:flex; align-items:center; gap:9px; }
+    .brand-word { font-family:var(--display); font-weight:700; font-size:14.5px; }
+    .topnav { display:flex; gap:22px; font-size:13px; font-weight:700; color:var(--texte-mute); }
+    .topnav span.active { color:var(--sarcelle); border-bottom:2px solid var(--sarcelle); padding-bottom:14px; margin-bottom:-15px; }
+    .me-avatar { width:30px; height:30px; border-radius:50%; background:var(--corail); }
+
+    .layout { padding:32px 40px 48px; }
+    .page-head { margin-bottom:22px; }
+    .page-title { font-family:var(--display); font-weight:700; font-size:23px; }
+    .page-sub { font-size:13px; color:var(--texte-mute); margin-top:6px; max-width:560px; }
+
+    .filters { display:flex; gap:10px; margin-bottom:22px; }
+    .filter-chip { font-family:var(--mono); font-size:11.5px; padding:8px 16px; border-radius:100px; border:1px solid var(--ligne); color:var(--texte-mute); cursor:pointer; }
+    .filter-chip.active { background:var(--encre); color:var(--sur-encre-mute); border-color:var(--encre); }
+
+    .prompt-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+    .prompt-card { background:var(--fond-carte); border:1px solid var(--ligne); border-radius:14px; padding:20px; display:flex; flex-direction:column; }
+    .prompt-tag { align-self:flex-start; font-family:var(--mono); font-size:9.5px; text-transform:uppercase; letter-spacing:0.04em; background:rgba(43,140,130,0.1); color:var(--sarcelle); padding:3px 9px; border-radius:5px; margin-bottom:10px; }
+    .prompt-title { font-family:var(--display); font-weight:700; font-size:14.5px; margin-bottom:8px; }
+    .prompt-snippet { background:var(--fond); border:1px solid var(--ligne); border-radius:9px; padding:12px 13px; font-family:var(--mono); font-size:10.5px; line-height:1.6; color:var(--texte-mute); margin-bottom:12px; flex:1; }
+    .btn-copy { background:var(--encre); color:var(--sur-encre); border:none; padding:9px 14px; border-radius:8px; font-weight:700; font-size:11.5px; cursor:pointer; align-self:flex-start; }
+    .btn-copy.copied { background:var(--sarcelle); }
+  </style>
+</helmet>
+<div class="slide">
+  <div class="topbar">
+    <div class="brand">
+      <svg width="24" height="24" viewBox="0 0 120 120" fill="none">
+        <circle cx="45" cy="75" r="22" stroke="#2B8C82" stroke-width="9"/>
+        <line x1="61" y1="59" x2="95" y2="25" stroke="#2B8C82" stroke-width="9" stroke-linecap="round"/>
+        <circle cx="95" cy="25" r="9" fill="#FF7A4D"/>
+      </svg>
+      <span class="brand-word">Vivier IA</span>
+    </div>
+    <div class="topnav">
+      <span>Communauté</span>
+      <span>Contenu</span>
+      <span>Ressources</span>
+      <span>Masterclass</span>
+      <span class="active">Prompts</span>
+      <span>RDV</span>
+      <span>Membres</span>
+    </div>
+    <div class="me-avatar"></div>
+  </div>
+
+  <div class="layout">
+    <div class="page-head">
+      <p class="page-title">Bibliothèque de prompts</p>
+      <p class="page-sub">Des prompts prêts à l'emploi, tirés directement des fiches du cours, pour pratiquer dès ton arrivée dans la communauté gratuite.</p>
+    </div>
+
+    <div class="filters">
+      <span class="filter-chip active">Tous</span>
+      <span class="filter-chip">Fondations</span>
+      <span class="filter-chip">Méthode</span>
+      <span class="filter-chip">Quotidien</span>
+      <span class="filter-chip">Business</span>
+    </div>
+
+    <div class="prompt-grid">
+      <div class="prompt-card">
+        <span class="prompt-tag">fondations</span>
+        <p class="prompt-title">Premier projet avec Claude Code</p>
+        <div class="prompt-snippet">Crée un dossier vide nommé "mon-premier-projet", initialise Claude Code dedans, et demande-lui de créer un fichier README.md qui explique ce que fait ce dossier.</div>
+        <button class="btn-copy" onclick="this.textContent='Copié ✓'; this.classList.add('copied');">Copier le prompt</button>
+      </div>
+      <div class="prompt-card">
+        <span class="prompt-tag">méthode</span>
+        <p class="prompt-title">Instruction complète (gabarit 4 éléments)</p>
+        <div class="prompt-snippet">Contexte : [ton projet]. Objectif : [ce qui doit être vrai à la fin]. Périmètre : [ce qui ne doit pas changer]. Autonomie : [ce que l'agent peut décider seul].</div>
+        <button class="btn-copy" onclick="this.textContent='Copié ✓'; this.classList.add('copied');">Copier le prompt</button>
+      </div>
+      <div class="prompt-card">
+        <span class="prompt-tag">quotidien</span>
+        <p class="prompt-title">Suivi de facturation multi-activités</p>
+        <div class="prompt-snippet">Aide-moi à structurer un suivi de facturation pour mes activités. Je veux un tableau avec les colonnes : activité, client, montant, statut, date.</div>
+        <button class="btn-copy" onclick="this.textContent='Copié ✓'; this.classList.add('copied');">Copier le prompt</button>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
