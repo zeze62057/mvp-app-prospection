@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500;1,600&family=Public+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --encre: #113832; --encre-2: #16443c;
+      --sarcelle: #2B8C82; --sarcelle-light: #5FC7B8;
+      --corail: #FF7A4D;
+      --fond: #F2F7F5; --fond-carte: #FFFFFF;
+      --ligne: rgba(17,56,50,0.10);
+      --texte: #0F2E29; --texte-mute: rgba(15,46,41,0.6);
+      --sur-encre: #EAF5F2; --sur-encre-mute: rgba(234,245,242,0.6);
+      --display: 'Fraunces', serif; --corps: 'Public Sans', sans-serif; --mono: 'Space Mono', monospace;
+    }
+    html, body { margin:0; background:var(--fond); }
+    .slide { width:1280px; background:var(--fond); font-family:var(--corps); color:var(--texte); }
+
+    .topbar { display:flex; align-items:center; justify-content:space-between; padding:16px 28px; border-bottom:1px solid var(--ligne); background:var(--fond-carte); }
+    .brand { display:flex; align-items:center; gap:9px; }
+    .brand-word { font-family:var(--display); font-weight:700; font-size:14.5px; }
+    .brand-badge { font-family:var(--mono); font-size:9.5px; background:var(--encre); color:var(--sarcelle-light); padding:3px 8px; border-radius:6px; letter-spacing:0.04em; }
+    .topnav { display:flex; gap:26px; font-size:13px; font-weight:700; color:var(--texte-mute); }
+    .topnav span.active { color:var(--sarcelle); border-bottom:2px solid var(--sarcelle); padding-bottom:14px; margin-bottom:-15px; }
+    .me-avatar { width:30px; height:30px; border-radius:50%; background:var(--corail); }
+
+    .layout { display:grid; grid-template-columns:700px 1fr; gap:24px; padding:28px 28px 40px; }
+
+    .exercise-card { background:var(--encre); color:var(--sur-encre); border-radius:16px; padding:22px 24px; margin-bottom:18px; position:relative; overflow:hidden; }
+    .exercise-card::after { content:""; position:absolute; right:-30px; bottom:-30px; width:130px; height:130px; border-radius:50%; border:1px solid rgba(95,199,184,0.22); }
+    .exercise-eyebrow { font-family:var(--mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--corail); margin-bottom:8px; }
+    .exercise-title { font-family:var(--display); font-weight:700; font-size:16px; margin-bottom:8px; }
+    .exercise-text { font-size:13px; line-height:1.55; color:var(--sur-encre-mute); margin-bottom:16px; max-width:480px; }
+    .btn-exercise { background:var(--sarcelle-light); color:var(--encre); border:none; padding:11px 20px; border-radius:9px; font-weight:800; font-size:12.5px; cursor:pointer; }
+
+    .composer { background:var(--fond-carte); border:1px solid var(--ligne); border-radius:14px; padding:14px 16px; display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+    .composer-avatar { width:34px; height:34px; border-radius:50%; background:var(--sarcelle); flex-shrink:0; }
+    .composer-fake-input { flex:1; background:var(--fond); border:1px solid var(--ligne); border-radius:100px; padding:10px 16px; font-size:13px; color:var(--texte-mute); }
+    .composer-icons { display:flex; gap:10px; font-size:15px; color:var(--texte-mute); }
+
+    .post { background:var(--fond-carte); border:1px solid var(--ligne); border-radius:14px; padding:18px 20px; margin-bottom:14px; }
+    .post-head { display:flex; align-items:center; gap:9px; margin-bottom:10px; }
+    .post-avatar { width:28px; height:28px; border-radius:50%; background:var(--sarcelle); flex-shrink:0; }
+    .post-name { font-weight:700; font-size:12.5px; }
+    .post-level { font-family:var(--mono); font-size:9.5px; color:var(--sarcelle); background:rgba(43,140,130,0.1); padding:1px 6px; border-radius:5px; }
+    .post-time { font-family:var(--mono); font-size:10.5px; color:var(--texte-mute); }
+    .post-text { font-size:13.5px; line-height:1.55; color:var(--texte); margin:0 0 12px; }
+    .media-row { display:flex; gap:8px; margin-bottom:12px; }
+    .media-thumb { flex:1; height:110px; border-radius:10px; background:repeating-linear-gradient(135deg,var(--sarcelle) 0,var(--sarcelle) 8px,var(--encre-2) 8px,var(--encre-2) 16px); display:flex; align-items:center; justify-content:center; color:var(--sur-encre-mute); font-family:var(--mono); font-size:10px; }
+    .media-thumb.video::before { content:"▶"; color:#fff; font-size:20px; }
+    .post-actions { display:flex; gap:18px; font-family:var(--mono); font-size:11.5px; color:var(--texte-mute); }
+    .post-actions .liked { color:var(--corail); font-weight:700; }
+
+    .side { display:flex; flex-direction:column; gap:16px; }
+    .side-card { background:var(--fond-carte); border:1px solid var(--ligne); border-radius:14px; padding:18px; }
+    .side-card-title { font-family:var(--display); font-weight:700; font-size:13px; margin-bottom:14px; }
+    .member-row { display:flex; align-items:center; gap:10px; padding:6px 0; }
+    .member-avatar { width:28px; height:28px; border-radius:50%; background:var(--sarcelle); flex-shrink:0; }
+    .member-name { font-weight:700; font-size:12px; }
+    .member-status { width:8px; height:8px; border-radius:50%; background:var(--sarcelle-light); margin-left:auto; }
+    .side-note { font-size:11.5px; color:var(--texte-mute); line-height:1.5; }
+  </style>
+</helmet>
+<div class="slide">
+  <div class="topbar">
+    <div class="brand">
+      <svg width="24" height="24" viewBox="0 0 120 120" fill="none">
+        <circle cx="45" cy="75" r="22" stroke="#2B8C82" stroke-width="9"/>
+        <line x1="61" y1="59" x2="95" y2="25" stroke="#2B8C82" stroke-width="9" stroke-linecap="round"/>
+        <circle cx="95" cy="25" r="9" fill="#FF7A4D"/>
+      </svg>
+      <span class="brand-word">Vivier IA</span>
+      <span class="brand-badge">élèves</span>
+    </div>
+    <div class="topnav">
+      <span>Ma progression</span>
+      <span class="active">Communauté payante</span>
+      <span>Formation</span>
+    </div>
+    <div class="me-avatar"></div>
+  </div>
+
+  <div class="layout">
+    <div class="feed">
+      <div class="exercise-card">
+        <p class="exercise-eyebrow">exercice de la semaine · zézé</p>
+        <p class="exercise-title">Déploie un site à toi sur Vercel, cette semaine</p>
+        <p class="exercise-text">Reprends le chapitre 4 de la Section 1 et déploie un projet personnel, même minimal. Poste une capture ici avec le lien, on le commente ensemble.</p>
+        <button class="btn-exercise">Voir la consigne complète</button>
+      </div>
+
+      <div class="composer">
+        <div class="composer-avatar"></div>
+        <div class="composer-fake-input">Partage ton exercice, une photo, une vidéo...</div>
+        <div class="composer-icons">📷 🎥</div>
+      </div>
+
+      <div class="post">
+        <div class="post-head">
+          <div class="post-avatar"></div>
+          <span class="post-name">Fatoumata C.</span>
+          <span class="post-level">Niveau 4</span>
+          <span class="post-time">il y a 3h</span>
+        </div>
+        <p class="post-text">Exercice de la semaine terminé ! Capture de mon site déployé + une petite vidéo du parcours utilisateur.</p>
+        <div class="media-row">
+          <div class="media-thumb">capture d'écran</div>
+          <div class="media-thumb video">vidéo 0:42</div>
+        </div>
+        <div class="post-actions"><span class="liked">♥ 19</span><span>💬 5 commentaires</span></div>
+      </div>
+
+      <div class="post">
+        <div class="post-head">
+          <div class="post-avatar" style="background:#5FC7B8;"></div>
+          <span class="post-name">Ibrahima S.</span>
+          <span class="post-level">Niveau 2</span>
+          <span class="post-time">il y a 1 jour</span>
+        </div>
+        <p class="post-text">Bloqué sur le déploiement OVH avec la base de données, quelqu'un peut regarder ma config avec moi cette semaine ?</p>
+        <div class="post-actions"><span>♡ 6</span><span>💬 9 commentaires</span></div>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="side-card">
+        <div class="side-card-title">En ligne maintenant</div>
+        <div class="member-row"><div class="member-avatar" style="background:#FF7A4D;"></div><span class="member-name">Fatoumata C.</span><div class="member-status"></div></div>
+        <div class="member-row"><div class="member-avatar"></div><span class="member-name">Ousmane B.</span><div class="member-status"></div></div>
+        <div class="member-row"><div class="member-avatar" style="background:#5FC7B8;"></div><span class="member-name">Aïssatou D.</span><div class="member-status"></div></div>
+      </div>
+      <div class="side-card">
+        <div class="side-card-title">À propos</div>
+        <p class="side-note">Espace réservé aux élèves ayant débloqué la formation complète Vivier IA. Exercices hebdomadaires postés par Zézé chaque lundi.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+</body>
+</html>
