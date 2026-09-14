@@ -12,6 +12,9 @@ Projet de Zézé Bilivogui. Vivier Academies est la plateforme qui héberge plus
 - **Ordre de construction** : le trio complet (communauté gratuite → communauté payante → page individuelle) se construit intégralement pour Vivier IA avant de toucher à Bâtisseur Pro.
 - **Répartition produit / automatisation** : les comptes, le contenu, les communautés et la page individuelle sont dans le produit (Claude Code). Le passage paiement Mobile Money → activation de compte est orchestré par n8n, jamais géré directement dans le produit.
 - **Approbation manuelle** : uniquement pour rejoindre la communauté gratuite. L'accès à la formation payante reste automatique dès le paiement reçu, jamais soumis à validation manuelle.
+- **Paiement unique, jamais en tranches** (tranché le 2026-09-14) : un seul versement Mobile Money par formation, une seule activation. Ne jamais construire de suivi de versements partiels sans un nouveau cadrage explicite.
+- **Prix modifiable par un admin, à tout moment** (tranché le 2026-09-14) : le prix de chaque espace est un réglage administrable, jamais une valeur codée en dur dans le produit.
+- **Outil admin "créer une nouvelle formation"** (tranché le 2026-09-14) : un bouton en libre-service pour que Zézé crée lui-même un nouvel espace avec les mêmes paramètres structurels que les espaces existants, sans redemander de développement à chaque fois. À construire dès la V1, même si le premier usage réel n'arrive qu'au 3e espace.
 - **Priorité** : accès fiable au contenu avant la communauté payante. Construction incrémentale voulue par Zézé, pas de gros lot monolithique.
 - **Approbation manuelle bloquante uniquement pour la communauté gratuite** : le reste du parcours (accès payant) ne dépend jamais d'une validation humaine.
 
@@ -29,16 +32,13 @@ Palette reprise de l'identité Vivier IA : encre `#113832`, sarcelle `#2B8C82` /
 
 Typographie de la maquette : **Fraunces** (titres) + **Public Sans** (texte courant) + **Space Mono** (détails techniques, terminal). Point non tranché à ce jour : cette typographie diffère de celle du reste de la marque Vivier IA (logo et decks de cours en Unbounded + Manrope). Ne pas supposer que l'un des deux systèmes typographiques a remplacé l'autre tant que Zézé n'a pas explicitement tranché lequel s'applique où.
 
-## Décisions de fond notées, pas encore cadrées
+## Décisions de fond, toutes tranchées ou écartées au 2026-09-14
 
-Ces idées ont été exprimées par Zézé pendant la maquette, volontairement pas construites tant qu'elles n'ont pas leur propre cadrage (elles touchent l'architecture ou le modèle produit, pas juste l'écran) :
+Toutes les idées de fond notées pendant la maquette ont été cadrées. Rien n'attend plus de décision de ce type ; seuls des détails d'exécution technique restent à préciser en construction (voir `CADRAGE.md` section 9).
 
-- **Paiement en plusieurs tranches** (1, 2 ou 3 fois) : remettrait en cause l'automatisation n8n actuelle, pensée pour un paiement unique = une activation
-- **Prix des formations modifiables par un admin** plutôt que codés en dur
-- **Création facilitée d'un nouvel espace** (compte formation) qui hérite automatiquement des mêmes paramètres que les espaces existants
-- **Les prospects pourraient créer leur propre communauté sur la plateforme** : pivot potentiel important, de "l'académie de Zézé" vers "une plateforme multi-créateurs". Ne jamais construire ça sans une discussion de cadrage dédiée, ça change fondamentalement le modèle de données et la répartition produit/automatisation posée plus haut
+**Écarté le 2026-09-14** : l'idée que les prospects puissent créer leur propre communauté sur la plateforme. Trois lectures possibles avaient été proposées à Zézé (système d'ambassadeurs façon Kora, sous-groupes internes à la communauté Vivier IA, ou vrai statut de créateur multi-tenant), il a préféré la retirer plutôt que de trancher pour l'instant. Ne pas la reproposer sans qu'il la relance lui-même.
 
-Si Zézé redemande une de ces briques, proposer explicitement de la cadrer d'abord (comme pour le reste du projet), plutôt que de la construire directement sur simple demande.
+**Le paiement en plusieurs tranches a aussi été écarté**, et le prix admin ainsi que l'outil de création de formation ont été tranchés (voir "Ce qui ne se discute pas sans repasser par un cadrage" ci-dessus).
 
 ## Stack technique
 

@@ -60,6 +60,7 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 - Compteurs et statistiques de communauté (nombre d'abonnés au minimum, autres paramètres à préciser)
 - Souhaité, non bloquant : ajout manuel d'un élève à la formation payante par Zézé, en plus de l'activation automatique par paiement ; si techniquement lourd, peut être abandonné
 - Souhaité, à confirmer pour quelle version : un outil d'enregistrement vidéo intégré à la plateforme, pour créer des cours directement dedans
+- **Prix des formations modifiables par un admin, à tout moment** (tranché le 2026-09-14) : le prix de chaque espace doit être un réglage admin, jamais codé en dur dans le produit
 
 **Automatisation (n8n)** :
 - Événement déclencheur : paiement reçu via Mobile Money (Orange Money ou MTN Money)
@@ -67,6 +68,8 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 - Le détail technique de captation du paiement Mobile Money (agrégateur, API disponible en Guinée) reste à investiguer à l'étape de construction, pas à trancher ici
 
 **Précision importante sur l'approbation manuelle** : elle ne concerne que l'entrée dans la **communauté gratuite** (Zézé valide qui rejoint le groupe de prospects). Elle ne s'applique jamais à l'accès à la formation payante, qui reste automatique dès le paiement reçu.
+
+**Paiement en plusieurs tranches, tranché le 2026-09-14** : écarté. Le paiement reste unique (un seul versement Mobile Money = une seule activation), conformément à l'automatisation n8n déjà actée. Zézé a préféré simplifier plutôt que d'introduire un suivi de versements partiels.
 
 ## 7. Périmètre
 
@@ -76,6 +79,7 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 - Communauté gratuite avec lien d'invitation et approbation manuelle
 - Communauté payante (exercices, interactions entre élèves)
 - **Version mobile** : la plateforme doit être utilisable sur mobile dès la V1 (confirmé le 2026-09-13), pas seulement desktop. Le format exact (site responsive ou application dédiée) reste à trancher à l'étape 3 (maquette) selon le budget et le délai réels de construction
+- **Outil admin "créer une nouvelle formation"** (tranché le 2026-09-14) : un bouton en libre-service pour que Zézé crée lui-même un nouvel espace (avec les mêmes paramètres structurels que les espaces existants), sans redemander de développement. Construit dès la V1 même si le premier usage réel n'arrive qu'au 3e espace, pour qu'il soit prêt le moment venu
 
 **Vient après**, une fois le trio Vivier IA stable :
 - Réplication du même trio pour l'espace marketing de réseau
@@ -121,6 +125,15 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 - Confirmé : le second espace ne doit pas porter le nom "Longrich", pour rester ouvert à d'autres entreprises de marketing de réseau
 - Confirmé : approbation manuelle uniquement pour la communauté gratuite, accès automatique par paiement pour la partie payante
 - Notés comme souhaits non bloquants : ajout manuel d'élève en formation payante, outil d'enregistrement vidéo intégré, lead magnets sur les vidéos
+
+**2026-09-14** — Maquette étendue (8 écrans : trio Vivier IA + bibliothèque de prompts + 2 vitrines Bâtisseur Pro), puis reprise du cadrage sur les décisions de fond notées pendant la maquette :
+- Écarté : les prospects créent leur propre communauté sur la plateforme (trois lectures possibles proposées à Zézé, il a préféré retirer l'idée pour l'instant plutôt que trancher)
+- Écarté : paiement en plusieurs tranches. Reste un paiement unique
+- Tranché : le prix de chaque formation est modifiable par un admin à tout moment, jamais codé en dur
+- Tranché : outil admin "créer une nouvelle formation" en libre-service, construit dès la V1
+- Restent ouverts : détail technique Mobile Money, paramètres de communauté, ajout manuel en formation payante, outil d'enregistrement vidéo
+
+**Toutes les décisions de fond notées pendant la maquette sont maintenant tranchées ou écartées.** Le cadrage est complet, seuls des détails d'exécution technique restent à préciser en construction (étape 5).
 
 **2026-09-13 (suite)** — Ordre de construction tranché : le trio complet (gratuite + payante + individuelle) se construit d'abord pour l'espace Vivier IA en entier, avant de répliquer sur l'espace marketing de réseau.
 
