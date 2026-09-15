@@ -17,6 +17,7 @@ export type Adhesion = {
 };
 
 export type TagPost = "victoire" | "question" | "annonce";
+export type ZonePost = "gratuite" | "payante";
 
 export type Post = {
   id: string;
@@ -24,6 +25,25 @@ export type Post = {
   auteur_id: string;
   contenu: string;
   tag: TagPost;
+  zone: ZonePost;
+  magnet_texte: string | null;
+  created_at: string;
+};
+
+export type AccesPayant = {
+  id: string;
+  profil_id: string;
+  espace_id: string;
+  actif: boolean;
+  est_expert: boolean;
+  paye_at: string;
+};
+
+export type CandidatureExpert = {
+  id: string;
+  profil_id: string;
+  espace_id: string;
+  statut: StatutAdhesion;
   created_at: string;
 };
 

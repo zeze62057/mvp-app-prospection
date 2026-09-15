@@ -40,3 +40,53 @@ export async function refuserAdhesion(adhesionId: string) {
     .eq("id", adhesionId);
   revalidatePath("/admin");
 }
+
+// Outil temporaire : accorde l'acces payant a la main, en attendant que le
+// vrai paiement Mobile Money (tunnel + webhook n8n) soit branche. A retirer
+// ou masquer une fois ce circuit reel en place.
+export async function accorderAccesPayant(_etat: { erreur: string | null }, formData: FormData) {
+  await verifierAdmin();
+  const email = String(formData.get("email") ?? "").trim();
+  const espaceId = String(formData.get("espace_id") ?? "");
+
+  const admin = createAdminClient();
+  const { data: usersData, error: erreurUsers } = await admin.auth.admin.listUsers();
+  if (erreurUsers) return { erreur: erreurUsers.message };
+
+  const utilisateur = usersData.users.find((u) => u.email === email);
+  if (!utilisateur) return { erreur: "Aucun compte avec cet email." };
+
+  const { error } = await admin
+    .from("acces_payant")
+    .upsert(
+      { profil_id: utilisateur.id, espace_id: espaceId, actif: true },
+      { onConflict: "profil_id,espace_id" }
+    );
+
+  if (error) return { erreur: error.message };
+
+  revalidatePath("/admin");
+  return { erreur: null };
+}
+
+export async function approuverExpert(candidatureId: string, profilId: string, espaceId: string) {
+  await verifierAdmin();
+  const admin = createAdminClient();
+  await admin
+    .from("candidatures_expert")
+    .update({ statut: "approuve" })
+    .eq("id", candidatureId);
+  await admin
+    .from("acces_payant")
+    .update({ est_expert: true })
+    .eq("profil_id", profilId)
+    .eq("espace_id", espaceId);
+  revalidatePath("/admin");
+}
+
+export async function refuserExpert(candidatureId: string) {
+  await verifierAdmin();
+  const admin = createAdminClient();
+  await admin.from("candidatures_expert").update({ statut: "refuse" }).eq("id", candidatureId);
+  revalidatePath("/admin");
+}

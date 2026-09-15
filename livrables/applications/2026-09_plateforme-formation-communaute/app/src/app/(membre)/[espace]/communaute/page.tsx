@@ -114,6 +114,7 @@ export default async function CommunauteGratuitePage({
     .from("posts")
     .select("*")
     .eq("espace_id", espace.id)
+    .eq("zone", "gratuite")
     .order("created_at", { ascending: false })
     .returns<Post[]>();
 
