@@ -42,7 +42,9 @@ Toutes les idées de fond notées pendant la maquette ont été cadrées. Rien n
 
 ## Stack technique
 
-Pas encore choisie. À trancher explicitement en tout début de construction (étape 5), avec Zézé, avant d'écrire la moindre ligne de code. Ne pas présumer qu'elle reprendra celle de Kora (`2026-09_app-prospection-mlm`, statique HTML/JS + Supabase) : c'est une possibilité à évaluer, pas un choix acté.
+**Tranchée le 2026-09-14** : Next.js (React) + Supabase (Postgres, Auth, RLS, Storage). Contrairement à Kora (`2026-09_app-prospection-mlm`, statique HTML/JS + Supabase), un vrai framework est justifié ici par la taille réelle du produit (communautés, panneau admin, architecture à espaces génériques, page de progression).
+
+**Vidéos** : deux sources à supporter, embed YouTube (simple, pour le contenu déjà utilisé en prospection) et upload direct sur la plateforme. Pour les vidéos uploadées, commencer avec Supabase Storage + lecteur vidéo natif (pas de service de streaming spécialisé type Mux/Cloudflare Stream en V1, ça se justifie seulement à un vrai volume, à migrer plus tard si besoin).
 
 ## Contraintes connues
 
