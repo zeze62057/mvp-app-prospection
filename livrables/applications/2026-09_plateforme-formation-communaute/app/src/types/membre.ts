@@ -61,6 +61,20 @@ export type Section = {
   titre: string;
 };
 
+export type StatutPaiement = "en_attente" | "confirme" | "echoue";
+
+export type Paiement = {
+  id: string;
+  profil_id: string;
+  espace_id: string;
+  montant: number;
+  devise: string;
+  statut: StatutPaiement;
+  reference_chariow: string | null;
+  created_at: string;
+  confirme_at: string | null;
+};
+
 export type Temoignage = {
   id: string;
   profil_id: string;
