@@ -47,6 +47,30 @@ export type CandidatureExpert = {
   created_at: string;
 };
 
+export type Module = {
+  id: string;
+  espace_id: string;
+  ordre: number;
+  titre: string;
+};
+
+export type Section = {
+  id: string;
+  module_id: string;
+  ordre: number;
+  titre: string;
+};
+
+export type Temoignage = {
+  id: string;
+  profil_id: string;
+  espace_id: string;
+  note: number;
+  texte: string;
+  autorise_partage: boolean;
+  created_at: string;
+};
+
 export function niveauDepuisPoints(points: number): string {
   if (points >= 200) return "Niveau 5";
   if (points >= 80) return "Niveau 4";
