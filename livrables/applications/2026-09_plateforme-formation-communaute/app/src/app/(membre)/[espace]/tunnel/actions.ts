@@ -14,6 +14,13 @@ export async function initierPaiement(
   formData: FormData
 ): Promise<EtatPaiement> {
   const espaceSlug = String(formData.get("espace_slug") ?? "");
+  const prenom = String(formData.get("prenom") ?? "").trim();
+  const nom = String(formData.get("nom") ?? "").trim();
+  const telephone = String(formData.get("telephone") ?? "").trim();
+
+  if (!prenom || !nom || !telephone) {
+    return { erreur: "Prenom, nom et telephone sont requis pour payer.", checkoutUrl: null };
+  }
 
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
@@ -53,6 +60,10 @@ export async function initierPaiement(
         profil_id: userData.user.id,
         espace_id: espace.id,
         email: userData.user.email,
+        first_name: prenom,
+        last_name: nom,
+        phone_number: telephone,
+        phone_country_code: "GN",
         montant: espace.prix,
         devise: espace.devise,
       }),
