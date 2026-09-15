@@ -4,6 +4,7 @@
 
 ## Sommaire
 
+0. [Guide de réussite du module](00-guide-de-reussite.md) — dans quel ordre pratiquer les sections, avec quoi, et comment savoir qu'on peut passer à la suite
 1. [Découvrir n8n](01-decouvrir-n8n.md) — découverte de n8n, credentials, triggers, logique des nœuds, nœuds clés, bons réflexes ✅ rédigé
 2. [n8n avancé](02-n8n-avance.md) — APIs et HTTP Request, manipulation des données, données binaires, sous-workflows, gestion des erreurs, astuces avancées ✅ rédigé
 3. [IA et agents IA dans n8n](03-ia-agents-n8n.md) — modèles d'IA, prompts, Langchain, nœuds IA, agents IA, RAG, multimodal ✅ rédigé
@@ -18,4 +19,4 @@ Même format que le Module 1 : chaque chapitre a une leçon en profondeur, des p
 
 ## Statut
 
-Rédaction complète en plusieurs passes (12 septembre 2026), pas encore testée avec de vrais apprenants. À relire, ajuster au ton et aux exemples spécifiques à ton public, et enrichir avec tes propres cas concrets Chatllow et Longrich. Pas encore de guide de réussite dédié (voir celui du Module 1 pour le principe, à adapter ici si besoin).
+Rédaction complète en plusieurs passes (12 septembre 2026), pas encore testée avec de vrais apprenants. À relire, ajuster au ton et aux exemples spécifiques à ton public, et enrichir avec tes propres cas concrets Chatllow et Longrich. Guide de réussite dédié ajouté le 15 septembre 2026.

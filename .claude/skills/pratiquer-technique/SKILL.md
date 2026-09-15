@@ -37,7 +37,7 @@ Demande quel module, quelle section, quel chapitre si ce n'est pas déjà clair.
 - Le chapitre concerné dans son fichier de section
 - Sa sous-section "Installation pratique" si elle existe : c'est la base de l'exercice
 - La fiche de prompts associée si elle existe (`0X-nom-section-prompts.md`)
-- Pour le Module 1, l'étape correspondante de `00-guide-de-reussite.md` : le "à faire" concret et le "signal de passage" définissent ce que la pratique doit prouver
+- L'étape correspondante du guide de réussite du module (`00-guide-de-reussite.md`, disponible pour le Module 1 et le Module 2) : le "à faire" concret et le "signal de passage" définissent ce que la pratique doit prouver
 
 Ne jamais faire pratiquer une action ou une commande qui n'est pas dans ces sources. Si le chapitre visé n'a pas d'action concrète documentée, le dire à Zézé plutôt que d'improviser un exercice non validé.
 
