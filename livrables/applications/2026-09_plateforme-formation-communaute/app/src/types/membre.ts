@@ -16,10 +16,21 @@ export type Adhesion = {
   traite_at: string | null;
 };
 
+export type TagPost = "victoire" | "question" | "annonce";
+
 export type Post = {
   id: string;
   espace_id: string;
   auteur_id: string;
   contenu: string;
+  tag: TagPost;
   created_at: string;
 };
+
+export function niveauDepuisPoints(points: number): string {
+  if (points >= 200) return "Niveau 5";
+  if (points >= 80) return "Niveau 4";
+  if (points >= 30) return "Niveau 3";
+  if (points >= 10) return "Niveau 2";
+  return "Niveau 1";
+}
