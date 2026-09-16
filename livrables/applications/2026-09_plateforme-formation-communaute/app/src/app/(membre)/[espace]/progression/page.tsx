@@ -38,6 +38,36 @@ export default async function ProgressionPage({
     .eq("id", userData.user.id)
     .maybeSingle();
 
+  const { data: acces } = await supabase
+    .from("acces_payant")
+    .select("*")
+    .eq("profil_id", userData.user.id)
+    .eq("espace_id", espace.id)
+    .maybeSingle<AccesPayant>();
+
+  if (!acces?.actif) {
+    return (
+      <main className="mx-auto max-w-md p-16 text-center">
+        <p className="font-mono text-xs uppercase tracking-wide text-[var(--sarcelle)]">
+          ma progression — {espace.nom}
+        </p>
+        <h1 className="font-display mt-4 text-3xl font-semibold">
+          Formation pas encore debloquee
+        </h1>
+        <p className="mt-4 text-sm text-[var(--texte-mute)]">
+          Ta progression et le contenu des modules apparaissent ici une fois
+          l&apos;acces payant active.
+        </p>
+        <Link
+          href={`/${espace.slug}/tunnel`}
+          className="mt-8 inline-block rounded-[9px] bg-[var(--corail)] px-5 py-2.5 text-sm font-bold text-[var(--encre)]"
+        >
+          Debloquer la formation
+        </Link>
+      </main>
+    );
+  }
+
   const { data: modules } = await supabase
     .from("modules")
     .select("*")
@@ -54,13 +84,6 @@ export default async function ProgressionPage({
     .from("progression")
     .select("section_id, completed_at")
     .eq("profil_id", userData.user.id);
-
-  const { data: acces } = await supabase
-    .from("acces_payant")
-    .select("*")
-    .eq("profil_id", userData.user.id)
-    .eq("espace_id", espace.id)
-    .maybeSingle<AccesPayant>();
 
   const sectionsTerminees = new Set((progressionRows ?? []).map((p) => p.section_id));
   const streak = calculerStreak((progressionRows ?? []).map((p) => p.completed_at));
@@ -88,6 +111,14 @@ export default async function ProgressionPage({
   const totalTerminees = (sections ?? []).filter((s) => sectionsTerminees.has(s.id)).length;
   const pctGlobal = totalSections > 0 ? Math.round((totalTerminees / totalSections) * 100) : 0;
 
+  let urlVideoCourante: string | null = null;
+  if (moduleCourant && (moduleCourant as { section: Section }).section.video_path) {
+    const { data: urlSignee } = await supabase.storage
+      .from("videos-cours")
+      .createSignedUrl((moduleCourant as { section: Section }).section.video_path!, 3600);
+    urlVideoCourante = urlSignee?.signedUrl ?? null;
+  }
+
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
       <div className="flex items-center justify-between border-b border-[var(--ligne)] bg-[var(--fond-carte)] px-7 py-4">
@@ -99,7 +130,15 @@ export default async function ProgressionPage({
           <span className="border-b-2 border-[var(--sarcelle)] pb-1 text-[var(--sarcelle)]">
             Ma progression
           </span>
-          <span className="opacity-50" title="A venir">Formation</span>
+          <Link href={`/${espace.slug}/formation`} className="hover:text-[var(--sarcelle)]">
+            Formation
+          </Link>
+          <Link href={`/${espace.slug}/ressources`} className="hover:text-[var(--sarcelle)]">
+            Ressources
+          </Link>
+          <Link href={`/${espace.slug}/expert`} className="hover:text-[var(--sarcelle)]">
+            Devenir Expert
+          </Link>
         </div>
       </div>
 
@@ -134,6 +173,14 @@ export default async function ProgressionPage({
               <p className="mb-4 text-[12.5px] text-[var(--sur-encre-mute)]">
                 {(moduleCourant as { section: Section }).section.titre}
               </p>
+              {urlVideoCourante && (
+                <video
+                  key={urlVideoCourante}
+                  src={urlVideoCourante}
+                  controls
+                  className="mb-4 w-full rounded-lg"
+                />
+              )}
               <form
                 action={marquerSectionTerminee.bind(
                   null,
@@ -175,23 +222,6 @@ export default async function ProgressionPage({
             verrouille={verrouille}
           />
         ))}
-
-        {!acces?.actif && (
-          <div className="mt-5 flex items-center justify-between rounded-2xl border border-dashed border-[var(--sarcelle)] bg-[var(--fond-carte)] px-[22px] py-[18px]">
-            <div>
-              <b className="font-display block text-sm">Rejoins la communaute payante</b>
-              <span className="text-xs text-[var(--texte-mute)]">
-                Exercices hebdomadaires et echanges avec les autres eleves de {espace.nom}.
-              </span>
-            </div>
-            <Link
-              href={`/${espace.slug}/communaute-payante`}
-              className="whitespace-nowrap rounded-[9px] border-[1.5px] border-[var(--sarcelle)] px-[18px] py-2.5 text-[12.5px] font-bold text-[var(--sarcelle)]"
-            >
-              Voir la communaute
-            </Link>
-          </div>
-        )}
 
         <FormulaireTemoignage espaceSlug={espace.slug} />
       </div>

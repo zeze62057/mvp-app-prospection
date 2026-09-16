@@ -74,8 +74,12 @@ export async function postulerExpert(
     .from("candidatures_expert")
     .insert({ profil_id: userData.user.id, espace_id: espace.id });
 
-  if (error) return { erreur: error.message };
+  if (error) {
+    if (error.code === "23505") return { erreur: "Tu as deja postule pour ce statut." };
+    return { erreur: error.message };
+  }
 
   revalidatePath(`/${espaceSlug}/communaute-payante`);
+  revalidatePath(`/${espaceSlug}/expert`);
   return { erreur: null };
 }

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getEspaceParSlug } from "@/lib/espaces";
@@ -138,37 +139,39 @@ export default async function VitrinePage({
         </div>
       </div>
 
-      <div className="bg-[var(--encre)] px-6 py-16 text-[var(--sur-encre)] sm:px-16">
-        <p className="mb-2.5 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle-light)]">
-          le parcours
-        </p>
-        <h2 className="font-display mb-11 max-w-xl text-2xl font-semibold sm:text-[29px]">
-          Du terminal vide au premier client, en trois paliers
-        </h2>
-        <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-          <div>
-            <p className="mb-3.5 font-mono text-[13px] text-[var(--corail)]">01 / rejoindre</p>
-            <p className="font-display mb-2.5 text-base font-bold">Communaute gratuite</p>
-            <p className="text-[13.5px] leading-relaxed text-[var(--sur-encre-mute)]">
-              Demande d&apos;acces approuvee manuellement. Contenu gratuit pour decouvrir Claude Code et l&apos;IA appliquee, sans engagement.
-            </p>
-          </div>
-          <div className="sm:border-l sm:border-[rgba(234,245,242,0.14)] sm:pl-8">
-            <p className="mb-3.5 font-mono text-[13px] text-[var(--corail)]">02 / debloquer</p>
-            <p className="font-display mb-2.5 text-base font-bold">Formation complete</p>
-            <p className="text-[13.5px] leading-relaxed text-[var(--sur-encre-mute)]">
-              Paiement Mobile Money — Orange ou MTN. Acces immediat aux modules complets et a ta page de progression personnelle.
-            </p>
-          </div>
-          <div className="sm:border-l sm:border-[rgba(234,245,242,0.14)] sm:pl-8">
-            <p className="mb-3.5 font-mono text-[13px] text-[var(--corail)]">03 / construire</p>
-            <p className="font-display mb-2.5 text-base font-bold">Communaute payante</p>
-            <p className="text-[13.5px] leading-relaxed text-[var(--sur-encre-mute)]">
-              Exercices envoyes chaque semaine, echanges avec les autres eleves, et un vrai suivi jusqu&apos;a ton premier projet livre.
-            </p>
+      {c.parcours_titre && (
+        <div className="bg-[var(--encre)] px-6 py-16 text-[var(--sur-encre)] sm:px-16">
+          <p className="mb-2.5 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle-light)]">
+            le parcours
+          </p>
+          <h2 className="font-display mb-11 max-w-xl text-2xl font-semibold sm:text-[29px]">
+            {c.parcours_titre}
+          </h2>
+          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
+            <div>
+              <p className="mb-3.5 font-mono text-[13px] text-[var(--corail)]">01 / rejoindre</p>
+              <p className="font-display mb-2.5 text-base font-bold">Communaute gratuite</p>
+              <p className="text-[13.5px] leading-relaxed text-[var(--sur-encre-mute)]">
+                {c.parcours_etape1}
+              </p>
+            </div>
+            <div className="sm:border-l sm:border-[rgba(234,245,242,0.14)] sm:pl-8">
+              <p className="mb-3.5 font-mono text-[13px] text-[var(--corail)]">02 / debloquer</p>
+              <p className="font-display mb-2.5 text-base font-bold">Formation complete</p>
+              <p className="text-[13.5px] leading-relaxed text-[var(--sur-encre-mute)]">
+                {c.parcours_etape2}
+              </p>
+            </div>
+            <div className="sm:border-l sm:border-[rgba(234,245,242,0.14)] sm:pl-8">
+              <p className="mb-3.5 font-mono text-[13px] text-[var(--corail)]">03 / construire</p>
+              <p className="font-display mb-2.5 text-base font-bold">Communaute payante</p>
+              <p className="text-[13.5px] leading-relaxed text-[var(--sur-encre-mute)]">
+                {c.parcours_etape3}
+              </p>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
       {(c.fondateur_lede || (c.fondateur_paragraphes && c.fondateur_paragraphes.length > 0)) && (
         <div className="flex flex-col gap-10 px-6 py-16 sm:px-16 lg:flex-row lg:items-center lg:gap-14">
@@ -178,9 +181,15 @@ export default async function VitrinePage({
                 {c.fondateur_tag}
               </div>
             )}
-            <div className="absolute left-0 top-2.5 z-[2] flex h-[240px] w-[200px] items-center justify-center rounded-2xl bg-[repeating-linear-gradient(135deg,var(--sarcelle)_0,var(--sarcelle)_10px,var(--encre-2)_10px,var(--encre-2)_20px)] p-3.5 text-center font-mono text-[11px] text-[var(--sur-encre-mute)] shadow-[0_18px_40px_rgba(17,56,50,0.14)]">
-              Photo de Zeze
-              <br />a integrer ici
+            <div className="absolute left-0 top-2.5 z-[2] h-[240px] w-[200px] overflow-hidden rounded-2xl shadow-[0_18px_40px_rgba(17,56,50,0.14)]">
+              <Image
+                src="/zeze-bilivogui.jpg"
+                alt={`Zeze Bilivogui, fondateur de ${espace.nom}`}
+                width={200}
+                height={240}
+                className="h-full w-full object-cover"
+                priority
+              />
             </div>
             <div className="absolute bottom-0 right-0 z-[1] flex h-[130px] w-[160px] items-center justify-center rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-3.5 text-center font-mono text-[11px] text-[var(--texte-mute)] shadow-[0_18px_40px_rgba(17,56,50,0.14)]">
               Capture d&apos;un
@@ -234,6 +243,32 @@ export default async function VitrinePage({
           </p>
         )}
       </div>
+
+      {c.faq && c.faq.length > 0 && (
+        <div className="px-6 py-16 sm:px-16">
+          <p className="mb-2.5 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle)]">
+            questions frequentes
+          </p>
+          <h2 className="font-display mb-8 max-w-xl text-2xl font-semibold sm:text-[29px]">
+            Ce que tu te demandes probablement
+          </h2>
+          <div className="mx-auto flex max-w-2xl flex-col gap-3">
+            {c.faq.map((item, i) => (
+              <details
+                key={i}
+                className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5 [&[open]>summary]:mb-2.5"
+              >
+                <summary className="cursor-pointer text-[14.5px] font-bold text-[var(--texte)]">
+                  {item.question}
+                </summary>
+                <p className="text-[13.5px] leading-relaxed text-[var(--texte-mute)]">
+                  {item.reponse.replace("{{prix}}", `${espace.prix.toLocaleString("fr-FR")} ${espace.devise}`)}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
+      )}
 
       {c.offre_texte && (
         <div className="mx-6 mb-16 flex flex-col items-start gap-5 rounded-[20px] bg-gradient-to-br from-[var(--corail)] to-[#FF9068] p-8 text-[var(--encre)] sm:mx-16 sm:flex-row sm:items-center sm:justify-between">

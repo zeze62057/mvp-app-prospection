@@ -19,6 +19,11 @@ export type ContenuVitrine = {
   fondateur_lede?: string;
   fondateur_paragraphes?: string[]; // "**mot**" = gras
   offre_texte?: string; // "**mot**" = gras
+  faq?: { question: string; reponse: string }[]; // reponse peut contenir {{prix}}, remplace dynamiquement par espace.prix
+  parcours_titre?: string; // titre de la section "le parcours" (3 paliers)
+  parcours_etape1?: string; // sous "Communaute gratuite"
+  parcours_etape2?: string; // sous "Formation complete"
+  parcours_etape3?: string; // sous "Communaute payante"
 };
 
 export type Espace = {

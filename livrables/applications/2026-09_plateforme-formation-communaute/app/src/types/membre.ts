@@ -59,6 +59,7 @@ export type Section = {
   module_id: string;
   ordre: number;
   titre: string;
+  video_path: string | null;
 };
 
 export type StatutPaiement = "en_attente" | "confirme" | "echoue";
@@ -73,6 +74,76 @@ export type Paiement = {
   reference_chariow: string | null;
   created_at: string;
   confirme_at: string | null;
+};
+
+export type CategoriePrompt = "fondations" | "methode" | "quotidien" | "business";
+
+export type Prompt = {
+  id: string;
+  espace_id: string;
+  categorie: CategoriePrompt;
+  titre: string;
+  contenu: string;
+  ordre: number;
+};
+
+export type TypeRessource = "lien" | "fichier";
+
+export type Ressource = {
+  id: string;
+  espace_id: string;
+  type: TypeRessource;
+  titre: string;
+  description: string;
+  url: string | null;
+  chemin_storage: string | null;
+  ordre: number;
+  created_at: string;
+};
+
+export type TermeGlossaire = {
+  id: string;
+  espace_id: string;
+  terme: string;
+  definition: string;
+  ordre: number;
+};
+
+export type Masterclass = {
+  id: string;
+  espace_id: string;
+  titre: string;
+  description: string;
+  date_heure: string;
+  lien: string;
+  created_at: string;
+};
+
+export type InscriptionMasterclass = {
+  id: string;
+  masterclass_id: string;
+  profil_id: string;
+  created_at: string;
+};
+
+export type CreneauRdv = {
+  id: string;
+  espace_id: string;
+  date_heure: string;
+  lien: string;
+  reserve_par: string | null;
+  created_at: string;
+};
+
+export type StatutContenu = "brouillon" | "publie";
+
+export type Contenu = {
+  id: string;
+  espace_id: string;
+  titre: string;
+  corps: string;
+  statut: StatutContenu;
+  created_at: string;
 };
 
 export type Temoignage = {

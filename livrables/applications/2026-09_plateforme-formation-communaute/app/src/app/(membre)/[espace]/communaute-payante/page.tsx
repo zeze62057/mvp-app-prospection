@@ -147,8 +147,12 @@ export default async function CommunautePayantePage({
           <span className="border-b-2 border-[var(--sarcelle)] pb-1 text-[var(--sarcelle)]">
             Communaute payante
           </span>
-          <span className="opacity-50" title="A venir">Formation</span>
-          <span className="opacity-50" title="A venir">Devenir Expert</span>
+          <Link href={`/${espace.slug}/formation`} className="hover:text-[var(--sarcelle)]">
+            Formation
+          </Link>
+          <Link href={`/${espace.slug}/expert`} className="hover:text-[var(--sarcelle)]">
+            Devenir Expert
+          </Link>
         </div>
         {boutonDeconnexion}
       </div>

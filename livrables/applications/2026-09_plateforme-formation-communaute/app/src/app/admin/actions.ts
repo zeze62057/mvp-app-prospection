@@ -1,25 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
-import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
-
-// Verifie que l'utilisateur courant a le role admin avant toute action.
-// Les adhesions n'ont pas de policy RLS d'update pour les membres normaux :
-// seul ce chemin, passe par la cle service_role, peut changer un statut.
-async function verifierAdmin() {
-  const supabase = await createClient();
-  const { data: userData } = await supabase.auth.getUser();
-  if (!userData.user) throw new Error("Non connecte.");
-
-  const { data: profil } = await supabase
-    .from("profils")
-    .select("role")
-    .eq("id", userData.user.id)
-    .maybeSingle();
-
-  if (profil?.role !== "admin") throw new Error("Reserve aux admins.");
-}
+import { verifierAdmin } from "@/lib/admin-guard";
 
 export async function approuverAdhesion(adhesionId: string) {
   await verifierAdmin();
@@ -41,9 +24,10 @@ export async function refuserAdhesion(adhesionId: string) {
   revalidatePath("/admin");
 }
 
-// Outil temporaire : accorde l'acces payant a la main, en attendant que le
-// vrai paiement Mobile Money (tunnel + webhook n8n) soit branche. A retirer
-// ou masquer une fois ce circuit reel en place.
+// Filet de securite : accorde l'acces payant a la main, pour un eleve qui a
+// paye autrement ou si le tunnel Chariow est indisponible. Le paiement
+// Mobile Money reste le chemin normal (voir CADRAGE.md section 6), cet
+// outil ne le remplace pas.
 export async function accorderAccesPayant(_etat: { erreur: string | null }, formData: FormData) {
   await verifierAdmin();
   const email = String(formData.get("email") ?? "").trim();
@@ -67,6 +51,198 @@ export async function accorderAccesPayant(_etat: { erreur: string | null }, form
 
   revalidatePath("/admin");
   return { erreur: null };
+}
+
+// Prix modifiable par admin, jamais code en dur (voir CADRAGE.md section 6).
+// La colonne espaces.prix existe deja et est deja lue dynamiquement par le
+// tunnel de paiement : cette action ne fait qu'exposer une interface pour
+// la modifier, sans toucher au tunnel ni au webhook.
+export async function modifierPrixEspace(
+  espaceId: string,
+  _etat: { erreur: string | null },
+  formData: FormData
+) {
+  await verifierAdmin();
+
+  const prix = Number(formData.get("prix"));
+  if (!Number.isInteger(prix) || prix <= 0) {
+    return { erreur: "Le prix doit etre un nombre entier positif." };
+  }
+
+  const admin = createAdminClient();
+  const { error } = await admin.from("espaces").update({ prix }).eq("id", espaceId);
+  if (error) return { erreur: error.message };
+
+  revalidatePath("/admin");
+  return { erreur: null };
+}
+
+function slugifier(texte: string): string {
+  return texte
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+// Outil admin "creer une nouvelle formation" en libre-service (voir
+// CADRAGE.md section 7) : cree seulement la ligne espaces (mecanisme
+// generique dont la communaute gratuite/payante et la progression
+// dependent deja partout par espace_id, voir CADRAGE.md section 0). Le
+// contenu de cours (modules/sections) reste hors perimetre, ajoute a la
+// main comme pour Vivier IA.
+export async function creerEspace(
+  _etat: { erreur: string | null; succes: boolean },
+  formData: FormData
+) {
+  await verifierAdmin();
+
+  const nom = String(formData.get("nom") ?? "").trim();
+  const tagline = String(formData.get("tagline") ?? "").trim();
+  const prix = Number(formData.get("prix"));
+  const devise = String(formData.get("devise") ?? "GNF").trim();
+
+  if (!nom) return { erreur: "Le nom est requis.", succes: false };
+  if (!Number.isInteger(prix) || prix <= 0) {
+    return { erreur: "Le prix doit etre un nombre entier positif.", succes: false };
+  }
+
+  const slug = slugifier(nom);
+  if (!slug) {
+    return { erreur: "Impossible de generer un identifiant a partir de ce nom.", succes: false };
+  }
+
+  const admin = createAdminClient();
+
+  const { data: existant } = await admin
+    .from("espaces")
+    .select("id")
+    .eq("slug", slug)
+    .maybeSingle();
+  if (existant) {
+    return { erreur: `Un espace avec l'identifiant "${slug}" existe deja.`, succes: false };
+  }
+
+  const { error } = await admin
+    .from("espaces")
+    .insert({ slug, nom, tagline, prix, devise, actif: true });
+  if (error) return { erreur: error.message, succes: false };
+
+  revalidatePath("/admin");
+  return { erreur: null, succes: true };
+}
+
+// Ajout d'un outil (lien externe) dans Ressources (voir migration 0011).
+// Le fichier telechargeable, lui, passe par la route /api/admin/ressource-fichier
+// (upload binaire, pas adapte a une server action classique).
+export async function ajouterLienRessource(
+  _etat: { erreur: string | null; succes: boolean },
+  formData: FormData
+) {
+  await verifierAdmin();
+
+  const espaceId = String(formData.get("espace_id") ?? "");
+  const titre = String(formData.get("titre") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim();
+  const url = String(formData.get("url") ?? "").trim();
+
+  if (!espaceId || !titre || !url) {
+    return { erreur: "Espace, titre et URL sont requis.", succes: false };
+  }
+
+  const admin = createAdminClient();
+  const { error } = await admin
+    .from("ressources")
+    .insert({ espace_id: espaceId, type: "lien", titre, description, url });
+  if (error) return { erreur: error.message, succes: false };
+
+  revalidatePath("/admin");
+  return { erreur: null, succes: true };
+}
+
+// Creation d'un evenement masterclass (voir migration 0012). Visible par
+// la communaute gratuite une fois cree, inscription geree cote membre.
+export async function creerMasterclass(
+  _etat: { erreur: string | null; succes: boolean },
+  formData: FormData
+) {
+  await verifierAdmin();
+
+  const espaceId = String(formData.get("espace_id") ?? "");
+  const titre = String(formData.get("titre") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim();
+  const dateHeure = String(formData.get("date_heure") ?? "");
+  const lien = String(formData.get("lien") ?? "").trim();
+
+  if (!espaceId || !titre || !dateHeure || !lien) {
+    return { erreur: "Espace, titre, date/heure et lien sont requis.", succes: false };
+  }
+
+  const date = new Date(dateHeure);
+  if (Number.isNaN(date.getTime())) {
+    return { erreur: "Date ou heure invalide.", succes: false };
+  }
+
+  const admin = createAdminClient();
+  const { error } = await admin
+    .from("masterclasses")
+    .insert({ espace_id: espaceId, titre, description, date_heure: date.toISOString(), lien });
+  if (error) return { erreur: error.message, succes: false };
+
+  revalidatePath("/admin");
+  return { erreur: null, succes: true };
+}
+
+// Creation d'un creneau RDV (voir migration 0013). Visible par la
+// communaute gratuite, reservation geree cote membre via les fonctions
+// atomiques reserver_creneau/annuler_creneau.
+export async function creerCreneauRdv(
+  _etat: { erreur: string | null; succes: boolean },
+  formData: FormData
+) {
+  await verifierAdmin();
+
+  const espaceId = String(formData.get("espace_id") ?? "");
+  const dateHeure = String(formData.get("date_heure") ?? "");
+  const lien = String(formData.get("lien") ?? "").trim();
+
+  if (!espaceId || !dateHeure || !lien) {
+    return { erreur: "Espace, date/heure et lien sont requis.", succes: false };
+  }
+
+  const date = new Date(dateHeure);
+  if (Number.isNaN(date.getTime())) {
+    return { erreur: "Date ou heure invalide.", succes: false };
+  }
+
+  const admin = createAdminClient();
+  const { error } = await admin
+    .from("creneaux_rdv")
+    .insert({ espace_id: espaceId, date_heure: date.toISOString(), lien });
+  if (error) return { erreur: error.message, succes: false };
+
+  revalidatePath("/admin");
+  return { erreur: null, succes: true };
+}
+
+// Validation des brouillons de contenu (voir migration 0015 et le skill
+// .claude/skills/contenu-vivier-ia/). Jamais de publication automatique :
+// un brouillon reste invisible des membres tant que ce chemin admin ne
+// l'a pas explicitement publie.
+export async function publierContenu(contenuId: string) {
+  await verifierAdmin();
+  const admin = createAdminClient();
+  await admin.from("contenus").update({ statut: "publie" }).eq("id", contenuId);
+  revalidatePath("/admin");
+}
+
+export async function supprimerBrouillonContenu(contenuId: string) {
+  await verifierAdmin();
+  const admin = createAdminClient();
+  await admin.from("contenus").delete().eq("id", contenuId);
+  revalidatePath("/admin");
 }
 
 export async function approuverExpert(candidatureId: string, profilId: string, espaceId: string) {

@@ -161,11 +161,21 @@ export default async function CommunauteGratuitePage({
           <span className="border-b-2 border-[var(--sarcelle)] pb-1 text-[var(--sarcelle)]">
             Communaute
           </span>
-          <span className="opacity-50" title="A venir">Contenu</span>
-          <span className="opacity-50" title="A venir">Ressources</span>
-          <span className="opacity-50" title="A venir">Masterclass</span>
-          <span className="opacity-50" title="A venir">Prompts</span>
-          <span className="opacity-50" title="A venir">RDV</span>
+          <Link href={`/${espace.slug}/contenu`} className="hover:text-[var(--sarcelle)]">
+            Contenu
+          </Link>
+          <Link href={`/${espace.slug}/ressources`} className="hover:text-[var(--sarcelle)]">
+            Ressources
+          </Link>
+          <Link href={`/${espace.slug}/masterclass`} className="hover:text-[var(--sarcelle)]">
+            Masterclass
+          </Link>
+          <Link href={`/${espace.slug}/prompts`} className="hover:text-[var(--sarcelle)]">
+            Prompts
+          </Link>
+          <Link href={`/${espace.slug}/rdv`} className="hover:text-[var(--sarcelle)]">
+            RDV
+          </Link>
         </div>
         {boutonDeconnexion}
       </div>
