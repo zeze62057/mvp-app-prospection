@@ -1,6 +1,6 @@
 # Cadrage — Vivier Academies (plateforme de formation et communauté)
 
-Date du cadrage : 2026-09-12, mis à jour le 2026-09-13.
+Date du cadrage : 2026-09-12, mis à jour le 2026-09-13. Suivi de construction ajouté le 2026-09-17 (voir section 10), le cadrage lui-même (sections 0 à 9) n'a pas bougé depuis le 2026-09-14.
 
 Nom de la plateforme globale : **Vivier Academies** (tranché le 2026-09-13, aucune collision directe trouvée).
 
@@ -107,11 +107,38 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 - ~~Identité de la plateforme globale~~ : tranché, voir en-tête du document (Vivier Academies, nom visible de la plateforme qui héberge Vivier IA, Bâtisseur Pro et la vitrine Chatllow).
 - ~~Délai de lancement~~ : tranché, aucune contrainte pour l'instant.
 - ~~Hors périmètre explicite pour la V1~~ : tranché, rien d'exclu ; mobile et vidéo confirmés requis dès la V1.
-- **Détail technique de l'intégration Mobile Money** : quel agrégateur ou API pour capter les paiements Orange/MTN en Guinée
+- ~~Détail technique de l'intégration Mobile Money~~ : tranché en construction. **Chariow** est l'agrégateur retenu, orchestré via n8n (voir section Construction ci-dessous).
 - **"Plusieurs paramètres" de la communauté** : au-delà du nombre d'abonnés, quels autres indicateurs ou réglages Zézé veut voir
-- **Ajout manuel en formation payante** : à confirmer techniquement en construction, non bloquant si trop complexe
-- **Outil d'enregistrement vidéo intégré** : à confirmer si c'est un besoin V1 ou une évolution ultérieure
-- **Découpage précis des lots incrémentaux** : au-delà des grands principes de priorité, le détail des petites tâches reste à définir à l'étape 5 (gabarit à 4 éléments par tâche)
+- **Ajout manuel en formation payante** : résolu partiellement — un formulaire admin "Accès payant manuel (filet de sécurité)" existe déjà pour les cas où le tunnel Chariow est indisponible ou un élève a payé autrement
+- **Outil d'enregistrement vidéo intégré** : tranché, construit (`EnregistrementVideo` côté admin, capture d'écran directement rattachée à une section)
+- **Découpage précis des lots incrémentaux** : sans objet désormais, la construction a avancé au fil de l'eau plutôt que par lots pré-découpés
+- **Contenu de cours pour Bâtisseur Pro** : structure complète créée (9 modules, voir Construction), mais aucune vidéo encore enregistrée — reste un travail de Zézé, pas de construction
+
+## 10. Construction (mise à jour du suivi, jusque-là non tenu à jour depuis le cadrage initial)
+
+Le cadrage (sections 0 à 9) a été figé le 2026-09-14. Cette section trace ce qui a réellement été construit depuis, pour que le document reste utile en cours de projet plutôt que de rester bloqué à l'étape de cadrage.
+
+**Espace Vivier IA — trio complet construit** :
+- Modèle de données `espaces` générique sur Supabase (RLS, un espace = un identifiant, données et communauté filtrées par cet identifiant)
+- Communauté gratuite (fil de posts façon Skool, approbation manuelle)
+- Communauté payante (badge Expert, lead magnets sur les vignettes vidéo)
+- Page individuelle de progression par élève
+- Vitrine publique avec vraies données (FAQ, parcours dynamique, pas de contenu statique codé en dur)
+- Tunnel de paiement Mobile Money : côté produit (création de la session) et côté paiement réel, branché sur **Chariow** via **n8n** (webhook `creer-paiement-vivier-ia`, confirmation `successful.sale` avec vérification de signature HMAC qui active l'accès via `/api/webhooks/paiement`)
+- Modules 1 (Écosystème Claude, 7 sections), 3, 4 et 5 rédigés intégralement (contenu texte source dans `livrables/ecole/ecosysteme-ia/`) ; Module 2 (n8n) a son guide de réussite mais pas encore ses sections en base
+- Fonctionnalités additionnelles construites en cours de route, au-delà du périmètre V1 initialement listé : bibliothèque de prompts, ressources (liens et fichiers téléchargeables), masterclass, prise de RDV découverte, contenu éditorial avec workflow brouillon/publication (lié au skill `contenu-vivier-ia`), FAQ et parcours de vitrine pilotés par la base plutôt que codés en dur
+- Outils admin construits : création de formation en libre-service, prix modifiable par formation, accès payant manuel (filet de sécurité), enregistrement vidéo directement rattaché à une section
+
+**Espace Bâtisseur Pro — structure créée, réplication du trio pas encore commencée** :
+- Espace créé en base (2026-09-16), vitrine avec contenu réel (pas de placeholder), prix aligné sur Vivier IA (250 000 GNF, modifiable)
+- Accès admin de Zézé sur cet espace corrigé le 2026-09-16 (adhésion bloquée en attente, débloquée)
+- Contenu de cours créé le 2026-09-16/17 : **9 modules** au total — Module 1 "IA appliquée au marketing de réseau" (module croisé déjà rédigé, 4 sections), Modules 2 à 9 correspondant aux 8 parties du programme marketing de réseau complet (skill `programme-marketing-reseau`, 54 sections au total). Seuls les titres sont en base, comme pour Vivier IA : le contenu réel sera livré par vidéo, à enregistrer par Zézé
+- **Pas encore fait** : réplication du trio complet (communauté gratuite / payante / page individuelle spécifiques à cet espace fonctionnent déjà techniquement grâce à l'architecture générique, mais n'ont pas été vérifiées ni peuplées de contenu propre à Bâtisseur Pro), enregistrement des vidéos
+
+**Non construit, restant du périmètre "vient après" (section 7)** :
+- Lead magnets avancés, statistiques de communauté au-delà des compteurs de base
+- Agent IA de veille et qualification sociale (extension future actée)
+- Vitrine Chatllow légère au sein de Vivier Academies (à ne pas confondre avec la plateforme Chatllow autonome, un projet distinct — voir `livrables/applications/2026-09_plateforme-chatllow/`)
 
 ## Historique du cadrage
 
@@ -150,3 +177,5 @@ Toutes les identités sont maintenant tranchées : plateforme = Vivier Academies
 **2026-09-13 (suite)** — Dernier tour de cadrage : portail existant absorbé par Vivier Academies (pas maintenu séparément), aucun délai de lancement, aucune exclusion de périmètre demandée. Version mobile et lecture vidéo intégrée confirmées comme requises dès la V1 Vivier IA, pas des évolutions ultérieures.
 
 Il ne reste que des points d'exécution technique à trancher pendant la construction (voir section 9) : le cadrage est considéré comme suffisant pour passer à l'étape 3 (maquette Claude Design).
+
+**2026-09-17** — Ce document n'avait plus été mis à jour depuis la fin du cadrage (2026-09-14), alors que la construction a largement avancé entre-temps (voir section 10, nouvellement ajoutée). Écart constaté et corrigé : le document était resté figé à l'étape 3 alors que le projet est en réalité bien avancé dans l'étape 5 (construction), avec un second espace (Bâtisseur Pro) déjà partiellement répliqué.
