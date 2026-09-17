@@ -1,0 +1,155 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --encre: #14161F;
+      --indigo: oklch(62% 0.19 250);
+      --indigo-soft: oklch(62% 0.19 250 / 0.10);
+      --fond: #FCFCFB;
+      --fond-carte: #FFFFFF;
+      --ligne: rgba(20,22,31,0.10);
+      --texte: #14161F;
+      --texte-mute: rgba(20,22,31,0.60);
+      --display: 'Space Grotesk', sans-serif;
+      --corps: 'IBM Plex Sans', sans-serif;
+      --mono: 'IBM Plex Mono', monospace;
+    }
+    html, body { margin: 0; background: var(--fond); }
+    .page { width: 1280px; height: 820px; font-family: var(--corps); color: var(--texte); display: flex; flex-direction: column; }
+
+    .nav { display: flex; align-items: center; justify-content: space-between; padding: 22px 64px; border-bottom: 1px solid var(--ligne); }
+    .brand { display: flex; align-items: center; gap: 12px; }
+    .brand-mark { width: 26px; height: 26px; flex-shrink: 0; }
+    .brand-word { font-family: var(--display); font-weight: 600; font-size: 17px; }
+    .client-tag { font-family: var(--mono); font-size: 11.5px; color: var(--texte-mute); }
+
+    .tabs { display: flex; gap: 8px; padding: 0 64px; border-bottom: 1px solid var(--ligne); }
+    .tab { padding: 16px 4px; margin-right: 28px; font-size: 13.5px; font-weight: 500; color: var(--texte-mute); cursor: pointer; border-bottom: 2px solid transparent; }
+    .tab.active { color: var(--texte); border-bottom-color: var(--indigo); font-weight: 600; }
+
+    .body { flex: 1; padding: 40px 64px; overflow: hidden; }
+
+    .stepper { display: flex; gap: 0; margin-bottom: 40px; }
+    .step { flex: 1; display: flex; flex-direction: column; gap: 8px; position: relative; }
+    .step-bar { height: 4px; border-radius: 4px; background: var(--ligne); }
+    .step-bar.done { background: var(--indigo); }
+    .step-bar.current { background: var(--indigo); opacity: 0.5; }
+    .step-label { font-size: 12.5px; color: var(--texte-mute); }
+    .step-label.current { color: var(--texte); font-weight: 600; }
+
+    .livrable-row { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border: 1px solid var(--ligne); border-radius: 12px; background: var(--fond-carte); margin-bottom: 12px; }
+    .livrable-name { font-size: 14px; font-weight: 500; }
+    .livrable-meta { font-family: var(--mono); font-size: 11.5px; color: var(--texte-mute); margin-top: 3px; }
+    .btn-outline { border: 1px solid var(--encre); color: var(--encre); background: none; padding: 8px 16px; border-radius: 8px; font-family: var(--corps); font-weight: 600; font-size: 12.5px; cursor: pointer; }
+
+    .msg { display: flex; flex-direction: column; margin-bottom: 18px; max-width: 60%; }
+    .msg.from-client { align-self: flex-end; align-items: flex-end; }
+    .msg-bubble { background: var(--fond-carte); border: 1px solid var(--ligne); border-radius: 12px; padding: 12px 16px; font-size: 13.5px; line-height: 1.5; }
+    .msg.from-client .msg-bubble { background: var(--indigo-soft); border-color: transparent; }
+    .msg-meta { font-family: var(--mono); font-size: 10.5px; color: var(--texte-mute); margin-top: 5px; }
+  </style>
+</helmet>
+
+<div class="page">
+  <div class="nav">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 64 64" fill="none">
+        <rect x="4" y="4" width="40" height="40" rx="13" fill="#14161F" opacity="0.14"/>
+        <rect x="20" y="20" width="40" height="40" rx="13" fill="oklch(62% 0.19 250)"/>
+      </svg>
+      <div class="brand-word">Chatllow</div>
+    </div>
+    <div class="client-tag">[Nom de l'entreprise cliente]</div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab {{tabSuiviCls}}" onClick="{{goSuivi}}">Suivi de mission</div>
+    <div class="tab {{tabLivrablesCls}}" onClick="{{goLivrables}}">Livrables</div>
+    <div class="tab {{tabEchangesCls}}" onClick="{{goEchanges}}">Échanges</div>
+  </div>
+
+  <div class="body">
+    <sc-if value="{{onSuivi}}" hint-placeholder-val="{{true}}">
+      <div class="stepper">
+        <div class="step"><div class="step-bar done"></div><div class="step-label">Cadrage</div></div>
+        <div class="step"><div class="step-bar done"></div><div class="step-label">Diagnostic approfondi</div></div>
+        <div class="step"><div class="step-bar current"></div><div class="step-label current">Déploiement pilote</div></div>
+        <div class="step"><div class="step-bar"></div><div class="step-label">Suivi &amp; bilan</div></div>
+      </div>
+      <div class="livrable-row">
+        <div>
+          <div class="livrable-name">Prochaine étape : atelier de cadrage du pilote</div>
+          <div class="livrable-meta">Prévue le [date]</div>
+        </div>
+        <div class="btn-outline">Voir le détail</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{onLivrables}}" hint-placeholder-val="{{false}}">
+      <div class="livrable-row">
+        <div>
+          <div class="livrable-name">Rapport de cadrage</div>
+          <div class="livrable-meta">PDF &middot; déposé le [date]</div>
+        </div>
+        <div class="btn-outline">Télécharger</div>
+      </div>
+      <div class="livrable-row">
+        <div>
+          <div class="livrable-name">Compte rendu diagnostic approfondi</div>
+          <div class="livrable-meta">PDF &middot; déposé le [date]</div>
+        </div>
+        <div class="btn-outline">Télécharger</div>
+      </div>
+      <div class="livrable-row">
+        <div>
+          <div class="livrable-name">Spécification du pilote</div>
+          <div class="livrable-meta">En cours de rédaction</div>
+        </div>
+        <div class="btn-outline">Voir le détail</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{onEchanges}}" hint-placeholder-val="{{false}}">
+      <div class="msg">
+        <div class="msg-bubble">Le compte rendu du diagnostic approfondi est déposé dans vos livrables, avec la spécification proposée pour le pilote.</div>
+        <div class="msg-meta">Chatllow &middot; [date]</div>
+      </div>
+      <div class="msg from-client">
+        <div class="msg-bubble">Reçu, on regarde ça en interne et on revient avant l'atelier de cadrage.</div>
+        <div class="msg-meta">[Nom du client] &middot; [date]</div>
+      </div>
+    </sc-if>
+  </div>
+</div>
+
+<script data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const tab = this.state.tab ?? 'suivi';
+    const setTab = (t) => () => this.setState({ tab: t });
+    return {
+      onSuivi: tab === 'suivi',
+      onLivrables: tab === 'livrables',
+      onEchanges: tab === 'echanges',
+      tabSuiviCls: tab === 'suivi' ? 'active' : '',
+      tabLivrablesCls: tab === 'livrables' ? 'active' : '',
+      tabEchangesCls: tab === 'echanges' ? 'active' : '',
+      goSuivi: setTab('suivi'),
+      goLivrables: setTab('livrables'),
+      goEchanges: setTab('echanges')
+    };
+  }
+}
+</script>
+</x-dc>
+</body>
+</html>

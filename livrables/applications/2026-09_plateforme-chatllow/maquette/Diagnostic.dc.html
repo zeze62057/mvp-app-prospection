@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --encre: #14161F;
+      --indigo: oklch(62% 0.19 250);
+      --indigo-soft: oklch(62% 0.19 250 / 0.10);
+      --fond: #FCFCFB;
+      --fond-carte: #FFFFFF;
+      --ligne: rgba(20,22,31,0.10);
+      --texte: #14161F;
+      --texte-mute: rgba(20,22,31,0.60);
+      --display: 'Space Grotesk', sans-serif;
+      --corps: 'IBM Plex Sans', sans-serif;
+      --mono: 'IBM Plex Mono', monospace;
+    }
+    html, body { margin: 0; background: var(--fond); }
+    a { color: var(--indigo); } a:hover { color: var(--encre); }
+    .page { width: 1280px; height: 800px; background: var(--fond); font-family: var(--corps); color: var(--texte); display: flex; flex-direction: column; }
+
+    .nav { display: flex; align-items: center; gap: 12px; padding: 26px 64px; border-bottom: 1px solid var(--ligne); }
+    .brand-mark { width: 26px; height: 26px; flex-shrink: 0; }
+    .brand-word { font-family: var(--display); font-weight: 600; font-size: 17px; }
+
+    .wrap { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 64px; }
+    .progress-row { display: flex; gap: 8px; margin-bottom: 40px; width: 480px; }
+    .progress-seg { flex: 1; height: 4px; border-radius: 4px; background: var(--ligne); }
+    .progress-seg.done { background: var(--indigo); }
+
+    .step-label { font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--texte-mute); margin-bottom: 16px; }
+    .question { font-family: var(--display); font-weight: 600; font-size: 27px; max-width: 620px; text-align: center; margin-bottom: 36px; line-height: 1.3; }
+
+    .pills { display: flex; flex-direction: column; gap: 12px; width: 560px; }
+    .pill { border: 1px solid var(--ligne); background: var(--fond-carte); border-radius: 12px; padding: 16px 20px; font-size: 14.5px; cursor: pointer; }
+    .pill.selected { border-color: var(--indigo); background: var(--indigo-soft); font-weight: 600; }
+
+    .btn-row { display: flex; align-items: center; gap: 16px; margin-top: 36px; }
+    .btn-primary { background: var(--encre); color: #FCFCFB; border: none; padding: 15px 28px; border-radius: 10px; font-family: var(--corps); font-weight: 600; font-size: 14.5px; cursor: pointer; }
+    .btn-primary.disabled { opacity: 0.35; cursor: default; }
+    .btn-ghost { background: none; border: none; color: var(--texte-mute); font-size: 13.5px; cursor: pointer; }
+
+    .done-panel { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+    .done-check { width: 56px; height: 56px; border-radius: 50%; background: var(--indigo-soft); display: flex; align-items: center; justify-content: center; }
+    .done-title { font-family: var(--display); font-weight: 600; font-size: 22px; }
+    .done-sub { font-size: 13.5px; color: var(--texte-mute); text-align: center; max-width: 400px; }
+  </style>
+</helmet>
+
+<div class="page">
+  <div class="nav">
+    <svg class="brand-mark" viewBox="0 0 64 64" fill="none">
+      <rect x="4" y="4" width="40" height="40" rx="13" fill="#14161F" opacity="0.14"/>
+      <rect x="20" y="20" width="40" height="40" rx="13" fill="oklch(62% 0.19 250)"/>
+    </svg>
+    <div class="brand-word">Chatllow</div>
+  </div>
+
+  <div class="wrap">
+    <sc-if value="{{finished}}" hint-placeholder-val="{{false}}">
+      <div class="done-panel">
+        <div class="done-check">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M4 13l4 4L20 6" stroke="oklch(62% 0.19 250)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <div class="done-title">Diagnostic terminé</div>
+        <div class="done-sub">Écran suivant : la restitution, avec la recommandation de pilote et l'envoi du résultat.</div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{!finished}}" hint-placeholder-val="{{true}}">
+      <div class="progress-row">
+        <div class="progress-seg {{seg0}}"></div>
+        <div class="progress-seg {{seg1}}"></div>
+        <div class="progress-seg {{seg2}}"></div>
+      </div>
+      <div class="step-label">Question {{stepDisplay}} sur 3 &middot; réponses confidentielles</div>
+      <div class="question">{{question}}</div>
+      <div class="pills">
+        <sc-for list="{{options}}" as="opt" hint-placeholder-count="4">
+          <div class="pill {{opt.cls}}" onClick="{{opt.pick}}">{{opt.label}}</div>
+        </sc-for>
+      </div>
+      <div class="btn-row">
+        <div class="btn-primary {{nextCls}}" onClick="{{goNext}}">{{nextLabel}}</div>
+        <sc-if value="{{canBack}}" hint-placeholder-val="{{false}}">
+          <div class="btn-ghost" onClick="{{goBack}}">Retour</div>
+        </sc-if>
+      </div>
+    </sc-if>
+  </div>
+</div>
+
+<script data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    const questions = [
+      { q: "Quel est le principal frein à l'adoption de l'IA dans votre organisation ?", opts: ["Manque de compréhension", "Résistance au changement", "Cas d'usage flous", "Contraintes réglementaires"] },
+      { q: "Combien de personnes utilisent déjà un outil IA au quotidien ?", opts: ["Aucune", "Quelques pionniers isolés", "Une équipe entière", "Plusieurs départements"] },
+      { q: "Quel processus interne consomme le plus de temps à faible valeur ajoutée ?", opts: ["Reporting manuel", "Recherche d'information", "Rédaction de documents", "Coordination entre équipes"] }
+    ];
+
+    const step = this.state.step ?? 0;
+    const answers = this.state.answers ?? {};
+    const finished = this.state.finished ?? false;
+
+    const current = questions[step];
+    const options = (current ? current.opts : []).map((label) => ({
+      label,
+      cls: answers[step] === label ? 'selected' : '',
+      pick: () => this.setState({ answers: { ...answers, [step]: label } })
+    }));
+
+    const hasAnswer = !!answers[step];
+    const isLast = step === questions.length - 1;
+
+    return {
+      finished,
+      seg0: answers[0] ? 'done' : '',
+      seg1: answers[1] ? 'done' : '',
+      seg2: answers[2] ? 'done' : '',
+      stepDisplay: step + 1,
+      question: current ? current.q : '',
+      options,
+      canBack: step > 0,
+      nextCls: hasAnswer ? '' : 'disabled',
+      nextLabel: isLast ? 'Voir ma recommandation' : 'Suivant',
+      goNext: () => {
+        if (!hasAnswer) return;
+        if (isLast) { this.setState({ finished: true }); return; }
+        this.setState({ step: step + 1 });
+      },
+      goBack: () => this.setState({ step: Math.max(0, step - 1) })
+    };
+  }
+}
+</script>
+</x-dc>
+</body>
+</html>

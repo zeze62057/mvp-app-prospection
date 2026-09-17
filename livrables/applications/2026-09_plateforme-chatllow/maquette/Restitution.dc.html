@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+  <style>
+    * { box-sizing: border-box; }
+    :root {
+      --encre: #14161F;
+      --indigo: oklch(62% 0.19 250);
+      --indigo-soft: oklch(62% 0.19 250 / 0.10);
+      --fond: #FCFCFB;
+      --fond-carte: #FFFFFF;
+      --ligne: rgba(20,22,31,0.10);
+      --texte: #14161F;
+      --texte-mute: rgba(20,22,31,0.60);
+      --display: 'Space Grotesk', sans-serif;
+      --corps: 'IBM Plex Sans', sans-serif;
+      --mono: 'IBM Plex Mono', monospace;
+    }
+    html, body { margin: 0; background: var(--fond); }
+    a { color: var(--indigo); } a:hover { color: var(--encre); }
+    .page { width: 1280px; font-family: var(--corps); color: var(--texte); }
+
+    .nav { display: flex; align-items: center; gap: 12px; padding: 26px 64px; border-bottom: 1px solid var(--ligne); }
+    .brand-mark { width: 26px; height: 26px; flex-shrink: 0; }
+    .brand-word { font-family: var(--display); font-weight: 600; font-size: 17px; }
+
+    .wrap { display: flex; gap: 48px; padding: 56px 64px 64px; }
+    .col-main { flex: 1.3; }
+    .col-side { flex: 1; display: flex; flex-direction: column; gap: 20px; }
+
+    .eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--indigo); margin-bottom: 14px; }
+    .title { font-family: var(--display); font-weight: 600; font-size: 32px; line-height: 1.2; margin: 0 0 20px; }
+    .lede { font-size: 14.5px; line-height: 1.65; color: var(--texte-mute); max-width: 520px; margin-bottom: 32px; }
+
+    .why-card { background: var(--fond-carte); border: 1px solid var(--ligne); border-radius: 14px; padding: 24px; margin-bottom: 16px; }
+    .why-title { font-family: var(--display); font-weight: 600; font-size: 14.5px; margin-bottom: 12px; }
+    .why-item { display: flex; gap: 10px; font-size: 13.5px; line-height: 1.55; color: var(--texte-mute); margin-bottom: 8px; }
+    .why-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--indigo); margin-top: 7px; flex-shrink: 0; }
+
+    .action-card { background: var(--fond-carte); border: 1px solid var(--ligne); border-radius: 14px; padding: 22px; }
+    .action-title { font-family: var(--display); font-weight: 600; font-size: 14.5px; margin-bottom: 6px; }
+    .action-sub { font-size: 12.5px; color: var(--texte-mute); margin-bottom: 16px; line-height: 1.5; }
+    .input-row { display: flex; gap: 8px; }
+    .input { flex: 1; border: 1px solid var(--ligne); border-radius: 8px; padding: 11px 14px; font-family: var(--corps); font-size: 13px; color: var(--texte); background: var(--fond); }
+    .btn-primary { background: var(--encre); color: #FCFCFB; border: none; padding: 11px 18px; border-radius: 8px; font-family: var(--corps); font-weight: 600; font-size: 13px; cursor: pointer; white-space: nowrap; }
+    .btn-outline { border: 1px solid var(--encre); color: var(--encre); background: none; padding: 11px 18px; border-radius: 8px; font-family: var(--corps); font-weight: 600; font-size: 13px; cursor: pointer; width: 100%; text-align: center; }
+    .confirm { margin-top: 12px; font-size: 12.5px; color: var(--indigo); display: flex; align-items: center; gap: 6px; }
+  </style>
+</helmet>
+
+<div class="page">
+  <div class="nav">
+    <svg class="brand-mark" viewBox="0 0 64 64" fill="none">
+      <rect x="4" y="4" width="40" height="40" rx="13" fill="#14161F" opacity="0.14"/>
+      <rect x="20" y="20" width="40" height="40" rx="13" fill="oklch(62% 0.19 250)"/>
+    </svg>
+    <div class="brand-word">Chatllow</div>
+  </div>
+
+  <div class="wrap">
+    <div class="col-main">
+      <div class="eyebrow">Pilote recommandé</div>
+      <h1 class="title">Assistant IA pour la synthèse de réunions et comptes rendus</h1>
+      <p class="lede">D'après vos réponses, le reporting manuel est votre principale perte de temps à faible valeur ajoutée, et une équipe utilise déjà des outils IA au quotidien : les conditions sont réunies pour un premier pilote rapide à déployer.</p>
+
+      <div class="why-card">
+        <div class="why-title">Pourquoi ce pilote</div>
+        <div class="why-item"><div class="why-dot"></div>Le processus identifié comme le plus chronophage (reporting manuel) est directement adressable par ce type d'outil.</div>
+        <div class="why-item"><div class="why-dot"></div>Une équipe déjà utilisatrice d'IA au quotidien peut porter le pilote sans formation lourde préalable.</div>
+        <div class="why-item"><div class="why-dot"></div>Résultat mesurable en quelques semaines, sans dépendance à un chantier de données plus large.</div>
+      </div>
+    </div>
+
+    <div class="col-side">
+      <div class="action-card">
+        <div class="action-title">Recevoir ce résultat par email</div>
+        <div class="action-sub">Un récapitulatif complet du diagnostic et de la recommandation, envoyé immédiatement. Vos données restent confidentielles.</div>
+        <sc-if value="{{!sent}}" hint-placeholder-val="{{true}}">
+          <div class="input-row">
+            <input class="input" type="email" placeholder="[votre email professionnel]" />
+            <div class="btn-primary" onClick="{{sendEmail}}">Envoyer</div>
+          </div>
+        </sc-if>
+        <sc-if value="{{sent}}" hint-placeholder-val="{{false}}">
+          <div class="confirm">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 13l4 4L20 6" stroke="oklch(62% 0.19 250)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Résultat envoyé.
+          </div>
+        </sc-if>
+      </div>
+
+      <div class="action-card">
+        <div class="action-title">Aller plus loin</div>
+        <div class="action-sub">Prendre rendez-vous avec Chatllow pour approfondir ce pilote et son cadrage.</div>
+        <div class="btn-outline">Prendre rendez-vous</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script data-dc-script>
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      sent: this.state.sent ?? false,
+      sendEmail: () => this.setState({ sent: true })
+    };
+  }
+}
+</script>
+</x-dc>
+</body>
+</html>

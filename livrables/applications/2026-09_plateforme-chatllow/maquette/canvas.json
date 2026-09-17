@@ -1,0 +1,13 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 1280, "h": 900 },
+    { "file": "Diagnostic.dc.html", "x": 1360, "y": 0, "w": 1280, "h": 800 },
+    { "file": "Restitution.dc.html", "x": 2720, "y": 0, "w": 1280, "h": 620 },
+    { "file": "RDV.dc.html", "x": 4080, "y": 0, "w": 1280, "h": 800 },
+    { "file": "EspaceClient.dc.html", "x": 5440, "y": 0, "w": 1280, "h": 820 }
+  ],
+  "annotations": [
+    { "id": "flow-note", "x": 0, "y": -130, "w": 900, "text": "Parcours : Accueil -> Diagnostic (3 questions, cliquable) -> Restitution (recommandation + email + RDV) -> RDV (creneaux) -> Espace client (une fois signe). Chaque ecran est un artboard separe, sans navigation reelle entre eux dans cette preview." }
+  ],
+  "launch": { "view": "canvas" }
+}

@@ -1,0 +1,18 @@
+{
+  "artboards": [
+    { "file": "Main.dc.html", "x": 0, "y": 0, "w": 960, "h": 680, "page": "page-brand" },
+    { "file": "DirectionA.dc.html", "x": 0, "y": 0, "w": 960, "h": 680, "page": "page-explorations" },
+    { "file": "DirectionC.dc.html", "x": 1080, "y": 0, "w": 960, "h": 680, "page": "page-explorations" },
+    { "file": "DirectionD.dc.html", "x": 2160, "y": 0, "w": 960, "h": 680, "page": "page-explorations" },
+    { "file": "DirectionE.dc.html", "x": 3240, "y": 0, "w": 960, "h": 680, "page": "page-explorations" }
+  ],
+  "annotations": [
+    { "id": "brief-note", "x": 0, "y": -110, "w": 640, "text": "Piste \"Signal net\" retenue le 2026-09-16 pour l'identite Chatllow.", "page": "page-brand" },
+    { "id": "explorations-note", "x": 0, "y": -110, "w": 640, "text": "Pistes non retenues, gardees pour reference.", "page": "page-explorations" }
+  ],
+  "pages": [
+    { "id": "page-brand", "name": "Chatllow" },
+    { "id": "page-explorations", "name": "Explorations" }
+  ],
+  "launch": { "view": "canvas", "page": "page-brand" }
+}

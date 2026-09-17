@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+:root {
+  --encre: #14161f;
+  --indigo: oklch(62% 0.19 250);
+  --indigo-soft: oklch(62% 0.19 250 / 0.1);
+  --fond: #f6f1e9;
+  --fond-carte: #fffdf8;
+  --texte: #14161f;
+  --texte-mute: rgba(20, 22, 31, 0.6);
+  --ligne: rgba(20, 22, 31, 0.12);
+}
+
+@theme inline {
+  --color-encre: var(--encre);
+  --color-indigo: var(--indigo);
+  --color-indigo-soft: var(--indigo-soft);
+  --color-fond: var(--fond);
+  --color-fond-carte: var(--fond-carte);
+  --color-texte: var(--texte);
+  --color-texte-mute: var(--texte-mute);
+  --color-ligne: var(--ligne);
+  --font-display: var(--font-display);
+  --font-corps: var(--font-corps);
+  --font-mono: var(--font-mono);
+  --font-accent-italic: var(--font-accent-italic);
+}
+
+body {
+  background: var(--fond);
+  color: var(--texte);
+  font-family: var(--font-corps), sans-serif;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0, 0 0 0 0 0, 0 0 0 0 0, 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.accent-italic {
+  font-family: var(--font-accent-italic), serif;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--indigo);
+}
