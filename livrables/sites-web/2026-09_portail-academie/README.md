@@ -8,11 +8,23 @@ Donner une vue d'ensemble des deux parcours et de leurs modules, avec un statut 
 
 ## Prérequis
 
-Aucun. Fichier HTML autonome.
+Aucun. HTML/CSS/JS statiques.
 
 ## Comment lancer
 
 Ouvrir `index.html` dans un navigateur.
+
+## Arborescence
+
+```
+index.html
+assets/
+├── css/styles.css   # tous les styles, partagés si d'autres pages s'ajoutent
+├── js/main.js       # onglets, modal de déblocage, formulaire d'intérêt
+└── images/          # vide pour l'instant, prêt à recevoir des visuels
+```
+
+Convention pour toute future page : un fichier `.html` à la racine par page, qui réutilise `assets/css/styles.css` et `assets/js/main.js` (à découper en plusieurs fichiers CSS/JS si un jour un seul devient trop gros).
 
 ## Statut
 

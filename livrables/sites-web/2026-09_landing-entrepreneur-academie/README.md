@@ -8,11 +8,23 @@ Faire connaître Entrepreneur Académie avant son lancement officiel, présenter
 
 ## Prérequis
 
-Aucun. Fichier HTML autonome (Google Fonts chargé en ligne, connexion internet nécessaire pour l'affichage des polices, le reste fonctionne hors ligne).
+Aucun. HTML/CSS/JS statiques (Google Fonts chargé en ligne, connexion internet nécessaire pour l'affichage des polices, le reste fonctionne hors ligne).
 
 ## Comment lancer
 
 Ouvrir `index.html` dans un navigateur.
+
+## Arborescence
+
+```
+index.html
+assets/
+├── css/styles.css   # tous les styles, partagés si d'autres pages s'ajoutent
+├── js/main.js       # comportement du formulaire de liste d'attente
+└── images/          # vide pour l'instant, prêt à recevoir des visuels
+```
+
+Convention pour toute future page : un fichier `.html` à la racine par page, qui réutilise `assets/css/styles.css` et `assets/js/main.js` (à découper en plusieurs fichiers CSS/JS si un jour un seul devient trop gros).
 
 ## Statut
 
