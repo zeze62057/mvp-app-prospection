@@ -30,13 +30,15 @@ Entrepreneur centré sur l'intelligence artificielle et l'écosystème Claude. Z
 **Cabinet de conseil IA (Chatllow)**
 - Cible clients : entreprises CAC40 et grands comptes
 - Modèle : conseil et accompagnement à la transformation IA
-- Statut : en préparation, recherche du premier client
+- Statut : en préparation, recherche du premier client, aucun client signé à ce jour
+- Plateforme publique construite le 17 septembre 2026 : diagnostic IA en libre-service et espace client, sous une même identité (piste "Signal net", tranchée le 16 septembre)
 
 **École de l'IA (Vivier IA)**
 - Ambition : créer la plus grande école de l'IA en francophonie
 - Vision : former et recruter les meilleurs, un vivier de talents plutôt qu'une simple école grand public
 - Construit sur l'écosystème Claude
-- Statut : en conception, nom choisi le 12 septembre 2026 (anciennement "Entrepreneur Académie")
+- Statut : en construction, nom choisi le 12 septembre 2026 (anciennement "Entrepreneur Académie"), logo "Clé" retenu
+- Plateforme Vivier Academies en cours de construction : deux espaces, Vivier IA et Bâtisseur Pro, tunnel de paiement branché sur Chariow
 
 **Marketing de réseau (Longrich)**
 - Intégration de l'IA dans le recrutement, la formation et le suivi des prospects
@@ -64,9 +66,10 @@ Entrepreneur centré sur l'intelligence artificielle et l'écosystème Claude. Z
 
 - **SaaS et applications Claude** : développement de produits à vendre sur l'écosystème Claude
 - **Plateforme e-commerce multi-vendeurs** : marketplace de produits bien-être pour la Guinée et l'Afrique de l'Ouest, avec créateur de boutiques en ligne pour les vendeurs et distributeurs (type Longrich). Zézé y a sa propre boutique. Mobile-first, paiement mobile money, prix en GNF. Design en conception dans Claude Design. Nom à définir
-- **App de prospection MLM (Kora)** : application de prospection en marketing de réseau pour BONJOUR et sa lignée de filleuls, chacun avec son compte et ses prospects. Pipeline à 7 statuts de Nouveau à Closé, historique de suivi, formulaire public de capture. Cadrage fait, implémentation front statique des 3 écrans, et branchement Supabase en cours : projet `swsjyeltuabrqwjaisew` créé, tables créées via `schema.sql`, `app/config.js` branché sur la clé publishable. Reste à valider en conditions réelles (connexion navigateur) puis à trancher les points ouverts du schéma (inscription des agents, réattribution par le parrain, formulaire public). Dossier : `livrables/applications/2026-09_app-prospection-mlm/`
+- **App de prospection MLM (Kora)** : application de prospection en marketing de réseau pour BONJOUR et sa lignée de filleuls, chacun avec son compte et ses prospects. Pipeline à 7 statuts de Nouveau à Closé, historique de suivi, formulaire public de capture. Cadrage fait, front statique des 3 écrans, branchement Supabase fait (projet `swsjyeltuabrqwjaisew`), connexion agent et tunnel public de capture de prospects opérationnels (testé de bout en bout le 8 septembre). Restent l'essai visuel dans le navigateur, le reCAPTCHA, l'inscription des filleuls et le déploiement. Dossier : `livrables/longrich/2026-09_app-prospection-mlm/`
 - **Formation avancée IA et marketing de réseau** : se former pour devenir formateur dans ces deux domaines
-- **Vivier IA** : conception de l'école de l'IA sur l'écosystème Claude (anciennement "Entrepreneur Académie")
+- **Vivier IA** : conception de l'école de l'IA sur l'écosystème Claude (anciennement "Entrepreneur Académie"). Plateforme Vivier Academies (espaces Vivier IA et Bâtisseur Pro), modules de cours 1 à 5 rédigés. Dossier : `livrables/vivier-ia/`
+- **Plateforme Chatllow** : vitrine, diagnostic IA public et espace client du cabinet, construite le 17 septembre 2026. Dossier : `livrables/chatllow/2026-09_plateforme-chatllow/`
 - **Expertise écosystème Claude** : devenir expert reconnu sur Claude et ses outils
 - **Transition consultant** : devenir consultant multi-domaines grâce à l'IA
 
@@ -97,5 +100,5 @@ Développement de SaaS et applications sur l'écosystème Claude.
 
 > Cette section se remplira au fil du temps avec les éléments de contexte qui émergent naturellement dans mes sessions avec Claude.
 
-- **Organisation du workspace :** les inputs (documents fournis par Zézé) vont dans `context/import/`, les outputs (livrables produits par Claude) vont dans `livrables/` et ses sous-dossiers thématiques (`sites-web/`, `applications/`, `youtube/`, `cabinet/`, `ecole/`). Convention de nommage détaillée dans `livrables/README.md`.
+- **Organisation du workspace :** les inputs (documents fournis par Zézé) vont dans `context/import/`, les outputs (livrables produits par Claude) vont dans `livrables/` et ses sous-dossiers par activité (`chatllow/`, `vivier-ia/`, `longrich/`, `ecommerce/`, `youtube/`, `pilotage-business/`, `transverse/`). Convention de nommage détaillée dans `livrables/README.md`.
 - **Secrets :** les clés d'API réelles vivent dans `.env` à la racine (jamais commité). `.env.example` est le template public.

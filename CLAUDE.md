@@ -6,7 +6,7 @@ This file provides guidance to Claude Code when working in this workspace.
 
 ## What This Is
 
-Ce workspace est le Jarvis personnel de [VOTRE NOM]. Il a été créé avec le Jarvis Starter Kit pour servir d'assistant IA personnel au quotidien.
+Ce workspace est le Jarvis personnel de Zézé Bilivogui. Il a été créé avec le Jarvis Starter Kit pour servir d'assistant IA personnel au quotidien.
 
 **Ce fichier (CLAUDE.md) est la fondation.** Il est automatiquement chargé au début de chaque session. Gardez-le à jour, c'est la source de vérité unique sur la façon dont Claude doit comprendre et opérer dans ce workspace.
 
@@ -72,12 +72,16 @@ Une fois que je confirme, Claude met à jour le fichier en question et ajoute un
 │   ├── CONTEXT.md               # Qui je suis, ce que je fais, mes objectifs
 │   ├── HISTORY.md               # Journal évolutif de mes sessions
 │   └── import/                  # Documents externes à analyser (inputs)
-├── livrables/                  # Tout ce que Claude produit pour moi (outputs)
-│   ├── sites-web/
-│   ├── applications/
+├── livrables/                  # Tout ce que Claude produit pour moi (outputs), rangé par activité
+│   ├── chatllow/               # Cabinet de conseil IA (plateforme, générateurs d'audit, identité)
+│   ├── vivier-ia/              # École de l'IA (plateforme, sites, identité, cours/)
+│   ├── longrich/               # Marketing de réseau (Kora, suivi formation)
+│   ├── ecommerce/              # Plateforme e-commerce multi-vendeurs
 │   ├── youtube/
-│   ├── cabinet/
-│   └── ecole/
+│   ├── pilotage-business/      # KPIs, facturation
+│   ├── transverse/             # Méthode d'approche de projet, mémoire agent LinkedIn
+│   ├── ecole/                  # Provisoire : programme marketing de réseau
+│   └── livre-mlm/              # Provisoire : livre MLM
 ├── .claude/
 │   ├── commands/
 │   │   ├── prime.md             # /prime pour démarrer une session
@@ -94,7 +98,7 @@ Une fois que je confirme, Claude met à jour le fichier en question et ajoute un
 |---------|---------|
 | `context/` | Tout ce qui me concerne et que Claude doit savoir |
 | `context/import/` | Documents externes que je fournis (inputs) : PDFs, exports, notes |
-| `livrables/` | Tout ce que Claude produit pour moi (outputs), rangé par thème |
+| `livrables/` | Tout ce que Claude produit pour moi (outputs), rangé par activité (Chatllow, Vivier IA, Longrich...) |
 | `.claude/commands/` | Commandes personnalisées de mon Jarvis |
 | `.claude/skills/` | Skills (super-pouvoirs) de mon Jarvis |
 | `module-installs/` | Modules d'installation (initial et futurs) |

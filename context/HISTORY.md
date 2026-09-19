@@ -7,6 +7,29 @@
 
 ---
 
+## 2026-09-19
+
+### Réorganisation de `livrables/` par activité
+
+- Décision : passage d'un classement par type de livrable (`sites-web/`, `applications/`, `cabinet/`, `ecole/`) à un classement par activité. Motif : les projets d'une même activité étaient éparpillés (Chatllow dans 2 dossiers, Vivier IA dans 3, Longrich sans dossier propre)
+- Nouvelle structure : `chatllow/` (identité, plateforme, 6 générateurs d'audit), `vivier-ia/` (identité, plateforme, landing, portail, `cours/ecosysteme-ia/`), `longrich/` (Kora, suivi formation), `ecommerce/`, `transverse/` (méthode d'approche de projet, maintenance par type, mémoire de l'agent LinkedIn). `youtube/` et `pilotage-business/` inchangés
+- Renommages : `entrepreneur-academie-module-1` devient `vivier-ia-module-1`, `landing-entrepreneur-academie` devient `landing-vivier-ia`
+- Déplacements faits avec `git mv` (historique conservé), aucun commit à ce stade. Chemins corrigés dans `CLAUDE.md`, `CONTEXT.md`, 5 skills et agents, et 2 fichiers de mémoire. `HISTORY.md` et les `METHODE.md` de projet gardent les anciens chemins, car ils décrivent un état passé
+- En attente de décision : `ecole/marketing-reseau/` (programme 50 chapitres et module IA marketing de réseau) et `livre-mlm/`. Proposition faite : programme et livre dans `longrich/`, module IA dans `vivier-ia/cours/`
+- Point d'attention : si le projet Vercel de la plateforme Vivier déploie depuis GitHub, son Root Directory doit être mis à jour avant le prochain `push`
+- Correction de l'entrée du 12 septembre : le logo de Vivier IA n'est plus le "Banc" mais la "Clé" (anneau et point d'accès, mêmes couleurs et typographies), selon `vivier-ia/2026-09_vivier-ia-identite-visuelle/README.md`
+
+## 2026-09-13 au 2026-09-17
+
+### Rattrapage des sessions non tracées (reconstitué depuis l'historique git)
+
+> Entrée reconstituée à partir des messages de commit et des `CADRAGE.md`, pas d'un récit de Zézé. À corriger si un détail est inexact.
+
+- **13 septembre** : le portail existant (`portail-academie`) est absorbé par la plateforme Vivier Academies, qui devient elle-même la vitrine publique pour les deux espaces
+- **15 septembre** : vitrine publique avec de vraies données, page individuelle de progression, tunnel de paiement branché sur Chariow via n8n, contenu complet des Modules 3, 4 et 5 rédigé, guide de réussite du Module 2
+- **16 septembre** : second espace Bâtisseur Pro (prompts, ressources, masterclass, RDV, contenu éditorial), puis premier module de cours Bâtisseur Pro. Identité visuelle de Chatllow tranchée : piste "Signal net" parmi 5 explorées
+- **17 septembre** : les 8 parties du programme marketing de réseau ajoutées à Bâtisseur Pro. Plateforme Chatllow construite (diagnostic IA public en libre-service et espace client, cadrage, maquette, application). CSS et JS des sites vitrine extraits
+
 ## 2026-09-12
 
 ### Intégration des 7 compétences de Go Pro (Eric Worre) au programme marketing de réseau
