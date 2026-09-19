@@ -18,6 +18,7 @@ export type ContenuVitrine = {
   fondateur_tag?: string;
   fondateur_lede?: string;
   fondateur_paragraphes?: string[]; // "**mot**" = gras
+  fondateur_legende?: string; // legende de la petite carte a cote de la photo, "\n" = saut de ligne. Carte absente si non renseigne
   offre_texte?: string; // "**mot**" = gras
   faq?: { question: string; reponse: string }[]; // reponse peut contenir {{prix}}, remplace dynamiquement par espace.prix
   parcours_titre?: string; // titre de la section "le parcours" (3 paliers)

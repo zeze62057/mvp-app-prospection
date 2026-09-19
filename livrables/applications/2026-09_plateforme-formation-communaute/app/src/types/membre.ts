@@ -60,6 +60,8 @@ export type Section = {
   ordre: number;
   titre: string;
   video_path: string | null;
+  a_contenu: boolean; // true si la section a un texte de lecon (voir migration 0023)
+  contenu?: string | null; // texte Markdown de la lecon, charge uniquement par la page de lecon
 };
 
 export type StatutPaiement = "en_attente" | "confirme" | "echoue";

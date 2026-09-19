@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { marquerSectionTerminee } from "@/app/(membre)/[espace]/progression/actions";
 import type { Section } from "@/types/membre";
 
@@ -67,6 +68,14 @@ export function ModuleCard({
                 Marquer &quot;{sections[indexCourant].titre}&quot; comme terminee
               </button>
             </form>
+          )}
+          {indexCourant !== -1 && (sections[indexCourant].a_contenu || sections[indexCourant].video_path) && (
+            <Link
+              href={`/${espaceSlug}/formation/${sections[indexCourant].id}`}
+              className="text-xs font-bold text-[var(--corail)] underline"
+            >
+              Lire la lecon
+            </Link>
           )}
         </div>
       )}

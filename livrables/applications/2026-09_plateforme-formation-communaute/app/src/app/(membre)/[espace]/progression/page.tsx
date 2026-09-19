@@ -77,7 +77,7 @@ export default async function ProgressionPage({
 
   const moduleIds = (modules ?? []).map((m) => m.id);
   const { data: sections } = moduleIds.length
-    ? await supabase.from("sections").select("*").in("module_id", moduleIds).order("ordre").returns<Section[]>()
+    ? await supabase.from("sections").select("id, module_id, ordre, titre, video_path, a_contenu").in("module_id", moduleIds).order("ordre").returns<Section[]>()
     : { data: [] as Section[] };
 
   const { data: progressionRows } = await supabase

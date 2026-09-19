@@ -60,7 +60,7 @@ export default async function FormationPage({
 
   const moduleIds = (modules ?? []).map((m) => m.id);
   const { data: sections } = moduleIds.length
-    ? await supabase.from("sections").select("*").in("module_id", moduleIds).order("ordre").returns<Section[]>()
+    ? await supabase.from("sections").select("id, module_id, ordre, titre, video_path, a_contenu").in("module_id", moduleIds).order("ordre").returns<Section[]>()
     : { data: [] as Section[] };
 
   const sectionsParModule = new Map<string, Section[]>();
@@ -105,7 +105,16 @@ export default async function FormationPage({
                 <ul className="mt-3 flex flex-col gap-1.5">
                   {secs.map((s) => (
                     <li key={s.id} className="flex items-center justify-between text-[13px] text-[var(--texte-mute)]">
-                      <span>{s.titre}</span>
+                      {s.a_contenu || s.video_path ? (
+                        <Link
+                          href={`/${espace.slug}/formation/${s.id}`}
+                          className="text-[var(--texte)] hover:text-[var(--sarcelle)] hover:underline"
+                        >
+                          {s.titre}
+                        </Link>
+                      ) : (
+                        <span>{s.titre}</span>
+                      )}
                       {s.video_path && (
                         <span className="font-mono text-[10px] uppercase tracking-wide text-[var(--sarcelle)]">
                           video

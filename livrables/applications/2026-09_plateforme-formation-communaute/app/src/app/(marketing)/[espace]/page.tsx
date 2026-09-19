@@ -191,10 +191,18 @@ export default async function VitrinePage({
                 priority
               />
             </div>
-            <div className="absolute bottom-0 right-0 z-[1] flex h-[130px] w-[160px] items-center justify-center rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-3.5 text-center font-mono text-[11px] text-[var(--texte-mute)] shadow-[0_18px_40px_rgba(17,56,50,0.14)]">
-              Capture d&apos;un
-              <br />deploiement reel
-            </div>
+            {c.fondateur_legende && (
+              <div className="absolute bottom-0 right-0 z-[1] flex h-[130px] w-[160px] items-center justify-center rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-3.5 text-center font-mono text-[11px] text-[var(--texte-mute)] shadow-[0_18px_40px_rgba(17,56,50,0.14)]">
+                <span>
+                  {c.fondateur_legende.split("\n").map((ligne, i) => (
+                    <span key={i}>
+                      {i > 0 && <br />}
+                      {ligne}
+                    </span>
+                  ))}
+                </span>
+              </div>
+            )}
           </div>
           <div className="flex-1">
             <p className="mb-2.5 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle)]">
@@ -212,14 +220,14 @@ export default async function VitrinePage({
         </div>
       )}
 
-      <div className="px-6 py-16 sm:px-16">
-        <p className="mb-2.5 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle)]">
-          preuve, pas promesse
-        </p>
-        <h2 className="font-display mb-8 max-w-xl text-2xl font-semibold sm:text-[29px]">
-          Ce que dit la communaute
-        </h2>
-        {temoignages && temoignages.length > 0 ? (
+      {temoignages && temoignages.length > 0 && (
+        <div className="px-6 py-16 sm:px-16">
+          <p className="mb-2.5 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle)]">
+            preuve, pas promesse
+          </p>
+          <h2 className="font-display mb-8 max-w-xl text-2xl font-semibold sm:text-[29px]">
+            Ce que dit la communaute
+          </h2>
           <div className="grid grid-cols-1 gap-[18px] sm:grid-cols-3">
             {temoignages.map((t) => (
               <div key={t.id} className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
@@ -237,12 +245,8 @@ export default async function VitrinePage({
               </div>
             ))}
           </div>
-        ) : (
-          <p className="text-sm italic text-[var(--texte-mute)]">
-            Les premiers temoignages de la communaute arrivent bientot.
-          </p>
-        )}
-      </div>
+        </div>
+      )}
 
       {c.faq && c.faq.length > 0 && (
         <div className="px-6 py-16 sm:px-16">
