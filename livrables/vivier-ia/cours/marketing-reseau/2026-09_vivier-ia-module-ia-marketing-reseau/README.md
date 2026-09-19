@@ -1,6 +1,6 @@
 # Module — IA appliquée au marketing de réseau
 
-> Module croisé d'Entrepreneur Académie, construit à partir de deux sources : le skill `programme-marketing-reseau` (8 parties, fondations MLM au leadership) et le skill `programme-ecosysteme-ia` (écosystème Claude, mindset IA). Rédigé par Claude, contenu de cours original, à ajuster par Zézé.
+> Module croisé de Vivier IA, construit à partir de deux sources : le skill `programme-marketing-reseau` (8 parties, fondations MLM au leadership) et le skill `programme-ecosysteme-ia` (écosystème Claude, mindset IA). Rédigé par Claude, contenu de cours original, à ajuster par Zézé.
 
 **Positionnement** : ce n'est pas un résumé des deux programmes sources, c'est un troisième contenu qui croise les deux uniquement là où il y a une vraie proximité de sujet, comme l'exige le skill `programme-marketing-reseau`. Chaque chapitre indique de quelle partie du programme MLM il part.
 

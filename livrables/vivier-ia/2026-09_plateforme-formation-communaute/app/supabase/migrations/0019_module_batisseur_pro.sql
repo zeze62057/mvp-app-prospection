@@ -1,7 +1,7 @@
 -- Premier module de cours pour Batisseur Pro (voir CADRAGE.md, decision de
 -- Zeze le 2026-09-16 : structure de l'espace creee en 0018, contenu de
 -- cours ajoute separement). Titres repris du module croise deja redige
--- livrables/ecole/marketing-reseau/2026-09_entrepreneur-academie-module-ia-marketing-reseau/
+-- livrables/vivier-ia/cours/marketing-reseau/2026-09_vivier-ia-module-ia-marketing-reseau/
 -- (4 chapitres). Comme pour Vivier IA (0005_progression.sql), seuls les
 -- titres sont stockes en base : le contenu reel est livre par video,
 -- enregistree ensuite par Zeze via l'outil admin.

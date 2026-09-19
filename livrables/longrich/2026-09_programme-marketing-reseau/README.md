@@ -2,7 +2,7 @@
 
 > Contenu de cours rédigé à partir de la table des matières du skill `programme-marketing-reseau` (8 parties). Les titres de chapitres sont ceux du programme source, fournis par Zézé. Le contenu de chaque leçon est original, rédigé par Claude à partir de ces titres, pas une reproduction d'un texte source qui n'a jamais été fourni.
 >
-> Quand un chapitre fait vraiment écho à un chapitre du module `2026-09_entrepreneur-academie-module-ia-marketing-reseau/`, un encart "Angle IA" y renvoie plutôt que de répéter ce contenu. Certains chapitres n'ont volontairement aucun encart IA : ce sont des sujets purement humains où forcer un lien serait artificiel, contraire à la règle posée dans le skill `programme-marketing-reseau`.
+> Quand un chapitre fait vraiment écho à un chapitre du module `livrables/vivier-ia/cours/marketing-reseau/2026-09_vivier-ia-module-ia-marketing-reseau/`, un encart "Angle IA" y renvoie plutôt que de répéter ce contenu. Certains chapitres n'ont volontairement aucun encart IA : ce sont des sujets purement humains où forcer un lien serait artificiel, contraire à la règle posée dans le skill `programme-marketing-reseau`.
 
 ## Sommaire
 
@@ -19,4 +19,4 @@
 
 ## Statut
 
-Rédaction complète (11 septembre 2026), validée partie par partie avec Zézé au fil de la rédaction. Pas encore testé avec de vrais distributeurs Longrich. Les encarts "Angle IA" sont concentrés sur les chapitres où un vrai lien existe avec le module `2026-09_entrepreneur-academie-module-ia-marketing-reseau/` (surtout Parties I, II, V, VI, VII) : les Parties IV et VIII, centrées sur l'identité et la relation humaine, n'en contiennent volontairement aucun.
+Rédaction complète (11 septembre 2026), validée partie par partie avec Zézé au fil de la rédaction. Pas encore testé avec de vrais distributeurs Longrich. Les encarts "Angle IA" sont concentrés sur les chapitres où un vrai lien existe avec le module `livrables/vivier-ia/cours/marketing-reseau/2026-09_vivier-ia-module-ia-marketing-reseau/` (surtout Parties I, II, V, VI, VII) : les Parties IV et VIII, centrées sur l'identité et la relation humaine, n'en contiennent volontairement aucun.

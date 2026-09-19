@@ -12,10 +12,10 @@
 ### Réorganisation de `livrables/` par activité
 
 - Décision : passage d'un classement par type de livrable (`sites-web/`, `applications/`, `cabinet/`, `ecole/`) à un classement par activité. Motif : les projets d'une même activité étaient éparpillés (Chatllow dans 2 dossiers, Vivier IA dans 3, Longrich sans dossier propre)
-- Nouvelle structure : `chatllow/` (identité, plateforme, 6 générateurs d'audit), `vivier-ia/` (identité, plateforme, landing, portail, `cours/ecosysteme-ia/`), `longrich/` (Kora, suivi formation), `ecommerce/`, `transverse/` (méthode d'approche de projet, maintenance par type, mémoire de l'agent LinkedIn). `youtube/` et `pilotage-business/` inchangés
+- Nouvelle structure : `chatllow/` (identité, plateforme, 6 générateurs d'audit), `vivier-ia/` (identité, plateforme, landing, portail, `cours/ecosysteme-ia/`), `longrich/` (Kora, suivi formation, programme marketing de réseau, livre MLM), `ecommerce/`, `transverse/` (méthode d'approche de projet, maintenance par type, mémoire de l'agent LinkedIn). `youtube/` et `pilotage-business/` inchangés
 - Renommages : `entrepreneur-academie-module-1` devient `vivier-ia-module-1`, `landing-entrepreneur-academie` devient `landing-vivier-ia`
 - Déplacements faits avec `git mv` (historique conservé), aucun commit à ce stade. Chemins corrigés dans `CLAUDE.md`, `CONTEXT.md`, 5 skills et agents, et 2 fichiers de mémoire. `HISTORY.md` et les `METHODE.md` de projet gardent les anciens chemins, car ils décrivent un état passé
-- En attente de décision : `ecole/marketing-reseau/` (programme 50 chapitres et module IA marketing de réseau) et `livre-mlm/`. Proposition faite : programme et livre dans `longrich/`, module IA dans `vivier-ia/cours/`
+- Décision prise le même jour : le programme marketing de réseau (50 chapitres) et le livre MLM vont dans `longrich/`, le module IA marketing de réseau va dans `vivier-ia/cours/marketing-reseau/` (renommé `vivier-ia-module-ia-marketing-reseau`). Les dossiers `ecole/` et `livre-mlm/` n'existent plus
 - Point d'attention : si le projet Vercel de la plateforme Vivier déploie depuis GitHub, son Root Directory doit être mis à jour avant le prochain `push`
 - Correction de l'entrée du 12 septembre : le logo de Vivier IA n'est plus le "Banc" mais la "Clé" (anneau et point d'accès, mêmes couleurs et typographies), selon `vivier-ia/2026-09_vivier-ia-identite-visuelle/README.md`
 

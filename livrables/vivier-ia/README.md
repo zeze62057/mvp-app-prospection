@@ -11,6 +11,7 @@ Tout ce qui concerne Vivier IA, l'école de l'IA en francophonie (anciennement "
 | `2026-09_landing-vivier-ia/` | Landing page publique |
 | `2026-09_portail-academie/` | Portail existant, à absorber par la plateforme (décision du 2026-09-13) |
 | `cours/ecosysteme-ia/` | Modules de cours sur l'écosystème Claude (Modules 1 à 5) |
+| `cours/marketing-reseau/` | Module "IA appliquée au marketing de réseau" (4 chapitres). Le programme complet marketing de réseau est dans `longrich/` |
 
 ## Ce qu'on met ici
 
@@ -27,5 +28,5 @@ Exemple : `cours/ecosysteme-ia/2026-11_vivier-ia-module-6-nom/`
 
 ## À noter
 
-- Le programme marketing de réseau et son module IA sont encore dans `livrables/ecole/marketing-reseau/`, en attente de décision de rangement.
 - Le dossier du Module 1 a été renommé `2026-09_vivier-ia-module-1/` (ancien nom : `entrepreneur-academie-module-1`).
+- Le module marketing de réseau a été renommé `2026-09_vivier-ia-module-ia-marketing-reseau/` (ancien nom : `entrepreneur-academie-module-ia-marketing-reseau`).

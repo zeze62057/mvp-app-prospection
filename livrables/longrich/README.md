@@ -8,15 +8,18 @@ Tout ce qui concerne l'activité de marketing de réseau avec Longrich : outils 
 |---------|---------|
 | `2026-09_app-prospection-mlm/` | Kora, application de prospection pour BONJOUR et sa lignée (Supabase, front statique) |
 | `2026-09_suivi-formation-longrich/` | Outil de suivi de la formation des distributeurs |
+| `2026-09_programme-marketing-reseau/` | Programme de formation marketing de réseau, 8 parties et 50 chapitres |
+| `2026-09_livre-mlm/` | Livre MLM (versions nettoyée et enrichie) |
 
 ## Ce qu'on met ici
 
 - Outils, scripts et automatisations pour la prospection, le suivi et le coaching d'équipe
+- Programme de formation marketing de réseau et livre MLM
 - Supports pour former les distributeurs Longrich à l'IA
 
 ## À noter
 
-Le programme marketing de réseau (50 chapitres), le module "IA appliquée au marketing de réseau" et le livre MLM sont encore dans `livrables/ecole/marketing-reseau/` et `livrables/livre-mlm/`, en attente de décision de rangement.
+Le module "IA appliquée au marketing de réseau" est un module de l'école : il est dans `livrables/vivier-ia/cours/marketing-reseau/`. Le programme d'ici y renvoie par des encarts "Angle IA".
 
 ## Nommage
 

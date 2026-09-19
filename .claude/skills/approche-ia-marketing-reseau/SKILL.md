@@ -6,8 +6,8 @@ description: >-
   futur outil pour Longrich), en combinant la méthode générale de
   construction (skill `approche-projet`) et la connaissance réelle du métier
   MLM (skill `programme-marketing-reseau` et le module croisé
-  livrables/ecole/marketing-reseau/2026-09_entrepreneur-academie-module-ia-
-  marketing-reseau/). Se déclenche quand Zézé construit ou fait évoluer un
+  livrables/vivier-ia/cours/marketing-reseau/2026-09_vivier-ia-module-ia-marketing-reseau/).
+  Se déclenche quand Zézé construit ou fait évoluer un
   outil IA pour Longrich ou pour le marketing de réseau en général, ou
   demande explicitement "comment aborder cet outil IA pour le marketing de
   réseau", "est-ce que cette fonctionnalité IA a du sens en MLM".
@@ -22,7 +22,7 @@ Aider Zézé à construire des applications ou fonctionnalités IA réellement p
 ## Comment utiliser ce skill
 
 1. **Charger la méthode de construction** : suivre le skill `approche-projet`, en particulier la variante "Application / SaaS" ou "Fullstack (Claude Code + n8n)" de `livrables/transverse/methode-approche-projet.md` selon la nature du projet (application seule, ou avec une couche d'automatisation n8n).
-2. **Charger la connaissance du métier** : consulter le skill `programme-marketing-reseau` et surtout le module déjà rédigé `livrables/ecole/marketing-reseau/2026-09_entrepreneur-academie-module-ia-marketing-reseau/` (4 chapitres : pourquoi croiser, prospection et parrainage, coaching d'équipe, communication de leader), pour voir où l'IA a déjà une place identifiée et légitime dans ce métier.
+2. **Charger la connaissance du métier** : consulter le skill `programme-marketing-reseau` et surtout le module déjà rédigé `livrables/vivier-ia/cours/marketing-reseau/2026-09_vivier-ia-module-ia-marketing-reseau/` (4 chapitres : pourquoi croiser, prospection et parrainage, coaching d'équipe, communication de leader), pour voir où l'IA a déjà une place identifiée et légitime dans ce métier.
 3. **Appliquer le principe central, répété dans tous les encarts "Angle IA" du programme** : distinguer ce que l'IA peut faire (structurer une liste, préparer des messages ou des réponses aux objections, qualifier un prospect, résumer, suivre une progression) de ce qu'elle ne doit jamais remplacer (la décision finale, la relation humaine, le closing réel, le jugement sur l'engagement d'une personne pour le taprooting).
 4. **Si la fonctionnalité envisagée n'a pas d'équivalent déjà identifié** dans le module croisé ou dans les encarts "Angle IA" du programme, le dire clairement à Zézé plutôt que d'inventer silencieusement un usage IA non validé pour ce métier. Proposer, si pertinent, d'ajouter ce nouveau cas d'usage au module croisé une fois qu'il est éprouvé.
 

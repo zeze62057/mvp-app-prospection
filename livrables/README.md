@@ -23,18 +23,16 @@ Un dossier par activité. Tout ce qui touche une activité (application, site, i
 livrables/
 ├── chatllow/           Cabinet de conseil IA : plateforme, générateurs d'audit, identité visuelle, propositions
 ├── vivier-ia/          École de l'IA : plateforme Vivier Academies, sites, identité visuelle, cours/
-├── longrich/           Marketing de réseau : Kora, suivi formation Longrich
+├── longrich/           Marketing de réseau : Kora, suivi formation, programme 50 chapitres, livre MLM
 ├── ecommerce/          Plateforme e-commerce multi-vendeurs (nom à définir)
 ├── youtube/            Chaîne YouTube : briefs, scripts, hooks, calendrier
 ├── pilotage-business/  Suivi des activités : KPIs, facturation
-├── transverse/         Ce qui sert à tous les projets : méthode d'approche, mémoire de l'agent LinkedIn
-├── ecole/              Provisoire : programme marketing de réseau (voir ci-dessous)
-└── livre-mlm/          Provisoire : livre MLM (voir ci-dessous)
+└── transverse/         Ce qui sert à tous les projets : méthode d'approche, mémoire de l'agent LinkedIn
 ```
 
 Chaque dossier d'activité a son propre `README.md` qui précise ce qu'on y met.
 
-> **En attente de décision** : `ecole/marketing-reseau/` (programme 50 chapitres et module IA marketing de réseau) et `livre-mlm/` n'ont pas encore trouvé leur place définitive. Ils restent en l'état tant que ce n'est pas tranché.
+> **Cas du marketing de réseau** : le programme de formation et le livre vivent dans `longrich/`. Le module "IA appliquée au marketing de réseau" est un module de l'école, il est dans `vivier-ia/cours/marketing-reseau/`.
 
 ### Où ranger un nouveau livrable ?
 

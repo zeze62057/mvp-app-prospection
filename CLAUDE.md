@@ -75,13 +75,11 @@ Une fois que je confirme, Claude met à jour le fichier en question et ajoute un
 ├── livrables/                  # Tout ce que Claude produit pour moi (outputs), rangé par activité
 │   ├── chatllow/               # Cabinet de conseil IA (plateforme, générateurs d'audit, identité)
 │   ├── vivier-ia/              # École de l'IA (plateforme, sites, identité, cours/)
-│   ├── longrich/               # Marketing de réseau (Kora, suivi formation)
+│   ├── longrich/               # Marketing de réseau (Kora, suivi formation, programme, livre MLM)
 │   ├── ecommerce/              # Plateforme e-commerce multi-vendeurs
 │   ├── youtube/
 │   ├── pilotage-business/      # KPIs, facturation
-│   ├── transverse/             # Méthode d'approche de projet, mémoire agent LinkedIn
-│   ├── ecole/                  # Provisoire : programme marketing de réseau
-│   └── livre-mlm/              # Provisoire : livre MLM
+│   └── transverse/             # Méthode d'approche de projet, mémoire agent LinkedIn
 ├── .claude/
 │   ├── commands/
 │   │   ├── prime.md             # /prime pour démarrer une session

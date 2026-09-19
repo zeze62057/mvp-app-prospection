@@ -180,7 +180,7 @@ Une bonne structure sépare clairement les grandes responsabilités : le code de
 
 ### Exemple concret
 
-Ce workspace applique ce principe concrètement : `livrables/vivier-ia/cours/ecosysteme-ia/` et `livrables/ecole/marketing-reseau/` séparent deux filières de cours bien distinctes, plutôt que de tout mélanger dans un seul dossier `ecole/`. Quand un second module a été ajouté (Module 2, n8n), il a pu prendre sa place naturellement dans `ecosysteme-ia/`, à côté du Module 1, sans avoir besoin de réorganiser le reste du dossier.
+Ce workspace applique ce principe concrètement : `livrables/vivier-ia/cours/ecosysteme-ia/` et `livrables/vivier-ia/cours/marketing-reseau/` séparent deux filières de cours bien distinctes, plutôt que de tout mélanger dans un seul dossier `cours/`. Quand un second module a été ajouté (Module 2, n8n), il a pu prendre sa place naturellement dans `ecosysteme-ia/`, à côté du Module 1, sans avoir besoin de réorganiser le reste du dossier.
 
 ### Ce qui se passe quand cette structure manque
 
