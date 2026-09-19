@@ -21,6 +21,9 @@ build/
 .vscode/
 .idea/
 
+# Réglages locaux de Claude Code (propres à chaque machine)
+.claude/settings.local.json
+
 # Logs
 *.log
 logs/
