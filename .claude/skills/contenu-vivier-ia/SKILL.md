@@ -7,7 +7,7 @@ description: Rédige un brouillon d'article pour l'onglet "Contenu" de la commun
 
 ## Mission
 
-Produire un brouillon d'article court pour l'onglet "Contenu" de la communauté gratuite Vivier IA (`livrables/applications/2026-09_plateforme-formation-communaute/`), à partir d'une actualité IA réelle et récente. Le public est un **débutant** qui découvre l'IA et Claude Code, pas un professionnel confirmé.
+Produire un brouillon d'article court pour l'onglet "Contenu" de la communauté gratuite Vivier IA (`livrables/vivier-ia/2026-09_plateforme-formation-communaute/`), à partir d'une actualité IA réelle et récente. Le public est un **débutant** qui découvre l'IA et Claude Code, pas un professionnel confirmé.
 
 **Ne jamais publier automatiquement.** Le brouillon s'insère toujours avec `statut = 'brouillon'`, invisible des membres tant que Zézé ne l'a pas validé dans `/admin` (décision explicite du 2026-09-16, voir migration `0015_contenus_statut.sql`).
 
@@ -68,7 +68,7 @@ const { error } = await admin.from("contenus").insert({
 console.log("Brouillon insere:", error ?? "OK");
 ```
 
-Exécuter ce script depuis `livrables/applications/2026-09_plateforme-formation-communaute/app/` (où vit `.env.local`), puis supprimer le fichier temporaire une fois exécuté, comme pour tout script ponctuel de ce workspace.
+Exécuter ce script depuis `livrables/vivier-ia/2026-09_plateforme-formation-communaute/app/` (où vit `.env.local`), puis supprimer le fichier temporaire une fois exécuté, comme pour tout script ponctuel de ce workspace.
 
 ## Étape 5 : Confirmer à Zézé
 

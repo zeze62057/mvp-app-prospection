@@ -15,7 +15,7 @@
 
 Deux exemples réels déjà construits dans ce workspace servent de fil rouge pédagogique :
 - **L'agent LinkedIn** (`.claude/agents/agent-linkedin.md`) pour le chapitre sur la communication de leader
-- **L'outil de suivi formation Longrich** (`livrables/applications/2026-09_suivi-formation-longrich/`) pour le chapitre sur le coaching d'équipe
+- **L'outil de suivi formation Longrich** (`livrables/longrich/2026-09_suivi-formation-longrich/`) pour le chapitre sur le coaching d'équipe
 
 Utiliser des exemples déjà construits plutôt que des cas théoriques, c'est un choix pédagogique délibéré : ça montre que la méthode fonctionne réellement, pas seulement sur le papier.
 

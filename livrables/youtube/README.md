@@ -14,7 +14,7 @@ Tout ce qui concerne la production de la chaîne YouTube de vulgarisation IA.
 ## Ce qu'on ne met pas ici
 
 - Les fichiers vidéo et rushes bruts, ils restent hors du workspace
-- Le site ou la landing de la chaîne, ils vont dans `sites-web/`
+- Le site ou la landing de la chaîne, ils vont dans le dossier de l'activité qui les porte (à trancher au moment de les créer)
 
 ## Nommage
 

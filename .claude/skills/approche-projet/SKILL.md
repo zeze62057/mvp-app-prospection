@@ -11,7 +11,7 @@ description: >-
   un nouveau projet ou demande explicitement "comment aborder ce projet",
   "quelle méthode pour ce projet", "aide-moi à cadrer ce projet", "lance la
   méthode d'approche de projet". La référence complète et à jour est
-  livrables/cabinet/methode-approche-projet.md, ce skill n'en est que le
+  livrables/transverse/methode-approche-projet.md, ce skill n'en est que le
   déclencheur et le guide d'application.
 ---
 
@@ -23,7 +23,7 @@ Aider Zézé à cadrer et dérouler n'importe quel projet de ce workspace selon 
 
 ## Comment utiliser ce skill
 
-1. **Lis d'abord `livrables/cabinet/methode-approche-projet.md` en entier, à chaque déclenchement.** C'est la référence complète et à jour. Ce skill n'en est que le point d'entrée : ne jamais réciter une version mémorisée qui pourrait être obsolète si le fichier a évolué depuis.
+1. **Lis d'abord `livrables/transverse/methode-approche-projet.md` en entier, à chaque déclenchement.** C'est la référence complète et à jour. Ce skill n'en est que le point d'entrée : ne jamais réciter une version mémorisée qui pourrait être obsolète si le fichier a évolué depuis.
 2. **Identifie le type de projet** parmi ceux déjà couverts dans le fichier (site vitrine / landing page, application ou SaaS, fullstack Claude Code + n8n, automatisation n8n seule, audit ou conseil IA type Chatllow, formation ou contenu pédagogique, branding ou identité visuelle). Si le projet ne correspond clairement à aucun type existant, dis-le à Zézé et propose d'ajouter une nouvelle variante au fichier de référence plutôt que d'improviser silencieusement une méthode non documentée.
 3. **Déroule le pipeline générique en l'adaptant** selon la variante identifiée : quelles étapes s'allègent, se renforcent, s'ajoutent, ou ne s'appliquent pas pour ce type précis de projet.
 4. **Avance étape par étape avec Zézé, pas tout d'un coup** : le cadrage d'abord (poser les questions nécessaires plutôt que supposer), puis seulement ensuite identité et maquette si le projet en a besoin, puis CLAUDE.md, puis la construction tâche par tâche avec le gabarit à 4 éléments et le cycle Plan, Execute, Validate.
@@ -36,4 +36,4 @@ Aider Zézé à cadrer et dérouler n'importe quel projet de ce workspace selon 
 
 ## Faire évoluer la méthode
 
-Si un nouveau type de projet récurrent apparaît, ou si une étape du pipeline générique s'avère mal adaptée à l'usage réel, propose à Zézé de mettre à jour `livrables/cabinet/methode-approche-projet.md` plutôt que de garder l'ajustement seulement dans la conversation en cours. Ce fichier reste la source de vérité ; ce skill doit toujours y renvoyer, jamais s'en détacher ni en diverger silencieusement.
+Si un nouveau type de projet récurrent apparaît, ou si une étape du pipeline générique s'avère mal adaptée à l'usage réel, propose à Zézé de mettre à jour `livrables/transverse/methode-approche-projet.md` plutôt que de garder l'ajustement seulement dans la conversation en cours. Ce fichier reste la source de vérité ; ce skill doit toujours y renvoyer, jamais s'en détacher ni en diverger silencieusement.

@@ -96,7 +96,7 @@ Une fois toutes les lignes créées dans "Posts rédigés" pour ce batch, invoqu
 
 ## Mémoire de l'agent
 
-Après chaque production, mets à jour le fichier `livrables/cabinet/linkedin-memoire-agent.md` (le crée s'il n'existe pas) avec tes apprentissages, de manière concise. Relis-le en début de mission pour t'appuyer sur ce qui a déjà fonctionné.
+Après chaque production, mets à jour le fichier `livrables/transverse/linkedin-memoire-agent.md` (le crée s'il n'existe pas) avec tes apprentissages, de manière concise. Relis-le en début de mission pour t'appuyer sur ce qui a déjà fonctionné.
 
 À enregistrer :
 

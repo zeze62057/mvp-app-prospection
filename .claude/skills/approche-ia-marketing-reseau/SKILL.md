@@ -21,15 +21,15 @@ Aider Zézé à construire des applications ou fonctionnalités IA réellement p
 
 ## Comment utiliser ce skill
 
-1. **Charger la méthode de construction** : suivre le skill `approche-projet`, en particulier la variante "Application / SaaS" ou "Fullstack (Claude Code + n8n)" de `livrables/cabinet/methode-approche-projet.md` selon la nature du projet (application seule, ou avec une couche d'automatisation n8n).
+1. **Charger la méthode de construction** : suivre le skill `approche-projet`, en particulier la variante "Application / SaaS" ou "Fullstack (Claude Code + n8n)" de `livrables/transverse/methode-approche-projet.md` selon la nature du projet (application seule, ou avec une couche d'automatisation n8n).
 2. **Charger la connaissance du métier** : consulter le skill `programme-marketing-reseau` et surtout le module déjà rédigé `livrables/ecole/marketing-reseau/2026-09_entrepreneur-academie-module-ia-marketing-reseau/` (4 chapitres : pourquoi croiser, prospection et parrainage, coaching d'équipe, communication de leader), pour voir où l'IA a déjà une place identifiée et légitime dans ce métier.
 3. **Appliquer le principe central, répété dans tous les encarts "Angle IA" du programme** : distinguer ce que l'IA peut faire (structurer une liste, préparer des messages ou des réponses aux objections, qualifier un prospect, résumer, suivre une progression) de ce qu'elle ne doit jamais remplacer (la décision finale, la relation humaine, le closing réel, le jugement sur l'engagement d'une personne pour le taprooting).
 4. **Si la fonctionnalité envisagée n'a pas d'équivalent déjà identifié** dans le module croisé ou dans les encarts "Angle IA" du programme, le dire clairement à Zézé plutôt que d'inventer silencieusement un usage IA non validé pour ce métier. Proposer, si pertinent, d'ajouter ce nouveau cas d'usage au module croisé une fois qu'il est éprouvé.
 
 ## Exemples déjà réels dans ce workspace
 
-- **Kora** (`livrables/applications/2026-09_app-prospection-mlm/`) : l'IA peut aider à qualifier un prospect ou suggérer un moment de suivi, jamais décider à la place de l'agent si un prospect doit être relancé ou abandonné.
-- **Suivi formation Longrich** (`livrables/applications/2026-09_suivi-formation-longrich/`) : l'IA aide à repérer qui est en retard ou en difficulté dans sa formation, le coaching réel qui suit reste humain (voir chapitre 2.4 du programme MLM).
+- **Kora** (`livrables/longrich/2026-09_app-prospection-mlm/`) : l'IA peut aider à qualifier un prospect ou suggérer un moment de suivi, jamais décider à la place de l'agent si un prospect doit être relancé ou abandonné.
+- **Suivi formation Longrich** (`livrables/longrich/2026-09_suivi-formation-longrich/`) : l'IA aide à repérer qui est en retard ou en difficulté dans sa formation, le coaching réel qui suit reste humain (voir chapitre 2.4 du programme MLM).
 
 ## Ce qui ne change jamais
 

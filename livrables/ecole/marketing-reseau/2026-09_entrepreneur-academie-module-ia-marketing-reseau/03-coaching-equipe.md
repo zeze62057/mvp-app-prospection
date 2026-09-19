@@ -10,7 +10,7 @@ Le chapitre 2.4 du programme MLM ("Comment coacher efficacement ses équipes") s
 
 ### L'exemple concret déjà construit dans ce workspace
 
-Ce n'est pas une hypothèse théorique : un outil répondant exactement à ce besoin a été construit dans ce workspace, `livrables/applications/2026-09_suivi-formation-longrich/`. Il permet d'enregistrer qui a été formé, sur quel sujet, à quelle date, et avec quel niveau d'autonomie observé, avec un compteur de progression vers l'objectif fixé (20 distributeurs formés). C'est une application directe de la méthode enseignée au Module 1 : cadrer un besoin réel (section 2), construire un outil simple sans backend complexe pour une V1 (section 3), et rester honnête sur ses limites (le stockage local, signalé explicitement dans le `README.md` du projet).
+Ce n'est pas une hypothèse théorique : un outil répondant exactement à ce besoin a été construit dans ce workspace, `livrables/longrich/2026-09_suivi-formation-longrich/`. Il permet d'enregistrer qui a été formé, sur quel sujet, à quelle date, et avec quel niveau d'autonomie observé, avec un compteur de progression vers l'objectif fixé (20 distributeurs formés). C'est une application directe de la méthode enseignée au Module 1 : cadrer un besoin réel (section 2), construire un outil simple sans backend complexe pour une V1 (section 3), et rester honnête sur ses limites (le stockage local, signalé explicitement dans le `README.md` du projet).
 
 ### Pourquoi c'est un cas d'école pour ce module
 
