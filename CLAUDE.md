@@ -72,11 +72,14 @@ Une fois que je confirme, Claude met à jour le fichier en question et ajoute un
 │   ├── CONTEXT.md               # Qui je suis, ce que je fais, mes objectifs
 │   ├── HISTORY.md               # Journal évolutif de mes sessions
 │   └── import/                  # Documents externes à analyser (inputs)
-├── livrables/                  # Tout ce que Claude produit pour moi (outputs), rangé par activité
-│   ├── chatllow/               # Cabinet de conseil IA (plateforme, générateurs d'audit, identité)
-│   ├── vivier-ia/              # École de l'IA (plateforme, sites, identité, cours/)
-│   ├── longrich/               # Marketing de réseau (Kora, suivi formation, programme, livre MLM)
-│   ├── ecommerce/              # Plateforme e-commerce multi-vendeurs
+├── livrables/                  # Tout ce que Claude produit pour moi (outputs), rangé par type
+│   ├── agents/                 # Fiches des agents (les fichiers actifs sont dans .claude/agents/)
+│   ├── skills/                 # Fiches des skills (les fichiers actifs sont dans .claude/skills/)
+│   ├── applications/           # Kora, plateformes (Chatllow, Vivier Academies, e-commerce), générateurs d'audit
+│   ├── formations/             # Cours et programmes (écosystème IA, marketing de réseau, livre MLM)
+│   ├── sites-web/              # Landing pages et portail
+│   ├── identites-visuelles/    # Logos et chartes (Chatllow, Vivier IA)
+│   ├── cabinet/                # Propositions, devis et audits clients Chatllow
 │   ├── youtube/
 │   ├── pilotage-business/      # KPIs, facturation
 │   └── transverse/             # Méthode d'approche de projet, mémoire agent LinkedIn
@@ -96,7 +99,7 @@ Une fois que je confirme, Claude met à jour le fichier en question et ajoute un
 |---------|---------|
 | `context/` | Tout ce qui me concerne et que Claude doit savoir |
 | `context/import/` | Documents externes que je fournis (inputs) : PDFs, exports, notes |
-| `livrables/` | Tout ce que Claude produit pour moi (outputs), rangé par activité (Chatllow, Vivier IA, Longrich...) |
+| `livrables/` | Tout ce que Claude produit pour moi (outputs), rangé par type (agents, skills, applications, formations...) |
 | `.claude/commands/` | Commandes personnalisées de mon Jarvis |
 | `.claude/skills/` | Skills (super-pouvoirs) de mon Jarvis |
 | `module-installs/` | Modules d'installation (initial et futurs) |

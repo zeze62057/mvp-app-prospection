@@ -9,7 +9,20 @@
 
 ## 2026-09-19
 
-### Réorganisation de `livrables/` par activité
+### Réorganisation de `livrables/` par type (remplace le classement par activité du même jour)
+
+- Décision : classement par type (`agents/`, `skills/`, `applications/`, `formations/`, `sites-web/`, `identites-visuelles/`, `cabinet/`, `youtube/`, `pilotage-business/`, `transverse/`). Zézé retrouve plus facilement ses livrables ainsi, comme dans son ancien classement sur un autre ordinateur. Cette entrée remplace la précédente ci-dessous, faite quelques heures plus tôt
+- L'ancien classement n'a pas été retrouvé, ni dans git ni dans "Mes Projets". Il a été reconstitué à partir de la description de Zézé
+- `agents/` et `skills/` contiennent des fiches (rôle, quand les lancer, fichier actif). Les fichiers actifs restent dans `.claude/`, seul endroit où Claude Code les charge
+- `cabinet/` ajouté pour les propositions et audits clients Chatllow. Le README principal contient un tableau pour retrouver un projet par activité. Les dossiers `chatllow/`, `vivier-ia/`, `longrich/`, `ecommerce/` et `ecole/` n'existent plus
+- Point d'attention : les commits déjà poussés sur `origin` contiennent l'ancien classement par activité. Si Vercel est lié à GitHub, son Root Directory doit passer à `livrables/applications/2026-09_plateforme-formation-communaute/app`
+
+### Constat sur Bâtisseur Pro
+
+- Le workflow n8n "Paiement Chariow - Vivier IA" a le produit Chariow écrit en dur (`prd_mkbcbme1`) : un paiement sur Bâtisseur Pro ouvrirait le produit Vivier IA. Le workflow de confirmation est correct, il active l'espace lié au `paiement_id`
+- Lot prévu : rendre le tunnel de paiement multi-espaces. En attente de l'identifiant du produit Chariow de Bâtisseur Pro
+
+### Réorganisation de `livrables/` par activité (remplacée, voir plus haut)
 
 - Décision : passage d'un classement par type de livrable (`sites-web/`, `applications/`, `cabinet/`, `ecole/`) à un classement par activité. Motif : les projets d'une même activité étaient éparpillés (Chatllow dans 2 dossiers, Vivier IA dans 3, Longrich sans dossier propre)
 - Nouvelle structure : `chatllow/` (identité, plateforme, 6 générateurs d'audit), `vivier-ia/` (identité, plateforme, landing, portail, `cours/ecosysteme-ia/`), `longrich/` (Kora, suivi formation, programme marketing de réseau, livre MLM), `ecommerce/`, `transverse/` (méthode d'approche de projet, maintenance par type, mémoire de l'agent LinkedIn). `youtube/` et `pilotage-business/` inchangés

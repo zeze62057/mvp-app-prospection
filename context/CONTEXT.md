@@ -66,10 +66,10 @@ Entrepreneur centré sur l'intelligence artificielle et l'écosystème Claude. Z
 
 - **SaaS et applications Claude** : développement de produits à vendre sur l'écosystème Claude
 - **Plateforme e-commerce multi-vendeurs** : marketplace de produits bien-être pour la Guinée et l'Afrique de l'Ouest, avec créateur de boutiques en ligne pour les vendeurs et distributeurs (type Longrich). Zézé y a sa propre boutique. Mobile-first, paiement mobile money, prix en GNF. Design en conception dans Claude Design. Nom à définir
-- **App de prospection MLM (Kora)** : application de prospection en marketing de réseau pour BONJOUR et sa lignée de filleuls, chacun avec son compte et ses prospects. Pipeline à 7 statuts de Nouveau à Closé, historique de suivi, formulaire public de capture. Cadrage fait, front statique des 3 écrans, branchement Supabase fait (projet `swsjyeltuabrqwjaisew`), connexion agent et tunnel public de capture de prospects opérationnels (testé de bout en bout le 8 septembre). Restent l'essai visuel dans le navigateur, le reCAPTCHA, l'inscription des filleuls et le déploiement. Dossier : `livrables/longrich/2026-09_app-prospection-mlm/`
+- **App de prospection MLM (Kora)** : application de prospection en marketing de réseau pour BONJOUR et sa lignée de filleuls, chacun avec son compte et ses prospects. Pipeline à 7 statuts de Nouveau à Closé, historique de suivi, formulaire public de capture. Cadrage fait, front statique des 3 écrans, branchement Supabase fait (projet `swsjyeltuabrqwjaisew`), connexion agent et tunnel public de capture de prospects opérationnels (testé de bout en bout le 8 septembre). Restent l'essai visuel dans le navigateur, le reCAPTCHA, l'inscription des filleuls et le déploiement. Dossier : `livrables/applications/2026-09_app-prospection-mlm/`
 - **Formation avancée IA et marketing de réseau** : se former pour devenir formateur dans ces deux domaines
-- **Vivier IA** : conception de l'école de l'IA sur l'écosystème Claude (anciennement "Entrepreneur Académie"). Plateforme Vivier Academies (espaces Vivier IA et Bâtisseur Pro), modules de cours 1 à 5 rédigés. Dossier : `livrables/vivier-ia/`
-- **Plateforme Chatllow** : vitrine, diagnostic IA public et espace client du cabinet, construite le 17 septembre 2026. Dossier : `livrables/chatllow/2026-09_plateforme-chatllow/`
+- **Vivier IA** : conception de l'école de l'IA sur l'écosystème Claude (anciennement "Entrepreneur Académie"). Plateforme Vivier Academies (espaces Vivier IA et Bâtisseur Pro), modules de cours 1 à 5 rédigés. Dossier : `livrables/applications/2026-09_plateforme-formation-communaute/` (plateforme) et `livrables/formations/` (cours)
+- **Plateforme Chatllow** : vitrine, diagnostic IA public et espace client du cabinet, construite le 17 septembre 2026. Dossier : `livrables/applications/2026-09_plateforme-chatllow/`
 - **Expertise écosystème Claude** : devenir expert reconnu sur Claude et ses outils
 - **Transition consultant** : devenir consultant multi-domaines grâce à l'IA
 
@@ -100,5 +100,5 @@ Développement de SaaS et applications sur l'écosystème Claude.
 
 > Cette section se remplira au fil du temps avec les éléments de contexte qui émergent naturellement dans mes sessions avec Claude.
 
-- **Organisation du workspace :** les inputs (documents fournis par Zézé) vont dans `context/import/`, les outputs (livrables produits par Claude) vont dans `livrables/` et ses sous-dossiers par activité (`chatllow/`, `vivier-ia/`, `longrich/`, `ecommerce/`, `youtube/`, `pilotage-business/`, `transverse/`). Convention de nommage détaillée dans `livrables/README.md`.
+- **Organisation du workspace :** les inputs (documents fournis par Zézé) vont dans `context/import/`, les outputs (livrables produits par Claude) vont dans `livrables/` et ses sous-dossiers par type (`agents/`, `skills/`, `applications/`, `formations/`, `sites-web/`, `identites-visuelles/`, `cabinet/`, `youtube/`, `pilotage-business/`, `transverse/`). Convention de nommage détaillée dans `livrables/README.md`.
 - **Secrets :** les clés d'API réelles vivent dans `.env` à la racine (jamais commité). `.env.example` est le template public.
