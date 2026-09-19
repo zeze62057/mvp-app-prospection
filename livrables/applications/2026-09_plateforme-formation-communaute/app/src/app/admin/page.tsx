@@ -14,6 +14,8 @@ import { FormulaireAccesPayant } from "@/components/admin/FormulaireAccesPayant"
 import { LignePrixEspace } from "@/components/admin/LignePrixEspace";
 import { FormulaireCreationEspace } from "@/components/admin/FormulaireCreationEspace";
 import { getStatsEspace } from "@/lib/stats-communaute";
+import { CarteStatsEspace } from "@/components/admin/CarteStatsEspace";
+import { FormulaireParametresCommunaute } from "@/components/admin/FormulaireParametresCommunaute";
 import { EnregistrementVideo } from "@/components/admin/EnregistrementVideo";
 import { FormulaireLienRessource } from "@/components/admin/FormulaireLienRessource";
 import { FormulaireFichierRessource } from "@/components/admin/FormulaireFichierRessource";
@@ -54,13 +56,22 @@ export default async function AdminPage() {
     .eq("statut", "en_attente")
     .order("created_at", { ascending: true });
 
+  // select("*") plutot qu'une liste de colonnes : reste fonctionnel meme si la
+  // migration 0024 (reglages de communaute) n'est pas encore appliquee.
   const { data: espaces } = await admin
     .from("espaces")
-    .select("id, slug, nom, prix, devise")
+    .select("*")
     .order("nom", { ascending: true });
 
   const statsParEspace = await Promise.all(
-    (espaces ?? []).map(async (e) => ({ espace: e, stats: await getStatsEspace(e.id) }))
+    (espaces ?? []).map(async (e) => ({ espace: e, stats: await getStatsEspace(e) }))
+  );
+
+  const { data: messagesAccueil } = await admin
+    .from("messages_accueil")
+    .select("espace_id, texte");
+  const messageParEspace = new Map(
+    (messagesAccueil ?? []).map((m) => [m.espace_id as string, m.texte as string])
   );
 
   const { data: masterclasses } = await admin
@@ -197,42 +208,33 @@ export default async function AdminPage() {
       </h2>
       <ul className="mt-6 flex flex-col gap-3">
         {statsParEspace.map(({ espace: e, stats }) => (
-          <li
-            key={e.id}
-            className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4"
-          >
-            <p className="text-sm font-medium">{e.nom}</p>
-            <div className="mt-3 grid grid-cols-2 gap-3 sm:grid-cols-4">
-              <div>
-                <p className="font-display text-lg font-extrabold text-[var(--sarcelle)]">
-                  {stats.nbMembres}
-                </p>
-                <p className="font-mono text-[10px] text-[var(--texte-mute)]">membres</p>
-              </div>
-              <div>
-                <p className="font-display text-lg font-extrabold text-[var(--sarcelle)]">
-                  {stats.nbPosts}
-                </p>
-                <p className="font-mono text-[10px] text-[var(--texte-mute)]">posts</p>
-              </div>
-              <div>
-                <p className="font-display text-lg font-extrabold text-[var(--sarcelle)]">
-                  {stats.nbActifsRecents}
-                </p>
-                <p className="font-mono text-[10px] text-[var(--texte-mute)]">actifs (7j)</p>
-              </div>
-              <div>
-                <p className="font-display text-lg font-extrabold text-[var(--sarcelle)]">
-                  {stats.tauxConversion === null ? "—" : `${stats.tauxConversion}%`}
-                </p>
-                <p className="font-mono text-[10px] text-[var(--texte-mute)]">conversion</p>
-              </div>
-            </div>
-          </li>
+          <CarteStatsEspace key={e.id} nom={e.nom} devise={e.devise} stats={stats} />
         ))}
         {statsParEspace.length === 0 && (
           <p className="text-sm text-[var(--texte-mute)]">Aucun espace pour l&apos;instant.</p>
         )}
+      </ul>
+
+      <h2 className="font-display mt-16 text-2xl font-semibold">
+        Reglages de communaute
+      </h2>
+      <p className="mt-2 text-sm text-[var(--texte-mute)]">
+        Propres a chaque espace. Le message d&apos;accueil n&apos;est visible que des membres
+        de l&apos;espace, jamais du public.
+      </p>
+      <ul className="mt-6 flex flex-col gap-3">
+        {(espaces ?? []).map((e) => (
+          <FormulaireParametresCommunaute
+            key={e.id}
+            espace={{
+              id: e.id,
+              nom: e.nom,
+              periode_activite_jours: e.periode_activite_jours ?? 7,
+              afficher_compteur_public: e.afficher_compteur_public ?? true,
+            }}
+            messageAccueil={messageParEspace.get(e.id) ?? ""}
+          />
+        ))}
       </ul>
 
       <h2 className="font-display mt-16 text-2xl font-semibold">

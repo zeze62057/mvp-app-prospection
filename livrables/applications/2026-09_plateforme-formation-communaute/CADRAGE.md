@@ -108,7 +108,7 @@ Le contenu de formation existe déjà (Modules 1/2 écosystème IA, programme ML
 - ~~Délai de lancement~~ : tranché, aucune contrainte pour l'instant.
 - ~~Hors périmètre explicite pour la V1~~ : tranché, rien d'exclu ; mobile et vidéo confirmés requis dès la V1.
 - ~~Détail technique de l'intégration Mobile Money~~ : tranché en construction. **Chariow** est l'agrégateur retenu, orchestré via n8n (voir section Construction ci-dessous).
-- **"Plusieurs paramètres" de la communauté** : au-delà du nombre d'abonnés, quels autres indicateurs ou réglages Zézé veut voir
+- ~~**"Plusieurs paramètres" de la communauté**~~ : tranché le 2026-09-19, construit (voir section 10). Indicateurs ajoutés : croissance des membres, demandes en attente, progression dans la formation, revenus. Réglages ajoutés : période d'activité, compteur public, message d'accueil et règles
 - **Ajout manuel en formation payante** : résolu partiellement — un formulaire admin "Accès payant manuel (filet de sécurité)" existe déjà pour les cas où le tunnel Chariow est indisponible ou un élève a payé autrement
 - **Outil d'enregistrement vidéo intégré** : tranché, construit (`EnregistrementVideo` côté admin, capture d'écran directement rattachée à une section)
 - **Découpage précis des lots incrémentaux** : sans objet désormais, la construction a avancé au fil de l'eau plutôt que par lots pré-découpés
@@ -128,6 +128,11 @@ Le cadrage (sections 0 à 9) a été figé le 2026-09-14. Cette section trace ce
 - Modules 1 (Écosystème Claude, 7 sections), 3, 4 et 5 rédigés intégralement (contenu texte source dans `livrables/formations/ecosysteme-ia/`) ; Module 2 (n8n) a son guide de réussite mais pas encore ses sections en base
 - Fonctionnalités additionnelles construites en cours de route, au-delà du périmètre V1 initialement listé : bibliothèque de prompts, ressources (liens et fichiers téléchargeables), masterclass, prise de RDV découverte, contenu éditorial avec workflow brouillon/publication (lié au skill `contenu-vivier-ia`), FAQ et parcours de vitrine pilotés par la base plutôt que codés en dur
 - Outils admin construits : création de formation en libre-service, prix modifiable par formation, accès payant manuel (filet de sécurité), enregistrement vidéo directement rattaché à une section
+- **Paramètres de communauté (2026-09-19, migration 0024)** :
+  - Indicateurs admin par espace, en plus des 4 existants (membres, posts, actifs, conversion) : nouveaux membres sur 7 et 30 jours, demandes d'accès en attente, avancement moyen des élèves avec les 3 sections les plus et les moins terminées, revenus confirmés (total et 30 jours). Calculés en SQL par `stats_admin_espace`, réservée au `service_role` (données commerciales privées)
+  - Réglages par espace : période d'activité en jours (7 par défaut), compteur de membres affiché ou non sur la vitrine (affiché par défaut, pour ne rien changer à l'existant), message d'accueil et règles affiché aux membres de la communauté gratuite et payante
+  - Le message d'accueil est dans une table à part `messages_accueil` (lecture réservée aux membres de l'espace), pas dans `espaces`, qui est lisible publiquement
+  - Les revenus ne comptent que les paiements au statut "confirmé". Un accès accordé à la main par l'admin ne crée pas de paiement et n'y figure donc pas
 
 **Espace Bâtisseur Pro — structure créée, réplication du trio pas encore commencée** :
 - Espace créé en base (2026-09-16), vitrine avec contenu réel (pas de placeholder), prix aligné sur Vivier IA (250 000 GNF, modifiable)

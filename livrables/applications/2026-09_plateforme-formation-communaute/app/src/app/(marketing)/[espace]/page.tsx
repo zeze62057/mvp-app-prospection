@@ -123,12 +123,14 @@ export default async function VitrinePage({
           )}
 
           <div className="mt-4 flex gap-3.5">
-            <div className="flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-3.5">
-              <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
-                {nbMembres ?? 0}
+            {espace.afficher_compteur_public !== false && (
+              <div className="flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-3.5">
+                <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
+                  {nbMembres ?? 0}
+                </div>
+                <div className="mt-0.5 text-[11px] text-[var(--texte-mute)]">membres de la communaute</div>
               </div>
-              <div className="mt-0.5 text-[11px] text-[var(--texte-mute)]">membres de la communaute</div>
-            </div>
+            )}
             <div className="flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-3.5">
               <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
                 {nbModulesDisponibles}

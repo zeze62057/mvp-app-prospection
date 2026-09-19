@@ -5,6 +5,7 @@ import { createClient } from "@/lib/supabase/server";
 import { deconnexion } from "../communaute/actions";
 import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
 import { ComposerPayant } from "@/components/communaute/ComposerPayant";
+import { MessageAccueil } from "@/components/communaute/MessageAccueil";
 import { PostCardPayant } from "@/components/communaute/PostCardPayant";
 import { CartePostulerExpert } from "@/components/communaute/CartePostulerExpert";
 import { couleurAvatar } from "@/lib/avatar";
@@ -159,6 +160,8 @@ export default async function CommunautePayantePage({
 
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 p-7 md:grid-cols-[1fr_300px]">
         <div>
+          <MessageAccueil espaceId={espace.id} />
+
           <ComposerPayant espaceSlug={espace.slug} />
 
           {acces.est_expert ? (

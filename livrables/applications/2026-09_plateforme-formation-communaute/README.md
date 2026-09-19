@@ -30,8 +30,8 @@ Pour rouvrir et modifier : reconstruire le canvas avec le helper `seed-canvas.mj
 
 Trio Vivier IA complet et validé, plus des extensions (bibliothèque de prompts, badge Expert, lead magnets, offre de lancement) et les deux premières vitrines Bâtisseur Pro. Photo réelle de Zézé à intégrer (emplacements placeholder présents sur les vitrines).
 
-Décisions de fond notées mais volontairement pas encore construites, en attente d'un cadrage dédié (voir `CADRAGE.md`) :
+Construit depuis, voir `CADRAGE.md` section 10 : prix des formations modifiables par un admin, création d'un nouvel espace en libre-service, paramètres et indicateurs de communauté (migration 0024).
+
+Idées écartées le 2026-09-14, à ne pas reproposer sans que Zézé les relance (voir `CADRAGE.md`) :
 - Paiement en plusieurs tranches (1, 2 ou 3 fois)
-- Prix des formations modifiables par un admin
-- Création facilitée d'un nouveau "compte espace" avec les mêmes paramètres pour de futures formations
-- Possibilité pour les prospects de créer leur propre communauté sur la plateforme (pivot potentiel du modèle produit)
+- Possibilité pour les prospects de créer leur propre communauté sur la plateforme

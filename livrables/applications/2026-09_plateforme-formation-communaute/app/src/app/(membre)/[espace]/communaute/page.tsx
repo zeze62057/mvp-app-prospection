@@ -6,6 +6,7 @@ import { deconnexion } from "./actions";
 import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
 import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAdhesion";
 import { Composer } from "@/components/communaute/Composer";
+import { MessageAccueil } from "@/components/communaute/MessageAccueil";
 import { PostCard } from "@/components/communaute/PostCard";
 import { couleurAvatar } from "@/lib/avatar";
 import type { Adhesion, Post } from "@/types/membre";
@@ -198,6 +199,8 @@ export default async function CommunauteGratuitePage({
               Debloquer
             </span>
           </Link>
+
+          <MessageAccueil espaceId={espace.id} />
 
           <Composer espaceSlug={espace.slug} />
 

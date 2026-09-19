@@ -77,6 +77,51 @@ export async function modifierPrixEspace(
   return { erreur: null };
 }
 
+// Reglages de communaute d'un espace (voir CADRAGE.md section 9 et migration
+// 0024) : fenetre d'activite, compteur public de la vitrine, message d'accueil.
+// Un message vide supprime le message d'accueil de l'espace.
+export async function modifierParametresCommunaute(
+  espaceId: string,
+  _etat: { erreur: string | null; succes: boolean },
+  formData: FormData
+) {
+  await verifierAdmin();
+
+  const periode = Number(formData.get("periode_activite_jours"));
+  if (!Number.isInteger(periode) || periode < 1 || periode > 365) {
+    return { erreur: "La periode d'activite doit etre un nombre de jours entre 1 et 365.", succes: false };
+  }
+  const afficherCompteur = formData.get("afficher_compteur_public") === "on";
+  const message = String(formData.get("message_accueil") ?? "").trim();
+  if (message.length > 2000) {
+    return { erreur: "Le message d'accueil est limite a 2000 caracteres.", succes: false };
+  }
+
+  const admin = createAdminClient();
+
+  const { data: espace, error: erreurEspace } = await admin
+    .from("espaces")
+    .update({ periode_activite_jours: periode, afficher_compteur_public: afficherCompteur })
+    .eq("id", espaceId)
+    .select("slug")
+    .maybeSingle();
+  if (erreurEspace) return { erreur: erreurEspace.message, succes: false };
+  if (!espace) return { erreur: "Espace introuvable.", succes: false };
+
+  const { error: erreurMessage } = message
+    ? await admin
+        .from("messages_accueil")
+        .upsert({ espace_id: espaceId, texte: message, updated_at: new Date().toISOString() })
+    : await admin.from("messages_accueil").delete().eq("espace_id", espaceId);
+  if (erreurMessage) return { erreur: erreurMessage.message, succes: false };
+
+  revalidatePath("/admin");
+  revalidatePath(`/${espace.slug}`);
+  revalidatePath(`/${espace.slug}/communaute`);
+  revalidatePath(`/${espace.slug}/communaute-payante`);
+  return { erreur: null, succes: true };
+}
+
 function slugifier(texte: string): string {
   return texte
     .normalize("NFD")
