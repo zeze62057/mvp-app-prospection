@@ -1,6 +1,6 @@
 # Méthode — Comment aborder un projet, du début à la fin
 
-> Trame réutilisable pour tout projet (Chatllow, Kora, e-commerce, Vivier IA...), construite à partir de la méthode enseignée dans le Module 1 (Écosystème Claude, voir `livrables/vivier-ia/cours/ecosysteme-ia/2026-09_vivier-ia-module-1/`) et le Module 2 (n8n, voir `livrables/vivier-ia/cours/ecosysteme-ia/2026-09_vivier-ia-module-2-n8n/`), ainsi que des projets réels déjà menés dans ce workspace.
+> Trame réutilisable pour tout projet (Chatllow, Kora, e-commerce, Vivier IA...), construite à partir de la méthode enseignée dans le Module 1 (Écosystème Claude, voir `livrables/formations/ecosysteme-ia/2026-09_vivier-ia-module-1/`) et le Module 2 (n8n, voir `livrables/formations/ecosysteme-ia/2026-09_vivier-ia-module-2-n8n/`), ainsi que des projets réels déjà menés dans ce workspace.
 
 ## Le pipeline générique
 
@@ -56,7 +56,7 @@
 ### Audit / conseil IA (mission Chatllow)
 
 - Étape 2 absente : le livrable porte la marque du cabinet, pas la sienne
-- Étape 3 remplacée par la réutilisation d'un starter déjà existant (voir les générateurs d'audit IA de `livrables/chatllow/`)
+- Étape 3 remplacée par la réutilisation d'un starter déjà existant (voir les générateurs d'audit IA de `livrables/applications/`)
 - Étape 5 courte : souvent un seul outil ou document, cycle rapide
 - Étape 7 : ne jamais envoyer le texte générique brut, toujours le personnaliser en choisissant un seul pilote à proposer (voir `06-business-prompts.md` du Module 1)
 - Étape 9 : c'est l'essence du modèle, une bibliothèque de starters sectoriels qui grandit à chaque mission

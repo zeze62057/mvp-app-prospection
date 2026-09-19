@@ -1,6 +1,6 @@
 # Livrables
 
-> Tout ce que Claude produit pour Zézé est rangé ici, **par activité**.
+> Tout ce que Claude produit pour Zézé est rangé ici, **par type**. Pour retrouver un projet par activité, voir le tableau plus bas.
 
 ---
 
@@ -17,49 +17,69 @@ Claude ne dépose jamais un livrable ailleurs que dans `livrables/`. Les documen
 
 ## Organisation du dossier
 
-Un dossier par activité. Tout ce qui touche une activité (application, site, identité visuelle, contenu) vit dans son dossier, quel que soit le type de livrable.
-
 ```
 livrables/
-├── chatllow/           Cabinet de conseil IA : plateforme, générateurs d'audit, identité visuelle, propositions
-├── vivier-ia/          École de l'IA : plateforme Vivier Academies, sites, identité visuelle, cours/
-├── longrich/           Marketing de réseau : Kora, suivi formation, programme 50 chapitres, livre MLM
-├── ecommerce/          Plateforme e-commerce multi-vendeurs (nom à définir)
-├── youtube/            Chaîne YouTube : briefs, scripts, hooks, calendrier
-├── pilotage-business/  Suivi des activités : KPIs, facturation
-└── transverse/         Ce qui sert à tous les projets : méthode d'approche, mémoire de l'agent LinkedIn
+├── agents/               Fiches des agents (rôle, quand les lancer, où est le fichier actif)
+├── skills/               Fiches des skills (idem)
+├── applications/         Applications et plateformes : Kora, Chatllow, Vivier Academies, e-commerce, générateurs d'audit
+├── formations/           Cours et programmes : écosystème IA, marketing de réseau, livre MLM
+├── sites-web/            Landing pages et portail
+├── identites-visuelles/  Logos et chartes graphiques : Chatllow, Vivier IA
+├── cabinet/              Propositions, devis et audits clients Chatllow
+├── youtube/              Chaîne YouTube : briefs, scripts, hooks, calendrier
+├── pilotage-business/    Suivi des activités : KPIs, facturation
+└── transverse/           Ce qui sert à tous les projets : méthode d'approche, mémoire de l'agent LinkedIn
 ```
 
-Chaque dossier d'activité a son propre `README.md` qui précise ce qu'on y met.
+Chaque dossier a son propre `README.md` qui précise ce qu'on y met.
 
-> **Cas du marketing de réseau** : le programme de formation et le livre vivent dans `longrich/`. Le module "IA appliquée au marketing de réseau" est un module de l'école, il est dans `vivier-ia/cours/marketing-reseau/`.
+> **Agents et skills** : Claude Code ne les charge que depuis `.claude/agents/` et `.claude/skills/`. Les dossiers `agents/` et `skills/` d'ici contiennent des fiches qui renvoient vers ces fichiers actifs. Ne jamais déplacer les fichiers actifs.
 
-### Où ranger un nouveau livrable ?
+---
 
-1. Il appartient à une activité (Chatllow, Vivier IA, Longrich...) : dans le dossier de cette activité.
-2. Il sert à plusieurs activités (méthode, modèle, mémoire d'agent) : dans `transverse/`.
-3. Aucune activité ne convient : demander avant de créer un nouveau dossier à la racine.
+## Retrouver un projet par activité
+
+| Activité | Où c'est rangé |
+|----------|----------------|
+| **Chatllow** (cabinet de conseil IA) | `applications/` (plateforme Chatllow, 6 générateurs d'audit), `identites-visuelles/` (identité Chatllow), `cabinet/` (propositions et audits clients) |
+| **Vivier IA** (école) | `applications/` (plateforme Vivier Academies : Vivier IA et Bâtisseur Pro), `formations/` (cours), `sites-web/` (landing, portail), `identites-visuelles/` (identité Vivier IA) |
+| **Longrich** (marketing de réseau) | `applications/` (Kora, suivi formation Longrich), `formations/marketing-reseau/` (programme 50 chapitres, module IA, livre MLM) |
+| **E-commerce** | `applications/2026-09_plateforme-ecommerce/` |
+| **YouTube** | `youtube/` |
+| **Pilotage** (KPIs, facturation) | `pilotage-business/` |
+
+---
+
+## Où ranger un nouveau livrable ?
+
+1. C'est un outil, une plateforme ou un script : `applications/`.
+2. C'est un cours, un programme ou un support de formation : `formations/`.
+3. C'est une page web publique : `sites-web/`.
+4. C'est un logo ou une charte graphique : `identites-visuelles/`.
+5. C'est un document client Chatllow (proposition, devis, audit) : `cabinet/`.
+6. Ça sert à plusieurs projets (méthode, modèle, mémoire d'agent) : `transverse/`.
+7. Rien ne convient : demander avant de créer un nouveau dossier à la racine.
 
 ---
 
 ## Convention de nommage des projets
 
-Un projet = un sous-dossier dans le dossier de son activité, nommé ainsi :
+Un projet = un sous-dossier dans le dossier de son type, nommé ainsi :
 
 ```
 AAAA-MM_nom-du-projet-en-kebab-case/
 ```
 
 - `AAAA-MM` : année et mois de démarrage du projet
-- `nom-du-projet` : court, explicite, en minuscules, mots séparés par des tirets
+- `nom-du-projet` : court, explicite, en minuscules, mots séparés par des tirets. Il porte l'activité quand c'est utile (`plateforme-chatllow`, `app-prospection-mlm`)
 - Pas d'accents, pas d'espaces, pas de majuscules
 
 Exemples :
 
 ```
-livrables/chatllow/2026-10_proposition-client-cac40/
-livrables/vivier-ia/2026-11_module-6-prompting/
-livrables/longrich/2026-09_bot-veille-actus/
+livrables/applications/2026-10_bot-veille-actus/
+livrables/formations/ecosysteme-ia/2026-11_vivier-ia-module-6-nom/
+livrables/cabinet/2026-10_proposition-client-cac40/
 livrables/youtube/2026-09_serie-20-premieres-videos/
 ```
 

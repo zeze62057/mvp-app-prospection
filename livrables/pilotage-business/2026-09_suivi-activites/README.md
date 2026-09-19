@@ -25,7 +25,7 @@ J'ai facturé 800 000 GNF à [client] pour Chatllow aujourd'hui, statut facturé
 Ajoute-le à facturation.md.
 ```
 
-D'autres prompts prêts à l'emploi sont dans `livrables/vivier-ia/cours/ecosysteme-ia/2026-09_vivier-ia-module-1/04-quotidien-prompts.md` (Chapitre 3).
+D'autres prompts prêts à l'emploi sont dans `livrables/formations/ecosysteme-ia/2026-09_vivier-ia-module-1/04-quotidien-prompts.md` (Chapitre 3).
 
 ## Comment relire le suivi
 

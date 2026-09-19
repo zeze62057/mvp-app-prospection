@@ -60,7 +60,7 @@ Une fois les réponses nécessaires obtenues, rédige un brief structuré avec :
 
 ## Où enregistrer ce brief
 
-Si un dossier existe déjà dans `livrables/` pour ce projet, enregistre le brief dedans sous le nom `CADRAGE.md`. Si aucun dossier n'existe encore, ne crée pas silencieusement une nouvelle arborescence : demande à Zézé où ce projet doit vivre dans `livrables/`, en t'appuyant sur l'organisation déjà en place (`chatllow/`, `vivier-ia/`, `longrich/`, `ecommerce/`, `youtube/`, `pilotage-business/`, `transverse/`).
+Si un dossier existe déjà dans `livrables/` pour ce projet, enregistre le brief dedans sous le nom `CADRAGE.md`. Si aucun dossier n'existe encore, ne crée pas silencieusement une nouvelle arborescence : demande à Zézé où ce projet doit vivre dans `livrables/`, en t'appuyant sur l'organisation déjà en place (`applications/`, `formations/`, `sites-web/`, `identites-visuelles/`, `cabinet/`, `youtube/`, `pilotage-business/`, `transverse/`).
 
 ## Ce que tu ne fais jamais
 

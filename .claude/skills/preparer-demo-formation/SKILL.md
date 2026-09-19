@@ -16,7 +16,7 @@ description: >-
 
 ## Mission
 
-Transformer un chapitre déjà rédigé (Module 1, Module 2, ou un futur module) en un script de démonstration prêt à être joué en direct, devant une caméra ou devant des apprenants en présentiel. Ce skill ne produit jamais de nouveau contenu pédagogique : il s'appuie exclusivement sur ce qui existe déjà dans `livrables/vivier-ia/cours/`.
+Transformer un chapitre déjà rédigé (Module 1, Module 2, ou un futur module) en un script de démonstration prêt à être joué en direct, devant une caméra ou devant des apprenants en présentiel. Ce skill ne produit jamais de nouveau contenu pédagogique : il s'appuie exclusivement sur ce qui existe déjà dans `livrables/formations/`.
 
 ## Comment utiliser ce skill
 
