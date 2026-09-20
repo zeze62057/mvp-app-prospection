@@ -25,5 +25,13 @@ export async function contexteMembre(slug: string) {
     .eq("id", data.user.id)
     .maybeSingle();
 
-  return { supabase, espace, userId: data.user.id, moi };
+  // Membre de l'espace : communaute gratuite approuvee ou acces payant.
+  const { data: estMembre, error: erreurMembre } = await supabase.rpc("est_membre_espace", {
+    p_profil: data.user.id,
+    p_espace: espace.id,
+  });
+  // Une erreur du controle n'est pas "pas membre" : on n'expulse personne sur un incident.
+  if (erreurMembre) throw new Error(MESSAGE_RESEAU);
+
+  return { supabase, espace, userId: data.user.id, moi, estMembre: estMembre === true };
 }

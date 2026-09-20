@@ -42,12 +42,14 @@ export function CartePost({
   retour,
   item,
   estAdmin,
+  userId,
   detail = false,
 }: {
   espaceSlug: string;
   retour: string; // page a rafraichir apres une action (like, epingle)
   item: PostFil;
   estAdmin: boolean;
+  userId: string;
   detail?: boolean; // page du post : texte complet, pas de lien vers soi-meme
 }) {
   const { post, auteur, categorie, nbLikes, aLike, nbCommentaires, dernierCommentaireAt, imageUrl } = item;
@@ -139,6 +141,12 @@ export function CartePost({
           <span className="text-[11.5px] text-[var(--sarcelle)]">
             Nouveau commentaire {tempsEcoule(dernierCommentaireAt)}
           </span>
+        )}
+
+        {auteur.id !== userId && (
+          <Link href={`/${espaceSlug}/messages/${auteur.id}`} className="text-[11.5px] font-bold hover:text-[var(--sarcelle)]">
+            ✉ Écrire à {auteur.pseudo}
+          </Link>
         )}
 
         {estAdmin && (

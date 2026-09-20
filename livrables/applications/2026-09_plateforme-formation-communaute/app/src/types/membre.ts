@@ -200,3 +200,14 @@ export type NotificationMembre = {
   lu: boolean;
   created_at: string;
 };
+
+// Message prive entre deux membres d'un meme espace (migration 0030).
+export type MessagePrive = {
+  id: string;
+  espace_id: string;
+  expediteur_id: string;
+  destinataire_id: string;
+  contenu: string;
+  lu_at: string | null;
+  created_at: string;
+};

@@ -50,6 +50,7 @@ export default async function PostPage({
           retour={retour}
           item={item}
           estAdmin={profil?.role === "admin"}
+          userId={userId}
           detail
         />
 
@@ -70,6 +71,11 @@ export default async function PostPage({
                   <span className="font-mono text-[10.5px] text-[var(--texte-mute)]">
                     {tempsEcoule(c.created_at)}
                   </span>
+                  {c.auteur_id !== userId && (
+                    <Link href={`/${espace.slug}/messages/${c.auteur_id}`} className="text-[11px] text-[var(--texte-mute)] hover:text-[var(--sarcelle)]">
+                      ✉ Écrire
+                    </Link>
+                  )}
                   {c.auteur_id === userId && (
                     <form action={supprimerCommentaire.bind(null, retour, c.id)} className="ml-auto">
                       <button type="submit" className="text-[11px] text-[var(--texte-mute)] underline">

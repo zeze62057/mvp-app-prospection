@@ -58,6 +58,7 @@ export async function FilCommunaute({
           retour={base}
           item={item}
           estAdmin={estAdmin}
+          userId={userId}
         />
       ))}
       {items.length === 0 && (
