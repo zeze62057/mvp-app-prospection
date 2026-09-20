@@ -93,22 +93,25 @@ export default async function ProgressionPage({
     sectionsParModule.set(s.module_id, [...(sectionsParModule.get(s.module_id) ?? []), s]);
   });
 
-  // Boucle plutot que map : moduleCourant est reassigne pendant le parcours, ce que
+  // Plus aucun verrou : tous les modules sont ouverts. Le bloc "reprendre" pointe vers
+  // la premiere section non terminee QUI A DU CONTENU (texte ou video), pour ne pas
+  // renvoyer l'eleve vers une section vide. S'il n'en reste aucune, on retombe sur la
+  // premiere section non terminee, quelle qu'elle soit.
+  // Boucle plutot que map : les variables sont reassignees pendant le parcours, ce que
   // React interdit dans un callback (regle react-hooks/immutability).
   let moduleCourant: { titre: string; section: Section } | null = null;
-  let precedentComplet = true;
-  const modulesAffiches: { module: Module; sections: Section[]; verrouille: boolean }[] = [];
+  let premiereNonTerminee: { titre: string; section: Section } | null = null;
+  const modulesAffiches: { module: Module; sections: Section[] }[] = [];
   for (const m of modules ?? []) {
     const secs = sectionsParModule.get(m.id) ?? [];
-    const complet = secs.length > 0 && secs.every((s) => sectionsTerminees.has(s.id));
-    const verrouille = !precedentComplet;
-    if (!verrouille && !moduleCourant) {
-      const prochaine = secs.find((s) => !sectionsTerminees.has(s.id));
-      if (prochaine) moduleCourant = { titre: m.titre, section: prochaine };
+    for (const s of secs) {
+      if (sectionsTerminees.has(s.id)) continue;
+      if (!premiereNonTerminee) premiereNonTerminee = { titre: m.titre, section: s };
+      if (!moduleCourant && (s.a_contenu || s.video_path)) moduleCourant = { titre: m.titre, section: s };
     }
-    precedentComplet = precedentComplet && complet;
-    modulesAffiches.push({ module: m, sections: secs, verrouille });
+    modulesAffiches.push({ module: m, sections: secs });
   }
+  moduleCourant = moduleCourant ?? premiereNonTerminee;
 
   const totalSections = (sections ?? []).length;
   const totalTerminees = (sections ?? []).filter((s) => sectionsTerminees.has(s.id)).length;
@@ -184,20 +187,36 @@ export default async function ProgressionPage({
                   className="mb-4 w-full rounded-lg"
                 />
               )}
-              <form
-                action={marquerSectionTerminee.bind(
-                  null,
-                  espace.slug,
-                  (moduleCourant as { section: Section }).section.id
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
+                {(moduleCourant as { section: Section }).section.a_contenu && (
+                  <Link
+                    href={`/${espace.slug}/formation/${(moduleCourant as { section: Section }).section.id}`}
+                    className="rounded-[9px] bg-[var(--corail)] px-[22px] py-3 text-[13px] font-extrabold text-[var(--encre)]"
+                  >
+                    Lire la leçon →
+                  </Link>
                 )}
-              >
-                <button
-                  type="submit"
-                  className="rounded-[9px] bg-[var(--corail)] px-[22px] py-3 text-[13px] font-extrabold text-[var(--encre)]"
+                <form
+                  action={marquerSectionTerminee.bind(
+                    null,
+                    espace.slug,
+                    (moduleCourant as { section: Section }).section.id
+                  )}
                 >
-                  Continuer →
-                </button>
-              </form>
+                  {(moduleCourant as { section: Section }).section.a_contenu ? (
+                    <button type="submit" className="text-xs font-bold text-[var(--sarcelle-light)] underline">
+                      Marquer comme terminée
+                    </button>
+                  ) : (
+                    <button
+                      type="submit"
+                      className="rounded-[9px] bg-[var(--corail)] px-[22px] py-3 text-[13px] font-extrabold text-[var(--encre)]"
+                    >
+                      Continuer →
+                    </button>
+                  )}
+                </form>
+              </div>
             </div>
           ) : (
             <div className="flex items-center rounded-2xl bg-[var(--encre)] px-7 py-[26px] text-[var(--sur-encre)]">
@@ -215,14 +234,13 @@ export default async function ProgressionPage({
           Ta formation
         </p>
 
-        {modulesAffiches.map(({ module, sections: secs, verrouille }) => (
+        {modulesAffiches.map(({ module, sections: secs }) => (
           <ModuleCard
             key={module.id}
             espaceSlug={espace.slug}
             titre={module.titre}
             sections={secs}
             sectionsTerminees={sectionsTerminees}
-            verrouille={verrouille}
           />
         ))}
 

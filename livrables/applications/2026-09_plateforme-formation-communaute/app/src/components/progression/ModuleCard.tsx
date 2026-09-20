@@ -2,83 +2,86 @@ import Link from "next/link";
 import { marquerSectionTerminee } from "@/app/(membre)/[espace]/progression/actions";
 import type { Section } from "@/types/membre";
 
+// Aucun verrou : l'eleve ouvre les sections dans l'ordre qu'il veut. La progression
+// (barre, compteur, coches) reste affichee, elle ne bloque plus rien.
 export function ModuleCard({
   espaceSlug,
   titre,
   sections,
   sectionsTerminees,
-  verrouille,
 }: {
   espaceSlug: string;
   titre: string;
   sections: Section[];
   sectionsTerminees: Set<string>;
-  verrouille: boolean;
 }) {
   const total = sections.length;
   const faites = sections.filter((s) => sectionsTerminees.has(s.id)).length;
   const pct = total > 0 ? Math.round((faites / total) * 100) : 0;
-  const indexCourant = sections.findIndex((s) => !sectionsTerminees.has(s.id));
 
   return (
     <div className="mb-3.5 rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-6 py-[22px]">
-      <div className="mb-3.5 flex items-center justify-between">
+      <div className="mb-3.5 flex items-center justify-between gap-3">
         <span className="font-display text-[15.5px] font-bold">{titre}</span>
-        {verrouille ? (
-          <span className="font-mono text-[13px] text-[var(--texte-mute)]">
-            🔒 debloque a la fin du module precedent
-          </span>
-        ) : (
-          <span className="font-mono text-[13px] font-bold text-[var(--sarcelle)]">
-            {faites} / {total} sections
-          </span>
-        )}
+        <span className="shrink-0 font-mono text-[13px] font-bold text-[var(--sarcelle)]">
+          {faites} / {total} sections
+        </span>
       </div>
 
       <div className="mb-3.5 h-2 overflow-hidden rounded-full bg-[var(--fond)]">
         <div
           className="h-full rounded-full bg-gradient-to-r from-[var(--sarcelle)] to-[var(--sarcelle-light)]"
-          style={{ width: `${verrouille ? 0 : pct}%` }}
+          style={{ width: `${pct}%` }}
         />
       </div>
 
-      {verrouille ? (
-        <p className="text-xs text-[var(--texte-mute)]">
-          Termine le module precedent pour debloquer celui-ci automatiquement.
-        </p>
-      ) : (
-        <div className="flex flex-col gap-1.5">
-          <div className="flex gap-2">
-            {sections.map((s, i) => (
-              <div
-                key={s.id}
-                className={`h-[5px] flex-1 rounded-full ${
-                  sectionsTerminees.has(s.id)
-                    ? "bg-[var(--sarcelle)]"
-                    : i === indexCourant
-                      ? "bg-[var(--corail)]"
-                      : "bg-[var(--fond)]"
-                }`}
-              />
-            ))}
-          </div>
-          {indexCourant !== -1 && (
-            <form action={marquerSectionTerminee.bind(null, espaceSlug, sections[indexCourant].id)}>
-              <button type="submit" className="mt-2 text-xs font-bold text-[var(--sarcelle)] underline">
-                Marquer &quot;{sections[indexCourant].titre}&quot; comme terminee
-              </button>
-            </form>
-          )}
-          {indexCourant !== -1 && (sections[indexCourant].a_contenu || sections[indexCourant].video_path) && (
-            <Link
-              href={`/${espaceSlug}/formation/${sections[indexCourant].id}`}
-              className="text-xs font-bold text-[var(--corail)] underline"
+      <ul className="flex flex-col">
+        {sections.map((s) => {
+          const terminee = sectionsTerminees.has(s.id);
+          const lisible = s.a_contenu || !!s.video_path;
+          return (
+            <li
+              key={s.id}
+              className="flex flex-wrap items-center gap-x-3 gap-y-1 border-t border-[var(--ligne)] py-2.5 first:border-t-0"
             >
-              Lire la lecon
-            </Link>
-          )}
-        </div>
-      )}
+              <span
+                aria-label={terminee ? "Terminée" : "À faire"}
+                className={`flex h-[18px] w-[18px] shrink-0 items-center justify-center rounded-full text-[11px] font-bold ${
+                  terminee
+                    ? "bg-[var(--sarcelle)] text-[var(--sur-encre)]"
+                    : "border border-[var(--ligne)] text-transparent"
+                }`}
+              >
+                ✓
+              </span>
+              <span
+                className={`min-w-0 flex-1 basis-40 text-[13.5px] ${
+                  terminee ? "text-[var(--texte-mute)]" : "font-semibold"
+                }`}
+              >
+                {s.titre}
+              </span>
+              <span className="flex shrink-0 items-center gap-4 text-xs font-bold">
+                {lisible && (
+                  <Link
+                    href={`/${espaceSlug}/formation/${s.id}`}
+                    className="text-[var(--corail)] underline"
+                  >
+                    {terminee ? "Relire" : "Lire"}
+                  </Link>
+                )}
+                {!terminee && (
+                  <form action={marquerSectionTerminee.bind(null, espaceSlug, s.id)}>
+                    <button type="submit" className="text-[var(--sarcelle)] underline">
+                      Marquer comme terminée
+                    </button>
+                  </form>
+                )}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
