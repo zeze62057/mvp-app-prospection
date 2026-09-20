@@ -68,6 +68,40 @@ export async function ajouterCommentaire(
   return { erreur: null };
 }
 
+const MESSAGES_SIGNALEMENT: Record<string, string> = {
+  "Tu as deja signale ce contenu.": "Tu as déjà signalé ce contenu.",
+  "Tu ne peux pas signaler ton propre contenu.": "Tu ne peux pas signaler ton propre contenu.",
+  "Precise le motif du signalement.": "Précise le motif du signalement (3 caractères minimum).",
+  "Contenu introuvable.": "Ce contenu est introuvable ou tu n'y as pas accès.",
+  "Type de signalement inconnu.": "Type de signalement inconnu.",
+  "Non connecte.": "Non connecté.",
+};
+
+// Signalement d'un post, d'un commentaire ou d'un message recu (migration 0031). La
+// fonction de la base lit elle-meme le contenu signale : le client n'envoie que le
+// type, l'identifiant et le motif, donc aucun faux extrait n'est possible. Pour un
+// message prive, l'admin ne voit que ce message, jamais la conversation.
+export async function signaler(
+  type: "post" | "commentaire" | "message",
+  cibleId: string,
+  motif: string
+): Promise<{ erreur: string | null }> {
+  const supabase = await createClient();
+  const { data: userData, error: erreurAuth } = await supabase.auth.getUser();
+  if (!userData.user) return { erreur: estErreurReseau(erreurAuth) ? MESSAGE_RESEAU : "Non connecté." };
+
+  const { error } = await supabase.rpc("signaler", {
+    p_type: type,
+    p_cible_id: cibleId,
+    p_motif: motif.trim().slice(0, 500),
+  });
+  if (error) {
+    // Les messages de la base sont en ASCII (fichier SQL) : on les traduit ici, avec leurs accents.
+    return { erreur: MESSAGES_SIGNALEMENT[error.message] ?? "Le signalement a échoué, réessaie." };
+  }
+  return { erreur: null };
+}
+
 export async function supprimerCommentaire(retour: string, commentaireId: string) {
   const supabase = await createClient();
   // La policy ne laisse supprimer que ses propres commentaires.

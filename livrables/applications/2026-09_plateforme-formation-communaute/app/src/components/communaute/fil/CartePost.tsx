@@ -4,6 +4,7 @@ import { tempsEcoule } from "@/lib/temps";
 import { niveauDepuisPoints } from "@/types/membre";
 import type { PostFil } from "@/lib/fil";
 import { Avatar } from "./Avatar";
+import { BoutonSignaler } from "@/components/moderation/BoutonSignaler";
 
 function IconePouce({ plein }: { plein: boolean }) {
   return (
@@ -144,9 +145,12 @@ export function CartePost({
         )}
 
         {auteur.id !== userId && (
-          <Link href={`/${espaceSlug}/messages/${auteur.id}`} className="text-[11.5px] font-bold hover:text-[var(--sarcelle)]">
-            ✉ Écrire à {auteur.pseudo}
-          </Link>
+          <>
+            <Link href={`/${espaceSlug}/messages/${auteur.id}`} className="text-[11.5px] font-bold hover:text-[var(--sarcelle)]">
+              ✉ Écrire à {auteur.pseudo}
+            </Link>
+            <BoutonSignaler type="post" cibleId={post.id} />
+          </>
         )}
 
         {estAdmin && (

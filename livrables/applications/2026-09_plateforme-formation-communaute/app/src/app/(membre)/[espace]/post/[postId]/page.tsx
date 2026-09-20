@@ -8,6 +8,7 @@ import { supprimerCommentaire } from "../actions";
 import { Avatar } from "@/components/communaute/fil/Avatar";
 import { CartePost } from "@/components/communaute/fil/CartePost";
 import { FormulaireCommentaire } from "@/components/communaute/fil/FormulaireCommentaire";
+import { BoutonSignaler } from "@/components/moderation/BoutonSignaler";
 
 export default async function PostPage({
   params,
@@ -75,6 +76,9 @@ export default async function PostPage({
                     <Link href={`/${espace.slug}/messages/${c.auteur_id}`} className="text-[11px] text-[var(--texte-mute)] hover:text-[var(--sarcelle)]">
                       ✉ Écrire
                     </Link>
+                  )}
+                  {c.auteur_id !== userId && (
+                    <BoutonSignaler type="commentaire" cibleId={c.id} classe="text-[11px] text-[var(--texte-mute)] hover:text-[var(--corail)]" />
                   )}
                   {c.auteur_id === userId && (
                     <form action={supprimerCommentaire.bind(null, retour, c.id)} className="ml-auto">

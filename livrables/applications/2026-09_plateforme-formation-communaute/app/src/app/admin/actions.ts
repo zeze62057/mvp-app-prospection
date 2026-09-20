@@ -166,6 +166,47 @@ export async function supprimerCategoriePost(categorieId: string) {
   revalidatePath("/admin");
 }
 
+// Moderation des signalements (migration 0031). L'admin lit les signalements avec le
+// service_role : pour un message prive, il ne voit que l'extrait copie au moment du
+// signalement, jamais la conversation. Il ne peut pas supprimer un message prive.
+export async function traiterSignalement(signalementId: string) {
+  await verifierAdmin();
+  await createAdminClient()
+    .from("signalements")
+    .update({ statut: "traite", traite_at: new Date().toISOString() })
+    .eq("id", signalementId);
+  revalidatePath("/admin");
+}
+
+// Supprime le post ou le commentaire signale (et l'image du post), puis marque traites
+// tous les signalements portant sur ce meme contenu.
+export async function supprimerContenuSignale(signalementId: string) {
+  await verifierAdmin();
+  const admin = createAdminClient();
+
+  const { data: s } = await admin
+    .from("signalements")
+    .select("type, cible_id")
+    .eq("id", signalementId)
+    .maybeSingle();
+  if (!s || (s.type !== "post" && s.type !== "commentaire")) return;
+
+  if (s.type === "post") {
+    const { data: post } = await admin.from("posts").select("image_path").eq("id", s.cible_id).maybeSingle();
+    if (post?.image_path) await admin.storage.from("posts-images").remove([post.image_path]);
+    await admin.from("posts").delete().eq("id", s.cible_id);
+  } else {
+    await admin.from("commentaires").delete().eq("id", s.cible_id);
+  }
+
+  await admin
+    .from("signalements")
+    .update({ statut: "traite", traite_at: new Date().toISOString() })
+    .eq("type", s.type)
+    .eq("cible_id", s.cible_id);
+  revalidatePath("/admin");
+}
+
 function slugifier(texte: string): string {
   return texte
     .normalize("NFD")

@@ -17,6 +17,7 @@ import { getStatsEspace } from "@/lib/stats-communaute";
 import { CarteStatsEspace } from "@/components/admin/CarteStatsEspace";
 import { FormulaireParametresCommunaute } from "@/components/admin/FormulaireParametresCommunaute";
 import { GestionCategories } from "@/components/admin/GestionCategories";
+import { ActionsSignalement } from "@/components/admin/ActionsSignalement";
 import { EnregistrementVideo } from "@/components/admin/EnregistrementVideo";
 import { FormulaireLienRessource } from "@/components/admin/FormulaireLienRessource";
 import { FormulaireFichierRessource } from "@/components/admin/FormulaireFichierRessource";
@@ -74,6 +75,21 @@ export default async function AdminPage() {
     .select("id, espace_id, libelle, emoji")
     .order("ordre")
     .order("created_at");
+
+  // Signalements ouverts (migration 0031). Pour un message prive, seul l'extrait copie au
+  // moment du signalement est visible : l'admin n'a aucun acces a la conversation.
+  const { data: signalements } = await admin
+    .from("signalements")
+    .select("id, type, espace_id, signaleur_id, auteur_cible_id, extrait, motif, created_at")
+    .eq("statut", "ouvert")
+    .order("created_at", { ascending: true });
+  const idsSignalement = [
+    ...new Set((signalements ?? []).flatMap((x) => [x.signaleur_id, x.auteur_cible_id]).filter((id): id is string => !!id)),
+  ];
+  const { data: profilsSignalement } = idsSignalement.length
+    ? await admin.from("profils").select("id, pseudo").in("id", idsSignalement)
+    : { data: [] as { id: string; pseudo: string }[] };
+  const pseudoParId = new Map((profilsSignalement ?? []).map((p) => [p.id, p.pseudo]));
 
   const { data: messagesAccueil } = await admin
     .from("messages_accueil")
@@ -208,6 +224,41 @@ export default async function AdminPage() {
           <p className="text-sm text-[var(--texte-mute)]">
             Aucune candidature en attente.
           </p>
+        )}
+      </ul>
+
+      <h2 className="font-display mt-16 text-2xl font-semibold">
+        Signalements ({(signalements ?? []).length})
+      </h2>
+      <p className="mt-2 text-sm text-[var(--texte-mute)]">
+        Pour un message prive, tu ne vois que le message signale, copie au moment du signalement :
+        jamais la conversation. Un message prive ne peut pas etre supprime d&apos;ici.
+      </p>
+      <ul className="mt-6 flex flex-col gap-3">
+        {(signalements ?? []).map((sg) => (
+          <li key={sg.id} className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
+            <p className="text-xs text-[var(--texte-mute)]">
+              <span className="rounded bg-[var(--encre)] px-1.5 py-0.5 font-mono text-[10px] uppercase text-[var(--sur-encre)]">
+                {sg.type}
+              </span>{" "}
+              {(espaces ?? []).find((e) => e.id === sg.espace_id)?.nom ?? "?"} —{" "}
+              {new Date(sg.created_at).toLocaleString("fr-FR")}
+            </p>
+            <p className="mt-2 text-sm">
+              <b>{pseudoParId.get(sg.signaleur_id) ?? "?"}</b> signale un contenu de{" "}
+              <b>{sg.auteur_cible_id ? (pseudoParId.get(sg.auteur_cible_id) ?? "?") : "un membre supprime"}</b>
+            </p>
+            <p className="mt-1 text-xs text-[var(--texte-mute)]">Motif : {sg.motif}</p>
+            <p className="mt-2 whitespace-pre-wrap rounded-lg border border-[var(--ligne)] bg-[var(--fond)] p-3 text-xs">
+              {sg.extrait}
+            </p>
+            <div className="mt-3">
+              <ActionsSignalement signalementId={sg.id} supprimable={sg.type !== "message"} />
+            </div>
+          </li>
+        ))}
+        {(signalements ?? []).length === 0 && (
+          <p className="text-sm text-[var(--texte-mute)]">Aucun signalement ouvert.</p>
         )}
       </ul>
 

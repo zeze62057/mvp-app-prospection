@@ -33,7 +33,7 @@ export async function envoyerMessage(_etat: EtatAction, formData: FormData): Pro
     contenu,
   });
   if (error) {
-    if (error.code === "42501") return { erreur: "Tu ne peux écrire qu'aux membres de cet espace." };
+    if (error.code === "42501") return { erreur: "Tu ne peux pas écrire à ce membre pour le moment." };
     return { erreur: error.message };
   }
 
@@ -70,4 +70,24 @@ export async function chercherMembres(
     erreur: null,
     membres: lignes.map((m) => ({ id: m.id, pseudo: m.pseudo, avatarUrl: photos.get(m.id) ?? null })),
   };
+}
+
+// Blocage (migration 0031) : empeche l'autre de t'ecrire, et toi de lui ecrire. Limite
+// aux messages. L'autre n'est jamais prevenu.
+export async function bloquerMembre(espaceSlug: string, profilId: string) {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) return;
+  await supabase.from("blocages").insert({ bloqueur_id: userData.user.id, bloque_id: profilId });
+  revalidatePath(`/${espaceSlug}/messages/${profilId}`);
+  revalidatePath(`/${espaceSlug}/messages`);
+}
+
+export async function debloquerMembre(espaceSlug: string, profilId: string) {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) return;
+  await supabase.from("blocages").delete().eq("bloqueur_id", userData.user.id).eq("bloque_id", profilId);
+  revalidatePath(`/${espaceSlug}/messages/${profilId}`);
+  revalidatePath(`/${espaceSlug}/messages`);
 }

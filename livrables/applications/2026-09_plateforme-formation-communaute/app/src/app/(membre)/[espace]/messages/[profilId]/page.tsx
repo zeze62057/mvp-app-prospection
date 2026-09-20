@@ -6,7 +6,9 @@ import type { MessagePrive } from "@/types/membre";
 import { EnTeteMembre } from "@/components/navigation/EnTeteMembre";
 import { Avatar } from "@/components/communaute/fil/Avatar";
 import { FormulaireMessage } from "@/components/messages/FormulaireMessage";
+import { BoutonSignaler } from "@/components/moderation/BoutonSignaler";
 import { RafraichirEnDirect } from "@/components/navigation/RafraichirEnDirect";
+import { bloquerMembre, debloquerMembre } from "../actions";
 
 const LIMITE_MESSAGES = 200;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -35,6 +37,14 @@ export default async function ConversationPage({
     p_profil: profilId,
     p_espace: espace.id,
   });
+
+  // Le RLS ne renvoie que les blocages POSES PAR MOI : on ne peut pas savoir si l'autre m'a bloque.
+  const { data: monBlocage } = await supabase
+    .from("blocages")
+    .select("bloque_id")
+    .eq("bloque_id", profilId)
+    .maybeSingle();
+  const jaiBloque = !!monBlocage;
 
   const { data } = await supabase
     .from("messages")
@@ -86,6 +96,14 @@ export default async function ConversationPage({
               Conversation privée : visible de vous deux seulement
             </p>
           </div>
+          <form
+            action={(jaiBloque ? debloquerMembre : bloquerMembre).bind(null, espace.slug, profilId)}
+            className="ml-auto"
+          >
+            <button type="submit" className="text-[11.5px] font-bold text-[var(--texte-mute)] underline hover:text-[var(--corail)]">
+              {jaiBloque ? "Débloquer" : "Bloquer"}
+            </button>
+          </form>
         </div>
 
         <ul className="flex flex-col gap-2">
@@ -105,6 +123,11 @@ export default async function ConversationPage({
                     {tempsEcoule(m.created_at)}
                     {moi && m.lu_at ? " · lu" : ""}
                   </p>
+                  {!moi && (
+                    <div className="mt-1">
+                      <BoutonSignaler type="message" cibleId={m.id} classe="font-mono text-[9.5px] text-[var(--texte-mute)] hover:text-[var(--corail)]" />
+                    </div>
+                  )}
                 </div>
               </li>
             );
@@ -116,7 +139,12 @@ export default async function ConversationPage({
           )}
         </ul>
 
-        {autreMembre === true ? (
+        {jaiBloque ? (
+          <p className="rounded-lg border border-[var(--ligne)] p-3 text-[12.5px] text-[var(--texte-mute)]">
+            Tu as bloqué {autre.pseudo} : vous ne pouvez plus vous écrire. Utilise « Débloquer » pour reprendre la
+            conversation.
+          </p>
+        ) : autreMembre === true ? (
           <FormulaireMessage espaceSlug={espace.slug} destinataireId={profilId} />
         ) : (
           <p className="rounded-lg border border-[var(--ligne)] p-3 text-[12.5px] text-[var(--texte-mute)]">
