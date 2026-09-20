@@ -113,31 +113,23 @@ export default async function CommunauteGratuitePage({
     );
   }
 
-  const [{ data: monProfil }, { count: nbPosts }, { count: nbMembres }, { data: classement }] =
-    await Promise.all([
-      supabase.from("profils").select("pseudo, role").eq("id", userData.user.id).maybeSingle(),
-      supabase
-        .from("posts")
-        .select("*", { count: "exact", head: true })
-        .eq("espace_id", espace.id)
-        .eq("zone", "gratuite"),
-      supabase
-        .from("adhesions")
-        .select("*", { count: "exact", head: true })
-        .eq("espace_id", espace.id)
-        .eq("statut", "approuve"),
-      supabase
-        .from("adhesions")
-        .select("profils(id, pseudo, points)")
-        .eq("espace_id", espace.id)
-        .eq("statut", "approuve"),
-    ]);
-
-  const classementTrie = (classement ?? [])
-    .map((c) => c.profils as unknown as { id: string; pseudo: string; points: number } | null)
-    .filter((p): p is { id: string; pseudo: string; points: number } => !!p)
-    .sort((a, b) => b.points - a.points)
-    .slice(0, 4);
+  const [{ data: monProfil }, { count: nbPosts }, { data: statsRpc }] = await Promise.all([
+    supabase.from("profils").select("pseudo, role").eq("id", userData.user.id).maybeSingle(),
+    supabase
+      .from("posts")
+      .select("*", { count: "exact", head: true })
+      .eq("espace_id", espace.id)
+      .eq("zone", "gratuite"),
+    // Compteur et classement via une fonction : la table adhesions n'est lisible que pour
+    // ses propres lignes, donc les compter directement donnait toujours 1 (migration 0031).
+    supabase.rpc("stats_communaute", { p_espace: espace.id }),
+  ]);
+  const stats = statsRpc as {
+    nb_membres: number;
+    classement: { id: string; pseudo: string; points: number }[];
+  } | null;
+  const nbMembres = stats?.nb_membres ?? 0;
+  const classementTrie = stats?.classement ?? [];
 
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">

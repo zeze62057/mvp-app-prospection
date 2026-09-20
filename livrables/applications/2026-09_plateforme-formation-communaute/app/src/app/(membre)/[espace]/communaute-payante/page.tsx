@@ -93,19 +93,14 @@ export default async function CommunautePayantePage({
     .eq("espace_id", espace.id)
     .maybeSingle<CandidatureExpert>();
 
-  const [{ data: monProfil }, { data: accesListe }] = await Promise.all([
+  const [{ data: monProfil }, { data: statsRpc }] = await Promise.all([
     supabase.from("profils").select("pseudo, role").eq("id", userData.user.id).maybeSingle(),
-    supabase
-      .from("acces_payant")
-      .select("est_expert, profils(id, pseudo)")
-      .eq("espace_id", espace.id)
-      .eq("actif", true)
-      .limit(6),
+    // Liste des eleves via une fonction : acces_payant n'est lisible que pour sa propre
+    // ligne, donc la liste directe ne montrait que soi-meme (migration 0031).
+    supabase.rpc("stats_communaute", { p_espace: espace.id }),
   ]);
 
-  const membres = (accesListe ?? [])
-    .map((a) => a.profils as unknown as { id: string; pseudo: string } | null)
-    .filter((p): p is { id: string; pseudo: string } => !!p);
+  const membres = ((statsRpc as { eleves: { id: string; pseudo: string }[] } | null)?.eleves ?? []);
 
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
