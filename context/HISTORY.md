@@ -7,6 +7,23 @@
 
 ---
 
+## 2026-09-20
+
+### Plateforme Vivier Academies : fil façon Skool, faille corrigée, photo, notifications, messagerie et modération
+
+- **Fil façon Skool** (lot A, migration 0026) : le prompt fourni était écrit pour Kora, il a été recadré sur Vivier Academies avec la charte Vivier (pas l'orange de Kora). Un seul fil pour les zones gratuite et payante : catégories gérées par l'admin, titre, épinglé (admin seulement), une image par post dans un bucket privé, commentaires, page du post. Une règle de visibilité entre co-membres corrige un défaut : les auteurs des autres membres s'affichaient tous "Membre"
+- **Faille critique corrigée** (migration 0027) : un membre pouvait se donner le rôle admin (et des points), s'auto-approuver dans la communauté gratuite, ou créer un paiement déjà confirmé. Aucune trace d'abus dans la base avant le correctif. Il a été appliqué sans attendre l'accord de Zézé car la faille était ouverte, puis signalé
+- **Photo de profil, notifications, messagerie privée** (lots B, C, D, migrations 0028 à 0030) et **barre de navigation** (Accueil, Messages, Notifications avec badge, profil). La messagerie n'est lisible que par les deux participants, sans chemin de lecture pour l'admin. Les trois lots ont été redécoupés en trois commits après avoir été livrés en un seul, à la demande de Zézé
+- **Compteur, temps réel, recherche, blocage, signalement** (migration 0031) : le compteur de membres et le classement, faux dès qu'il y avait plusieurs membres, sont corrigés. Le badge et les messages arrivent sans recharger la page. Le blocage est limité aux messages, et le bloqué ne peut pas savoir qu'il l'est. Le signalement est créé par une fonction qui lit elle-même le contenu (aucun faux extrait possible). L'admin ne lit jamais une conversation privée : il ne voit que le message signalé, et peut supprimer un post ou un commentaire signalé
+- **Mobile et lint** : l'en-tête des 15 pages membres débordait (643 px pour un écran de 390 px), il n'y a plus aucun débordement. Le lint est à 0 erreur et 0 avertissement
+- **Défauts trouvés par les tests dans le navigateur** : le temps réel restait muet car le client ne transmettait pas la session à la connexion temps réel, un incident réseau était confondu avec une déconnexion, et un message s'affichait sans accents
+- Tout est poussé sur `origin/main` (dernier commit `557a4a7`)
+- **Restent ouverts** :
+  - relecture des cours Vivier IA (31 leçons et 55 prompts prêts dans `livrables/formations/ecosysteme-ia/_relecture-publication/`, rien chargé en base), et migration 0025 (catégorie n8n des prompts) pas encore appliquée
+  - Root Directory de Vercel à vérifier, le push a pu déclencher un déploiement
+  - tunnel de paiement Bâtisseur Pro (identifiant Chariow), vidéos non enregistrées, typographie non tranchée, photo réelle de Zézé, vitrine Chatllow légère, agent de veille sociale
+  - non inclus : suspendre un membre, supprimer un message privé
+
 ## 2026-09-19
 
 ### Plateforme Vivier Academies : leçons Bâtisseur Pro et paramètres de communauté
