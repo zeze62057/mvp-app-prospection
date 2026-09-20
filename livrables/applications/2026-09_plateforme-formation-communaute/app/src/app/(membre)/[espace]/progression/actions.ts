@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { getEspaceParSlug } from "@/lib/espaces";
 
-type EtatAction = { erreur: string | null };
 type EtatTemoignage = { erreur: string | null; envoye: boolean };
 
 export async function marquerSectionTerminee(espaceSlug: string, sectionId: string) {

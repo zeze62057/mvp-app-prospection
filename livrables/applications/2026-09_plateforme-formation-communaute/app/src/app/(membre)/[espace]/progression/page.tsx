@@ -93,9 +93,12 @@ export default async function ProgressionPage({
     sectionsParModule.set(s.module_id, [...(sectionsParModule.get(s.module_id) ?? []), s]);
   });
 
+  // Boucle plutot que map : moduleCourant est reassigne pendant le parcours, ce que
+  // React interdit dans un callback (regle react-hooks/immutability).
   let moduleCourant: { titre: string; section: Section } | null = null;
   let precedentComplet = true;
-  const modulesAffiches = (modules ?? []).map((m) => {
+  const modulesAffiches: { module: Module; sections: Section[]; verrouille: boolean }[] = [];
+  for (const m of modules ?? []) {
     const secs = sectionsParModule.get(m.id) ?? [];
     const complet = secs.length > 0 && secs.every((s) => sectionsTerminees.has(s.id));
     const verrouille = !precedentComplet;
@@ -104,8 +107,8 @@ export default async function ProgressionPage({
       if (prochaine) moduleCourant = { titre: m.titre, section: prochaine };
     }
     precedentComplet = precedentComplet && complet;
-    return { module: m, sections: secs, verrouille };
-  });
+    modulesAffiches.push({ module: m, sections: secs, verrouille });
+  }
 
   const totalSections = (sections ?? []).length;
   const totalTerminees = (sections ?? []).filter((s) => sectionsTerminees.has(s.id)).length;

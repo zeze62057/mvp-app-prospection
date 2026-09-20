@@ -8,6 +8,8 @@ type EtatRdv = { erreur: string | null };
 export async function reserver(
   espaceSlug: string,
   creneauId: string,
+  // Requis par la signature de useActionState (etat precedent), non utilise ici.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _etat: EtatRdv
 ): Promise<EtatRdv> {
   const supabase = await createClient();
@@ -21,6 +23,8 @@ export async function reserver(
 export async function annuler(
   espaceSlug: string,
   creneauId: string,
+  // Requis par la signature de useActionState (etat precedent), non utilise ici.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   _etat: EtatRdv
 ): Promise<EtatRdv> {
   const supabase = await createClient();
