@@ -15,10 +15,10 @@ export default async function CommunautePayantePage({
   searchParams,
 }: {
   params: Promise<{ espace: string }>;
-  searchParams: Promise<{ cat?: string }>;
+  searchParams: Promise<{ cat?: string; q?: string }>;
 }) {
   const { espace: slug } = await params;
-  const { cat } = await searchParams;
+  const { cat, q } = await searchParams;
   const espace = await getEspaceParSlug(slug);
   if (!espace) notFound();
 
@@ -173,6 +173,7 @@ export default async function CommunautePayantePage({
             auteurPseudo={monProfil?.pseudo ?? "Moi"}
             estAdmin={monProfil?.role === "admin"}
             categorieId={cat ?? null}
+            recherche={q ?? null}
           />
         </div>
 

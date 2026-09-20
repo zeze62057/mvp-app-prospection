@@ -1,8 +1,10 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { chargerCategories, chargerPostsFil } from "@/lib/fil";
 import { urlsAvatars } from "@/lib/avatars";
+import { nettoyerTerme } from "@/lib/recherche";
 import type { ZonePost } from "@/types/membre";
 import { BarreEcrire } from "./BarreEcrire";
+import { BarreRecherche } from "./BarreRecherche";
 import { CartePost } from "./CartePost";
 import { PastillesCategories } from "./PastillesCategories";
 
@@ -17,6 +19,7 @@ export async function FilCommunaute({
   auteurPseudo,
   estAdmin,
   categorieId,
+  recherche = null,
 }: {
   supabase: SupabaseClient;
   espace: { id: string; slug: string };
@@ -25,12 +28,14 @@ export async function FilCommunaute({
   auteurPseudo: string;
   estAdmin: boolean;
   categorieId: string | null;
+  recherche?: string | null; // terme brut de l'URL (?q=), nettoye ici
 }) {
   const base = `/${espace.slug}/${zone === "payante" ? "communaute-payante" : "communaute"}`;
+  const terme = nettoyerTerme(recherche);
 
   const [categories, items, { data: moi }] = await Promise.all([
     chargerCategories(supabase, espace.id),
-    chargerPostsFil({ supabase, espaceId: espace.id, userId, zone, categorieId }),
+    chargerPostsFil({ supabase, espaceId: espace.id, userId, zone, categorieId, recherche: terme }),
     supabase.from("profils").select("id, avatar_path").eq("id", userId).maybeSingle(),
   ]);
   const mesPhotos = await urlsAvatars(moi ? [moi as { id: string; avatar_path: string | null }] : []);
@@ -49,6 +54,7 @@ export async function FilCommunaute({
         auteurAvatarUrl={mesPhotos.get(userId) ?? null}
         categorieParDefaut={categorieValide}
       />
+      <BarreRecherche base={base} terme={terme} categorieActive={categorieValide} />
       <PastillesCategories base={base} categories={categories} categorieActive={categorieValide} />
 
       {items.map((item) => (
@@ -63,8 +69,10 @@ export async function FilCommunaute({
       ))}
       {items.length === 0 && (
         <p className="rounded-[14px] border border-dashed border-[var(--ligne)] p-6 text-center text-sm text-[var(--texte-mute)]">
-          {categorieValide
-            ? "Aucun post dans cette catégorie pour l'instant."
+          {terme
+            ? `Aucun résultat pour « ${terme} ».`
+            : categorieValide
+              ? "Aucun post dans cette catégorie pour l'instant."
             : zone === "payante"
               ? "Aucun post pour l'instant. Partage ton premier exercice."
               : "Aucun post pour l'instant. Sois le premier à partager quelque chose."}

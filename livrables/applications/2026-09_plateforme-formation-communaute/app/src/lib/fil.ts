@@ -7,6 +7,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { urlsAvatars } from "@/lib/avatars";
+import { filtreRecherche } from "@/lib/recherche";
 import type { CategoriePost, Commentaire, Post, ZonePost } from "@/types/membre";
 
 export type AuteurFil = {
@@ -40,6 +41,7 @@ type Options = {
   categorieId?: string | null;
   postId?: string;
   auteurId?: string; // posts d'un seul membre (page profil)
+  recherche?: string | null; // terme deja nettoye par nettoyerTerme (voir recherche.ts)
   limite?: number;
 };
 
@@ -62,6 +64,7 @@ export async function chargerPostsFil({
   categorieId,
   postId,
   auteurId,
+  recherche,
   limite = LIMITE_FIL,
 }: Options): Promise<PostFil[]> {
   let requete = supabase.from("posts").select("*").eq("espace_id", espaceId);
@@ -69,6 +72,7 @@ export async function chargerPostsFil({
   if (zone) requete = requete.eq("zone", zone);
   if (categorieId) requete = requete.eq("categorie_id", categorieId);
   if (auteurId) requete = requete.eq("auteur_id", auteurId);
+  if (recherche) requete = requete.or(filtreRecherche(recherche));
 
   const { data: posts } = await requete
     .order("epingle", { ascending: false })
