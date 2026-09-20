@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { basculerLike, epinglerPost } from "@/app/(membre)/[espace]/post/actions";
 import { tempsEcoule } from "@/lib/temps";
-import { niveauDepuisPoints } from "@/types/membre";
 import type { PostFil } from "@/lib/fil";
 import { Avatar } from "./Avatar";
 import { BoutonSignaler } from "@/components/moderation/BoutonSignaler";
+import { BadgeMembre } from "@/components/communaute/BadgeMembre";
 
 function IconePouce({ plein }: { plein: boolean }) {
   return (
@@ -24,18 +24,7 @@ function IconeBulle() {
 }
 
 export function BadgeAuteur({ auteur }: { auteur: PostFil["auteur"] }) {
-  if (auteur.estExpert) {
-    return (
-      <span className="rounded-[5px] bg-[var(--corail)] px-1.5 py-px font-mono text-[9.5px] font-bold text-[var(--encre)]">
-        ★ Expert
-      </span>
-    );
-  }
-  return (
-    <span className="rounded-[5px] bg-[rgba(43,140,130,0.1)] px-1.5 py-px font-mono text-[9.5px] text-[var(--sarcelle)]">
-      {auteur.role === "admin" ? "Admin" : niveauDepuisPoints(auteur.points)}
-    </span>
-  );
+  return <BadgeMembre estExpert={auteur.estExpert} role={auteur.role} points={auteur.points} />;
 }
 
 export function CartePost({
@@ -55,14 +44,19 @@ export function CartePost({
 }) {
   const { post, auteur, categorie, nbLikes, aLike, nbCommentaires, dernierCommentaireAt, imageUrl } = item;
   const lienPost = `/${espaceSlug}/post/${post.id}`;
+  const lienProfil = `/${espaceSlug}/membres/${auteur.id}`;
 
-  const contenuCarte = (
+  const entete = (
     <>
       <div className="mb-2.5 flex items-center gap-2.5">
-        <Avatar id={auteur.id} pseudo={auteur.pseudo} taille={36} urlPhoto={auteur.avatarUrl} />
+        <Link href={lienProfil} aria-label={`Voir le profil de ${auteur.pseudo}`} className="flex-shrink-0">
+          <Avatar id={auteur.id} pseudo={auteur.pseudo} taille={36} urlPhoto={auteur.avatarUrl} />
+        </Link>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[13.5px] font-bold">{auteur.pseudo}</span>
+            <Link href={lienProfil} className="text-[13.5px] font-bold hover:text-[var(--sarcelle)]">
+              {auteur.pseudo}
+            </Link>
             <BadgeAuteur auteur={auteur} />
           </div>
           <div className="flex flex-wrap items-center gap-2 font-mono text-[10.5px] text-[var(--texte-mute)]">
@@ -81,7 +75,11 @@ export function CartePost({
           </span>
         )}
       </div>
+    </>
+  );
 
+  const corpsCarte = (
+    <>
       {post.titre && <h3 className="font-display mb-1.5 text-[16px] font-bold leading-snug">{post.titre}</h3>}
       <p className={`whitespace-pre-wrap text-[13.5px] leading-[1.6] text-[var(--texte)] ${detail ? "" : "line-clamp-4"}`}>
         {post.contenu}
@@ -107,9 +105,10 @@ export function CartePost({
 
   return (
     <article className="mb-3.5 rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
-      {detail ? contenuCarte : (
+      {entete}
+      {detail ? corpsCarte : (
         <Link href={lienPost} className="block">
-          {contenuCarte}
+          {corpsCarte}
         </Link>
       )}
 

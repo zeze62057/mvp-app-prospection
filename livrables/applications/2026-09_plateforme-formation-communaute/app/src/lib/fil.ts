@@ -39,6 +39,8 @@ type Options = {
   zone?: ZonePost; // absent quand on charge un post precis
   categorieId?: string | null;
   postId?: string;
+  auteurId?: string; // posts d'un seul membre (page profil)
+  limite?: number;
 };
 
 export async function chargerCategories(supabase: SupabaseClient, espaceId: string) {
@@ -59,16 +61,19 @@ export async function chargerPostsFil({
   zone,
   categorieId,
   postId,
+  auteurId,
+  limite = LIMITE_FIL,
 }: Options): Promise<PostFil[]> {
   let requete = supabase.from("posts").select("*").eq("espace_id", espaceId);
   if (postId) requete = requete.eq("id", postId);
   if (zone) requete = requete.eq("zone", zone);
   if (categorieId) requete = requete.eq("categorie_id", categorieId);
+  if (auteurId) requete = requete.eq("auteur_id", auteurId);
 
   const { data: posts } = await requete
     .order("epingle", { ascending: false })
     .order("created_at", { ascending: false })
-    .limit(LIMITE_FIL)
+    .limit(Math.min(limite, LIMITE_FIL))
     .returns<Post[]>();
   if (!posts || posts.length === 0) return [];
 

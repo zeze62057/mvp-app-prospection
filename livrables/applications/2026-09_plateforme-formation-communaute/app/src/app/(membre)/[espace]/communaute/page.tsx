@@ -139,6 +139,9 @@ export default async function CommunauteGratuitePage({
           <span className="border-b-2 border-[var(--sarcelle)] pb-1 text-[var(--sarcelle)]">
             Communaute
           </span>
+          <Link href={`/${espace.slug}/membres`} className="hover:text-[var(--sarcelle)]">
+            Membres
+          </Link>
           <Link href={`/${espace.slug}/contenu`} className="hover:text-[var(--sarcelle)]">
             Contenu
           </Link>
@@ -194,12 +197,12 @@ export default async function CommunauteGratuitePage({
           <div className="rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-[18px]">
             <div className="font-display mb-3.5 text-[13px] font-bold">{espace.nom}</div>
             <div className="flex">
-              <div className="flex-1 text-center">
+              <Link href={`/${espace.slug}/membres`} className="flex-1 text-center" aria-label="Voir les membres">
                 <div className="font-display text-[19px] font-extrabold text-[var(--sarcelle)]">
                   {nbMembres ?? 0}
                 </div>
-                <div className="mt-0.5 font-mono text-[9.5px] text-[var(--texte-mute)]">membres</div>
-              </div>
+                <div className="mt-0.5 font-mono text-[9.5px] text-[var(--texte-mute)] underline">membres</div>
+              </Link>
               <div className="flex-1 border-l border-[var(--ligne)] text-center">
                 <div className="font-display text-[19px] font-extrabold text-[var(--sarcelle)]">
                   {nbPosts ?? 0}
@@ -244,6 +247,12 @@ export default async function CommunauteGratuitePage({
               className="block rounded-lg px-2.5 py-2.5 text-[12.5px] text-[var(--texte-mute)] hover:bg-[var(--fond)]"
             >
               Formation complete
+            </Link>
+            <Link
+              href={`/${espace.slug}/membres`}
+              className="block rounded-lg px-2.5 py-2.5 text-[12.5px] text-[var(--texte-mute)] hover:bg-[var(--fond)]"
+            >
+              Membres
             </Link>
             <Link
               href={`/${espace.slug}/profil`}

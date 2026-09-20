@@ -118,6 +118,9 @@ export default async function CommunautePayantePage({
           <span className="border-b-2 border-[var(--sarcelle)] pb-1 text-[var(--sarcelle)]">
             Communaute payante
           </span>
+          <Link href={`/${espace.slug}/membres`} className="hover:text-[var(--sarcelle)]">
+            Membres
+          </Link>
           <Link href={`/${espace.slug}/formation`} className="hover:text-[var(--sarcelle)]">
             Formation
           </Link>
@@ -177,14 +180,24 @@ export default async function CommunautePayantePage({
           <div className="rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-[18px]">
             <div className="font-display mb-3.5 text-[13px] font-bold">Membres</div>
             {membres.map((m) => (
-              <div key={m.id} className="flex items-center gap-2.5 py-1.5">
+              <Link
+                key={m.id}
+                href={`/${espace.slug}/membres/${m.id}`}
+                className="flex items-center gap-2.5 py-1.5 hover:text-[var(--sarcelle)]"
+              >
                 <div className="h-7 w-7 flex-shrink-0 rounded-full" style={{ background: couleurAvatar(m.id) }} />
                 <span className="text-xs font-bold">{m.pseudo}</span>
-              </div>
+              </Link>
             ))}
             {membres.length === 0 && (
               <p className="text-xs text-[var(--texte-mute)]">Tu es le premier ici.</p>
             )}
+            <Link
+              href={`/${espace.slug}/membres`}
+              className="mt-2.5 block font-mono text-[11.5px] font-bold text-[var(--sarcelle)]"
+            >
+              Voir tous les membres →
+            </Link>
           </div>
 
           <div className="rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-[18px]">
