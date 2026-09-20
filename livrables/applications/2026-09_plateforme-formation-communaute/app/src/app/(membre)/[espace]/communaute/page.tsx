@@ -7,6 +7,7 @@ import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
 import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAdhesion";
 import { FilCommunaute } from "@/components/communaute/fil/FilCommunaute";
 import { MessageAccueil } from "@/components/communaute/MessageAccueil";
+import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
 import { couleurAvatar } from "@/lib/avatar";
 import type { Adhesion } from "@/types/membre";
 
@@ -163,6 +164,8 @@ export default async function CommunauteGratuitePage({
         </div>
         {boutonDeconnexion}
       </div>
+
+      <OngletsFlottants espaceSlug={espace.slug} />
 
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 p-7 md:grid-cols-[1fr_300px]">
         <div>

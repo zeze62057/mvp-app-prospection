@@ -6,6 +6,7 @@ import { deconnexion } from "../communaute/actions";
 import { sInscrire, seDesinscrire } from "./actions";
 import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
 import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAdhesion";
+import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
 import type { Adhesion, Masterclass } from "@/types/membre";
 
 // Masterclass : evenements en direct a venir, communaute gratuite (voir
@@ -124,6 +125,8 @@ export default async function MasterclassPage({
         </div>
         {boutonDeconnexion}
       </div>
+
+      <OngletsFlottants espaceSlug={espace.slug} />
 
       <div className="mx-auto max-w-3xl px-7 py-8">
         <p className="font-display text-[23px] font-extrabold tracking-tight">

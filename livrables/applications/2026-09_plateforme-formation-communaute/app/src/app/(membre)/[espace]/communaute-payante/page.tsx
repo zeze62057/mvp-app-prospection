@@ -6,6 +6,7 @@ import { deconnexion } from "../communaute/actions";
 import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
 import { FilCommunaute } from "@/components/communaute/fil/FilCommunaute";
 import { MessageAccueil } from "@/components/communaute/MessageAccueil";
+import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
 import { CartePostulerExpert } from "@/components/communaute/CartePostulerExpert";
 import { couleurAvatar } from "@/lib/avatar";
 import type { AccesPayant, CandidatureExpert } from "@/types/membre";
@@ -133,6 +134,8 @@ export default async function CommunautePayantePage({
         </div>
         {boutonDeconnexion}
       </div>
+
+      <OngletsFlottants espaceSlug={espace.slug} />
 
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 p-7 md:grid-cols-[1fr_300px]">
         <div>
