@@ -3,6 +3,7 @@ import { urlsAvatars } from "@/lib/avatars";
 import { niveauDepuisPoints } from "@/types/membre";
 import { EnTeteMembre } from "@/components/navigation/EnTeteMembre";
 import { FormulaireProfil } from "@/components/profil/FormulaireProfil";
+import { FormulaireInfosProfil } from "@/components/profil/FormulaireInfosProfil";
 import { deconnexion } from "../communaute/actions";
 
 export default async function ProfilPage({ params }: { params: Promise<{ espace: string }> }) {
@@ -33,6 +34,13 @@ export default async function ProfilPage({ params }: { params: Promise<{ espace:
           userId={userId}
           pseudo={moi?.pseudo ?? ""}
           avatarUrl={photos.get(userId) ?? null}
+        />
+
+        <FormulaireInfosProfil
+          espaceSlug={espace.slug}
+          bio={moi?.bio ?? ""}
+          ville={moi?.ville ?? ""}
+          lien={moi?.lien ?? ""}
         />
 
         <form action={deconnexion.bind(null, espace.slug)}>

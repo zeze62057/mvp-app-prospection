@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { contexteMembre } from "@/lib/contexte-membre";
 import { lireProfilMembre } from "@/lib/annuaire";
+import { domaineAffiche, lienSur } from "@/lib/lien-profil";
 import { chargerPostsFil } from "@/lib/fil";
 import { niveauDepuisPoints } from "@/types/membre";
 import { EnTeteMembre } from "@/components/navigation/EnTeteMembre";
@@ -70,6 +71,7 @@ export default async function ProfilMembrePage({
 
   const cestMoi = membre.id === userId;
   const arrivee = depuisQuand(membre.membreDepuis);
+  const lienAffiche = lienSur(membre.lien);
 
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
@@ -88,6 +90,25 @@ export default async function ProfilMembrePage({
               </div>
             </div>
           </div>
+
+          {membre.bio && (
+            <p className="mt-5 whitespace-pre-wrap break-words text-[13.5px] leading-[1.6]">{membre.bio}</p>
+          )}
+          {(membre.ville || lienAffiche) && (
+            <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px] text-[var(--texte-mute)]">
+              {membre.ville && <span>📍 {membre.ville}</span>}
+              {lienAffiche && (
+                <a
+                  href={lienAffiche}
+                  target="_blank"
+                  rel="noopener noreferrer nofollow ugc"
+                  className="font-bold text-[var(--sarcelle)] underline"
+                >
+                  🔗 {domaineAffiche(lienAffiche)}
+                </a>
+              )}
+            </div>
+          )}
 
           <dl className="mt-5 grid grid-cols-2 gap-3 border-t border-[var(--ligne)] pt-4">
             <div>

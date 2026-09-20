@@ -21,7 +21,7 @@ export async function contexteMembre(slug: string) {
 
   const { data: moi } = await supabase
     .from("profils")
-    .select("id, pseudo, role, points, avatar_path")
+    .select("id, pseudo, role, points, avatar_path, bio, ville, lien")
     .eq("id", data.user.id)
     .maybeSingle();
 

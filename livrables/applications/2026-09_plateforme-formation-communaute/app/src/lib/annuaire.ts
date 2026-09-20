@@ -18,6 +18,10 @@ export type MembreAnnuaire = {
   estExpert: boolean;
   membreDepuis: string | null;
   avatarUrl: string | null;
+  // Renseignes par le membre (migration 0034), presents seulement sur le profil public.
+  bio: string | null;
+  ville: string | null;
+  lien: string | null;
 };
 
 type LigneMembre = {
@@ -29,6 +33,9 @@ type LigneMembre = {
   est_expert: boolean;
   membre_depuis: string | null;
   total?: number | string;
+  bio?: string | null;
+  ville?: string | null;
+  lien?: string | null;
 };
 
 function versMembre(l: LigneMembre, photos: Map<string, string>): MembreAnnuaire {
@@ -40,6 +47,9 @@ function versMembre(l: LigneMembre, photos: Map<string, string>): MembreAnnuaire
     estExpert: l.est_expert === true,
     membreDepuis: l.membre_depuis,
     avatarUrl: photos.get(l.id) ?? null,
+    bio: l.bio ?? null,
+    ville: l.ville ?? null,
+    lien: l.lien ?? null,
   };
 }
 
