@@ -78,7 +78,7 @@ export type Paiement = {
   confirme_at: string | null;
 };
 
-export type CategoriePrompt = "fondations" | "methode" | "quotidien" | "business";
+export type CategoriePrompt = "fondations" | "methode" | "quotidien" | "business" | "n8n";
 
 export type Prompt = {
   id: string;

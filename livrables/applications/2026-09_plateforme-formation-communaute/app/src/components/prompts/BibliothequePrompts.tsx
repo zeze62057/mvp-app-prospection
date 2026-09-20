@@ -8,6 +8,7 @@ const LIBELLES: Record<CategoriePrompt, string> = {
   methode: "Méthode",
   quotidien: "Quotidien",
   business: "Business",
+  n8n: "n8n",
 };
 
 function CartePrompt({ prompt }: { prompt: Prompt }) {
@@ -29,7 +30,7 @@ function CartePrompt({ prompt }: { prompt: Prompt }) {
         {LIBELLES[prompt.categorie]}
       </span>
       <p className="font-display mb-2 text-[14.5px] font-bold">{prompt.titre}</p>
-      <div className="mb-3 flex-1 rounded-lg border border-[var(--ligne)] bg-[var(--fond)] p-3 font-mono text-[10.5px] leading-relaxed text-[var(--texte-mute)]">
+      <div className="mb-3 flex-1 whitespace-pre-wrap rounded-lg border border-[var(--ligne)] bg-[var(--fond)] p-3 font-mono text-[10.5px] leading-relaxed text-[var(--texte-mute)]">
         {prompt.contenu}
       </div>
       <button
