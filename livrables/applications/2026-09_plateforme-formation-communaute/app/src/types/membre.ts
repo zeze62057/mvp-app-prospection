@@ -24,9 +24,30 @@ export type Post = {
   espace_id: string;
   auteur_id: string;
   contenu: string;
-  tag: TagPost;
+  tag: TagPost; // historique : le fil utilise categorie_id (migration 0026)
   zone: ZonePost;
   magnet_texte: string | null;
+  created_at: string;
+  titre: string | null;
+  epingle: boolean;
+  image_path: string | null;
+  categorie_id: string | null;
+};
+
+// Categorie de post, geree par l'admin, propre a un espace (migration 0026).
+export type CategoriePost = {
+  id: string;
+  espace_id: string;
+  libelle: string;
+  emoji: string;
+  ordre: number;
+};
+
+export type Commentaire = {
+  id: string;
+  post_id: string;
+  auteur_id: string;
+  contenu: string;
   created_at: string;
 };
 

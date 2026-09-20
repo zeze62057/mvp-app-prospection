@@ -5,18 +5,20 @@ import { createClient } from "@/lib/supabase/server";
 import { deconnexion } from "./actions";
 import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
 import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAdhesion";
-import { Composer } from "@/components/communaute/Composer";
+import { FilCommunaute } from "@/components/communaute/fil/FilCommunaute";
 import { MessageAccueil } from "@/components/communaute/MessageAccueil";
-import { PostCard } from "@/components/communaute/PostCard";
 import { couleurAvatar } from "@/lib/avatar";
-import type { Adhesion, Post } from "@/types/membre";
+import type { Adhesion } from "@/types/membre";
 
 export default async function CommunauteGratuitePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ espace: string }>;
+  searchParams: Promise<{ cat?: string }>;
 }) {
   const { espace: slug } = await params;
+  const { cat } = await searchParams;
   const espace = await getEspaceParSlug(slug);
   if (!espace) notFound();
 
@@ -111,25 +113,14 @@ export default async function CommunauteGratuitePage({
     );
   }
 
-  const { data: posts } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("espace_id", espace.id)
-    .eq("zone", "gratuite")
-    .order("created_at", { ascending: false })
-    .returns<Post[]>();
-
-  const postIds = (posts ?? []).map((p) => p.id);
-  const auteurIds = [...new Set((posts ?? []).map((p) => p.auteur_id))];
-
-  const [{ data: profils }, { data: votes }, { count: nbMembres }, { data: classement }] =
+  const [{ data: monProfil }, { count: nbPosts }, { count: nbMembres }, { data: classement }] =
     await Promise.all([
-      auteurIds.length
-        ? supabase.from("profils").select("id, pseudo, role, points").in("id", auteurIds)
-        : Promise.resolve({ data: [] as { id: string; pseudo: string; role: string; points: number }[] }),
-      postIds.length
-        ? supabase.from("post_votes").select("post_id, profil_id").in("post_id", postIds)
-        : Promise.resolve({ data: [] as { post_id: string; profil_id: string }[] }),
+      supabase.from("profils").select("pseudo, role").eq("id", userData.user.id).maybeSingle(),
+      supabase
+        .from("posts")
+        .select("*", { count: "exact", head: true })
+        .eq("espace_id", espace.id)
+        .eq("zone", "gratuite"),
       supabase
         .from("adhesions")
         .select("*", { count: "exact", head: true })
@@ -141,12 +132,6 @@ export default async function CommunauteGratuitePage({
         .eq("espace_id", espace.id)
         .eq("statut", "approuve"),
     ]);
-
-  const parAuteur = Object.fromEntries((profils ?? []).map((p) => [p.id, p]));
-  const votesParPost = new Map<string, string[]>();
-  (votes ?? []).forEach((v) => {
-    votesParPost.set(v.post_id, [...(votesParPost.get(v.post_id) ?? []), v.profil_id]);
-  });
 
   const classementTrie = (classement ?? [])
     .map((c) => c.profils as unknown as { id: string; pseudo: string; points: number } | null)
@@ -202,31 +187,15 @@ export default async function CommunauteGratuitePage({
 
           <MessageAccueil espaceId={espace.id} />
 
-          <Composer espaceSlug={espace.slug} />
-
-          <div>
-            {(posts ?? []).map((post) => {
-              const auteur = parAuteur[post.auteur_id];
-              const votants = votesParPost.get(post.id) ?? [];
-              return (
-                <PostCard
-                  key={post.id}
-                  espaceSlug={espace.slug}
-                  post={post}
-                  auteurPseudo={auteur?.pseudo ?? "Membre"}
-                  auteurRole={(auteur?.role as "membre" | "admin") ?? "membre"}
-                  auteurPoints={auteur?.points ?? 0}
-                  nbVotes={votants.length}
-                  aVote={votants.includes(userData.user.id)}
-                />
-              );
-            })}
-            {(posts ?? []).length === 0 && (
-              <p className="text-sm text-[var(--texte-mute)]">
-                Aucun post pour l&apos;instant. Sois le premier a partager quelque chose.
-              </p>
-            )}
-          </div>
+          <FilCommunaute
+            supabase={supabase}
+            espace={espace}
+            zone="gratuite"
+            userId={userData.user.id}
+            auteurPseudo={monProfil?.pseudo ?? "Moi"}
+            estAdmin={monProfil?.role === "admin"}
+            categorieId={cat ?? null}
+          />
         </div>
 
         <div className="flex flex-col gap-4">
@@ -241,7 +210,7 @@ export default async function CommunauteGratuitePage({
               </div>
               <div className="flex-1 border-l border-[var(--ligne)] text-center">
                 <div className="font-display text-[19px] font-extrabold text-[var(--sarcelle)]">
-                  {(posts ?? []).length}
+                  {nbPosts ?? 0}
                 </div>
                 <div className="mt-0.5 font-mono text-[9.5px] text-[var(--texte-mute)]">posts</div>
               </div>

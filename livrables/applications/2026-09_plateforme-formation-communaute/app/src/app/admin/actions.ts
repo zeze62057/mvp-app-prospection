@@ -122,6 +122,50 @@ export async function modifierParametresCommunaute(
   return { erreur: null, succes: true };
 }
 
+// Categories du fil de communaute (voir migration 0026) : propres a chaque espace,
+// avec un emoji. Supprimer une categorie ne supprime aucun post : ils redeviennent
+// "sans categorie" (on delete set null).
+export async function creerCategoriePost(
+  _etat: { erreur: string | null; succes: boolean },
+  formData: FormData
+) {
+  await verifierAdmin();
+
+  const espaceId = String(formData.get("espace_id") ?? "");
+  const libelle = String(formData.get("libelle") ?? "").trim();
+  const emoji = String(formData.get("emoji") ?? "").trim();
+
+  if (!espaceId || !libelle) return { erreur: "Espace et nom sont requis.", succes: false };
+  if (libelle.length > 40) return { erreur: "Le nom est limité à 40 caractères.", succes: false };
+  if (emoji.length > 8) return { erreur: "Un seul emoji suffit.", succes: false };
+
+  const admin = createAdminClient();
+  const { data: derniere } = await admin
+    .from("categories_posts")
+    .select("ordre")
+    .eq("espace_id", espaceId)
+    .order("ordre", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+
+  const { error } = await admin
+    .from("categories_posts")
+    .insert({ espace_id: espaceId, libelle, emoji, ordre: (derniere?.ordre ?? 0) + 1 });
+  if (error) {
+    if (error.code === "23505") return { erreur: "Cette catégorie existe déjà.", succes: false };
+    return { erreur: error.message, succes: false };
+  }
+
+  revalidatePath("/admin");
+  return { erreur: null, succes: true };
+}
+
+export async function supprimerCategoriePost(categorieId: string) {
+  await verifierAdmin();
+  await createAdminClient().from("categories_posts").delete().eq("id", categorieId);
+  revalidatePath("/admin");
+}
+
 function slugifier(texte: string): string {
   return texte
     .normalize("NFD")

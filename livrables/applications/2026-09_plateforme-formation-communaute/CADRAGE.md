@@ -140,6 +140,15 @@ Le cadrage (sections 0 à 9) a été figé le 2026-09-14. Cette section trace ce
 - Contenu de cours créé le 2026-09-16/17 : **9 modules** au total — Module 1 "IA appliquée au marketing de réseau" (module croisé déjà rédigé, 4 sections), Modules 2 à 9 correspondant aux 8 parties du programme marketing de réseau complet (skill `programme-marketing-reseau`, 54 sections au total). Seuls les titres sont en base, comme pour Vivier IA : le contenu réel sera livré par vidéo, à enregistrer par Zézé
 - **Pas encore fait** : réplication du trio complet (communauté gratuite / payante / page individuelle spécifiques à cet espace fonctionnent déjà techniquement grâce à l'architecture générique, mais n'ont pas été vérifiées ni peuplées de contenu propre à Bâtisseur Pro), enregistrement des vidéos
 
+**Fil de communauté façon Skool (2026-09-20, lot A sur 4, migration 0026)** :
+- Un seul fil pour les zones gratuite et payante : barre « Écrire quelque chose » (titre, texte, catégorie, une image), pastilles de catégories filtrant par `?cat=`, cartes (auteur, date, catégorie avec emoji, épinglé, titre, texte, image, likes, commentaires, dernier commentaire), page du post avec ses commentaires
+- Catégories propres à chaque espace, gérées depuis l'admin (nom et emoji). Les posts existants ont repris leur ancien tag comme catégorie. Le champ `posts.tag` reste en base, il est historique
+- Likes : ce sont les votes existants (`post_votes`), avec leurs points. Épingler est réservé à l'admin, y compris côté base (trigger)
+- Images : bucket privé `posts-images`, 5 Mo, JPG, PNG ou WebP, signature du fichier vérifiée, liens temporaires d'une heure. Aucune URL publique
+- Correction découverte en route : un membre ne pouvait lire que son propre profil, donc les auteurs des autres membres s'affichaient tous « Membre ». Une règle (`partage_un_espace`) permet aux membres d'un même espace de se voir (pseudo, rôle, points), et `experts_espace` expose seulement la liste des experts
+- **Lots suivants, validés le 2026-09-20** : B photo de profil (upload par le membre), C notifications (likes, commentaires, messages reçus, avec compteur), D messagerie privée entre deux membres du même espace (lisible seulement par eux deux), puis la barre basse mobile (Accueil, Messages, Notifications, profil)
+- **Constats hors périmètre, non corrigés** : le compteur « membres » et le classement de la page communauté sont faux dès qu'il y a plusieurs membres (la table `adhesions` n'est lisible que pour ses propres lignes) ; l'en-tête de navigation déborde sur mobile (6 liens sur une ligne)
+
 **Non construit, restant du périmètre "vient après" (section 7)** :
 - Lead magnets avancés, statistiques de communauté au-delà des compteurs de base
 - Agent IA de veille et qualification sociale (extension future actée)

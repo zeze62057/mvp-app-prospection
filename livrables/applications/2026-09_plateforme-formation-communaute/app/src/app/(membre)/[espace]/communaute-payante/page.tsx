@@ -4,19 +4,21 @@ import { getEspaceParSlug } from "@/lib/espaces";
 import { createClient } from "@/lib/supabase/server";
 import { deconnexion } from "../communaute/actions";
 import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
-import { ComposerPayant } from "@/components/communaute/ComposerPayant";
+import { FilCommunaute } from "@/components/communaute/fil/FilCommunaute";
 import { MessageAccueil } from "@/components/communaute/MessageAccueil";
-import { PostCardPayant } from "@/components/communaute/PostCardPayant";
 import { CartePostulerExpert } from "@/components/communaute/CartePostulerExpert";
 import { couleurAvatar } from "@/lib/avatar";
-import type { AccesPayant, CandidatureExpert, Post } from "@/types/membre";
+import type { AccesPayant, CandidatureExpert } from "@/types/membre";
 
 export default async function CommunautePayantePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ espace: string }>;
+  searchParams: Promise<{ cat?: string }>;
 }) {
   const { espace: slug } = await params;
+  const { cat } = await searchParams;
   const espace = await getEspaceParSlug(slug);
   if (!espace) notFound();
 
@@ -91,24 +93,8 @@ export default async function CommunautePayantePage({
     .eq("espace_id", espace.id)
     .maybeSingle<CandidatureExpert>();
 
-  const { data: posts } = await supabase
-    .from("posts")
-    .select("*")
-    .eq("espace_id", espace.id)
-    .eq("zone", "payante")
-    .order("created_at", { ascending: false })
-    .returns<Post[]>();
-
-  const postIds = (posts ?? []).map((p) => p.id);
-  const auteurIds = [...new Set((posts ?? []).map((p) => p.auteur_id))];
-
-  const [{ data: profils }, { data: votes }, { data: accesListe }] = await Promise.all([
-    auteurIds.length
-      ? supabase.from("profils").select("id, pseudo, role, points").in("id", auteurIds)
-      : Promise.resolve({ data: [] as { id: string; pseudo: string; role: string; points: number }[] }),
-    postIds.length
-      ? supabase.from("post_votes").select("post_id, profil_id").in("post_id", postIds)
-      : Promise.resolve({ data: [] as { post_id: string; profil_id: string }[] }),
+  const [{ data: monProfil }, { data: accesListe }] = await Promise.all([
+    supabase.from("profils").select("pseudo, role").eq("id", userData.user.id).maybeSingle(),
     supabase
       .from("acces_payant")
       .select("est_expert, profils(id, pseudo)")
@@ -116,17 +102,6 @@ export default async function CommunautePayantePage({
       .eq("actif", true)
       .limit(6),
   ]);
-
-  const parAuteur = Object.fromEntries((profils ?? []).map((p) => [p.id, p]));
-  const expertsParAuteur = new Set(
-    (accesListe ?? [])
-      .filter((a) => a.est_expert)
-      .map((a) => (a.profils as unknown as { id: string } | null)?.id)
-  );
-  const votesParPost = new Map<string, string[]>();
-  (votes ?? []).forEach((v) => {
-    votesParPost.set(v.post_id, [...(votesParPost.get(v.post_id) ?? []), v.profil_id]);
-  });
 
   const membres = (accesListe ?? [])
     .map((a) => a.profils as unknown as { id: string; pseudo: string } | null)
@@ -162,8 +137,6 @@ export default async function CommunautePayantePage({
         <div>
           <MessageAccueil espaceId={espace.id} />
 
-          <ComposerPayant espaceSlug={espace.slug} />
-
           {acces.est_expert ? (
             <div className="mb-[18px] flex items-center justify-between rounded-[14px] border border-dashed border-[var(--corail)] bg-[var(--fond-carte)] px-5 py-[18px]">
               <div>
@@ -194,30 +167,15 @@ export default async function CommunautePayantePage({
             <CartePostulerExpert espaceSlug={espace.slug} espaceNom={espace.nom} />
           )}
 
-          <div>
-            {(posts ?? []).map((post) => {
-              const auteur = parAuteur[post.auteur_id];
-              const votants = votesParPost.get(post.id) ?? [];
-              return (
-                <PostCardPayant
-                  key={post.id}
-                  espaceSlug={espace.slug}
-                  post={post}
-                  auteurPseudo={auteur?.pseudo ?? "Membre"}
-                  auteurRole={(auteur?.role as "membre" | "admin") ?? "membre"}
-                  auteurPoints={auteur?.points ?? 0}
-                  estExpert={expertsParAuteur.has(post.auteur_id)}
-                  nbLikes={votants.length}
-                  aLike={votants.includes(userData.user.id)}
-                />
-              );
-            })}
-            {(posts ?? []).length === 0 && (
-              <p className="text-sm text-[var(--texte-mute)]">
-                Aucun post pour l&apos;instant. Partage ton premier exercice.
-              </p>
-            )}
-          </div>
+          <FilCommunaute
+            supabase={supabase}
+            espace={espace}
+            zone="payante"
+            userId={userData.user.id}
+            auteurPseudo={monProfil?.pseudo ?? "Moi"}
+            estAdmin={monProfil?.role === "admin"}
+            categorieId={cat ?? null}
+          />
         </div>
 
         <div className="flex flex-col gap-4">

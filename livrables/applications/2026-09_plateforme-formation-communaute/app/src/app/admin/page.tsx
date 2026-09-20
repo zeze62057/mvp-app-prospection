@@ -16,6 +16,7 @@ import { FormulaireCreationEspace } from "@/components/admin/FormulaireCreationE
 import { getStatsEspace } from "@/lib/stats-communaute";
 import { CarteStatsEspace } from "@/components/admin/CarteStatsEspace";
 import { FormulaireParametresCommunaute } from "@/components/admin/FormulaireParametresCommunaute";
+import { GestionCategories } from "@/components/admin/GestionCategories";
 import { EnregistrementVideo } from "@/components/admin/EnregistrementVideo";
 import { FormulaireLienRessource } from "@/components/admin/FormulaireLienRessource";
 import { FormulaireFichierRessource } from "@/components/admin/FormulaireFichierRessource";
@@ -66,6 +67,13 @@ export default async function AdminPage() {
   const statsParEspace = await Promise.all(
     (espaces ?? []).map(async (e) => ({ espace: e, stats: await getStatsEspace(e) }))
   );
+
+  // Categories du fil (migration 0026) : absentes tant qu'elle n'est pas appliquee.
+  const { data: categoriesFil } = await admin
+    .from("categories_posts")
+    .select("id, espace_id, libelle, emoji")
+    .order("ordre")
+    .order("created_at");
 
   const { data: messagesAccueil } = await admin
     .from("messages_accueil")
@@ -233,6 +241,23 @@ export default async function AdminPage() {
               afficher_compteur_public: e.afficher_compteur_public ?? true,
             }}
             messageAccueil={messageParEspace.get(e.id) ?? ""}
+          />
+        ))}
+      </ul>
+
+      <h2 className="font-display mt-16 text-2xl font-semibold">
+        Catégories du fil
+      </h2>
+      <p className="mt-2 text-sm text-[var(--texte-mute)]">
+        Les pastilles au-dessus du fil de chaque communauté. Supprimer une catégorie ne
+        supprime aucun post : ils passent simplement en « sans catégorie ».
+      </p>
+      <ul className="mt-6 flex flex-col gap-3">
+        {(espaces ?? []).map((e) => (
+          <GestionCategories
+            key={e.id}
+            espace={{ id: e.id, nom: e.nom }}
+            categories={(categoriesFil ?? []).filter((c) => c.espace_id === e.id)}
           />
         ))}
       </ul>
