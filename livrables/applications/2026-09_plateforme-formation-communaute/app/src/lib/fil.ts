@@ -6,6 +6,7 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { urlsAvatars } from "@/lib/avatars";
 import type { CategoriePost, Commentaire, Post, ZonePost } from "@/types/membre";
 
 export type AuteurFil = {
@@ -14,6 +15,7 @@ export type AuteurFil = {
   role: "membre" | "admin";
   points: number;
   estExpert: boolean;
+  avatarUrl: string | null;
 };
 
 export type PostFil = {
@@ -77,7 +79,7 @@ export async function chargerPostsFil({
   const [categories, { data: profils }, { data: votes }, { data: resumes }, { data: experts }] =
     await Promise.all([
       chargerCategories(supabase, espaceId),
-      supabase.from("profils").select("id, pseudo, role, points").in("id", auteurIds),
+      supabase.from("profils").select("id, pseudo, role, points, avatar_path").in("id", auteurIds),
       supabase.from("post_votes").select("post_id, profil_id").in("post_id", postIds),
       supabase.rpc("commentaires_resume", { p_post_ids: postIds }),
       zonesPayantes ? supabase.rpc("experts_espace", { p_espace: espaceId }) : Promise.resolve({ data: [] }),
@@ -97,17 +99,18 @@ export async function chargerPostsFil({
     likesParPost.set(v.post_id, [...(likesParPost.get(v.post_id) ?? []), v.profil_id]);
   });
 
-  // Liens temporaires des images, un seul appel pour tout le fil.
+  // Liens temporaires des images et des photos de profil, un appel par bucket.
   const chemins = posts.map((p) => p.image_path).filter((c): c is string => !!c);
   const liens = new Map<string, string>();
-  if (chemins.length > 0) {
-    const { data: signes } = await createAdminClient()
-      .storage.from("posts-images")
-      .createSignedUrls(chemins, VALIDITE_LIEN_IMAGE_S);
-    (signes ?? []).forEach((s) => {
-      if (s.path && s.signedUrl) liens.set(s.path, s.signedUrl);
-    });
-  }
+  const [signes, photos] = await Promise.all([
+    chemins.length > 0
+      ? createAdminClient().storage.from("posts-images").createSignedUrls(chemins, VALIDITE_LIEN_IMAGE_S)
+      : Promise.resolve({ data: [] as { path: string | null; signedUrl: string }[] }),
+    urlsAvatars((profils ?? []) as { id: string; avatar_path: string | null }[]),
+  ]);
+  (signes.data ?? []).forEach((s) => {
+    if (s.path && s.signedUrl) liens.set(s.path, s.signedUrl);
+  });
 
   return posts.map((post) => {
     const profil = parAuteur.get(post.auteur_id);
@@ -121,6 +124,7 @@ export async function chargerPostsFil({
         role: (profil?.role as "membre" | "admin") ?? "membre",
         points: profil?.points ?? 0,
         estExpert: expertIds.has(post.auteur_id),
+        avatarUrl: photos.get(post.auteur_id) ?? null,
       },
       categorie: post.categorie_id ? (parCategorie.get(post.categorie_id) ?? null) : null,
       nbLikes: likes.length,
@@ -132,7 +136,7 @@ export async function chargerPostsFil({
   });
 }
 
-export type CommentaireFil = Commentaire & { pseudo: string };
+export type CommentaireFil = Commentaire & { pseudo: string; avatarUrl: string | null };
 
 export async function chargerCommentaires(
   supabase: SupabaseClient,
@@ -147,7 +151,15 @@ export async function chargerCommentaires(
   if (!commentaires || commentaires.length === 0) return [];
 
   const auteurIds = [...new Set(commentaires.map((c) => c.auteur_id))];
-  const { data: profils } = await supabase.from("profils").select("id, pseudo").in("id", auteurIds);
+  const { data: profils } = await supabase
+    .from("profils")
+    .select("id, pseudo, avatar_path")
+    .in("id", auteurIds);
   const pseudos = new Map((profils ?? []).map((p) => [p.id as string, p.pseudo as string]));
-  return commentaires.map((c) => ({ ...c, pseudo: pseudos.get(c.auteur_id) ?? "Membre" }));
+  const photos = await urlsAvatars((profils ?? []) as { id: string; avatar_path: string | null }[]);
+  return commentaires.map((c) => ({
+    ...c,
+    pseudo: pseudos.get(c.auteur_id) ?? "Membre",
+    avatarUrl: photos.get(c.auteur_id) ?? null,
+  }));
 }

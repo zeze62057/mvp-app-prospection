@@ -1,5 +1,6 @@
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { chargerCategories, chargerPostsFil } from "@/lib/fil";
+import { urlsAvatars } from "@/lib/avatars";
 import type { ZonePost } from "@/types/membre";
 import { BarreEcrire } from "./BarreEcrire";
 import { CartePost } from "./CartePost";
@@ -27,10 +28,12 @@ export async function FilCommunaute({
 }) {
   const base = `/${espace.slug}/${zone === "payante" ? "communaute-payante" : "communaute"}`;
 
-  const [categories, items] = await Promise.all([
+  const [categories, items, { data: moi }] = await Promise.all([
     chargerCategories(supabase, espace.id),
     chargerPostsFil({ supabase, espaceId: espace.id, userId, zone, categorieId }),
+    supabase.from("profils").select("id, avatar_path").eq("id", userId).maybeSingle(),
   ]);
+  const mesPhotos = await urlsAvatars(moi ? [moi as { id: string; avatar_path: string | null }] : []);
 
   // Une categorie inconnue dans l'URL est ignoree (aucun filtre) plutot qu'une page vide.
   const categorieValide = categories.some((c) => c.id === categorieId) ? categorieId : null;
@@ -43,6 +46,7 @@ export async function FilCommunaute({
         categories={categories}
         auteurId={userId}
         auteurPseudo={auteurPseudo}
+        auteurAvatarUrl={mesPhotos.get(userId) ?? null}
         categorieParDefaut={categorieValide}
       />
       <PastillesCategories base={base} categories={categories} categorieActive={categorieValide} />

@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getEspaceParSlug } from "@/lib/espaces";
+import { validerImage } from "@/lib/image";
 
 // Publication d'un post du fil, avec image optionnelle (voir migration 0026).
 // Route handler plutot que server action : un fichier binaire depasse la limite
@@ -11,24 +12,7 @@ import { getEspaceParSlug } from "@/lib/espaces";
 // avec le client de l'utilisateur (le RLS et le trigger de la base decident),
 // 4) si l'insertion echoue, supprimer l'image orpheline.
 
-const TYPES_IMAGE: Record<string, string> = {
-  "image/jpeg": "jpg",
-  "image/png": "png",
-  "image/webp": "webp",
-};
 const TAILLE_MAX_IMAGE = 5 * 1024 * 1024;
-
-// Le type declare par le navigateur ne prouve rien : on controle aussi les premiers
-// octets du fichier (signature PNG, JPEG ou WebP) avant de le stocker.
-function signatureImageValide(octets: Uint8Array, type: string): boolean {
-  const debut = (...attendu: number[]) => attendu.every((o, i) => octets[i] === o);
-  if (type === "image/png") return debut(0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a);
-  if (type === "image/jpeg") return debut(0xff, 0xd8, 0xff);
-  if (type === "image/webp") {
-    return debut(0x52, 0x49, 0x46, 0x46) && octets[8] === 0x57 && octets[9] === 0x45 && octets[10] === 0x42 && octets[11] === 0x50;
-  }
-  return false;
-}
 
 export async function POST(request: Request) {
   const supabase = await createClient();
@@ -68,21 +52,14 @@ export async function POST(request: Request) {
 
   let imagePath: string | null = null;
   if (image instanceof File && image.size > 0) {
-    const extension = TYPES_IMAGE[image.type];
-    if (!extension) {
-      return NextResponse.json({ erreur: "Image acceptée : JPG, PNG ou WebP." }, { status: 400 });
+    const validation = await validerImage(image, TAILLE_MAX_IMAGE);
+    if ("erreur" in validation) {
+      return NextResponse.json({ erreur: validation.erreur }, { status: 400 });
     }
-    if (image.size > TAILLE_MAX_IMAGE) {
-      return NextResponse.json({ erreur: "Image trop lourde (5 Mo maximum)." }, { status: 400 });
-    }
-    const octets = new Uint8Array(await image.arrayBuffer());
-    if (!signatureImageValide(octets, image.type)) {
-      return NextResponse.json({ erreur: "Ce fichier n'est pas une vraie image." }, { status: 400 });
-    }
-    imagePath = `${espace.id}/${zone}/${crypto.randomUUID()}.${extension}`;
+    imagePath = `${espace.id}/${zone}/${crypto.randomUUID()}.${validation.image.extension}`;
     const { error: erreurUpload } = await createAdminClient()
       .storage.from("posts-images")
-      .upload(imagePath, Buffer.from(octets), { contentType: image.type });
+      .upload(imagePath, Buffer.from(validation.image.octets), { contentType: validation.image.type });
     if (erreurUpload) return NextResponse.json({ erreur: erreurUpload.message }, { status: 500 });
   }
 

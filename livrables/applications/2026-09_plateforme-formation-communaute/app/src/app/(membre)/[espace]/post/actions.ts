@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { verifierAdmin } from "@/lib/admin-guard";
+import { estErreurReseau, MESSAGE_RESEAU } from "@/lib/auth-erreurs";
 
 type EtatAction = { erreur: string | null };
 
@@ -55,8 +56,8 @@ export async function ajouterCommentaire(
   if (contenu.length > 2000) return { erreur: "Le commentaire est limité à 2000 caractères." };
 
   const supabase = await createClient();
-  const { data: userData } = await supabase.auth.getUser();
-  if (!userData.user) return { erreur: "Non connecté." };
+  const { data: userData, error: erreurAuth } = await supabase.auth.getUser();
+  if (!userData.user) return { erreur: estErreurReseau(erreurAuth) ? MESSAGE_RESEAU : "Non connecté." };
 
   const { error } = await supabase
     .from("commentaires")

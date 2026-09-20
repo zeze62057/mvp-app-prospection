@@ -14,6 +14,7 @@ export function BarreEcrire({
   categories,
   auteurId,
   auteurPseudo,
+  auteurAvatarUrl,
   categorieParDefaut,
 }: {
   espaceSlug: string;
@@ -21,6 +22,7 @@ export function BarreEcrire({
   categories: CategoriePost[];
   auteurId: string;
   auteurPseudo: string;
+  auteurAvatarUrl: string | null;
   categorieParDefaut: string | null;
 }) {
   const router = useRouter();
@@ -37,7 +39,7 @@ export function BarreEcrire({
         onClick={() => setOuvert(true)}
         className="mb-4 flex w-full items-center gap-3 rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-3.5 text-left"
       >
-        <Avatar id={auteurId} pseudo={auteurPseudo} taille={36} />
+        <Avatar id={auteurId} pseudo={auteurPseudo} taille={36} urlPhoto={auteurAvatarUrl} />
         <span className="text-[14px] text-[var(--texte-mute)]">Écrire quelque chose</span>
       </button>
     );
@@ -77,7 +79,7 @@ export function BarreEcrire({
       className="mb-4 flex flex-col gap-2.5 rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-4"
     >
       <div className="flex items-center gap-3">
-        <Avatar id={auteurId} pseudo={auteurPseudo} taille={36} />
+        <Avatar id={auteurId} pseudo={auteurPseudo} taille={36} urlPhoto={auteurAvatarUrl} />
         <span className="text-[13px] font-bold">{auteurPseudo}</span>
       </div>
       <input name="titre" maxLength={150} placeholder="Titre (optionnel)" className={champ} />

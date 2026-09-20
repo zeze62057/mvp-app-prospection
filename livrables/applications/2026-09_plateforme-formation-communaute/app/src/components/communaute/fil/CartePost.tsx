@@ -56,7 +56,7 @@ export function CartePost({
   const contenuCarte = (
     <>
       <div className="mb-2.5 flex items-center gap-2.5">
-        <Avatar id={auteur.id} pseudo={auteur.pseudo} taille={36} />
+        <Avatar id={auteur.id} pseudo={auteur.pseudo} taille={36} urlPhoto={auteur.avatarUrl} />
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <span className="text-[13.5px] font-bold">{auteur.pseudo}</span>

@@ -63,7 +63,7 @@ export default async function PostPage({
               key={c.id}
               className="flex gap-3 rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-4"
             >
-              <Avatar id={c.auteur_id} pseudo={c.pseudo} taille={30} />
+              <Avatar id={c.auteur_id} pseudo={c.pseudo} taille={30} urlPhoto={c.avatarUrl} />
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="text-[13px] font-bold">{c.pseudo}</span>

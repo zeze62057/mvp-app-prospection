@@ -253,9 +253,12 @@ export default async function CommunauteGratuitePage({
             >
               Formation complete
             </Link>
-            <div className="px-2.5 py-2.5 text-[12.5px] text-[var(--texte-mute)] opacity-50" title="A venir">
+            <Link
+              href={`/${espace.slug}/profil`}
+              className="block rounded-lg px-2.5 py-2.5 text-[12.5px] text-[var(--texte-mute)] hover:bg-[var(--fond)]"
+            >
               Mon profil
-            </div>
+            </Link>
           </div>
         </div>
       </div>
