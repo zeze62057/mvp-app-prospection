@@ -125,6 +125,9 @@ export default async function CommunautePayantePage({
           <Link href={`/${espace.slug}/a-propos`} className="hover:text-[var(--sarcelle)]">
             À propos
           </Link>
+          <Link href={`/${espace.slug}/calendrier`} className="hover:text-[var(--sarcelle)]">
+            Calendrier
+          </Link>
           <Link href={`/${espace.slug}/formation`} className="hover:text-[var(--sarcelle)]">
             Formation
           </Link>

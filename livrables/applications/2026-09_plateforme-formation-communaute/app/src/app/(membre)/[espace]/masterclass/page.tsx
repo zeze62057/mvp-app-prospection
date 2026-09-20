@@ -122,6 +122,9 @@ export default async function MasterclassPage({
           <span className="border-b-2 border-[var(--sarcelle)] pb-1 text-[var(--sarcelle)]">
             Masterclass
           </span>
+          <Link href={`/${espace.slug}/calendrier`} className="hover:text-[var(--sarcelle)]">
+            Calendrier
+          </Link>
         </div>
         {boutonDeconnexion}
       </div>

@@ -146,6 +146,9 @@ export default async function CommunauteGratuitePage({
           <Link href={`/${espace.slug}/a-propos`} className="hover:text-[var(--sarcelle)]">
             À propos
           </Link>
+          <Link href={`/${espace.slug}/calendrier`} className="hover:text-[var(--sarcelle)]">
+            Calendrier
+          </Link>
           <Link href={`/${espace.slug}/contenu`} className="hover:text-[var(--sarcelle)]">
             Contenu
           </Link>
