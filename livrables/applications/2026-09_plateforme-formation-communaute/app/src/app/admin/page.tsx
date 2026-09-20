@@ -16,6 +16,7 @@ import { FormulaireCreationEspace } from "@/components/admin/FormulaireCreationE
 import { getStatsEspace } from "@/lib/stats-communaute";
 import { CarteStatsEspace } from "@/components/admin/CarteStatsEspace";
 import { FormulaireParametresCommunaute } from "@/components/admin/FormulaireParametresCommunaute";
+import { FormulairePresentationEspace } from "@/components/admin/FormulairePresentationEspace";
 import { GestionCategories } from "@/components/admin/GestionCategories";
 import { ActionsSignalement } from "@/components/admin/ActionsSignalement";
 import { EnregistrementVideo } from "@/components/admin/EnregistrementVideo";
@@ -96,6 +97,16 @@ export default async function AdminPage() {
     .select("espace_id, texte");
   const messageParEspace = new Map(
     (messagesAccueil ?? []).map((m) => [m.espace_id as string, m.texte as string])
+  );
+
+  const { data: presentations } = await admin
+    .from("presentations_espace")
+    .select("espace_id, video_youtube_id, description");
+  const presentationParEspace = new Map(
+    (presentations ?? []).map((p) => [
+      p.espace_id as string,
+      { video: p.video_youtube_id as string | null, description: p.description as string },
+    ])
   );
 
   const { data: masterclasses } = await admin
@@ -294,6 +305,27 @@ export default async function AdminPage() {
             messageAccueil={messageParEspace.get(e.id) ?? ""}
           />
         ))}
+      </ul>
+
+      <h2 className="font-display mt-16 text-2xl font-semibold">
+        Page A propos
+      </h2>
+      <p className="mt-2 text-sm text-[var(--texte-mute)]">
+        Une video et un texte de presentation par espace, visibles des membres seulement
+        (menu « A propos » de la communaute).
+      </p>
+      <ul className="mt-6 flex flex-col gap-3">
+        {(espaces ?? []).map((e) => {
+          const p = presentationParEspace.get(e.id);
+          return (
+            <FormulairePresentationEspace
+              key={e.id}
+              espace={{ id: e.id, nom: e.nom, slug: e.slug }}
+              video={p?.video ? `https://youtu.be/${p.video}` : ""}
+              description={p?.description ?? ""}
+            />
+          );
+        })}
       </ul>
 
       <h2 className="font-display mt-16 text-2xl font-semibold">

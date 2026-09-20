@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { verifierAdmin } from "@/lib/admin-guard";
+import { extraireIdYoutube } from "@/lib/youtube";
 
 export async function approuverAdhesion(adhesionId: string) {
   await verifierAdmin();
@@ -120,6 +121,56 @@ export async function modifierParametresCommunaute(
   revalidatePath(`/${espace.slug}/communaute`);
   revalidatePath(`/${espace.slug}/communaute-payante`);
   return { erreur: null, succes: true };
+}
+
+// Page "A propos" d'un espace (migration 0035) : une video YouTube et un texte, lisibles des
+// membres. On ne garde que l'identifiant de la video. Video et texte vides : la page est retiree.
+// Les valeurs saisies sont renvoyees : React 19 vide le formulaire apres chaque action.
+export async function modifierPresentationEspace(
+  espaceId: string,
+  _etat: { erreur: string | null; succes: boolean; valeurs?: { video: string; description: string } },
+  formData: FormData
+) {
+  await verifierAdmin();
+
+  const video = String(formData.get("video") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim();
+  const valeurs = { video, description };
+
+  if (description.length > 4000) {
+    return { erreur: "Le texte est limite a 4000 caracteres.", succes: false, valeurs };
+  }
+  const idVideo = video ? extraireIdYoutube(video) : null;
+  if (video && !idVideo) {
+    return {
+      erreur: "Video non reconnue : colle une adresse YouTube (youtube.com/watch?v=..., youtu.be/...) ou l'identifiant.",
+      succes: false,
+      valeurs,
+    };
+  }
+
+  const admin = createAdminClient();
+  const { data: espace } = await admin.from("espaces").select("slug").eq("id", espaceId).maybeSingle();
+  if (!espace) return { erreur: "Espace introuvable.", succes: false, valeurs };
+
+  const { error } =
+    idVideo || description
+      ? await admin.from("presentations_espace").upsert({
+          espace_id: espaceId,
+          video_youtube_id: idVideo,
+          description,
+          updated_at: new Date().toISOString(),
+        })
+      : await admin.from("presentations_espace").delete().eq("espace_id", espaceId);
+  if (error) return { erreur: error.message, succes: false, valeurs };
+
+  revalidatePath("/admin");
+  revalidatePath(`/${espace.slug}/a-propos`);
+  return {
+    erreur: null,
+    succes: true,
+    valeurs: { video: idVideo ? `https://youtu.be/${idVideo}` : "", description },
+  };
 }
 
 // Categories du fil de communaute (voir migration 0026) : propres a chaque espace,
