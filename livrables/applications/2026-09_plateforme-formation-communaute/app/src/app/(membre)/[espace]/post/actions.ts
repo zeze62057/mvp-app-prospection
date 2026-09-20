@@ -144,21 +144,27 @@ export async function basculerLikeCommentaire(retour: string, commentaireId: str
 
 // Modifier son post : titre, texte et categorie. La base ne laisse un membre changer que ces
 // trois colonnes, et seulement sur son propre post (migration 0033). L'image ne se modifie pas.
-export async function modifierPost(_etat: EtatAction, formData: FormData): Promise<EtatAction> {
+// React 19 vide un formulaire non controle apres chaque action, erreur comprise : on renvoie donc
+// la saisie, pour qu un membre ne perde pas son texte sur une erreur.
+type ValeursPost = { titre: string; contenu: string; categorieId: string };
+type EtatModifPost = EtatAction & { valeurs?: ValeursPost };
+
+export async function modifierPost(_etat: EtatModifPost, formData: FormData): Promise<EtatModifPost> {
   const postId = String(formData.get("post_id") ?? "");
   const espaceSlug = String(formData.get("espace_slug") ?? "");
   const titre = String(formData.get("titre") ?? "").trim();
   const contenu = String(formData.get("contenu") ?? "").trim();
   const categorieId = String(formData.get("categorie_id") ?? "").trim();
+  const valeurs = { titre, contenu, categorieId };
 
-  if (!slugValide(espaceSlug)) return { erreur: "Espace invalide." };
-  if (!contenu) return { erreur: "Le post est vide." };
-  if (contenu.length > 5000) return { erreur: "Le post est limité à 5000 caractères." };
-  if (titre.length > 150) return { erreur: "Le titre est limité à 150 caractères." };
+  if (!slugValide(espaceSlug)) return { erreur: "Espace invalide.", valeurs };
+  if (!contenu) return { erreur: "Le post est vide.", valeurs };
+  if (contenu.length > 5000) return { erreur: "Le post est limité à 5000 caractères.", valeurs };
+  if (titre.length > 150) return { erreur: "Le titre est limité à 150 caractères.", valeurs };
 
   const supabase = await createClient();
   const { data: userData, error: erreurAuth } = await supabase.auth.getUser();
-  if (!userData.user) return { erreur: estErreurReseau(erreurAuth) ? MESSAGE_RESEAU : "Non connecté." };
+  if (!userData.user) return { erreur: estErreurReseau(erreurAuth) ? MESSAGE_RESEAU : "Non connecté.", valeurs };
 
   const { data, error } = await supabase
     .from("posts")
@@ -167,11 +173,11 @@ export async function modifierPost(_etat: EtatAction, formData: FormData): Promi
     .select("id");
   if (error) {
     // Le message du trigger de la base est en ASCII (fichier SQL) : on le traduit.
-    if (error.message.includes("categorie")) return { erreur: "Cette catégorie n'existe pas dans cet espace." };
-    return { erreur: "La modification a échoué, réessaie." };
+    if (error.message.includes("categorie")) return { erreur: "Cette catégorie n'existe pas dans cet espace.", valeurs };
+    return { erreur: "La modification a échoué, réessaie.", valeurs };
   }
   // Aucune ligne : ce n'est pas son post (ou il n'existe plus). Le RLS filtre en silence.
-  if (!data || data.length === 0) return { erreur: "Tu ne peux modifier que tes propres posts." };
+  if (!data || data.length === 0) return { erreur: "Tu ne peux modifier que tes propres posts.", valeurs };
 
   revalidatePath(`/${espaceSlug}`, "layout");
   redirect(`/${espaceSlug}/post/${postId}`);
