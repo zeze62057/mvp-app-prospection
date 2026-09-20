@@ -36,7 +36,7 @@ export default async function ProfilPage({ params }: { params: Promise<{ espace:
         />
 
         <form action={deconnexion.bind(null, espace.slug)}>
-          <button type="submit" className="text-xs text-[var(--texte-mute)] underline">
+          <button type="submit" className="shrink-0 whitespace-nowrap text-xs text-[var(--texte-mute)] underline">
             Se déconnecter
           </button>
         </form>

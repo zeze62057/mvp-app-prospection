@@ -53,7 +53,7 @@ export default async function CommunauteGratuitePage({
 
   const boutonDeconnexion = (
     <form action={deconnexion.bind(null, espace.slug)}>
-      <button type="submit" className="text-xs text-[var(--texte-mute)] underline">
+      <button type="submit" className="shrink-0 whitespace-nowrap text-xs text-[var(--texte-mute)] underline">
         Se deconnecter
       </button>
     </form>
@@ -141,9 +141,9 @@ export default async function CommunauteGratuitePage({
 
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
-      <div className="flex items-center justify-between border-b border-[var(--ligne)] bg-[var(--fond-carte)] px-7 py-4">
-        <span className="font-display text-[14.5px] font-bold">{espace.nom}</span>
-        <div className="flex gap-6 font-mono text-[13px] font-bold text-[var(--texte-mute)]">
+      <div className="flex items-center justify-between gap-4 border-b border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-4 sm:px-7">
+        <span className="font-display shrink-0 text-[14.5px] font-bold">{espace.nom}</span>
+        <div className="flex min-w-0 gap-6 overflow-x-auto whitespace-nowrap font-mono text-[13px] font-bold text-[var(--texte-mute)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <span className="border-b-2 border-[var(--sarcelle)] pb-1 text-[var(--sarcelle)]">
             Communaute
           </span>

@@ -50,7 +50,7 @@ export default async function CommunautePayantePage({
 
   const boutonDeconnexion = (
     <form action={deconnexion.bind(null, espace.slug)}>
-      <button type="submit" className="text-xs text-[var(--texte-mute)] underline">
+      <button type="submit" className="shrink-0 whitespace-nowrap text-xs text-[var(--texte-mute)] underline">
         Se deconnecter
       </button>
     </form>
@@ -109,14 +109,14 @@ export default async function CommunautePayantePage({
 
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
-      <div className="flex items-center justify-between border-b border-[var(--ligne)] bg-[var(--fond-carte)] px-7 py-4">
+      <div className="flex items-center justify-between gap-4 border-b border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-4 sm:px-7">
         <div className="flex items-center gap-2">
-          <span className="font-display text-[14.5px] font-bold">{espace.nom}</span>
+          <span className="font-display shrink-0 text-[14.5px] font-bold">{espace.nom}</span>
           <span className="rounded-[6px] bg-[var(--encre)] px-2 py-0.5 font-mono text-[9.5px] tracking-wide text-[var(--sarcelle-light)]">
             eleves
           </span>
         </div>
-        <div className="flex gap-6 font-mono text-[13px] font-bold text-[var(--texte-mute)]">
+        <div className="flex min-w-0 gap-6 overflow-x-auto whitespace-nowrap font-mono text-[13px] font-bold text-[var(--texte-mute)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           <Link href={`/${espace.slug}/progression`} className="hover:text-[var(--sarcelle)]">
             Ma progression
           </Link>

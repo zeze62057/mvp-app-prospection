@@ -37,8 +37,8 @@ export default async function PostPage({
 
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
-      <div className="flex items-center justify-between border-b border-[var(--ligne)] bg-[var(--fond-carte)] px-7 py-4">
-        <span className="font-display text-[14.5px] font-bold">{espace.nom}</span>
+      <div className="flex items-center justify-between gap-4 border-b border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-4 sm:px-7">
+        <span className="font-display shrink-0 text-[14.5px] font-bold">{espace.nom}</span>
         <Link href={listeFil} className="font-mono text-[13px] font-bold text-[var(--sarcelle)]">
           ← Retour au fil
         </Link>
