@@ -145,11 +145,17 @@ export async function chargerPostsFil({
   });
 }
 
-export type CommentaireFil = Commentaire & { pseudo: string; avatarUrl: string | null };
+export type CommentaireFil = Commentaire & {
+  pseudo: string;
+  avatarUrl: string | null;
+  nbLikes: number;
+  aLike: boolean;
+};
 
 export async function chargerCommentaires(
   supabase: SupabaseClient,
-  postId: string
+  postId: string,
+  userId: string
 ): Promise<CommentaireFil[]> {
   const { data: commentaires } = await supabase
     .from("commentaires")
@@ -160,15 +166,27 @@ export async function chargerCommentaires(
   if (!commentaires || commentaires.length === 0) return [];
 
   const auteurIds = [...new Set(commentaires.map((c) => c.auteur_id))];
-  const { data: profils } = await supabase
-    .from("profils")
-    .select("id, pseudo, avatar_path")
-    .in("id", auteurIds);
+  const [{ data: profils }, { data: votes }] = await Promise.all([
+    supabase.from("profils").select("id, pseudo, avatar_path").in("id", auteurIds),
+    supabase
+      .from("commentaire_votes")
+      .select("commentaire_id, profil_id")
+      .in("commentaire_id", commentaires.map((c) => c.id)),
+  ]);
   const pseudos = new Map((profils ?? []).map((p) => [p.id as string, p.pseudo as string]));
   const photos = await urlsAvatars((profils ?? []) as { id: string; avatar_path: string | null }[]);
-  return commentaires.map((c) => ({
-    ...c,
-    pseudo: pseudos.get(c.auteur_id) ?? "Membre",
-    avatarUrl: photos.get(c.auteur_id) ?? null,
-  }));
+  const likesParCommentaire = new Map<string, string[]>();
+  (votes ?? []).forEach((v) => {
+    likesParCommentaire.set(v.commentaire_id, [...(likesParCommentaire.get(v.commentaire_id) ?? []), v.profil_id]);
+  });
+  return commentaires.map((c) => {
+    const likes = likesParCommentaire.get(c.id) ?? [];
+    return {
+      ...c,
+      pseudo: pseudos.get(c.auteur_id) ?? "Membre",
+      avatarUrl: photos.get(c.auteur_id) ?? null,
+      nbLikes: likes.length,
+      aLike: likes.includes(userId),
+    };
+  });
 }

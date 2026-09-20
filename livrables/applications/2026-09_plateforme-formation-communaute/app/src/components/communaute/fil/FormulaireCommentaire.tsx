@@ -23,7 +23,7 @@ export function FormulaireCommentaire({ postId, retour }: { postId: string; reto
         required
         rows={3}
         maxLength={2000}
-        placeholder="Écris un commentaire..."
+        placeholder="Écris un commentaire... (@pseudo pour mentionner un membre)"
         className="resize-y rounded-lg border border-[var(--ligne)] bg-[var(--fond)] px-3.5 py-2.5 text-[13px]"
       />
       {etat.erreur && <p className="text-[13px] text-[var(--corail)]">{etat.erreur}</p>}

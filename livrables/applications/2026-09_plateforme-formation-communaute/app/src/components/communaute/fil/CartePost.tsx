@@ -5,8 +5,10 @@ import type { PostFil } from "@/lib/fil";
 import { Avatar } from "./Avatar";
 import { BoutonSignaler } from "@/components/moderation/BoutonSignaler";
 import { BadgeMembre } from "@/components/communaute/BadgeMembre";
+import { BoutonSupprimerPost } from "./BoutonSupprimerPost";
+import { TexteAvecMentions } from "./TexteAvecMentions";
 
-function IconePouce({ plein }: { plein: boolean }) {
+export function IconePouce({ plein }: { plein: boolean }) {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill={plein ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
       <path d="M7 10v11" />
@@ -61,6 +63,7 @@ export function CartePost({
           </div>
           <div className="flex flex-wrap items-center gap-2 font-mono text-[10.5px] text-[var(--texte-mute)]">
             <span>{tempsEcoule(post.created_at)}</span>
+            {post.modifie_le && <span title={new Date(post.modifie_le).toLocaleString("fr-FR")}>· modifié</span>}
             {categorie && (
               <span className="rounded-[5px] bg-[rgba(43,140,130,0.1)] px-1.5 py-px text-[var(--sarcelle)]">
                 {categorie.emoji ? `${categorie.emoji} ` : ""}
@@ -82,7 +85,7 @@ export function CartePost({
     <>
       {post.titre && <h3 className="font-display mb-1.5 text-[16px] font-bold leading-snug">{post.titre}</h3>}
       <p className={`whitespace-pre-wrap text-[13.5px] leading-[1.6] text-[var(--texte)] ${detail ? "" : "line-clamp-4"}`}>
-        {post.contenu}
+        <TexteAvecMentions texte={post.contenu} />
       </p>
 
       {post.magnet_texte && (
@@ -141,6 +144,15 @@ export function CartePost({
           <span className="text-[11.5px] text-[var(--sarcelle)]">
             Nouveau commentaire {tempsEcoule(dernierCommentaireAt)}
           </span>
+        )}
+
+        {auteur.id === userId && (
+          <>
+            <Link href={`/${espaceSlug}/post/${post.id}/modifier`} className="text-[11.5px] font-bold hover:text-[var(--sarcelle)]">
+              ✎ Modifier
+            </Link>
+            <BoutonSupprimerPost espaceSlug={espaceSlug} postId={post.id} />
+          </>
         )}
 
         {auteur.id !== userId && (

@@ -32,6 +32,7 @@ export type Post = {
   epingle: boolean;
   image_path: string | null;
   categorie_id: string | null;
+  modifie_le: string | null; // renseigne quand le titre ou le texte change (migration 0033)
 };
 
 // Categorie de post, geree par l'admin, propre a un espace (migration 0026).
@@ -188,7 +189,7 @@ export function niveauDepuisPoints(points: number): string {
 }
 
 // Notification (migration 0029) : creee par des triggers, jamais par le client.
-export type TypeNotification = "like" | "commentaire" | "message";
+export type TypeNotification = "like" | "commentaire" | "message" | "mention";
 
 export type NotificationMembre = {
   id: string;

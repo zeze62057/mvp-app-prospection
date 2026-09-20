@@ -10,6 +10,7 @@ const TEXTE: Record<NotificationMembre["type"], string> = {
   like: "a aimé ton post",
   commentaire: "a commenté ton post",
   message: "t'a envoyé un message",
+  mention: "t'a mentionné",
 };
 
 export default async function NotificationsPage({ params }: { params: Promise<{ espace: string }> }) {

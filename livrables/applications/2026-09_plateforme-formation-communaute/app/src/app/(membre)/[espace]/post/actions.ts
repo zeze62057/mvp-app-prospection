@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { verifierAdmin } from "@/lib/admin-guard";
@@ -12,6 +13,13 @@ type EtatAction = { erreur: string | null };
 // du post). Il vient du serveur (les pages le fixent), jamais d'un champ libre.
 function cheminValide(retour: string) {
   return retour.startsWith("/") && !retour.startsWith("//");
+}
+
+// Un slug d espace ne contient que des minuscules, chiffres et tirets. Les actions serveur sont
+// appelables avec n importe quel argument : sans ce controle, un slug comme "/site-externe"
+// donnerait une redirection vers //site-externe.
+function slugValide(slug: string) {
+  return /^[a-z0-9-]{1,60}$/.test(slug);
 }
 
 // Like : un clic ajoute le vote, un second le retire. Le like est le vote existant
@@ -107,4 +115,95 @@ export async function supprimerCommentaire(retour: string, commentaireId: string
   // La policy ne laisse supprimer que ses propres commentaires.
   await supabase.from("commentaires").delete().eq("id", commentaireId);
   if (cheminValide(retour)) revalidatePath(retour);
+}
+
+// Like d'un commentaire : un clic pose le like, un second le retire (migration 0033).
+// Pas de points ni de notification, choix volontaire.
+export async function basculerLikeCommentaire(retour: string, commentaireId: string) {
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) return;
+
+  const { data: existant } = await supabase
+    .from("commentaire_votes")
+    .select("id")
+    .eq("commentaire_id", commentaireId)
+    .eq("profil_id", userData.user.id)
+    .maybeSingle();
+
+  if (existant) {
+    await supabase.from("commentaire_votes").delete().eq("id", existant.id);
+  } else {
+    await supabase
+      .from("commentaire_votes")
+      .insert({ commentaire_id: commentaireId, profil_id: userData.user.id });
+  }
+
+  if (cheminValide(retour)) revalidatePath(retour);
+}
+
+// Modifier son post : titre, texte et categorie. La base ne laisse un membre changer que ces
+// trois colonnes, et seulement sur son propre post (migration 0033). L'image ne se modifie pas.
+export async function modifierPost(_etat: EtatAction, formData: FormData): Promise<EtatAction> {
+  const postId = String(formData.get("post_id") ?? "");
+  const espaceSlug = String(formData.get("espace_slug") ?? "");
+  const titre = String(formData.get("titre") ?? "").trim();
+  const contenu = String(formData.get("contenu") ?? "").trim();
+  const categorieId = String(formData.get("categorie_id") ?? "").trim();
+
+  if (!slugValide(espaceSlug)) return { erreur: "Espace invalide." };
+  if (!contenu) return { erreur: "Le post est vide." };
+  if (contenu.length > 5000) return { erreur: "Le post est limité à 5000 caractères." };
+  if (titre.length > 150) return { erreur: "Le titre est limité à 150 caractères." };
+
+  const supabase = await createClient();
+  const { data: userData, error: erreurAuth } = await supabase.auth.getUser();
+  if (!userData.user) return { erreur: estErreurReseau(erreurAuth) ? MESSAGE_RESEAU : "Non connecté." };
+
+  const { data, error } = await supabase
+    .from("posts")
+    .update({ titre: titre || null, contenu, categorie_id: categorieId || null })
+    .eq("id", postId)
+    .select("id");
+  if (error) {
+    // Le message du trigger de la base est en ASCII (fichier SQL) : on le traduit.
+    if (error.message.includes("categorie")) return { erreur: "Cette catégorie n'existe pas dans cet espace." };
+    return { erreur: "La modification a échoué, réessaie." };
+  }
+  // Aucune ligne : ce n'est pas son post (ou il n'existe plus). Le RLS filtre en silence.
+  if (!data || data.length === 0) return { erreur: "Tu ne peux modifier que tes propres posts." };
+
+  revalidatePath(`/${espaceSlug}`, "layout");
+  redirect(`/${espaceSlug}/post/${postId}`);
+}
+
+// Supprimer son post. Commentaires, likes et notifications partent avec lui. L'image, stockee
+// hors de la base, est retiree ensuite (seulement si la suppression a bien eu lieu).
+export async function supprimerPost(espaceSlug: string, postId: string) {
+  if (!slugValide(espaceSlug)) redirect("/");
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) redirect(`/${espaceSlug}/communaute`);
+
+  const { data: post } = await supabase
+    .from("posts")
+    .select("image_path, zone")
+    .eq("id", postId)
+    .eq("auteur_id", userData.user.id)
+    .maybeSingle();
+  if (!post) redirect(`/${espaceSlug}/communaute`);
+
+  const { data: supprimes } = await supabase
+    .from("posts")
+    .delete()
+    .eq("id", postId)
+    .eq("auteur_id", userData.user.id)
+    .select("id");
+
+  if (supprimes && supprimes.length > 0 && post.image_path) {
+    await createAdminClient().storage.from("posts-images").remove([post.image_path]);
+  }
+
+  revalidatePath(`/${espaceSlug}`, "layout");
+  redirect(`/${espaceSlug}/${post.zone === "payante" ? "communaute-payante" : "communaute"}`);
 }

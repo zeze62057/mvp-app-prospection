@@ -4,9 +4,10 @@ import { getEspaceParSlug } from "@/lib/espaces";
 import { createClient } from "@/lib/supabase/server";
 import { chargerCommentaires, chargerPostsFil } from "@/lib/fil";
 import { tempsEcoule } from "@/lib/temps";
-import { supprimerCommentaire } from "../actions";
+import { basculerLikeCommentaire, supprimerCommentaire } from "../actions";
 import { Avatar } from "@/components/communaute/fil/Avatar";
-import { CartePost } from "@/components/communaute/fil/CartePost";
+import { CartePost, IconePouce } from "@/components/communaute/fil/CartePost";
+import { TexteAvecMentions } from "@/components/communaute/fil/TexteAvecMentions";
 import { FormulaireCommentaire } from "@/components/communaute/fil/FormulaireCommentaire";
 import { BoutonSignaler } from "@/components/moderation/BoutonSignaler";
 
@@ -29,7 +30,7 @@ export default async function PostPage({
   if (!item) notFound();
 
   const [commentaires, { data: profil }] = await Promise.all([
-    chargerCommentaires(supabase, postId),
+    chargerCommentaires(supabase, postId, userId),
     supabase.from("profils").select("role").eq("id", userId).maybeSingle(),
   ]);
 
@@ -88,7 +89,20 @@ export default async function PostPage({
                     </form>
                   )}
                 </div>
-                <p className="mt-1 whitespace-pre-wrap text-[13.5px] leading-[1.55]">{c.contenu}</p>
+                <p className="mt-1 whitespace-pre-wrap text-[13.5px] leading-[1.55]">
+                  <TexteAvecMentions texte={c.contenu} />
+                </p>
+                <form action={basculerLikeCommentaire.bind(null, retour, c.id)} className="mt-2">
+                  <button
+                    type="submit"
+                    aria-pressed={c.aLike}
+                    aria-label={c.aLike ? "Retirer mon like du commentaire" : "Liker ce commentaire"}
+                    className={`flex items-center gap-1.5 text-[12px] font-bold ${c.aLike ? "text-[var(--sarcelle)]" : "text-[var(--texte-mute)]"}`}
+                  >
+                    <IconePouce plein={c.aLike} />
+                    {c.nbLikes}
+                  </button>
+                </form>
               </div>
             </li>
           ))}

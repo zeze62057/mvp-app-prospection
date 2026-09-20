@@ -91,8 +91,8 @@ export function BarreEcrire({
         autoFocus
         placeholder={
           zone === "payante"
-            ? "Partage ton exercice, une question, une victoire..."
-            : "Partage une victoire, pose une question..."
+            ? "Partage ton exercice, une question, une victoire... (@pseudo pour mentionner un membre)"
+            : "Partage une victoire, pose une question... (@pseudo pour mentionner un membre)"
         }
         className={`${champ} resize-y`}
       />
