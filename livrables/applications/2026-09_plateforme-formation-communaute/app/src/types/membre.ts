@@ -186,3 +186,17 @@ export function niveauDepuisPoints(points: number): string {
   if (points >= 10) return "Niveau 2";
   return "Niveau 1";
 }
+
+// Notification (migration 0029) : creee par des triggers, jamais par le client.
+export type TypeNotification = "like" | "commentaire" | "message";
+
+export type NotificationMembre = {
+  id: string;
+  profil_id: string;
+  acteur_id: string;
+  espace_id: string;
+  type: TypeNotification;
+  post_id: string | null;
+  lu: boolean;
+  created_at: string;
+};
