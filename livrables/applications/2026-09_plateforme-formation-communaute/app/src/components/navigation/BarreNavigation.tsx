@@ -4,8 +4,24 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Avatar } from "@/components/communaute/fil/Avatar";
+import { clientTempsReel } from "@/lib/supabase/client";
 
-const INTERVALLE_MS = 30_000;
+// Sondage de secours : le temps reel (Supabase Realtime) met le badge a jour tout de suite,
+// ce sondage ne sert que si la connexion temps reel est coupee.
+const INTERVALLE_MS = 120_000;
+
+// Lit le nombre de notifications non lues d'un espace. Ne touche a aucun etat : renvoie null
+// si la lecture echoue (hors ligne), auquel cas on garde le dernier compteur connu.
+async function lireCompteur(espaceId: string): Promise<number | null> {
+  try {
+    const r = await fetch(`/api/notifications/count?espace=${espaceId}`, { cache: "no-store" });
+    if (!r.ok) return null;
+    const json = (await r.json()) as { nb?: number };
+    return typeof json.nb === "number" ? json.nb : null;
+  } catch {
+    return null;
+  }
+}
 
 function Icone({ nom }: { nom: "accueil" | "messages" | "notifications" }) {
   const props = { width: 22, height: 22, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round" as const, strokeLinejoin: "round" as const, "aria-hidden": true };
@@ -34,8 +50,9 @@ function Icone({ nom }: { nom: "accueil" | "messages" | "notifications" }) {
 
 // Barre de navigation du membre : Accueil, Messages, Notifications (avec badge),
 // profil. Fixee en bas de l'ecran sur mobile, en pastille flottante sur ordinateur.
-// Le badge est actualise toutes les 30 secondes et au retour sur l'onglet, car le
-// layout serveur ne se recharge pas a chaque navigation.
+// Le badge se met a jour en temps reel (Realtime, migration 0031), avec un sondage de
+// secours toutes les 2 minutes et au retour sur l'onglet, car le layout serveur ne se
+// recharge pas a chaque navigation.
 export function BarreNavigation({
   espaceSlug,
   espaceId,
@@ -54,29 +71,49 @@ export function BarreNavigation({
   const chemin = usePathname();
   const [nb, setNb] = useState(nbInitial);
 
+  // Abonnement temps reel + sondage de secours : crees une fois par membre et par espace,
+  // pas a chaque navigation.
   useEffect(() => {
     let actif = true;
-    async function actualiser() {
-      try {
-        const r = await fetch(`/api/notifications/count?espace=${espaceId}`, { cache: "no-store" });
-        if (!r.ok) return;
-        const json = (await r.json()) as { nb?: number };
-        if (actif && typeof json.nb === "number") setNb(json.nb);
-      } catch {
-        // Hors ligne : on garde le dernier compteur connu.
-      }
-    }
-    const minuteur = setInterval(actualiser, INTERVALLE_MS);
-    const auRetour = () => document.visibilityState === "visible" && actualiser();
+    const rafraichir = () => {
+      void lireCompteur(espaceId).then((n) => {
+        if (actif && n !== null) setNb(n);
+      });
+    };
+    // Toute nouvelle notification, ou tout changement de "lu", relit le compteur. Le jeton du
+    // membre est donne a la connexion temps reel avant l'abonnement (voir clientTempsReel).
+    let fermer = () => {};
+    void clientTempsReel().then((supabase) => {
+      if (!actif) return;
+      const canal = supabase
+        .channel(`notifications-${userId}`)
+        .on("postgres_changes", { event: "*", schema: "public", table: "notifications", filter: `profil_id=eq.${userId}` }, rafraichir)
+        .subscribe();
+      fermer = () => void supabase.removeChannel(canal);
+    });
+    const minuteur = setInterval(rafraichir, INTERVALLE_MS);
+    const auRetour = () => {
+      if (document.visibilityState === "visible") rafraichir();
+    };
     document.addEventListener("visibilitychange", auRetour);
-    // Un nouveau chemin (ex: apres avoir ouvert une notification) rafraichit le compteur.
-    actualiser();
     return () => {
       actif = false;
+      fermer();
       clearInterval(minuteur);
       document.removeEventListener("visibilitychange", auRetour);
     };
-  }, [espaceId, chemin]);
+  }, [userId, espaceId]);
+
+  // Un nouveau chemin (ex: apres avoir ouvert une notification) relit aussi le compteur.
+  useEffect(() => {
+    let actif = true;
+    void lireCompteur(espaceId).then((n) => {
+      if (actif && n !== null) setNb(n);
+    });
+    return () => {
+      actif = false;
+    };
+  }, [chemin, espaceId]);
 
   const base = `/${espaceSlug}`;
   const elements = [

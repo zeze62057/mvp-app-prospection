@@ -5,6 +5,8 @@ import { tempsEcoule } from "@/lib/temps";
 import type { MessagePrive } from "@/types/membre";
 import { EnTeteMembre } from "@/components/navigation/EnTeteMembre";
 import { Avatar } from "@/components/communaute/fil/Avatar";
+import { RechercheMembre } from "@/components/messages/RechercheMembre";
+import { RafraichirEnDirect } from "@/components/navigation/RafraichirEnDirect";
 
 const LIMITE_MESSAGES = 300;
 
@@ -47,7 +49,10 @@ export default async function MessagesPage({ params }: { params: Promise<{ espac
         retour={{ href: `/${espace.slug}/communaute`, libelle: "← Retour au fil" }}
       />
       <div className="mx-auto max-w-xl p-5 sm:p-7">
+        <RafraichirEnDirect table="messages" filtre={`destinataire_id=eq.${userId}`} nom={`liste-messages-${userId}`} />
         <h1 className="font-display mb-4 text-[23px] font-extrabold tracking-tight">Messages</h1>
+
+        <RechercheMembre espaceSlug={espace.slug} />
 
         <ul className="flex flex-col gap-2">
           {[...conversations.entries()].map(([autreId, c]) => {
@@ -88,8 +93,8 @@ export default async function MessagesPage({ params }: { params: Promise<{ espac
         </ul>
         {conversations.size === 0 && (
           <p className="rounded-[14px] border border-dashed border-[var(--ligne)] p-6 text-center text-sm text-[var(--texte-mute)]">
-            Aucune conversation. Pour écrire à un membre, clique sur « ✉ Écrire » sous l&apos;un de ses posts ou de
-            ses commentaires. Tes messages ne sont lisibles que par vous deux.
+            Aucune conversation. Cherche un membre ci-dessus, ou clique sur « ✉ Écrire » sous l&apos;un de ses
+            posts. Tes messages ne sont lisibles que par vous deux.
           </p>
         )}
       </div>

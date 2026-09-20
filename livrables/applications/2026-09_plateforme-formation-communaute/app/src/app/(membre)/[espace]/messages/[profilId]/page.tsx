@@ -6,6 +6,7 @@ import type { MessagePrive } from "@/types/membre";
 import { EnTeteMembre } from "@/components/navigation/EnTeteMembre";
 import { Avatar } from "@/components/communaute/fil/Avatar";
 import { FormulaireMessage } from "@/components/messages/FormulaireMessage";
+import { RafraichirEnDirect } from "@/components/navigation/RafraichirEnDirect";
 
 const LIMITE_MESSAGES = 200;
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -75,6 +76,7 @@ export default async function ConversationPage({
         titre={autre.pseudo}
         retour={{ href: `/${espace.slug}/messages`, libelle: "← Messages" }}
       />
+      <RafraichirEnDirect table="messages" filtre={`destinataire_id=eq.${userId}`} nom={`conversation-${userId}-${profilId}`} />
       <div className="mx-auto flex max-w-xl flex-col gap-4 p-5 sm:p-7">
         <div className="flex items-center gap-3">
           <Avatar id={autre.id} pseudo={autre.pseudo} taille={44} urlPhoto={photos.get(autre.id) ?? null} />
