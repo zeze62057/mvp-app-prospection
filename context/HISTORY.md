@@ -9,6 +9,25 @@
 
 ## 2026-09-19
 
+### Plateforme Vivier Academies : leçons Bâtisseur Pro et paramètres de communauté
+
+- Bilan des options non réalisées de la plateforme, hors Chariow, fait à partir de la base réelle et de `CADRAGE.md`. Constat : le point "paramètres de la communauté", noté comme ouvert depuis le 13 septembre, était en partie construit (4 indicateurs déjà présents dans l'admin), le cadrage était en retard
+- **Paramètres de communauté tranchés et construits** (migration 0024). Indicateurs admin ajoutés par espace : nouveaux membres sur 7 et 30 jours, demandes d'accès en attente, avancement moyen des élèves avec les sections les plus et les moins terminées, revenus confirmés. Réglages ajoutés : période d'activité (7 jours par défaut), compteur de membres public sur la vitrine (affiché par défaut, pour ne rien changer à l'existant), message d'accueil et règles par espace
+- Le message d'accueil est dans une table à part, car la table `espaces` est lisible sans compte. Les agrégats sont calculés en SQL et réservés au `service_role`, car le taux de conversion et les revenus sont des données commerciales privées. Les revenus ne comptent que les paiements "confirmés" : un accès accordé à la main ne crée pas de paiement
+- **Leçons de Bâtisseur Pro** : migration 0023 appliquée, puis 50 leçons chargées en base (modules 2 à 9, environ 16 000 mots). Les textes sont nettoyés avant publication (mentions de Longrich, du workspace et des corrigés réservés à l'enseignant retirées). Le Module 1 de Bâtisseur Pro (4 sections) et le Module 1 de Vivier IA (7 sections) n'ont toujours pas de texte
+- Migrations 0021 à 0024 toutes appliquées à Supabase. 0023 et 0024 l'ont été ce jour, avec un test préalable dans une transaction annulée
+- Deux commits créés (`43a8dc1` leçons et vitrine, `974292c` paramètres de communauté). Pas de `git push`, `main` a 4 commits d'avance sur `origin`
+- Changement de comportement visible, hérité d'une session antérieure : la section témoignages de la vitrine est masquée tant qu'il n'y en a aucun, au lieu d'afficher "arrivent bientôt"
+- Point non précisé : Zézé avait coché "Autre" pour les indicateurs souhaités, sans que le texte soit reçu. Rien n'a été ajouté à ce titre
+- **Restent ouverts** :
+  - test dans le navigateur (`/admin`, une leçon, un message d'accueil)
+  - Vivier IA : les modules 2 à 5 existent mais ont 0 section en base, alors que le cadrage les dit rédigés
+  - aucune vidéo enregistrée sur les 61 sections
+  - Bâtisseur Pro : le trio communauté n'a pas été vérifié, et le tunnel de paiement attend l'identifiant du produit Chariow
+  - typographie de la plateforme non tranchée (Fraunces, Public Sans, Space Mono contre Unbounded et Manrope)
+  - photo réelle de Zézé, vitrine Chatllow légère, agent de veille sociale
+  - Root Directory de Vercel à vérifier avant le prochain push
+
 ### Réorganisation de `livrables/` par type (remplace le classement par activité du même jour)
 
 - Décision : classement par type (`agents/`, `skills/`, `applications/`, `formations/`, `sites-web/`, `identites-visuelles/`, `cabinet/`, `youtube/`, `pilotage-business/`, `transverse/`). Zézé retrouve plus facilement ses livrables ainsi, comme dans son ancien classement sur un autre ordinateur. Cette entrée remplace la précédente ci-dessous, faite quelques heures plus tôt
