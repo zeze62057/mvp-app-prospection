@@ -7,6 +7,8 @@ import { sInscrire, seDesinscrire } from "./actions";
 import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
 import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAdhesion";
 import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
+import { chargerNiveaux } from "@/lib/niveaux-donnees";
+import { libelleDuNiveau } from "@/lib/niveaux";
 import type { Adhesion, Masterclass } from "@/types/membre";
 
 // Masterclass : evenements en direct a venir, communaute gratuite (voir
@@ -111,6 +113,24 @@ export default async function MasterclassPage({
 
   const idsInscrits = new Set((inscriptions ?? []).map((i) => i.masterclass_id));
 
+  // Masterclass a venir dont le niveau minimum n'est pas atteint : la base ne renvoie que le titre,
+  // la date et le niveau requis (migration 0036), jamais le lien ni la description.
+  const [{ data: verrouillees }, niveaux, { data: monProfil }] = await Promise.all([
+    supabase.rpc("masterclasses_verrouillees", { p_espace: espace.id }),
+    chargerNiveaux(supabase, espace.id),
+    supabase.from("profils").select("points").eq("id", userData.user.id).maybeSingle(),
+  ]);
+  const aDebloquer = ((verrouillees ?? []) as { id: string; titre: string; date_heure: string; niveau_min: number }[]).map(
+    (m) => {
+      const requis = niveaux.find((n) => n.niveau === m.niveau_min);
+      return {
+        ...m,
+        libelleNiveau: libelleDuNiveau(m.niveau_min, niveaux),
+        manque: requis ? Math.max(requis.points_requis - (monProfil?.points ?? 0), 0) : null,
+      };
+    }
+  );
+
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
       <div className="flex items-center justify-between gap-4 border-b border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-4 sm:px-7">
@@ -186,7 +206,32 @@ export default async function MasterclassPage({
               </div>
             );
           })}
-          {(masterclasses ?? []).length === 0 && (
+          {aDebloquer.map((m) => {
+            const date = new Date(m.date_heure);
+            return (
+              <div
+                key={m.id}
+                className="rounded-2xl border border-dashed border-[var(--ligne)] bg-[var(--fond-carte)] p-5 opacity-90"
+              >
+                <p className="font-mono text-[10.5px] uppercase tracking-wide text-[var(--texte-mute)]">
+                  {date.toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" })}
+                  {" — "}
+                  {date.toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}
+                </p>
+                <p className="font-display mt-1.5 text-base font-bold">
+                  <span aria-hidden="true">🔒 </span>
+                  {m.titre}
+                </p>
+                <p className="mt-1 text-[12.5px] text-[var(--texte-mute)]">
+                  Réservée au niveau « {m.libelleNiveau} ».
+                  {m.manque !== null && m.manque > 0 && (
+                    <> Encore {m.manque} point{m.manque > 1 ? "s" : ""} pour la débloquer : ils viennent des likes reçus sur tes posts.</>
+                  )}
+                </p>
+              </div>
+            );
+          })}
+          {(masterclasses ?? []).length === 0 && aDebloquer.length === 0 && (
             <p className="text-sm text-[var(--texte-mute)]">
               Aucune masterclass programmee pour l&apos;instant.
             </p>

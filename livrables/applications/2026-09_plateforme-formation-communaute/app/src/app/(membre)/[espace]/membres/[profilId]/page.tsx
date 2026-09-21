@@ -4,7 +4,6 @@ import { contexteMembre } from "@/lib/contexte-membre";
 import { lireProfilMembre } from "@/lib/annuaire";
 import { domaineAffiche, lienSur } from "@/lib/lien-profil";
 import { chargerPostsFil } from "@/lib/fil";
-import { niveauDepuisPoints } from "@/types/membre";
 import { EnTeteMembre } from "@/components/navigation/EnTeteMembre";
 import { Avatar } from "@/components/communaute/fil/Avatar";
 import { BadgeMembre } from "@/components/communaute/BadgeMembre";
@@ -85,7 +84,7 @@ export default async function ProfilMembrePage({
                 {membre.pseudo}
               </h1>
               <div className="mt-1.5 flex flex-wrap items-center gap-2">
-                <BadgeMembre estExpert={membre.estExpert} role={membre.role} points={membre.points} />
+                <BadgeMembre estExpert={membre.estExpert} niveau={membre.niveau} />
                 {cestMoi && <span className="font-mono text-[10.5px] text-[var(--texte-mute)]">(toi)</span>}
               </div>
             </div>
@@ -114,7 +113,7 @@ export default async function ProfilMembrePage({
             <div>
               <dt className="font-mono text-[10.5px] uppercase tracking-wide text-[var(--texte-mute)]">Niveau</dt>
               <dd className="mt-0.5 text-[13.5px] font-bold">
-                {membre.role === "admin" ? "Admin" : niveauDepuisPoints(membre.points)}
+                {membre.niveau}
               </dd>
             </div>
             <div>

@@ -17,6 +17,8 @@ import { getStatsEspace } from "@/lib/stats-communaute";
 import { CarteStatsEspace } from "@/components/admin/CarteStatsEspace";
 import { FormulaireParametresCommunaute } from "@/components/admin/FormulaireParametresCommunaute";
 import { FormulairePresentationEspace } from "@/components/admin/FormulairePresentationEspace";
+import { GestionNiveaux } from "@/components/admin/GestionNiveaux";
+import { NIVEAUX_PAR_DEFAUT, type NiveauConfig } from "@/lib/niveaux";
 import { GestionCategories } from "@/components/admin/GestionCategories";
 import { ActionsSignalement } from "@/components/admin/ActionsSignalement";
 import { EnregistrementVideo } from "@/components/admin/EnregistrementVideo";
@@ -102,6 +104,23 @@ export default async function AdminPage() {
   const { data: presentations } = await admin
     .from("presentations_espace")
     .select("espace_id, video_youtube_id, description");
+  const [{ data: lignesNiveaux }, { data: niveauxMasterclass }] = await Promise.all([
+    admin.from("niveaux_espace").select("espace_id, niveau, libelle, points_requis").order("niveau"),
+    admin.from("masterclasses").select("espace_id, niveau_min"),
+  ]);
+  const niveauxParEspace = new Map<string, NiveauConfig[]>();
+  (lignesNiveaux ?? []).forEach((l) => {
+    niveauxParEspace.set(l.espace_id as string, [
+      ...(niveauxParEspace.get(l.espace_id as string) ?? []),
+      { niveau: l.niveau as number, libelle: l.libelle as string, points_requis: l.points_requis as number },
+    ]);
+  });
+  const niveauMasterclassParEspace = new Map<string, number>();
+  (niveauxMasterclass ?? []).forEach((m) => {
+    const id = m.espace_id as string;
+    niveauMasterclassParEspace.set(id, Math.max(niveauMasterclassParEspace.get(id) ?? 1, m.niveau_min as number));
+  });
+
   const presentationParEspace = new Map(
     (presentations ?? []).map((p) => [
       p.espace_id as string,
@@ -305,6 +324,28 @@ export default async function AdminPage() {
             messageAccueil={messageParEspace.get(e.id) ?? ""}
           />
         ))}
+      </ul>
+
+      <h2 className="font-display mt-16 text-2xl font-semibold">
+        Niveaux
+      </h2>
+      <p className="mt-2 text-sm text-[var(--texte-mute)]">
+        Un membre monte de niveau avec les likes reçus sur ses posts (un like de son propre post ne compte
+        pas). Un niveau peut réserver une masterclass : sous ce niveau, la masterclass reste cachée.
+      </p>
+      <ul className="mt-6 flex flex-col gap-3">
+        {(espaces ?? []).map((e) => {
+          const perso = niveauxParEspace.get(e.id);
+          return (
+            <GestionNiveaux
+              key={e.id}
+              espace={{ id: e.id, nom: e.nom }}
+              niveaux={perso ?? NIVEAUX_PAR_DEFAUT}
+              personnalise={!!perso}
+              niveauMasterclassMax={niveauMasterclassParEspace.get(e.id) ?? 1}
+            />
+          );
+        })}
       </ul>
 
       <h2 className="font-display mt-16 text-2xl font-semibold">

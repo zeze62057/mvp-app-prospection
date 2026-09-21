@@ -133,7 +133,7 @@ export function AnnuaireMembres({
                   )}
                 </span>
                 <span className="mt-1 flex flex-wrap items-center gap-2">
-                  <BadgeMembre estExpert={m.estExpert} role={m.role} points={m.points} />
+                  <BadgeMembre estExpert={m.estExpert} niveau={m.niveau} />
                   <span className="font-mono text-[10.5px] text-[var(--texte-mute)]">
                     {m.points} pt{m.points > 1 ? "s" : ""}
                   </span>

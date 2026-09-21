@@ -4,6 +4,8 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 import { urlsAvatars } from "@/lib/avatars";
+import { libelleNiveau, type NiveauConfig } from "@/lib/niveaux";
+import { chargerNiveaux } from "@/lib/niveaux-donnees";
 
 export const TAILLE_PAGE_ANNUAIRE = 24;
 
@@ -15,6 +17,7 @@ export type MembreAnnuaire = {
   pseudo: string;
   role: "membre" | "admin";
   points: number;
+  niveau: string; // "Admin" ou le nom du niveau dans cet espace
   estExpert: boolean;
   membreDepuis: string | null;
   avatarUrl: string | null;
@@ -38,12 +41,13 @@ type LigneMembre = {
   lien?: string | null;
 };
 
-function versMembre(l: LigneMembre, photos: Map<string, string>): MembreAnnuaire {
+function versMembre(l: LigneMembre, photos: Map<string, string>, niveaux: NiveauConfig[]): MembreAnnuaire {
   return {
     id: l.id,
     pseudo: l.pseudo,
     role: l.role === "admin" ? "admin" : "membre",
     points: l.points ?? 0,
+    niveau: libelleNiveau(l.points ?? 0, l.role, niveaux),
     estExpert: l.est_expert === true,
     membreDepuis: l.membre_depuis,
     avatarUrl: photos.get(l.id) ?? null,
@@ -79,10 +83,10 @@ export async function lireAnnuaire(
   if (error) return { erreur: "L'annuaire n'a pas pu se charger, réessaie.", membres: [], total: 0 };
 
   const lignes = (data ?? []) as LigneMembre[];
-  const photos = await urlsAvatars(lignes);
+  const [photos, niveaux] = await Promise.all([urlsAvatars(lignes), chargerNiveaux(supabase, espaceId)]);
   return {
     erreur: null,
-    membres: lignes.map((l) => versMembre(l, photos)),
+    membres: lignes.map((l) => versMembre(l, photos, niveaux)),
     total: lignes.length > 0 ? Number(lignes[0].total ?? lignes.length) : 0,
   };
 }
@@ -101,5 +105,6 @@ export async function lireProfilMembre(
   if (error) throw new Error("Le profil n'a pas pu se charger.");
   const ligne = ((data ?? []) as LigneMembre[])[0];
   if (!ligne) return null;
-  return versMembre(ligne, await urlsAvatars([ligne]));
+  const [photos, niveaux] = await Promise.all([urlsAvatars([ligne]), chargerNiveaux(supabase, espaceId)]);
+  return versMembre(ligne, photos, niveaux);
 }

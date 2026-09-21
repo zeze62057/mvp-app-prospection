@@ -26,7 +26,7 @@ function IconeBulle() {
 }
 
 export function BadgeAuteur({ auteur }: { auteur: PostFil["auteur"] }) {
-  return <BadgeMembre estExpert={auteur.estExpert} role={auteur.role} points={auteur.points} />;
+  return <BadgeMembre estExpert={auteur.estExpert} niveau={auteur.niveau} />;
 }
 
 export function CartePost({

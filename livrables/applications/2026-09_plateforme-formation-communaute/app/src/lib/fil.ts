@@ -8,6 +8,8 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { urlsAvatars } from "@/lib/avatars";
 import { filtreRecherche } from "@/lib/recherche";
+import { libelleNiveau } from "@/lib/niveaux";
+import { chargerNiveaux } from "@/lib/niveaux-donnees";
 import type { CategoriePost, Commentaire, Post, ZonePost } from "@/types/membre";
 
 export type AuteurFil = {
@@ -15,6 +17,7 @@ export type AuteurFil = {
   pseudo: string;
   role: "membre" | "admin";
   points: number;
+  niveau: string; // "Admin" ou le nom du niveau dans cet espace (migration 0036)
   estExpert: boolean;
   avatarUrl: string | null;
 };
@@ -85,9 +88,10 @@ export async function chargerPostsFil({
   const auteurIds = [...new Set(posts.map((p) => p.auteur_id))];
   const zonesPayantes = posts.some((p) => p.zone === "payante");
 
-  const [categories, { data: profils }, { data: votes }, { data: resumes }, { data: experts }] =
+  const [categories, niveaux, { data: profils }, { data: votes }, { data: resumes }, { data: experts }] =
     await Promise.all([
       chargerCategories(supabase, espaceId),
+      chargerNiveaux(supabase, espaceId),
       supabase.from("profils").select("id, pseudo, role, points, avatar_path").in("id", auteurIds),
       supabase.from("post_votes").select("post_id, profil_id").in("post_id", postIds),
       supabase.rpc("commentaires_resume", { p_post_ids: postIds }),
@@ -132,6 +136,7 @@ export async function chargerPostsFil({
         pseudo: profil?.pseudo ?? "Membre",
         role: (profil?.role as "membre" | "admin") ?? "membre",
         points: profil?.points ?? 0,
+        niveau: libelleNiveau(profil?.points ?? 0, profil?.role ?? "membre", niveaux),
         estExpert: expertIds.has(post.auteur_id),
         avatarUrl: photos.get(post.auteur_id) ?? null,
       },

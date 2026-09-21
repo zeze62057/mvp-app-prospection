@@ -180,13 +180,6 @@ export type Temoignage = {
   created_at: string;
 };
 
-export function niveauDepuisPoints(points: number): string {
-  if (points >= 200) return "Niveau 5";
-  if (points >= 80) return "Niveau 4";
-  if (points >= 30) return "Niveau 3";
-  if (points >= 10) return "Niveau 2";
-  return "Niveau 1";
-}
 
 // Notification (migration 0029) : creee par des triggers, jamais par le client.
 export type TypeNotification = "like" | "commentaire" | "message" | "mention";

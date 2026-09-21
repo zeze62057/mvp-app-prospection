@@ -57,6 +57,20 @@ export function FormulaireMasterclass({ espaces }: { espaces: { id: string; nom:
           className="rounded-lg border border-[var(--ligne)] px-3 py-1.5 text-sm sm:w-56"
         />
       </div>
+      <div className="flex flex-col gap-1">
+        <label className="text-xs text-[var(--texte-mute)]">Niveau minimum (1 = tous les membres)</label>
+        <select
+          name="niveau_min"
+          defaultValue="1"
+          className="rounded-lg border border-[var(--ligne)] px-3 py-1.5 text-sm"
+        >
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((n) => (
+            <option key={n} value={n}>
+              {n === 1 ? "1 (ouverte à tous)" : `Niveau ${n}`}
+            </option>
+          ))}
+        </select>
+      </div>
       <button
         type="submit"
         className="rounded-lg bg-[var(--corail)] px-4 py-2 text-xs font-bold text-[var(--encre)]"

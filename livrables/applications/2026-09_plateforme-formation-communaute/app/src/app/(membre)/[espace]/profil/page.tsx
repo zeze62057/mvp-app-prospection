@@ -1,6 +1,7 @@
 import { contexteMembre } from "@/lib/contexte-membre";
 import { urlsAvatars } from "@/lib/avatars";
-import { niveauDepuisPoints } from "@/types/membre";
+import { libelleNiveau, prochainNiveau } from "@/lib/niveaux";
+import { chargerNiveaux } from "@/lib/niveaux-donnees";
 import { EnTeteMembre } from "@/components/navigation/EnTeteMembre";
 import { FormulaireProfil } from "@/components/profil/FormulaireProfil";
 import { FormulaireInfosProfil } from "@/components/profil/FormulaireInfosProfil";
@@ -8,9 +9,14 @@ import { deconnexion } from "../communaute/actions";
 
 export default async function ProfilPage({ params }: { params: Promise<{ espace: string }> }) {
   const { espace: slug } = await params;
-  const { espace, userId, moi } = await contexteMembre(slug);
+  const { supabase, espace, userId, moi } = await contexteMembre(slug);
 
-  const photos = await urlsAvatars(moi ? [moi as { id: string; avatar_path: string | null }] : []);
+  const [photos, niveaux] = await Promise.all([
+    urlsAvatars(moi ? [moi as { id: string; avatar_path: string | null }] : []),
+    chargerNiveaux(supabase, espace.id),
+  ]);
+  const points = moi?.points ?? 0;
+  const suivant = moi?.role === "admin" ? null : prochainNiveau(points, niveaux);
 
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
@@ -24,9 +30,15 @@ export default async function ProfilPage({ params }: { params: Promise<{ espace:
         <div>
           <h1 className="font-display text-[23px] font-extrabold tracking-tight">{moi?.pseudo ?? "Mon profil"}</h1>
           <p className="mt-1 font-mono text-[12px] text-[var(--texte-mute)]">
-            {moi?.role === "admin" ? "Admin" : niveauDepuisPoints(moi?.points ?? 0)} · {moi?.points ?? 0} point
-            {(moi?.points ?? 0) > 1 ? "s" : ""}
+            {libelleNiveau(points, moi?.role ?? "membre", niveaux)} · {points} point
+            {points > 1 ? "s" : ""}
           </p>
+          {suivant && (
+            <p className="mt-1 text-[12.5px] text-[var(--texte-mute)]">
+              Encore {suivant.points_requis - points} point{suivant.points_requis - points > 1 ? "s" : ""} pour
+              atteindre « {suivant.libelle} ».
+            </p>
+          )}
         </div>
 
         <FormulaireProfil

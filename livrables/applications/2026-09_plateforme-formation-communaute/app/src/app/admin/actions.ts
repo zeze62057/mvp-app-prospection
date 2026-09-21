@@ -4,6 +4,14 @@ import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { verifierAdmin } from "@/lib/admin-guard";
 import { extraireIdYoutube } from "@/lib/youtube";
+import {
+  NIVEAUX_PAR_DEFAUT,
+  NIVEAU_MAX,
+  libelleDuNiveau,
+  lireNiveauxSaisis,
+  niveauMaximum,
+  type NiveauConfig,
+} from "@/lib/niveaux";
 
 export async function approuverAdhesion(adhesionId: string) {
   await verifierAdmin();
@@ -171,6 +179,105 @@ export async function modifierPresentationEspace(
     succes: true,
     valeurs: { video: idVideo ? `https://youtu.be/${idVideo}` : "", description },
   };
+}
+
+// Niveaux d'un espace (migration 0036) : reglages, ou valeurs par defaut s'il n'y en a aucun.
+async function niveauxDeLEspace(
+  admin: ReturnType<typeof createAdminClient>,
+  espaceId: string
+): Promise<NiveauConfig[]> {
+  const { data } = await admin
+    .from("niveaux_espace")
+    .select("niveau, libelle, points_requis")
+    .eq("espace_id", espaceId)
+    .order("niveau");
+  return data && data.length > 0 ? (data as NiveauConfig[]) : NIVEAUX_PAR_DEFAUT;
+}
+
+// Refuse de supprimer un niveau qu'une masterclass exige encore : elle deviendrait invisible pour
+// tous les membres (sauf les admins).
+async function masterclassBloquee(
+  admin: ReturnType<typeof createAdminClient>,
+  espaceId: string,
+  nouveauMax: number,
+  niveaux: NiveauConfig[]
+): Promise<string | null> {
+  const { data } = await admin
+    .from("masterclasses")
+    .select("titre, niveau_min")
+    .eq("espace_id", espaceId)
+    .gt("niveau_min", nouveauMax)
+    .limit(1);
+  const m = data?.[0];
+  if (!m) return null;
+  return `La masterclass « ${m.titre} » exige le niveau ${m.niveau_min} (${libelleDuNiveau(m.niveau_min, niveaux)}), qui n'existerait plus. Baisse d'abord son niveau minimum.`;
+}
+
+export async function enregistrerNiveaux(
+  espaceId: string,
+  _etat: { erreur: string | null; succes: boolean; valeurs?: Record<string, string> },
+  formData: FormData
+) {
+  await verifierAdmin();
+
+  // La saisie est renvoyee telle quelle : React 19 vide le formulaire apres chaque action.
+  const valeurs: Record<string, string> = {};
+  for (let n = 1; n <= NIVEAU_MAX; n++) {
+    valeurs[`libelle_${n}`] = String(formData.get(`libelle_${n}`) ?? "");
+    valeurs[`points_${n}`] = String(formData.get(`points_${n}`) ?? "");
+  }
+
+  const lecture = lireNiveauxSaisis((cle) => valeurs[cle] ?? "");
+  if (lecture.niveaux === null) return { erreur: lecture.erreur, succes: false, valeurs };
+
+  const admin = createAdminClient();
+  const { data: espace } = await admin.from("espaces").select("slug").eq("id", espaceId).maybeSingle();
+  if (!espace) return { erreur: "Espace introuvable.", succes: false, valeurs };
+
+  const bloquee = await masterclassBloquee(
+    admin,
+    espaceId,
+    niveauMaximum(lecture.niveaux),
+    await niveauxDeLEspace(admin, espaceId)
+  );
+  if (bloquee) return { erreur: bloquee, succes: false, valeurs };
+
+  const { error } = await admin
+    .from("niveaux_espace")
+    .upsert(lecture.niveaux.map((n) => ({ espace_id: espaceId, ...n })), { onConflict: "espace_id,niveau" });
+  if (error) return { erreur: error.message, succes: false, valeurs };
+
+  // Les niveaux au-dela du dernier saisi n'existent plus.
+  const { error: erreurSuppression } = await admin
+    .from("niveaux_espace")
+    .delete()
+    .eq("espace_id", espaceId)
+    .gt("niveau", niveauMaximum(lecture.niveaux));
+  if (erreurSuppression) return { erreur: erreurSuppression.message, succes: false, valeurs };
+
+  revalidatePath("/admin");
+  revalidatePath(`/${espace.slug}`, "layout");
+  return { erreur: null, succes: true, valeurs: undefined };
+}
+
+export async function reinitialiserNiveaux(espaceId: string) {
+  await verifierAdmin();
+  const admin = createAdminClient();
+  const { data: espace } = await admin.from("espaces").select("slug").eq("id", espaceId).maybeSingle();
+  if (!espace) return;
+
+  // Les niveaux par defaut vont jusqu'a 5 : meme protection que pour un reglage.
+  const bloquee = await masterclassBloquee(
+    admin,
+    espaceId,
+    niveauMaximum(NIVEAUX_PAR_DEFAUT),
+    await niveauxDeLEspace(admin, espaceId)
+  );
+  if (bloquee) return;
+
+  await admin.from("niveaux_espace").delete().eq("espace_id", espaceId);
+  revalidatePath("/admin");
+  revalidatePath(`/${espace.slug}`, "layout");
 }
 
 // Categories du fil de communaute (voir migration 0026) : propres a chaque espace,
@@ -356,6 +463,7 @@ export async function creerMasterclass(
   const description = String(formData.get("description") ?? "").trim();
   const dateHeure = String(formData.get("date_heure") ?? "");
   const lien = String(formData.get("lien") ?? "").trim();
+  const niveauMin = Number(String(formData.get("niveau_min") ?? "1"));
 
   if (!espaceId || !titre || !dateHeure || !lien) {
     return { erreur: "Espace, titre, date/heure et lien sont requis.", succes: false };
@@ -366,10 +474,28 @@ export async function creerMasterclass(
     return { erreur: "Date ou heure invalide.", succes: false };
   }
 
+  if (!Number.isInteger(niveauMin) || niveauMin < 1 || niveauMin > NIVEAU_MAX) {
+    return { erreur: "Le niveau minimum doit être un nombre de 1 à 9.", succes: false };
+  }
+
   const admin = createAdminClient();
-  const { error } = await admin
-    .from("masterclasses")
-    .insert({ espace_id: espaceId, titre, description, date_heure: date.toISOString(), lien });
+  // Un niveau que personne ne peut atteindre rendrait la masterclass invisible pour tous les membres.
+  const niveaux = await niveauxDeLEspace(admin, espaceId);
+  if (niveauMin > niveauMaximum(niveaux)) {
+    return {
+      erreur: `Cet espace n'a que ${niveauMaximum(niveaux)} niveaux : choisis un niveau minimum plus bas.`,
+      succes: false,
+    };
+  }
+
+  const { error } = await admin.from("masterclasses").insert({
+    espace_id: espaceId,
+    titre,
+    description,
+    date_heure: date.toISOString(),
+    lien,
+    niveau_min: niveauMin,
+  });
   if (error) return { erreur: error.message, succes: false };
 
   revalidatePath("/admin");
