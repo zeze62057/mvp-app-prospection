@@ -24,10 +24,10 @@ Source : `2026-09_vivier-ia-module-1/02-methode.md`
 
 | Chapitre | État | Date | Durée réelle | Notes |
 |---|---|---|---|---|
-| Chapitre 1 : Agentic Coding vs Vibe Coding, la vraie différence | à faire |  |  |  |
-| Chapitre 2 : L'art de donner des instructions à Claude Code | à faire |  |  |  |
-| Chapitre 3 : Le workflow Plan, Execute, Validate | à faire |  |  |  |
-| Chapitre 4 : Quand ça casse, debugger et vérifier | à faire |  |  |  |
+| Chapitre 1 : Agentic Coding vs Vibe Coding, la vraie différence | script prêt | 2026-09-21 | estimée 4:05 | 2 points à valider (Chatllow neutralisé, affirmation du cours sur les démonstrations en ligne), pas de démonstration. 7 diapositives. |
+| Chapitre 2 : L'art de donner des instructions à Claude Code | script prêt | 2026-09-21 | estimée 7:21 | 3 points à valider (exemple du générateur d'audit remplacé, site de démonstration fictif fourni, résultat de Claude Code imprévisible). Démonstration avec les prompts de la fiche. 7 diapositives. |
+| Chapitre 3 : Le workflow Plan, Execute, Validate | script prêt | 2026-09-21 | estimée 8:29 | 4 points à valider (Alpha Conseil et Playwright, site de démonstration, vérification dans le navigateur sans Playwright, plan imprévisible). Démonstration avec les prompts de la fiche. 7 diapositives. |
+| Chapitre 4 : Quand ça casse, debugger et vérifier | script prêt | 2026-09-21 | estimée 3:27 | 2 points à valider (pas de démonstration, définitions ajoutées). Chapitre court. 6 diapositives. |
 
 ### Section 3 — 🕹️ Maîtriser l'outil
 
@@ -35,9 +35,9 @@ Source : `2026-09_vivier-ia-module-1/03-maitriser-loutil.md`
 
 | Chapitre | État | Date | Durée réelle | Notes |
 |---|---|---|---|---|
-| Chapitre 1 : Premiers pas, outils principaux et permissions | à faire |  |  |  |
-| Chapitre 2 : CLAUDE.md, le cerveau de votre projet | à faire |  |  |  |
-| Chapitre 3 : Skills et Slash Commands, vos raccourcis personnalisés | à faire |  |  |  |
+| Chapitre 1 : Premiers pas, outils principaux et permissions | script prêt | 2026-09-21 | estimée 4:19 | 2 points à valider (démonstration limitée au prompt d'autonomie de la fiche, interface des autorisations non citée). 7 diapositives. |
+| Chapitre 2 : CLAUDE.md, le cerveau de votre projet | script prêt | 2026-09-21 | estimée 6:03 | 4 points à valider (deux passages remplacés : ton workspace et le changement de nom de l'école ; démonstration avec les 2 prompts de la fiche dans un dossier vide ; lecture automatique non montrée). 7 diapositives. |
+| Chapitre 3 : Skills et Slash Commands, vos raccourcis personnalisés | script prêt | 2026-09-21 | estimée 7:22 | 5 points à valider (commandes et skills de ton workspace remplacés, cas réel Chatllow non utilisé, deux demandes de test hors cours, contenu créé imprévisible). Démonstration avec les 2 prompts de la fiche. 6 diapositives. |
 | Chapitre 4 : MCP, connecter Claude Code à votre écosystème | à faire |  |  |  |
 | Chapitre 5 : Hooks, automatiser Claude Code | à faire |  |  |  |
 | Chapitre 6 : Structurer son projet, l'arborescence qui scale | à faire |  |  |  |

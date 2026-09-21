@@ -1,0 +1,101 @@
+{
+  "sortie": "diapositives-chapitre-2.pptx",
+  "titre": "CLAUDE.md, le cerveau de votre projet",
+  "sujet": "Vivier IA, Module 1, section 3, chapitre 2",
+  "bureau": { "dossier": "Module 1 - Section 3 - Maîtriser l'outil", "nom": "Chapitre 2" },
+  "fiche": {
+    "description": "CLAUDE.md est un fichier que Claude Code lit automatiquement au début de chaque session : le contexte permanent de votre projet. Découvrez ce qu'on y met, comment le créer, et créez-en un en direct pour un projet de site vitrine, puis mettez-le à jour quand le projet évolue.",
+    "points": [
+      "Lu automatiquement au début de chaque session, sans avoir à le redemander.",
+      "Contient le contexte permanent du projet, pas les instructions ponctuelles d'une tâche.",
+      "Document vivant, à maintenir à jour au fil du projet, jamais figé."
+    ]
+  },
+  "preparation": [
+    "Créer un **dossier vide et neuf**, par exemple `C:\\demo-f` (le prompt de la fiche parle d'un « nouveau projet »). Lancez Claude Code depuis ce dossier.",
+    "Avoir sous la main les deux prompts du chapitre 2 de `03-maitriser-loutil-prompts.md` : « Créer un CLAUDE.md pour un nouveau projet client » et « Mettre à jour un CLAUDE.md existant », à coller tels quels.",
+    "Répéter la démonstration : le contenu écrit par Claude Code n'est pas prévisible."
+  ],
+  "avant": [
+    "VS Code : agrandir la police (Ctrl et `+`) et celle du terminal intégré.",
+    "Ouvrir un terminal neuf, pour ne pas montrer l'historique d'une session précédente."
+  ],
+  "pendant": [
+    "Relire le CLAUDE.md créé à voix haute et vérifier qu'il contient le client, l'objectif, les conventions et la zone sensible sur les tarifs.",
+    "Après la mise à jour, comparer avec la version d'avant : le nouvel objectif doit être ajouté, sans perte d'information."
+  ],
+  "entre": [
+    "De {{t5}} à {{t7}}, la démonstration (création, puis mise à jour du CLAUDE.md) se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que les deux prompts collés sont bien ceux du chapitre 2 de la fiche pratique, sans modification."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 3 · CHAPITRE 2",
+      "titre": "CLAUDE.md,\nle cerveau\nde votre projet",
+      "objectif": "Objectif : donner à Claude Code une mémoire de votre projet.",
+      "pastilles": ["Ce qu'il résout", "Ce qu'on y met", "Le créer"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : ce que CLAUDE.md résout, ce qu'on y met, comment le créer, pourquoi il doit rester vivant. Tout s'anime tout seul à l'ouverture de la diapositive."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "CE QUE CE FICHIER RÉSOUT",
+      "enonce": "Sans lui, il faut tout\n*réexpliquer* à chaque session.",
+      "appui": "Claude Code le lit automatiquement au début de chaque session.",
+      "notes": "Moment du script : {{t2}}. La phrase apparaît seule. Clic à « Il résout un problème très concret » : le texte d'appui. Réexpliquer est fastidieux et source d'oublis."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "CE QU'ON Y MET",
+      "titre": "Le contexte permanent du projet",
+      "cartes": [
+        { "titre": "Le client", "texte": "Qui est l'utilisateur ou le client." },
+        { "titre": "L'objectif", "texte": "À quoi sert le projet." },
+        { "titre": "Conventions", "texte": "Code, style, et grandes lignes de la structure." },
+        { "titre": "Zones\nsensibles", "texte": "Ce qu'on ne modifie pas sans validation." }
+      ],
+      "notes": "Moment du script : {{t3}}. Un clic par élément (4 clics). La structure du projet, dans ses grandes lignes, est aussi citée à l'oral avec les conventions."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "L'INSTALLATION",
+      "titre": "Trois étapes, sans configuration",
+      "lignes": [
+        { "etiquette": "Créer le fichier", "detail": "Un fichier texte nommé CLAUDE.md, à la racine du projet." },
+        { "etiquette": "Choisir un éditeur", "detail": "N'importe lequel suffit, y compris VS Code." },
+        { "etiquette": "Rien à configurer", "detail": "Claude Code le lit automatiquement au démarrage de chaque session." }
+      ],
+      "notes": "Moment du script : {{t4}}. Un clic par étape (3 clics). Ensuite, la démonstration (création puis mise à jour du CLAUDE.md) se fait dans VS Code, sans diapositive."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "UN DOCUMENT VIVANT",
+      "titre": "Figé, il perd sa valeur",
+      "intro": "Il doit refléter la réalité actuelle du projet.",
+      "avant": { "etiquette": "FIGÉ", "titre": "Rédigé une fois", "texte": "Jamais retouché, il ne reflète plus le projet." },
+      "apres": { "etiquette": "VIVANT", "titre": "Tenu à jour", "texte": "Corrigé, enrichi, au fil du projet." },
+      "notes": "Moment du script : {{t7}}. Clic 1 : « Figé ». Clic 2 : « Vivant ». Rappeler l'exemple du nom de client qui change : il faut aussi relire les fichiers déjà produits."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "POURQUOI C'EST DÉCISIF SUR LA DURÉE",
+      "enonce": "C'est la *mémoire institutionnelle*\ndu projet.",
+      "appui": "Indépendante de la mémoire d'une conversation précise.",
+      "notes": "Moment du script : {{t8}}. La phrase apparaît seule. Clic à « C'est la mémoire institutionnelle » : le texte d'appui. Cohérence sur des semaines ou des mois, avec plusieurs sessions et parfois plusieurs personnes."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Un fichier lu à chaque session,\nun projet qui reste cohérent.",
+      "points": [
+        "Lu automatiquement au début de chaque session.",
+        "Le contexte permanent, pas les instructions ponctuelles.",
+        "Un document vivant, jamais figé."
+      ],
+      "final": "Prochaine vidéo : Skills et Slash Commands, vos raccourcis.",
+      "notes": "Moment du script : {{t9}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 3, chapitre 3)."
+    }
+  ]
+}

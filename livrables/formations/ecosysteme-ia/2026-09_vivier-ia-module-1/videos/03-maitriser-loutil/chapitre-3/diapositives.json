@@ -1,0 +1,95 @@
+{
+  "sortie": "diapositives-chapitre-3.pptx",
+  "titre": "Skills et Slash Commands, vos raccourcis personnalisés",
+  "sujet": "Vivier IA, Module 1, section 3, chapitre 3",
+  "bureau": { "dossier": "Module 1 - Section 3 - Maîtriser l'outil", "nom": "Chapitre 3" },
+  "fiche": {
+    "description": "Slash Commands et Skills personnalisent et accélèrent votre travail avec Claude Code, mais ils ne répondent pas au même besoin. Comprenez leur différence, sachez choisir entre les deux, et créez un Slash Command et un Skill en direct.",
+    "points": [
+      "Slash Command : raccourci pour une séquence d'actions précise et toujours identique.",
+      "Skill : savoir-faire mobilisable, avec du jugement contextuel, déclenché automatiquement ou sur demande.",
+      "Les deux évitent de répéter les mêmes explications à chaque session."
+    ]
+  },
+  "preparation": [
+    "Créer un **dossier neuf**, par exemple `C:\\demo-g`, et y copier le site de démonstration `_ressources-demo/site-artisan` sous le nom `site` (pour l'audit du Skill). Lancez Claude Code depuis `C:\\demo-g`.",
+    "Avoir sous la main les deux prompts du chapitre 3 de `03-maitriser-loutil-prompts.md` : « Créer un Slash Command pour une tâche répétitive » et « Créer un Skill pour un savoir-faire plus large », à coller tels quels.",
+    "Répéter la démonstration : le contenu créé par Claude Code n'est pas prévisible, et les deux demandes de test (point 4 de la section 2) doivent être validées.",
+    "Vérifier que l'explorateur de VS Code affiche bien le dossier `.claude`."
+  ],
+  "avant": [
+    "VS Code : agrandir la police (Ctrl et `+`) et celle du terminal intégré.",
+    "Ouvrir un terminal neuf, pour ne pas montrer l'historique d'une session précédente."
+  ],
+  "pendant": [
+    "Ouvrir chaque fichier créé (`nouveau-client.md`, `SKILL.md`) et lire son en-tête à voix haute : c'est ce qui fait le lien avec l'installation expliquée juste avant.",
+    "Si une commande ou un Skill ne se lance pas comme prévu, montrez-le et diagnostiquez : c'est instructif (voir la section 2 du cours, chapitre 4)."
+  ],
+  "entre": [
+    "De {{t7}} à {{t9}}, la démonstration (création puis lancement du Slash Command, création du Skill) se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que les deux prompts collés sont bien ceux du chapitre 3 de la fiche pratique, sans modification.",
+    "Les chemins créés : `.claude/commands/nouveau-client.md` et `.claude/skills/audit-site-vitrine/SKILL.md`."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 3 · CHAPITRE 3",
+      "titre": "Skills et\nSlash Commands,\nvos raccourcis",
+      "objectif": "Objectif : choisir et créer le bon raccourci.",
+      "pastilles": ["Deux mécanismes", "Comment choisir", "Les créer"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : deux mécanismes, comment choisir, et les créer en direct. Tout s'anime tout seul à l'ouverture de la diapositive."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "DEUX MÉCANISMES DE PERSONNALISATION",
+      "titre": "Ils ne répondent pas au même besoin",
+      "intro": "Les confondre, c'est choisir le mauvais outil.",
+      "avant": { "etiquette": "SLASH COMMAND", "titre": "Un raccourci d'action", "texte": "Une séquence fixe, toujours dans le même ordre." },
+      "apres": { "etiquette": "SKILL", "titre": "Un savoir-faire", "texte": "Une méthode complète, avec du jugement." },
+      "notes": "Moments du script : {{t2}} (Slash Command, clic 1) puis {{t3}} (Skill, clic 2). Un Skill peut se déclencher automatiquement, quand la situation correspond à sa description, ou sur demande explicite."
+    },
+    {
+      "type": "flux",
+      "surtitre": "L'EXEMPLE : LE SITE D'UN ARTISAN",
+      "rangees": [
+        { "etiquette": "SLASH COMMAND", "style": "clair", "boites": ["/nouveau-client", "Même séquence", { "t": "Prévisible", "accent": true }] },
+        { "etiquette": "SKILL", "style": "clair", "boites": ["audit-site-vitrine", "Méthode adaptée", { "t": "Jugement", "accent": true }] }
+      ],
+      "notes": "Moment du script : {{t4}}. La ligne « Slash Command » est visible : la commande crée toujours la même chose (dossier site vide, CLAUDE.md, README). Clic à « Un Skill, audit-site-vitrine » : la ligne « Skill »."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "COMMENT CHOISIR",
+      "titre": "Une commande ou un Skill ?",
+      "intro": "Selon que la tâche change ou non.",
+      "avant": { "etiquette": "TÂCHE TOUJOURS IDENTIQUE", "titre": "Une commande", "texte": "Elle automatise un geste précis et répétitif." },
+      "apres": { "etiquette": "TÂCHE À ADAPTER", "titre": "Un Skill", "texte": "Il adapte une méthode à chaque situation." },
+      "notes": "Moment du script : {{t5}}. Clic 1 à « Si la tâche est toujours identique » : la commande. Clic 2 à « Si la tâche demande d'adapter » : le Skill."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "L'INSTALLATION",
+      "titre": "Deux fichiers, un dossier",
+      "lignes": [
+        { "etiquette": "Un Slash Command : un fichier Markdown", "commande": ".claude/commands/nom.md" },
+        { "etiquette": "Un Skill : un dossier avec un fichier SKILL.md", "commande": ".claude/skills/nom/SKILL.md" },
+        { "etiquette": "En-tête du SKILL.md : au minimum", "detail": "Un name et une description claire, qui sert au déclenchement automatique." }
+      ],
+      "notes": "Moment du script : {{t6}}. Un clic par étape (3 clics). Ensuite, la démonstration se fait dans VS Code, sans diapositive : création du Slash Command, puis du Skill, avec les prompts de la fiche."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Une commande pour répéter,\nun Skill pour adapter.",
+      "points": [
+        "Slash Command : une séquence précise, toujours identique.",
+        "Skill : un savoir-faire, avec du jugement contextuel.",
+        "Les deux évitent de répéter les mêmes explications."
+      ],
+      "final": "Prochaine vidéo : MCP, connecter Claude Code à votre écosystème.",
+      "notes": "Moment du script : {{t9}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 3, chapitre 4)."
+    }
+  ]
+}

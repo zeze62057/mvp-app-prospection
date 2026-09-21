@@ -1,0 +1,105 @@
+{
+  "sortie": "diapositives-chapitre-1.pptx",
+  "titre": "Premiers pas, outils principaux et permissions",
+  "sujet": "Vivier IA, Module 1, section 3, chapitre 1",
+  "bureau": { "dossier": "Module 1 - Section 3 - Maîtriser l'outil", "nom": "Chapitre 1" },
+  "fiche": {
+    "description": "Claude Code agit par des outils précis, sous le contrôle d'un système de permission. Comprenez pourquoi ce système est un principe de sécurité et non une gêne, évitez les deux excès (tout accepter, tout refuser) et adoptez le bon réflexe : lire, comprendre l'impact, décider.",
+    "points": [
+      "Chaque outil a un rôle précis : lire, écrire, exécuter, chercher.",
+      "Les actions sensibles demandent une validation explicite, les actions sûres non.",
+      "Lire avant de valider : ni confiance aveugle, ni méfiance systématique."
+    ]
+  },
+  "preparation": [
+    "Préparer une copie neuve du site de démonstration `_ressources-demo/site-artisan` sous le nom `site` : `C:\\demo-e\\site`. Lancez Claude Code depuis `C:\\demo-e`.",
+    "Avoir sous la main le prompt du chapitre 1 de `03-maitriser-loutil-prompts.md` (le cadre d'autonomie), à coller tel quel.",
+    "Répéter le passage : la réponse de Claude Code n'est pas prévisible."
+  ],
+  "avant": [
+    "VS Code : agrandir la police (Ctrl et `+`) et celle du terminal intégré.",
+    "Ouvrir un terminal neuf, pour ne pas montrer l'historique d'une session précédente."
+  ],
+  "pendant": [
+    "Lire à voix haute la réponse de Claude Code : c'est le geste que la vidéo enseigne.",
+    "Si vous montrez une demande d'autorisation, décrivez ce que vous voyez sans citer de libellé appris par cœur (l'écran change d'une version à l'autre)."
+  ],
+  "entre": [
+    "De {{t7}} à {{t8}}, la démonstration du cadre d'autonomie se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que le prompt collé est bien celui du chapitre 1 de la fiche pratique, sans modification."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 3 · CHAPITRE 1",
+      "titre": "Premiers pas,\noutils principaux\net permissions",
+      "objectif": "Objectif : savoir quand valider, et quand laisser faire.",
+      "pastilles": ["Les outils", "Les permissions", "Le bon réflexe"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : les outils, les permissions, les deux excès, le réflexe. Tout s'anime tout seul à l'ouverture de la diapositive."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "COMMENT CLAUDE CODE AGIT",
+      "titre": "Par des outils précis",
+      "cartes": [
+        { "titre": "Lire", "texte": "Ouvrir un fichier." },
+        { "titre": "Écrire", "texte": "Créer ou modifier." },
+        { "titre": "Exécuter", "texte": "Lancer une commande." },
+        { "titre": "Chercher", "texte": "Retrouver un mot." }
+      ],
+      "notes": "Moment du script : {{t2}}. Un clic par outil (4 clics), au moment où il est cité. Naviguer dans les dossiers fait aussi partie des outils. Chaque outil a un rôle délimité."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "LE SYSTÈME DE PERMISSION",
+      "titre": "Un principe de sécurité, pas une gêne",
+      "intro": "Une action sensible peut demander votre validation.",
+      "avant": { "etiquette": "ACTION SÛRE", "titre": "Libre", "texte": "Lire un fichier, chercher un mot dans le code." },
+      "apres": { "etiquette": "ACTION SENSIBLE", "titre": "Validation explicite", "texte": "Supprimer un fichier, modifier des données, pousser du code en ligne." },
+      "notes": "Moment du script : {{t3}}. Clic 1 à « Une action réversible » : la carte « Action sûre ». Clic 2 à « Une action à impact plus large » : la carte « Action sensible »."
+    },
+    {
+      "type": "flux",
+      "surtitre": "L'EXEMPLE : UN FICHIER QUI SEMBLE INUTILISÉ",
+      "rangees": [
+        { "etiquette": "UNE ACTION SENSIBLE", "style": "clair", "boites": ["Suppression", "Lecture attentive", { "t": "Refusée, à vérifier", "accent": true }] },
+        { "etiquette": "UNE ACTION SÛRE", "style": "clair", "boites": ["Lecture d'un fichier", "Aucun risque", { "t": "Validée sans souci", "accent": true }] }
+      ],
+      "notes": "Moment du script : {{t4}}. La ligne « Une action sensible » est déjà visible : le fichier est en fait référencé par la configuration Vercel, il évite une panne. Clic à « À l'inverse » : la ligne « Une action sûre »."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "LES DEUX EXCÈS À ÉVITER",
+      "titre": "Ni bouton « oui », ni méfiance",
+      "intro": "Deux excès symétriques.",
+      "avant": { "etiquette": "EXCÈS 1", "titre": "Tout accepter", "texte": "Vous devenez un simple bouton « oui »." },
+      "apres": { "etiquette": "EXCÈS 2", "titre": "Tout refuser", "texte": "Le travail ralentit, la vitesse est perdue." },
+      "notes": "Moment du script : {{t5}}. Clic 1 à « Le premier » : tout accepter. Clic 2 à « Le second » : tout refuser."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "LE BON RÉFLEXE",
+      "titre": "Trois gestes, dès les premiers pas",
+      "lignes": [
+        { "etiquette": "Lire", "detail": "Ce qui est proposé, en entier." },
+        { "etiquette": "Comprendre l'impact", "detail": "Qu'est-ce qui change si je dis oui ? Est-ce réversible ?" },
+        { "etiquette": "Décider", "detail": "Valider, refuser, ou demander une vérification." }
+      ],
+      "notes": "Moment du script : {{t6}}. Un clic par geste (3 clics). Le réflexe devient rapide avec l'expérience, mais ne doit jamais disparaître. Ensuite, la démonstration du cadre d'autonomie se fait dans VS Code, sans diapositive."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Lire avant de valider :\nni confiance aveugle, ni méfiance.",
+      "points": [
+        "Chaque outil a un rôle précis : lire, écrire, exécuter, chercher.",
+        "Les actions sensibles demandent une validation, les sûres non.",
+        "Lire, comprendre l'impact, puis décider."
+      ],
+      "final": "Prochaine vidéo : CLAUDE.md, le cerveau de votre projet.",
+      "notes": "Moment du script : {{t8}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 3, chapitre 2)."
+    }
+  ]
+}
