@@ -54,24 +54,43 @@ export async function deconnexion(espaceSlug: string) {
   revalidatePath(`/${espaceSlug}/communaute`);
 }
 
+// Messages de la fonction demander_adhesion (fichier SQL en ASCII) traduits avec leurs accents.
+const MESSAGES_ADHESION: Record<string, string> = {
+  "Reponds a toutes les questions.": "Réponds à toutes les questions.",
+  "Une reponse est trop longue (500 caracteres maximum).": "Une réponse est trop longue (500 caractères maximum).",
+  "Demande deja envoyee.": "Ta demande a déjà été envoyée.",
+  "Espace introuvable.": "Espace introuvable.",
+  "Non connecte.": "Non connecté.",
+};
+
+// Demande d'acces a la communaute gratuite. Elle passe par la fonction de la base, qui impose une
+// reponse a chaque question de l'espace (migration 0037) et ecrit demande et reponses ensemble.
+// Les reponses saisies sont renvoyees : React 19 vide le formulaire apres chaque action.
 export async function demanderAdhesion(
-  _etat: EtatAction,
+  _etat: EtatAction & { reponses?: Record<string, string> },
   formData: FormData
-): Promise<EtatAction> {
+): Promise<EtatAction & { reponses?: Record<string, string> }> {
   const espaceSlug = String(formData.get("espace_slug") ?? "");
 
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
-  if (!userData.user) return { erreur: "Non connecte." };
+  if (!userData.user) return { erreur: "Non connecté." };
 
   const espace = await getEspaceParSlug(espaceSlug);
   if (!espace) return { erreur: "Espace introuvable." };
 
-  const { error } = await supabase
-    .from("adhesions")
-    .insert({ profil_id: userData.user.id, espace_id: espace.id });
+  // Les questions viennent de la base, jamais du formulaire : on ne lit que les champs qui leur
+  // correspondent.
+  const { data: questions } = await supabase.from("questions_adhesion").select("id").eq("espace_id", espace.id);
+  const reponses: Record<string, string> = {};
+  (questions ?? []).forEach((q) => {
+    reponses[q.id as string] = String(formData.get(`reponse_${q.id}`) ?? "");
+  });
 
-  if (error) return { erreur: error.message };
+  const { error } = await supabase.rpc("demander_adhesion", { p_espace: espace.id, p_reponses: reponses });
+  if (error) {
+    return { erreur: MESSAGES_ADHESION[error.message] ?? "La demande a échoué, réessaie.", reponses };
+  }
 
   revalidatePath(`/${espaceSlug}/communaute`);
   return { erreur: null };

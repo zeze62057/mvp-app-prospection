@@ -11,6 +11,8 @@ const TEXTE: Record<NotificationMembre["type"], string> = {
   commentaire: "a commenté ton post",
   message: "t'a envoyé un message",
   mention: "t'a mentionné",
+  demande_adhesion: "demande à rejoindre la communauté",
+  adhesion_approuvee: "Ta demande a été acceptée. Bienvenue !",
 };
 
 export default async function NotificationsPage({ params }: { params: Promise<{ espace: string }> }) {
@@ -81,7 +83,13 @@ export default async function NotificationsPage({ params }: { params: Promise<{ 
                     <Avatar id={n.acteur_id} pseudo={pseudo} taille={36} urlPhoto={photos.get(n.acteur_id) ?? null} />
                     <span className="min-w-0 flex-1">
                       <span className="block text-[13.5px]">
-                        <b>{pseudo}</b> {TEXTE[n.type]}
+                        {n.type === "adhesion_approuvee" ? (
+                          <b>{TEXTE[n.type]}</b>
+                        ) : (
+                          <>
+                            <b>{pseudo}</b> {TEXTE[n.type]}
+                          </>
+                        )}
                       </span>
                       {extrait && (
                         <span className="mt-0.5 block truncate text-[12px] text-[var(--texte-mute)]">« {extrait} »</span>

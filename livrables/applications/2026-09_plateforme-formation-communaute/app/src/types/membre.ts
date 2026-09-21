@@ -182,7 +182,13 @@ export type Temoignage = {
 
 
 // Notification (migration 0029) : creee par des triggers, jamais par le client.
-export type TypeNotification = "like" | "commentaire" | "message" | "mention";
+export type TypeNotification =
+  | "like"
+  | "commentaire"
+  | "message"
+  | "mention"
+  | "demande_adhesion" // a un admin : quelqu'un demande a rejoindre (migration 0037)
+  | "adhesion_approuvee"; // au membre : sa demande est acceptee
 
 export type NotificationMembre = {
   id: string;

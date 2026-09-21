@@ -19,6 +19,10 @@ export async function ouvrirNotification(espaceSlug: string, notificationId: str
   revalidatePath(`/${espaceSlug}`, "layout");
 
   if (notif.type === "message") redirect(`/${espaceSlug}/messages/${notif.acteur_id}`);
+  // Une demande d'acces se traite dans l'admin (la page refuse un non-admin) ; une demande acceptee
+  // ramene au fil de la communaute.
+  if (notif.type === "demande_adhesion") redirect("/admin");
+  if (notif.type === "adhesion_approuvee") redirect(`/${espaceSlug}/communaute`);
   if (notif.post_id) redirect(`/${espaceSlug}/post/${notif.post_id}`);
   redirect(`/${espaceSlug}/notifications`);
 }

@@ -280,6 +280,43 @@ export async function reinitialiserNiveaux(espaceId: string) {
   revalidatePath(`/${espace.slug}`, "layout");
 }
 
+// Questions posees a qui demande a rejoindre la communaute gratuite (migration 0037) : 3 au plus par
+// espace, une par ligne. Une ligne vide retire la question, et supprime aussi les reponses deja
+// recues a cette question. La saisie est renvoyee telle quelle (React 19 vide le formulaire).
+export async function enregistrerQuestionsAdhesion(
+  espaceId: string,
+  _etat: { erreur: string | null; succes: boolean; valeurs?: string[] },
+  formData: FormData
+) {
+  await verifierAdmin();
+
+  const valeurs = [1, 2, 3].map((n) => String(formData.get(`question_${n}`) ?? ""));
+  const libelles = valeurs.map((v) => v.trim().replace(/\s+/g, " "));
+  for (let i = 0; i < 3; i++) {
+    if (libelles[i] && (libelles[i].length < 3 || libelles[i].length > 200)) {
+      return { erreur: `La question ${i + 1} doit faire entre 3 et 200 caractères.`, succes: false, valeurs };
+    }
+  }
+
+  const admin = createAdminClient();
+  const { data: espace } = await admin.from("espaces").select("slug").eq("id", espaceId).maybeSingle();
+  if (!espace) return { erreur: "Espace introuvable.", succes: false, valeurs };
+
+  for (let i = 0; i < 3; i++) {
+    const ordre = i + 1;
+    const { error } = libelles[i]
+      ? await admin
+          .from("questions_adhesion")
+          .upsert({ espace_id: espaceId, ordre, libelle: libelles[i] }, { onConflict: "espace_id,ordre" })
+      : await admin.from("questions_adhesion").delete().eq("espace_id", espaceId).eq("ordre", ordre);
+    if (error) return { erreur: error.message, succes: false, valeurs };
+  }
+
+  revalidatePath("/admin");
+  revalidatePath(`/${espace.slug}`, "layout");
+  return { erreur: null, succes: true, valeurs: undefined };
+}
+
 // Categories du fil de communaute (voir migration 0026) : propres a chaque espace,
 // avec un emoji. Supprimer une categorie ne supprime aucun post : ils redeviennent
 // "sans categorie" (on delete set null).

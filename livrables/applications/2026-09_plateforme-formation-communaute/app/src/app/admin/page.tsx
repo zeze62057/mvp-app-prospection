@@ -18,6 +18,7 @@ import { CarteStatsEspace } from "@/components/admin/CarteStatsEspace";
 import { FormulaireParametresCommunaute } from "@/components/admin/FormulaireParametresCommunaute";
 import { FormulairePresentationEspace } from "@/components/admin/FormulairePresentationEspace";
 import { GestionNiveaux } from "@/components/admin/GestionNiveaux";
+import { GestionQuestionsAdhesion } from "@/components/admin/GestionQuestionsAdhesion";
 import { NIVEAUX_PAR_DEFAUT, type NiveauConfig } from "@/lib/niveaux";
 import { GestionCategories } from "@/components/admin/GestionCategories";
 import { ActionsSignalement } from "@/components/admin/ActionsSignalement";
@@ -54,6 +55,34 @@ export default async function AdminPage() {
     .select("id, statut, created_at, profils(pseudo), espaces(nom)")
     .eq("statut", "en_attente")
     .order("created_at", { ascending: true });
+
+  // Reponses aux questions d'adhesion (migration 0037), par demande, dans l'ordre des questions.
+  const idsDemandes = (demandes ?? []).map((d) => d.id as string);
+  const { data: reponsesDemandes } = idsDemandes.length
+    ? await admin
+        .from("reponses_adhesion")
+        .select("adhesion_id, reponse, questions_adhesion(libelle, ordre)")
+        .in("adhesion_id", idsDemandes)
+    : { data: [] };
+  const reponsesParDemande = new Map<string, { question: string; ordre: number; reponse: string }[]>();
+  (reponsesDemandes ?? []).forEach((r) => {
+    const q = r.questions_adhesion as unknown as { libelle: string; ordre: number } | null;
+    const id = r.adhesion_id as string;
+    reponsesParDemande.set(id, [
+      ...(reponsesParDemande.get(id) ?? []),
+      { question: q?.libelle ?? "Question supprimée", ordre: q?.ordre ?? 99, reponse: r.reponse as string },
+    ]);
+  });
+  const { data: questionsAdhesion } = await admin
+    .from("questions_adhesion")
+    .select("espace_id, ordre, libelle")
+    .order("ordre");
+  const questionsParEspace = new Map<string, string[]>();
+  (questionsAdhesion ?? []).forEach((q) => {
+    const lignes = questionsParEspace.get(q.espace_id as string) ?? ["", "", ""];
+    lignes[(q.ordre as number) - 1] = q.libelle as string;
+    questionsParEspace.set(q.espace_id as string, lignes);
+  });
 
   const { data: candidaturesExpert } = await admin
     .from("candidatures_expert")
@@ -176,15 +205,23 @@ export default async function AdminPage() {
         {(demandes ?? []).map((demande) => (
           <li
             key={demande.id}
-            className="flex items-center justify-between rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4"
+            className="flex flex-wrap items-start justify-between gap-3 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4"
           >
-            <div>
+            <div className="min-w-0 flex-1">
               <p className="text-sm font-medium">
                 {(demande.profils as unknown as { pseudo: string } | null)?.pseudo ?? "?"}
               </p>
               <p className="text-xs text-[var(--texte-mute)]">
                 {(demande.espaces as unknown as { nom: string } | null)?.nom ?? "?"}
               </p>
+              {(reponsesParDemande.get(demande.id as string) ?? [])
+                .sort((a, b) => a.ordre - b.ordre)
+                .map((r) => (
+                  <div key={r.ordre + r.question} className="mt-2 text-xs">
+                    <p className="text-[var(--texte-mute)]">{r.question}</p>
+                    <p className="mt-0.5 whitespace-pre-wrap break-words text-[13px]">{r.reponse}</p>
+                  </div>
+                ))}
             </div>
             <div className="flex gap-2">
               <form action={approuverAdhesion.bind(null, demande.id)}>
@@ -322,6 +359,23 @@ export default async function AdminPage() {
               afficher_compteur_public: e.afficher_compteur_public ?? true,
             }}
             messageAccueil={messageParEspace.get(e.id) ?? ""}
+          />
+        ))}
+      </ul>
+
+      <h2 className="font-display mt-16 text-2xl font-semibold">
+        Questions d&apos;adhesion
+      </h2>
+      <p className="mt-2 text-sm text-[var(--texte-mute)]">
+        Posées à qui demande à rejoindre la communauté gratuite, pour qualifier les prospects avant d&apos;approuver.
+        Les réponses s&apos;affichent sous chaque demande, tout en haut de cette page.
+      </p>
+      <ul className="mt-6 flex flex-col gap-3">
+        {(espaces ?? []).map((e) => (
+          <GestionQuestionsAdhesion
+            key={e.id}
+            espace={{ id: e.id, nom: e.nom }}
+            questions={questionsParEspace.get(e.id) ?? ["", "", ""]}
           />
         ))}
       </ul>
