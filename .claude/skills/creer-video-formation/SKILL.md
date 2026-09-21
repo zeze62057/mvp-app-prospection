@@ -5,7 +5,8 @@ description: >-
   programme de formation écosystème IA de Zézé (Modules 1 à 5 de Vivier IA),
   destinée à ses élèves, en format écran filmé avec voix off. Pour un chapitre
   donné, produit le cadrage, le script parlé minuté avec plan d'écran, le plan
-  des diapositives (à construire dans Claude Design), la checklist
+  des diapositives (PowerPoint animé, construit avec l'outil commun
+  `_outils-video`), la checklist
   d'enregistrement, la fiche à coller sur la plateforme, puis guide la mise en
   ligne pas à pas. Se déclenche quand Zézé demande de créer, préparer ou
   scripter une vidéo de formation pour ses élèves, "la vidéo du chapitre X",
@@ -27,6 +28,8 @@ Ce skill réutilise les règles de `preparer-demo-formation` (ne rien inventer, 
 - **Unité de travail** : un chapitre = une vidéo. Une section de cours contient plusieurs chapitres, et une vidéo de 30 minutes perd les élèves.
 - **Périmètre** : les 5 modules de `livrables/formations/ecosysteme-ia/`. Le skill traite n'importe quelle section, chapitre par chapitre.
 - **Livraison** : préparation et mise en ligne guidée. Le skill n'envoie jamais rien sur la plateforme sans l'accord de Zézé.
+- **Diapositives** (2026-09-21) : un fichier PowerPoint animé, construit par l'outil commun `livrables/formations/ecosysteme-ia/_outils-video/` à partir d'un `diapositives.json` par chapitre. Le format a été validé sur le chapitre 1. Plus de deck Claude Design, sauf demande expresse de Zézé.
+- **Rythme de travail** (2026-09-21) : **un chapitre à la fois, du début à la fin, puis arrêt.** Après chaque chapitre, présentez le résultat, listez les points à valider, et attendez la validation de Zézé avant de commencer le suivant. Ne préparez jamais plusieurs chapitres d'un bloc, même si la demande porte sur tout un module.
 
 ## Comment utiliser ce skill
 
@@ -47,13 +50,15 @@ Ne jamais inventer un exemple, une commande, un chiffre ou un prompt absent de c
 
 **Le cours est parfois écrit pour Zézé, pas pour des élèves.** Le premier essai l'a montré : le chapitre 1 du Module 1 parle à Zézé (« vu où tu veux aller, cabinet de conseil, école »), cite Chatllow et renvoie à des dossiers du workspace. Une vidéo publique ne doit contenir ni ses projets personnels, ni des chemins internes, ni ses clients. Repérez ces passages à la lecture. Neutralisez-les dans le script (« un consultant, un formateur ou un entrepreneur »), et listez chacun dans une section « Points à valider avec Zézé » du fichier `01-script.md`, avec le texte d'origine et la version proposée. Ne les modifiez jamais en silence, et ne changez rien d'autre sur le fond.
 
+**Repérez aussi les démonstrations qui touchent au poste ou aux secrets de Zézé.** Le chapitre 3 (Git) l'a montré : une commande de configuration globale écraserait son identité Git et afficherait son e-mail, un jeton GitHub est un secret qui ne s'affiche qu'une fois, et le cours ne donne aucune commande pour le premier commit (il renvoie à `/commit`, une commande de son workspace). Dans ce cas, montrez la commande sur une diapositive sans l'exécuter, ne créez aucun secret à l'écran, ne fabriquez aucune commande absente du cours, et listez le sujet dans les points à valider avec la demande proposée.
+
 ### Étape 2 : produire les livrables
 
-Écrire dans `livrables/formations/ecosysteme-ia/<module>/videos/<section>/chapitre-<N>/` trois fichiers.
+Écrire dans `livrables/formations/ecosysteme-ia/<module>/videos/<section>/chapitre-<N>/` trois fichiers, plus `diapositives.json` et le PowerPoint qui en sort. **Lisez d'abord `livrables/formations/ecosysteme-ia/_outils-video/README.md`** : il donne les commandes, le format du JSON et les types de diapositives.
 
 **`01-script.md`** contient :
 
-1. **Cadrage** : objectif d'apprentissage en une phrase (repris du signal de passage quand il existe), prérequis de l'élève, durée cible entre 6 et 12 minutes, exemple concret du chapitre qui portera la vidéo.
+1. **Cadrage** : objectif d'apprentissage en une phrase (repris du signal de passage quand il existe), prérequis de l'élève, durée cible entre 5 et 12 minutes selon la matière du chapitre, exemple concret du chapitre qui portera la vidéo.
 2. **Points à valider avec Zézé** : les passages du cours adaptés pour des élèves (voir l'étape 1), avec le texte d'origine et la version proposée.
 3. **Script minuté**, sous forme de tableau à quatre colonnes :
 
@@ -61,9 +66,13 @@ Ne jamais inventer un exemple, une commande, un chiffre ou un prompt absent de c
    |---|---|---|---|
 
    Le tableau suit toujours ce fil : accroche, annonce du plan, points clés, démonstration de l'exemple concret, installation pratique si le chapitre en a une, erreurs fréquentes, récapitulatif, prochaine étape.
-4. **Durée estimée** : nombre de mots prononcés divisé par 140 (rythme de voix off posée en français), plus le temps de manipulation à l'écran. Calculez-la sur les mots réellement écrits, jamais au jugé, et vérifiez qu'elle tient dans la durée cible. Indiquez que 140 est une hypothèse à corriger après le premier enregistrement.
 
-**`02-diapositives.md`** contient le plan de 5 à 7 diapositives (titre du chapitre, objectif, plan, un point clé par diapositive, récapitulatif, prochaine étape), avec pour chacune le texte exact et le moment du script où elle apparaît. Le visuel se construit dans Claude Design, pas dans Canva : terminez par un prompt prêt à coller dans Claude Design, au gabarit à 4 éléments (Contexte, Objectif, Périmètre, Autonomie), avec la charte Vivier IA (encre `#113832`, sarcelle `#2B8C82`, corail `#FF7A4D`, fond `#F2F7F5`). Annoncez ce prompt à Zézé et attendez sa validation avant tout lancement.
+   Écrivez la colonne « Minute » sous la forme `{{t1}}`, `{{t2}}`... et notez le temps de manipulation à l'écran sous la forme `⏱ +30 s` dans la colonne « Action ». Le calcul des minutes se fait ensuite par `node minuter-script.mjs <chemin/01-script.md>` (dans `_outils-video`), jamais à la main.
+4. **Durée estimée** : remplie par `minuter-script.mjs` (mots prononcés divisés par 140, rythme de voix off posée en français, plus le temps de manipulation). Vérifiez qu'elle tient dans la durée cible. Indiquez que 140 est une hypothèse à corriger après le premier enregistrement.
+
+**`diapositives.json`** est la source des diapositives : 5 à 8 diapositives (titre du chapitre, objectif, plan, un point clé par diapositive, récapitulatif, prochaine étape), chacune avec son texte exact et des notes de l'orateur (moment du script, clics). Une diapositive ne contient rien que le script ne dise pas. Le format et les types de mise en page sont dans le README de l'outil. Construisez le PowerPoint avec `node construire-pptx.mjs`, corrigez les avertissements, puis vérifiez avec `verifier-pptx.ps1` (effets, clics, transitions) et **regardez chaque image exportée** : le comptage ne voit pas un texte qui déborde. Ne retouchez jamais le `.pptx` à la main, modifiez le JSON et reconstruisez.
+
+**`02-diapositives.md`** contient le plan des diapositives (numéro, moment du script, titre, texte exact), le tableau des animations (ce qui apparaît à chaque clic) et ce qui a été contrôlé. Précisez que le déroulé animé n'a pas été joué en mode diaporama, sauf si c'est le cas.
 
 **`03-enregistrement-et-mise-en-ligne.md`** contient :
 
@@ -103,7 +112,7 @@ Avant d'envoyer : vérifiez avec lui comment la section est découpée sur la pl
 
 ### Étape 6 : tenir le suivi à jour
 
-Le fichier `livrables/formations/ecosysteme-ia/SUIVI-VIDEOS.md` liste chaque chapitre du programme avec son état : `à faire`, `script prêt`, `enregistré`, `en ligne`. Créez-le s'il n'existe pas. Mettez à jour la ligne du chapitre traité à la fin de chaque session, avec la date et la durée réelle une fois connue. Le skill ne passe jamais un chapitre à `enregistré` ou `en ligne` de sa propre initiative : c'est Zézé qui l'atteste.
+Le fichier `livrables/formations/ecosysteme-ia/SUIVI-VIDEOS.md` liste chaque chapitre du programme avec son état : `à faire`, `script prêt`, `enregistré`, `en ligne`. Créez-le s'il n'existe pas. Mettez à jour la ligne du chapitre traité à la fin de chaque session, avec la date et la durée (estimée, puis réelle une fois connue). Le skill ne passe jamais un chapitre à `enregistré` ou `en ligne` de sa propre initiative : c'est Zézé qui l'atteste.
 
 ## Ce que ce skill ne fait jamais
 

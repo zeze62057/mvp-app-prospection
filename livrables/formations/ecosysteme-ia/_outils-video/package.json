@@ -1,0 +1,15 @@
+{
+  "name": "outils-video-vivier-ia",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Construit le PowerPoint anime d'un chapitre de formation Vivier IA a partir d'un fichier JSON.",
+  "type": "module",
+  "scripts": {
+    "construire": "node construire-pptx.mjs"
+  },
+  "dependencies": {
+    "jszip": "^3.10.1",
+    "pptxgenjs": "^4.0.1",
+    "sharp": "^0.34.0"
+  }
+}
