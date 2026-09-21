@@ -24,6 +24,9 @@ build/
 # Réglages locaux de Claude Code (propres à chaque machine)
 .claude/settings.local.json
 
+# Skill externe, code tiers non audité (3,8 Mo, scripts Python), actif en local seulement
+.claude/skills/ui-ux-pro-max/
+
 # Logs
 *.log
 logs/
