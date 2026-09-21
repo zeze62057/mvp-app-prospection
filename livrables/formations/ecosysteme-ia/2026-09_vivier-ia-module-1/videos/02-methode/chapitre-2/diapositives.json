@@ -1,0 +1,99 @@
+{
+  "sortie": "diapositives-chapitre-2.pptx",
+  "titre": "L'art de donner des instructions à Claude Code",
+  "sujet": "Vivier IA, Module 1, section 2, chapitre 2",
+  "bureau": { "dossier": "Module 1 - Section 2 - La Méthode", "nom": "Chapitre 2" },
+  "fiche": {
+    "description": "Une instruction bien formulée détermine la qualité du résultat plus que la puissance du modèle. Découvrez les quatre éléments d'une bonne instruction, comparez une instruction floue et une instruction complète en direct, et adoptez le réflexe du collègue qui découvre le projet.",
+    "points": [
+      "Contexte, objectif précis, périmètre, niveau d'autonomie : les quatre éléments non négociables.",
+      "Une instruction floue produit un résultat approximatif : ce n'est pas la faute de l'IA.",
+      "Écrire comme pour un collègue compétent qui découvre le projet aujourd'hui."
+    ]
+  },
+  "preparation": [
+    "Préparer **deux copies neuves** du site de démonstration `livrables/formations/ecosysteme-ia/_ressources-demo/site-artisan`, chacune copiée sous le nom `site`, car les prompts de la fiche parlent du « dossier /site » : `C:\\demo-a\\site` (pour l'instruction floue) et `C:\\demo-b\\site` (pour l'instruction complète). Lancez Claude Code depuis `C:\\demo-a`, puis `C:\\demo-b`. Chemins courts, pour ne pas afficher votre nom d'utilisateur Windows.",
+    "Avoir sous la main, dans un fichier texte, les deux prompts de l'« Exemple 1 » de `02-methode-prompts.md` : l'instruction floue et l'instruction complète, à coller tels quels.",
+    "Faire une répétition de la démonstration : ce que Claude Code fait n'est pas prévisible, et il peut demander des autorisations ou poser des questions.",
+    "Vérifier que Claude Code est installé et se lance dans un dossier (`claude`), comme dans la section 1."
+  ],
+  "avant": [
+    "VS Code : agrandir la police (Ctrl et `+`) et celle du terminal intégré, pour que le code se lise en 1080p.",
+    "Ouvrir un terminal neuf, pour ne pas montrer l'historique d'une session précédente."
+  ],
+  "pendant": [
+    "Décrire à voix haute ce que Claude Code a réellement fait, sans annoncer le verdict à l'avance.",
+    "Claude Code peut demander l'autorisation de modifier des fichiers : acceptez pour la démonstration (les permissions sont vues en section 3).",
+    "Si Claude Code pose une question au lieu d'agir, montrez-le : c'est instructif, et cela fait partie de ce que l'instruction floue provoque."
+  ],
+  "entre": [
+    "De {{t5}} à {{t7}}, la démonstration se fait dans VS Code, sans diapositive : d'abord l'instruction floue sur la copie A du site, puis l'instruction complète sur la copie B."
+  ],
+  "aVerifier": [
+    "Que les deux prompts collés sont bien ceux de l'« Exemple 1 » de la fiche, sans modification."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 2 · CHAPITRE 2",
+      "titre": "L'art de donner\ndes instructions\nà Claude Code",
+      "objectif": "Objectif : écrire des instructions que l'agent peut réussir.",
+      "pastilles": ["Les 4 éléments", "Un exemple en direct", "Le bon réflexe"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : les quatre éléments, une comparaison en direct, puis le réflexe à adopter. Tout s'anime tout seul à l'ouverture de la diapositive."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "POURQUOI CE CHAPITRE COMPTE",
+      "enonce": "La qualité du résultat dépend\nd'abord de *l'instruction*.",
+      "appui": "Plus que la puissance du modèle, plus que le temps passé.",
+      "notes": "Moment du script : {{t2}}. La phrase apparaît seule. Clic à « Plus que la puissance du modèle » : le texte d'appui. C'est la compétence qui remplace l'apprentissage d'un langage de programmation."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "UNE BONNE INSTRUCTION CONTIENT",
+      "titre": "Quatre éléments, non négociables",
+      "cartes": [
+        { "titre": "Le contexte", "texte": "Dans quel projet, pour qui, avec quelles contraintes existantes." },
+        { "titre": "L'objectif", "texte": "Précis : ce qui doit être vrai à la fin de la tâche." },
+        { "titre": "Le périmètre", "texte": "Ce qui est concerné, et surtout ce qu'il ne faut pas toucher." },
+        { "titre": "L'autonomie", "texte": "Le niveau souhaité : demander avant d'agir, ou avancer seul ?" }
+      ],
+      "notes": "Moment du script : {{t3}}. Un clic par élément (4 clics), au début de chaque définition. Le périmètre est souvent l'élément oublié, et celui qui cause le plus de dégâts."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "UN EXEMPLE : LE SITE D'UN ARTISAN",
+      "titre": "Deux façons de demander la même chose",
+      "intro": "Ajouter un formulaire de contact sur le site vitrine.",
+      "avant": { "etiquette": "INSTRUCTION FLOUE", "titre": "Une seule phrase", "texte": "« Ajoute un formulaire de contact sur le site. »" },
+      "apres": { "etiquette": "INSTRUCTION COMPLÈTE", "titre": "Les quatre éléments", "texte": "Contexte, objectif, périmètre, autonomie." },
+      "notes": "Moment du script : {{t4}}. Clic 1 à « Première instruction » : la carte floue. Clic 2 à « La seconde instruction » : la carte complète. Ensuite, la démonstration se fait dans VS Code, sans diapositive, avec les deux prompts de l'Exemple 1 de la fiche pratique."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "L'ERREUR CLASSIQUE",
+      "enonce": "Le problème vient de *l'instruction*,\npas de l'agent.",
+      "appui": "« Rends ça plus beau », « corrige le bug » : l'agent doit deviner.",
+      "notes": "Moment du script : {{t7}}. La phrase apparaît seule. Clic à « Elle force l'agent à deviner » : le texte d'appui. Le débutant conclut à tort que l'IA n'est pas fiable."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "LE RÉFLEXE À ADOPTER",
+      "enonce": "Écrivez comme pour un *collègue compétent*\nqui découvre le projet aujourd'hui.",
+      "appui": "Il n'a pas le contexte dans la tête : donnez-le lui explicitement.",
+      "notes": "Moment du script : {{t8}}. La phrase apparaît seule. Clic à « Il n'a pas le contexte dans la tête » : le texte d'appui. Cette image évite la plupart des instructions trop courtes."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Quatre éléments,\nune instruction complète.",
+      "points": [
+        "Contexte, objectif précis, périmètre, autonomie : non négociables.",
+        "Instruction floue, résultat approximatif : pas la faute de l'IA.",
+        "Écrire comme pour un collègue qui découvre le projet."
+      ],
+      "final": "Prochaine vidéo : le workflow Plan, Execute, Validate.",
+      "notes": "Moment du script : {{t9}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 2, chapitre 3)."
+    }
+  ]
+}

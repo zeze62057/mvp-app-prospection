@@ -1,0 +1,86 @@
+{
+  "sortie": "diapositives-chapitre-1.pptx",
+  "titre": "Agentic Coding vs Vibe Coding, la vraie différence",
+  "sujet": "Vivier IA, Module 1, section 2, chapitre 1",
+  "bureau": { "dossier": "Module 1 - Section 2 - La Méthode", "nom": "Chapitre 1" },
+  "fiche": {
+    "description": "Deux façons de travailler avec une IA de code circulent : le Vibe Coding et l'Agentic Coding. Comprenez ce qui les sépare, les trois risques du premier sur un vrai projet, et pourquoi la discipline compte plus que l'outil.",
+    "points": [
+      "Vibe Coding : rapide, sans structure, bon pour prototyper, dangereux pour livrer.",
+      "Agentic Coding : objectif clair, plan, vérification, adapté à un vrai livrable client.",
+      "La discipline fait la différence, pas l'outil ni sa puissance apparente."
+    ]
+  },
+  "preparation": [
+    "Aucune installation ni démonstration : la vidéo repose sur les diapositives et la voix.",
+    "Relire à voix haute la phrase sur les démonstrations vues en ligne (point 3 de la section 2 du script) et vérifier que vous l'assumez à l'oral."
+  ],
+  "pendant": [
+    "Marquer une pause après chaque risque du Vibe Coding : un clic, une phrase."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 2 · CHAPITRE 1",
+      "titre": "Agentic Coding\nvs Vibe Coding,\nla vraie différence",
+      "objectif": "Objectif : distinguer deux façons de coder avec l'IA.",
+      "pastilles": ["Le Vibe Coding", "L'Agentic Coding", "Ce que ça change"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : le Vibe Coding, l'Agentic Coding, ce qui les sépare et ce que cela change. Tout s'anime tout seul à l'ouverture de la diapositive."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "LE CONSTAT DE DÉPART",
+      "enonce": "Deux façons de travailler\navec une *IA de code*.",
+      "appui": "Les confondre mène à des projets fragiles.",
+      "notes": "Moment du script : {{t2}}. La phrase apparaît seule. Clic à « Les confondre mène à des projets fragiles » : le texte d'appui. Rappeler que beaucoup de démonstrations vues en ligne relèvent du Vibe Coding (point 3 de la section 2 du script)."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "LE VIBE CODING : SANS PLAN, À L'INSTINCT",
+      "titre": "Trois risques sur un vrai projet",
+      "cartes": [
+        { "titre": "La cohérence", "texte": "Deux fonctionnalités ajoutées séparément peuvent se contredire." },
+        { "titre": "La sécurité", "texte": "Une donnée sensible peut être exposée sans décision consciente." },
+        { "titre": "La maintenabilité", "texte": "Trois semaines plus tard, plus personne ne sait pourquoi." }
+      ],
+      "notes": "Moments du script : {{t3}} (définition du Vibe Coding, la diapositive est affichée sans les cartes) puis {{t4}} (les trois risques, un clic par carte). Le Vibe Coding marche très bien pour un prototype jetable ou une démonstration rapide."
+    },
+    {
+      "type": "flux",
+      "surtitre": "L'AGENTIC CODING : LA DISCIPLINE DERRIÈRE L'OUTIL",
+      "rangees": [
+        { "etiquette": "DANS UN CADRE POSÉ EN AMONT", "style": "clair", "boites": ["Objectif clair", "Plan", { "t": "Validations", "accent": true }] }
+      ],
+      "phrase": "Plus lent au début, *beaucoup plus rapide ensuite*.",
+      "notes": "Moment du script : {{t5}}. La ligne est déjà visible. Clic à « Est-ce plus lent ? » : la phrase finale. On évite les retours en arrière coûteux."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "L'EXEMPLE CONCRET",
+      "titre": "Le même outil, deux disciplines",
+      "intro": "Une idée de landing page pour un audit IA dans le BTP.",
+      "avant": { "etiquette": "TESTER UNE IDÉE", "titre": "Vibe Coding", "texte": "Itérer à l'instinct pour voir vite le rendu : légitime." },
+      "apres": { "etiquette": "LIVRER À UN CLIENT", "titre": "Agentic Coding", "texte": "Objectif clair, plan validé, vérification réelle." },
+      "notes": "Moment du script : {{t6}}. Clic 1 au début de l'exemple : la carte « Tester une idée ». Clic 2 à « Mais livrer ce même audit » : la carte « Livrer à un client »."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "CE QUE ÇA IMPLIQUE POUR VOUS",
+      "enonce": "La discipline fait la différence,\n*pas l'outil*.",
+      "appui": "Le même Claude Code peut produire un résultat solide ou bancal.",
+      "notes": "Moment du script : {{t7}}. La phrase apparaît seule. Clic à « Deux personnes avec exactement le même Claude Code » : le texte d'appui."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Vibe Coding pour tester,\nAgentic Coding pour livrer.",
+      "points": [
+        "Vibe Coding : rapide, sans structure, dangereux pour livrer.",
+        "Agentic Coding : objectif clair, plan, vérification.",
+        "La discipline fait la différence, pas l'outil."
+      ],
+      "final": "Prochaine vidéo : l'art de donner des instructions à Claude Code.",
+      "notes": "Moment du script : {{t8}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 2, chapitre 2)."
+    }
+  ]
+}

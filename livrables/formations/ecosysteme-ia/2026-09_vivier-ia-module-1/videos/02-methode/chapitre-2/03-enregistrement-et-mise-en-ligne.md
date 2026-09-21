@@ -1,0 +1,65 @@
+# Enregistrement et mise en ligne : L'art de donner des instructions à Claude Code
+
+Module 1, section 2, chapitre 2. Voir `01-script.md` et `02-diapositives.md`.
+
+## 1. Checklist d'enregistrement
+
+**La veille**
+- Lire le script une fois à voix haute, chronomètre en main. Corriger le débit réel par rapport aux 140 mots par minute prévus.
+- Tester le diaporama en mode présentation, avec les clics : `diapositives-chapitre-2.pptx`, 13 clics en tout.
+- **Valider les points de la section 2 du script** avant d'enregistrer.
+- Préparer **deux copies neuves** du site de démonstration `livrables/formations/ecosysteme-ia/_ressources-demo/site-artisan`, chacune copiée sous le nom `site`, car les prompts de la fiche parlent du « dossier /site » : `C:\demo-a\site` (pour l'instruction floue) et `C:\demo-b\site` (pour l'instruction complète). Lancez Claude Code depuis `C:\demo-a`, puis `C:\demo-b`. Chemins courts, pour ne pas afficher votre nom d'utilisateur Windows.
+- Avoir sous la main, dans un fichier texte, les deux prompts de l'« Exemple 1 » de `02-methode-prompts.md` : l'instruction floue et l'instruction complète, à coller tels quels.
+- Faire une répétition de la démonstration : ce que Claude Code fait n'est pas prévisible, et il peut demander des autorisations ou poser des questions.
+- Vérifier que Claude Code est installé et se lance dans un dossier (`claude`), comme dans la section 1.
+
+**Juste avant**
+- Couper les notifications (assistant de concentration de Windows), fermer les onglets et applications inutiles.
+- Écran en 1920 par 1080, bureau propre.
+- Son : casque ou micro de qualité, pièce calme, test de une minute réécouté avant de commencer.
+- VS Code : agrandir la police (Ctrl et `+`) et celle du terminal intégré, pour que le code se lise en 1080p.
+- Ouvrir un terminal neuf, pour ne pas montrer l'historique d'une session précédente.
+
+**Pendant**
+- Dire à l'oral ce que vous faites avant de le faire.
+- Si une démonstration échoue en direct, poursuivez si l'échec est instructif, sinon coupez et reprenez.
+- Décrire à voix haute ce que Claude Code a réellement fait, sans annoncer le verdict à l'avance.
+- Claude Code peut demander l'autorisation de modifier des fichiers : acceptez pour la démonstration (les permissions sont vues en section 3).
+- Si Claude Code pose une question au lieu d'agir, montrez-le : c'est instructif, et cela fait partie de ce que l'instruction floue provoque.
+
+## 2. Vérification des secrets, avant de lancer l'enregistrement
+
+Rien de ceci ne doit apparaître à l'écran :
+- une clé d'API, un mot de passe ou un jeton, y compris ceux de Chatllow, de Chariow ou d'un client ;
+- un fichier `.env` ouvert dans l'éditeur ;
+- votre adresse e-mail ou votre nom d'utilisateur dans un chemin de dossier ;
+- une donnée client réelle, dans un onglet, un fichier récent ou le presse-papiers.
+
+Vérifiez aussi la barre d'onglets du navigateur, les favoris et l'historique du terminal.
+
+## 3. Quel outil pour enregistrer
+
+**Attention : l'outil d'enregistrement intégré à la plateforme ne convient pas pour une voix off.** Il capture l'écran et le son du système, mais pas le micro. Enregistrez avec un logiciel qui capte le micro (OBS Studio est gratuit), puis envoyez le fichier sur la plateforme.
+
+Enregistrez tout l'écran en une seule prise. Le montage se limite aux coupures d'attente.
+
+## 4. Fiche à coller sur la plateforme
+
+**Titre** : L'art de donner des instructions à Claude Code
+
+**Description** : Une instruction bien formulée détermine la qualité du résultat plus que la puissance du modèle. Découvrez les quatre éléments d'une bonne instruction, comparez une instruction floue et une instruction complète en direct, et adoptez le réflexe du collègue qui découvre le projet.
+
+**Points clés**
+- Contexte, objectif précis, périmètre, niveau d'autonomie : les quatre éléments non négociables.
+- Une instruction floue produit un résultat approximatif : ce n'est pas la faute de l'IA.
+- Écrire comme pour un collègue compétent qui découvre le projet aujourd'hui.
+
+**Durée** : à renseigner après l'enregistrement (estimation : 7 min 21 s avant montage).
+
+## 5. Mise en ligne, guidée en direct
+
+Cette étape se fait avec Claude, une étape à la fois. Ne la déroulez pas seul.
+
+L'état des lieux de la plateforme, les deux limites de taille à lever avant le premier envoi réel, le choix « section ou chapitre » et les sept étapes prévues sont décrits dans `livrables/formations/ecosysteme-ia/2026-09_vivier-ia-module-1/videos/01-fondations/chapitre-1/03-enregistrement-et-mise-en-ligne.md` (section 5). Ils valent aussi pour cette vidéo. Le chantier d'envoi direct est cadré dans `livrables/applications/2026-09_plateforme-formation-communaute/CADRAGE-ENVOI-VIDEOS.md`.
+
+Le passage du chapitre à `en ligne` dans `SUIVI-VIDEOS.md` reste une attestation de Zézé.

@@ -1,0 +1,78 @@
+{
+  "sortie": "diapositives-chapitre-4.pptx",
+  "titre": "Quand ça casse, debugger et vérifier",
+  "sujet": "Vivier IA, Module 1, section 2, chapitre 4",
+  "bureau": { "dossier": "Module 1 - Section 2 - La Méthode", "nom": "Chapitre 4" },
+  "fiche": {
+    "description": "Tout projet finit par rencontrer une erreur : c'est une étape normale. Apprenez les trois réflexes face à une erreur (lire le message en entier, isoler le problème, demander un diagnostic avant de corriger) et pourquoi tester tôt coûte moins cher que tester tard.",
+    "points": [
+      "Toujours donner le message d'erreur complet, jamais un résumé approximatif.",
+      "Isoler avant de corriger : partout ou cas précis ?",
+      "Diagnostiquer la cause réelle, pas seulement faire disparaître le symptôme visible."
+    ]
+  },
+  "preparation": [
+    "Aucune installation ni démonstration : la vidéo repose sur les diapositives et la voix (point 1 de la section 2 du script).",
+    "Si vous ajoutez la démonstration proposée au point 1, préparer une copie neuve du site `_ressources-demo/site-artisan` sous le nom `site` (`C:\\demo-d\\site`) et répéter le passage."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 2 · CHAPITRE 4",
+      "titre": "Quand ça casse,\ndebugger\net vérifier",
+      "objectif": "Objectif : réagir efficacement face à une erreur.",
+      "pastilles": ["Trois réflexes", "Un exemple", "Tester tôt"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : les trois réflexes face à une erreur, un exemple, puis pourquoi tester tôt coûte moins cher. Tout s'anime tout seul à l'ouverture de la diapositive."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "LE RÉFLEXE À AVOIR, PAS LA PEUR À ÉVITER",
+      "enonce": "Une erreur n'est pas\nun échec de *la méthode*.",
+      "appui": "C'est une étape normale : on apprend à y réagir.",
+      "notes": "Moment du script : {{t2}}. La phrase apparaît seule. Clic à « Ce n'est pas un échec de la méthode » : le texte d'appui. Il serait illusoire de vouloir éviter toute erreur."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "FACE À UNE ERREUR",
+      "titre": "Trois étapes, dans cet ordre",
+      "cartes": [
+        { "titre": "Lire le message", "texte": "En entier : pas seulement la première ligne, ni un résumé." },
+        { "titre": "Isoler le problème", "texte": "Partout, ou seulement dans un cas précis ? Cela évite de chercher au mauvais endroit." },
+        { "titre": "Diagnostiquer avant de corriger", "texte": "Comprendre la cause, pour ne pas masquer le symptôme." }
+      ],
+      "notes": "Moments du script : {{t3}} (lire le message en entier, clic 1), {{t4}} (isoler, clic 2), {{t5}} (diagnostiquer, clic 3). Un clic au début de chaque paragraphe."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "L'EXEMPLE : LE PROJET FIL ROUGE",
+      "titre": "Un formulaire qui refuse les bons e-mails",
+      "lignes": [
+        { "etiquette": "Donner le message d'erreur complet", "detail": "Celui de la console, pas seulement « ça marche pas »." },
+        { "etiquette": "Isoler", "detail": "Tous les e-mails, ou certains formats, par exemple avec un « + » ?" },
+        { "etiquette": "Diagnostiquer avant de corriger", "detail": "La règle de validation, avant de la corriger à l'aveugle." }
+      ],
+      "notes": "Moment du script : {{t6}}. Un clic par réflexe (3 clics). La console est l'endroit où s'affichent les erreurs. Un correctif rapide masquerait le symptôme sans régler la vraie cause."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "POURQUOI TESTER TÔT",
+      "titre": "Tester tôt coûte moins cher que tard",
+      "intro": "À chaque étape du workflow Plan, Execute, Validate.",
+      "avant": { "etiquette": "PENDANT LA CONSTRUCTION", "titre": "Bug corrigé tôt", "texte": "Peu coûteux.\nLes décisions structurelles\nrestent modifiables." },
+      "apres": { "etiquette": "UNE FOIS EN PRODUCTION", "titre": "Le projet casse", "texte": "Beaucoup plus cher, surtout en confiance." },
+      "notes": "Moment du script : {{t7}}. Clic 1 à « un bug détecté et corrigé pendant la construction » : la carte de gauche. Clic 2 à « un projet livré à un client » : la carte de droite. En production : en ligne, utilisé par le client."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Message complet, problème isolé,\ncause diagnostiquée.",
+      "points": [
+        "Toujours le message d'erreur complet, jamais un résumé.",
+        "Isoler avant de corriger : partout, ou cas précis ?",
+        "Diagnostiquer la cause réelle, pas seulement le symptôme."
+      ],
+      "final": "Prochaine vidéo : premiers pas, outils principaux et permissions.",
+      "notes": "Moment du script : {{t8}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 3, chapitre 1)."
+    }
+  ]
+}

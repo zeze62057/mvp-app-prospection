@@ -1,0 +1,104 @@
+{
+  "sortie": "diapositives-chapitre-3.pptx",
+  "titre": "Le workflow Plan, Execute, Validate",
+  "sujet": "Vivier IA, Module 1, section 2, chapitre 3",
+  "bureau": { "dossier": "Module 1 - Section 2 - La Méthode", "nom": "Chapitre 3" },
+  "fiche": {
+    "description": "Plan, Execute, Validate : la structure centrale de l'Agentic Coding, en trois temps qui se répètent à chaque tâche. Découvrez pourquoi corriger au stade du plan coûte peu, pourquoi ne jamais supposer qu'un « c'est fait » est correct, et voyez les trois temps appliqués en direct sur un petit site.",
+    "points": [
+      "Plan avant d'agir : cela permet de corriger tôt, donc pas cher.",
+      "Execute : le travail réel, par étapes, mais pas la phase la plus déterminante.",
+      "Validate : ne jamais supposer qu'une tâche annoncée terminée est automatiquement correcte."
+    ]
+  },
+  "preparation": [
+    "Préparer une copie neuve du site de démonstration `livrables/formations/ecosysteme-ia/_ressources-demo/site-artisan`, copiée sous le nom `site` (les prompts de la fiche parlent du « dossier /site ») : `C:\\demo-c\\site`. Lancez Claude Code depuis `C:\\demo-c`.",
+    "Avoir sous la main, dans un fichier texte, les trois prompts de l'« Exemple bout en bout » de `02-methode-prompts.md` (partie 2) : « 1. Plan », « 2. Execute » (« Le plan me va, vas-y. », et sa version corrigée) et « 3. Validate ».",
+    "**Répéter la démonstration entière**, en particulier la validation dans le navigateur : Claude Code peut ne pas pouvoir cliquer dans le menu (point 3 de la section 2 du script).",
+    "Vérifier que Claude Code est installé et se lance dans un dossier (`claude`)."
+  ],
+  "avant": [
+    "VS Code : agrandir la police (Ctrl et `+`) et celle du terminal intégré, pour que le code se lise en 1080p.",
+    "Ouvrir un terminal neuf, pour ne pas montrer l'historique d'une session précédente.",
+    "Navigateur : fenêtre propre, sans onglet personnel ni favori visible, prête à afficher la page ouverte par Claude Code."
+  ],
+  "pendant": [
+    "Lire le plan de Claude Code à voix haute avant de répondre : c'est le geste que la vidéo enseigne.",
+    "Si le plan contient une étape que vous ne voulez pas, utilisez la version corrigée du prompt de la fiche plutôt que de valider tel quel.",
+    "Dites honnêtement ce que Claude Code a pu vérifier ou non dans le navigateur : ne prétendez pas qu'il a testé le menu s'il n'a fait qu'ouvrir la page."
+  ],
+  "entre": [
+    "De {{t7}} à {{t10}}, la démonstration des trois temps se fait dans VS Code et dans le navigateur, sans diapositive : Plan, Execute, puis Validate, sur la page « Tarifs » du site de l'artisan."
+  ],
+  "aVerifier": [
+    "Que les trois prompts collés sont bien ceux de l'« Exemple bout en bout » de la fiche, sans modification.",
+    "Que la page Tarifs s'ouvre bien dans le navigateur au moment de la validation."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 2 · CHAPITRE 3",
+      "titre": "Le workflow\nPlan, Execute,\nValidate",
+      "objectif": "Objectif : dérouler les trois temps sur une vraie tâche.",
+      "pastilles": ["Les trois temps", "Un exemple", "En direct"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : les trois temps, un exemple sur le projet fil rouge, puis l'application en direct sur un petit site. Tout s'anime tout seul à l'ouverture de la diapositive."
+    },
+    {
+      "type": "flux",
+      "surtitre": "LA STRUCTURE CENTRALE DE L'AGENTIC CODING",
+      "rangees": [
+        { "etiquette": "TROIS TEMPS", "style": "clair", "boites": ["Plan", "Execute", { "t": "Validate", "accent": true }] }
+      ],
+      "phrase": "À chaque tâche, *petite ou grande*.",
+      "notes": "Moment du script : {{t2}}. La ligne est déjà visible. Clic à « qui se répètent à chaque tâche » : la phrase finale."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "PLAN, EXECUTE, VALIDATE",
+      "titre": "Ce que fait chaque temps",
+      "cartes": [
+        { "titre": "Plan", "texte": "Poser les étapes avant d'agir. Une erreur repérée ici se corrige en quelques secondes." },
+        { "titre": "Execute", "texte": "Réaliser les étapes, une à une.\nLe plus visible,\npas le plus décisif." },
+        { "titre": "Validate", "texte": "Vérifier que le résultat correspond à l'objectif posé au départ." }
+      ],
+      "notes": "Moments du script : {{t3}} (Plan, clic 1), {{t4}} (Execute, clic 2), {{t5}} (Validate, clic 3). Un clic au début de chaque paragraphe."
+    },
+    {
+      "type": "flux",
+      "surtitre": "L'EXEMPLE : LE PROJET FIL ROUGE",
+      "rangees": [
+        { "etiquette": "LE FORMULAIRE D'INTAKE", "style": "clair", "boites": ["Le plan", "La construction", { "t": "Le test réel", "accent": true }] }
+      ],
+      "phrase": "Un vrai test, pas seulement une *relecture*.",
+      "notes": "Moment du script : {{t6}}. La ligne est déjà visible. Clic à « Plutôt que d'affirmer que le code semble correct » : la phrase finale. Le plan : quels champs, quelle validation, où stocker. Le test : Playwright ouvre le formulaire et le remplit (outil vu en section 5). Ensuite, la démonstration se fait dans VS Code, sans diapositive."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "LES DEUX RACCOURCIS DANGEREUX",
+      "titre": "Le même risque, deux façons d'y tomber",
+      "intro": "Découvrir un problème bien plus tard, au pire moment.",
+      "avant": { "etiquette": "RACCOURCI 1", "titre": "Sauter le Plan", "texte": "Foncer dans l'exécution,\nça semble plus rapide." },
+      "apres": { "etiquette": "RACCOURCI 2", "titre": "Sauter Validate", "texte": "Croire que « c'est fait » veut dire « c'est correct »." },
+      "notes": "Moment du script : {{t10}}. Clic 1 à « Premier raccourci » : sauter le Plan. Clic 2 à « Second raccourci » : sauter Validate."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "POUR TOUTE TAILLE DE TÂCHE",
+      "enonce": "Le principe est le même\n*à toutes les échelles*.",
+      "appui": "Seule la durée change : une phrase mentale, ou un vrai temps dédié.",
+      "notes": "Moment du script : {{t11}}. La phrase apparaît seule. Clic à « Pour une petite tâche » : le texte d'appui."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Planifier, exécuter,\nvalider. À chaque tâche.",
+      "points": [
+        "Plan avant d'agir : on corrige tôt, donc pas cher.",
+        "Execute : le travail réel, par étapes.",
+        "Validate : jamais de « c'est fait » sans vérification."
+      ],
+      "final": "Prochaine vidéo : quand ça casse, debugger et vérifier.",
+      "notes": "Moment du script : {{t12}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 2, chapitre 4)."
+    }
+  ]
+}
