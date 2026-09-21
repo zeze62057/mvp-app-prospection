@@ -8,12 +8,19 @@
   --encre-2: #16443c;
   --sarcelle: #2b8c82;
   --sarcelle-light: #5fc7b8;
+  /* Sarcelle assombri pour le texte sur fond clair (5,5:1 sur --fond, 5,9:1 sur
+     --fond-carte, 4,9:1 sur la pastille teintee du hero). --sarcelle reste pour
+     les aplats, bordures et gros chiffres. */
+  --sarcelle-texte: #226f66;
   --corail: #ff7a4d;
+  /* Corail assombri pour les glyphes sur fond clair (4,3:1 sur --fond-carte). */
+  --corail-texte: #d9480f;
   --fond: #f2f7f5;
   --fond-carte: #ffffff;
   --ligne: rgba(17, 56, 50, 0.1);
   --texte: #0f2e29;
-  --texte-mute: rgba(15, 46, 41, 0.6);
+  /* 0,7 et non 0,6 : 5,4:1 sur --fond et 5,5:1 sur --fond-carte (0,6 donnait 4,0:1). */
+  --texte-mute: rgba(15, 46, 41, 0.7);
   --sur-encre: #eaf5f2;
   --sur-encre-mute: rgba(234, 245, 242, 0.6);
 

@@ -49,7 +49,7 @@ export default async function VitrinePage({
       <div className="flex flex-col gap-14 px-6 pb-20 pt-2 sm:px-16 lg:flex-row lg:items-start lg:gap-16">
         <div className="flex-1 pt-9">
           {c.hero_kicker && (
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(43,140,130,0.25)] bg-[rgba(43,140,130,0.09)] py-1.5 pl-2.5 pr-3 font-mono text-[11.5px] tracking-wide text-[var(--sarcelle)]">
+            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(43,140,130,0.25)] bg-[rgba(43,140,130,0.09)] py-1.5 pl-2.5 pr-3 font-mono text-xs tracking-wide text-[var(--sarcelle-texte)]">
               <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--corail)]" />
               {c.hero_kicker}
             </div>
@@ -70,10 +70,10 @@ export default async function VitrinePage({
               href={`/${espace.slug}/communaute`}
               className="rounded-[10px] bg-[var(--encre)] px-6 py-4 text-[14.5px] font-bold text-[var(--sur-encre)] shadow-[0_10px_24px_rgba(17,56,50,0.22)] transition-transform hover:-translate-y-0.5"
             >
-              Rejoindre la communaute gratuite
+              Rejoindre la communauté gratuite
             </Link>
             <span className="text-xs text-[var(--texte-mute)]">
-              Sur approbation — reponse sous 24h
+              Sur approbation — réponse sous 24h
             </span>
           </div>
 
@@ -82,7 +82,7 @@ export default async function VitrinePage({
               ZB
             </div>
             <div className="text-xs leading-snug">
-              <b className="font-bold text-[var(--texte)]">Zeze Bilivogui</b>
+              <b className="font-bold text-[var(--texte)]">Zézé Bilivogui</b>
               <span className="block text-[var(--texte-mute)]">Fondateur de {espace.nom}</span>
             </div>
           </div>
@@ -96,7 +96,7 @@ export default async function VitrinePage({
                 <span className="h-2.5 w-2.5 rounded-full bg-[var(--sarcelle-light)]" />
                 <span className="h-2.5 w-2.5 rounded-full bg-[rgba(234,245,242,0.3)]" />
                 {c.terminal_titre && (
-                  <span className="ml-1.5 font-mono text-[11px] text-[var(--sur-encre-mute)]">
+                  <span className="ml-1.5 font-mono text-xs text-[var(--sur-encre-mute)]">
                     {c.terminal_titre}
                   </span>
                 )}
@@ -128,14 +128,14 @@ export default async function VitrinePage({
                 <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
                   {nbMembres ?? 0}
                 </div>
-                <div className="mt-0.5 text-[11px] text-[var(--texte-mute)]">membres de la communaute</div>
+                <div className="mt-0.5 text-xs text-[var(--texte-mute)]">membres de la communauté</div>
               </div>
             )}
             <div className="flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-3.5">
               <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
                 {nbModulesDisponibles}
               </div>
-              <div className="mt-0.5 text-[11px] text-[var(--texte-mute)]">module{nbModulesDisponibles !== 1 ? "s" : ""} disponible{nbModulesDisponibles !== 1 ? "s" : ""}</div>
+              <div className="mt-0.5 text-xs text-[var(--texte-mute)]">module{nbModulesDisponibles !== 1 ? "s" : ""} disponible{nbModulesDisponibles !== 1 ? "s" : ""}</div>
             </div>
           </div>
         </div>
@@ -143,7 +143,7 @@ export default async function VitrinePage({
 
       {c.parcours_titre && (
         <div className="bg-[var(--encre)] px-6 py-16 text-[var(--sur-encre)] sm:px-16">
-          <p className="mb-2.5 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle-light)]">
+          <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-light)]">
             le parcours
           </p>
           <h2 className="font-display mb-11 max-w-xl text-2xl font-semibold sm:text-[29px]">
@@ -152,21 +152,21 @@ export default async function VitrinePage({
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
             <div>
               <p className="mb-3.5 font-mono text-[13px] text-[var(--corail)]">01 / rejoindre</p>
-              <p className="font-display mb-2.5 text-base font-bold">Communaute gratuite</p>
+              <p className="font-display mb-2.5 text-base font-bold">Communauté gratuite</p>
               <p className="text-[13.5px] leading-relaxed text-[var(--sur-encre-mute)]">
                 {c.parcours_etape1}
               </p>
             </div>
             <div className="sm:border-l sm:border-[rgba(234,245,242,0.14)] sm:pl-8">
-              <p className="mb-3.5 font-mono text-[13px] text-[var(--corail)]">02 / debloquer</p>
-              <p className="font-display mb-2.5 text-base font-bold">Formation complete</p>
+              <p className="mb-3.5 font-mono text-[13px] text-[var(--corail)]">02 / débloquer</p>
+              <p className="font-display mb-2.5 text-base font-bold">Formation complète</p>
               <p className="text-[13.5px] leading-relaxed text-[var(--sur-encre-mute)]">
                 {c.parcours_etape2}
               </p>
             </div>
             <div className="sm:border-l sm:border-[rgba(234,245,242,0.14)] sm:pl-8">
               <p className="mb-3.5 font-mono text-[13px] text-[var(--corail)]">03 / construire</p>
-              <p className="font-display mb-2.5 text-base font-bold">Communaute payante</p>
+              <p className="font-display mb-2.5 text-base font-bold">Communauté payante</p>
               <p className="text-[13.5px] leading-relaxed text-[var(--sur-encre-mute)]">
                 {c.parcours_etape3}
               </p>
@@ -179,14 +179,14 @@ export default async function VitrinePage({
         <div className="flex flex-col gap-10 px-6 py-16 sm:px-16 lg:flex-row lg:items-center lg:gap-14">
           <div className="relative h-[300px] flex-shrink-0 lg:w-[340px]">
             {c.fondateur_tag && (
-              <div className="absolute -top-3.5 left-6 z-10 -rotate-3 rounded-lg bg-[var(--corail)] px-3 py-1.5 font-mono text-[10.5px] font-bold text-[var(--encre)]">
+              <div className="absolute -top-3.5 left-6 z-10 -rotate-3 rounded-lg bg-[var(--corail)] px-3 py-1.5 font-mono text-xs font-bold text-[var(--encre)]">
                 {c.fondateur_tag}
               </div>
             )}
             <div className="absolute left-0 top-2.5 z-[2] h-[240px] w-[200px] overflow-hidden rounded-2xl shadow-[0_18px_40px_rgba(17,56,50,0.14)]">
               <Image
                 src="/zeze-bilivogui.jpg"
-                alt={`Zeze Bilivogui, fondateur de ${espace.nom}`}
+                alt={`Zézé Bilivogui, fondateur de ${espace.nom}`}
                 width={200}
                 height={240}
                 className="h-full w-full object-cover"
@@ -194,7 +194,7 @@ export default async function VitrinePage({
               />
             </div>
             {c.fondateur_legende && (
-              <div className="absolute bottom-0 right-0 z-[1] flex h-[130px] w-[160px] items-center justify-center rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-3.5 text-center font-mono text-[11px] text-[var(--texte-mute)] shadow-[0_18px_40px_rgba(17,56,50,0.14)]">
+              <div className="absolute bottom-0 right-0 z-[1] flex h-[130px] w-[160px] items-center justify-center rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-3.5 text-center font-mono text-xs text-[var(--texte-mute)] shadow-[0_18px_40px_rgba(17,56,50,0.14)]">
                 <span>
                   {c.fondateur_legende.split("\n").map((ligne, i) => (
                     <span key={i}>
@@ -207,7 +207,7 @@ export default async function VitrinePage({
             )}
           </div>
           <div className="flex-1">
-            <p className="mb-2.5 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle)]">
+            <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-texte)]">
               le fondateur
             </p>
             {c.fondateur_lede && (
@@ -224,11 +224,11 @@ export default async function VitrinePage({
 
       {temoignages && temoignages.length > 0 && (
         <div className="px-6 py-16 sm:px-16">
-          <p className="mb-2.5 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle)]">
+          <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-texte)]">
             preuve, pas promesse
           </p>
           <h2 className="font-display mb-8 max-w-xl text-2xl font-semibold sm:text-[29px]">
-            Ce que dit la communaute
+            Ce que dit la communauté
           </h2>
           <div className="grid grid-cols-1 gap-[18px] sm:grid-cols-3">
             {temoignages.map((t) => (
@@ -239,7 +239,11 @@ export default async function VitrinePage({
                     {(t.profils as unknown as { pseudo: string } | null)?.pseudo ?? "Membre"}
                   </span>
                 </div>
-                <div className="mb-3 font-mono text-xs text-[var(--corail)]">
+                <div
+                  role="img"
+                  aria-label={`Note : ${t.note} sur 5`}
+                  className="mb-3 font-mono text-xs text-[var(--corail-texte)]"
+                >
                   {"★".repeat(t.note)}
                   <span className="text-[var(--ligne)]">{"★".repeat(5 - t.note)}</span>
                 </div>
@@ -252,8 +256,8 @@ export default async function VitrinePage({
 
       {c.faq && c.faq.length > 0 && (
         <div className="px-6 py-16 sm:px-16">
-          <p className="mb-2.5 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle)]">
-            questions frequentes
+          <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-texte)]">
+            questions fréquentes
           </p>
           <h2 className="font-display mb-8 max-w-xl text-2xl font-semibold sm:text-[29px]">
             Ce que tu te demandes probablement
@@ -279,8 +283,8 @@ export default async function VitrinePage({
       {c.offre_texte && (
         <div className="mx-6 mb-16 flex flex-col items-start gap-5 rounded-[20px] bg-gradient-to-br from-[var(--corail)] to-[#FF9068] p-8 text-[var(--encre)] sm:mx-16 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="mb-2 font-mono text-[11px] uppercase tracking-wide opacity-75">
-              offre de lancement · places limitees
+            <p className="mb-2 font-mono text-xs uppercase tracking-wide">
+              offre de lancement · places limitées
             </p>
             <p className="font-display max-w-lg text-[19px] font-bold">
               <TexteRiche texte={c.offre_texte} />
@@ -295,7 +299,7 @@ export default async function VitrinePage({
         </div>
       )}
 
-      <div className="flex flex-col items-start justify-between gap-2 border-t border-[var(--ligne)] px-6 py-7 font-mono text-[11.5px] text-[var(--texte-mute)] sm:flex-row sm:items-center sm:px-16">
+      <div className="flex flex-col items-start justify-between gap-2 border-t border-[var(--ligne)] px-6 py-7 font-mono text-xs text-[var(--texte-mute)] sm:flex-row sm:items-center sm:px-16">
         <span>vivier academies</span>
         <span>le vivier des talents ia francophones</span>
       </div>
