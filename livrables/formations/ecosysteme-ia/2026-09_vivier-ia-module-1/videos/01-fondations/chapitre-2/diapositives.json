@@ -1,0 +1,64 @@
+{
+  "sortie": "diapositives-chapitre-2.pptx",
+  "titre": "Le terminal et l'IDE, votre nouvel espace de travail",
+  "sujet": "Vivier IA, Module 1, section 1, chapitre 2",
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 1 · CHAPITRE 2",
+      "titre": "Le terminal et l'IDE,\nvotre nouvel espace\nde travail",
+      "objectif": "Objectif : ouvrir le terminal et l'IDE côte à côte, puis lancer Claude Code.",
+      "pastilles": ["Le terminal", "L'IDE", "L'installation"],
+      "notes": "Moment du script : 0:00. Accroche et annonce du plan : à quoi sert chaque outil, comment les utiliser ensemble, puis l'installation pas à pas. À la fin, les deux sont ouverts côte à côte. Tout s'anime tout seul à l'ouverture de la diapositive."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "VOTRE POSTE DE TRAVAIL",
+      "titre": "Deux outils, deux rôles",
+      "intro": "Ils se complètent. Vous les gardez ouverts en même temps.",
+      "avant": { "etiquette": "LE TERMINAL", "titre": "Diriger l'agent", "texte": "Vous écrivez, Claude Code agit et vous montre ce qu'il a fait." },
+      "apres": { "etiquette": "L'IDE", "titre": "Inspecter le projet", "texte": "Fichiers, dossiers et changements, vus en contexte." },
+      "notes": "Moments du script : 0:22 (le terminal, clic 1) puis 0:53 (l'IDE, clic 2). Le terminal n'est pas une fenêtre intimidante : c'est le canal de conversation avec l'agent, qui utilise les commandes à votre place. L'IDE, comme VS Code, sert à voir et à naviguer dans les fichiers du projet, avec l'extension Claude Code qui montre les changements fichier par fichier."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "LA BONNE PRATIQUE",
+      "enonce": "Le terminal pour *diriger* l'agent.\nL'IDE pour *inspecter* ce qu'il produit.",
+      "appui": "Pas besoin d'écrire du code dans l'IDE. Il suffit de savoir vous y repérer.",
+      "notes": "Moment du script : 1:20. La phrase apparaît seule. Clic au moment de « Rassurez-vous » : le texte d'appui apparaît. Se repérer, c'est savoir quel fichier fait quoi et où se trouve telle fonctionnalité."
+    },
+    {
+      "type": "flux",
+      "surtitre": "UN EXEMPLE",
+      "rangees": [
+        { "etiquette": "DANS LE TERMINAL", "style": "gris", "boites": ["Vous écrivez", "Claude décrit", "Il agit"] },
+        { "etiquette": "DANS L'IDE", "style": "clair", "boites": ["Vous ouvrez", "Vous voyez", { "t": "Vous validez", "accent": true }] }
+      ],
+      "phrase": "Vous lisez, puis *vous validez ou vous corrigez*.",
+      "notes": "Moment du script : 1:42. La ligne « Dans le terminal » est déjà visible. Clic 1 à « Dans l'IDE » : la deuxième ligne apparaît. Clic 2 à « Puis vous validez, ou vous corrigez » : la phrase finale. Exemple général, sans fichier personnel : voir la section 2 du script."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "PASSONS À LA PRATIQUE",
+      "titre": "Installer votre poste\nde travail en trois étapes",
+      "lignes": [
+        { "etiquette": "Télécharger et installer Visual Studio Code (gratuit)", "commande": "code.visualstudio.com" },
+        { "etiquette": "Ouvrir le terminal intégré : menu Terminal, puis New Terminal, ou le raccourci", "commande": "Ctrl+` (Windows, Linux)   Cmd+` (Mac)" },
+        { "etiquette": "Onglet Extensions : chercher et installer l'extension", "commande": "Claude Code" }
+      ],
+      "notes": "Moments du script : 2:09 (étape 1, clic 1), 2:40 (étape 2, clic 2), 3:20 (étape 3, clic 3). Un clic par étape, puis on bascule sur l'écran : le navigateur sur code.visualstudio.com, VS Code ouvert sur un dossier vide, l'onglet Extensions. Visual Studio Code est déjà installé sur la machine d'enregistrement : afficher la page sans installer. Le raccourci vient du cours ; à tester sur votre clavier AZERTY avant d'enregistrer."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Le terminal pour diriger,\nl'IDE pour inspecter.",
+      "points": [
+        "Le terminal : le canal de conversation et d'action.",
+        "L'IDE : la fenêtre d'inspection visuelle du projet.",
+        "Se repérer suffit : inutile d'écrire le code vous-même."
+      ],
+      "final": "Prochaine vidéo : Git et GitHub, le filet de sécurité du code.",
+      "notes": "Moment du script : 5:13. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 1, chapitre 3)."
+    }
+  ]
+}

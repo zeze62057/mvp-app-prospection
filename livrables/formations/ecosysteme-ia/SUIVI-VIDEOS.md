@@ -14,9 +14,9 @@ Source : `2026-09_vivier-ia-module-1/01-fondations.md`
 | Chapitre | État | Date | Durée réelle | Notes |
 |---|---|---|---|---|
 | Chapitre 1 : Pourquoi Claude Code va changer votre métier | script prêt | 2026-09-21 | estimée 8:35 | Pilote du skill. 3 points à valider avant enregistrement (voir `videos/01-fondations/chapitre-1/01-script.md`). |
-| Chapitre 2 : Le terminal et l'IDE, votre nouvel espace de travail | à faire |  |  |  |
-| Chapitre 3 : Git et GitHub, le filet de sécurité du code | à faire |  |  |  |
-| Chapitre 4 : Vercel et OVH, mettre en ligne en quelques minutes | à faire |  |  |  |
+| Chapitre 2 : Le terminal et l'IDE, votre nouvel espace de travail | script prêt | 2026-09-21 | estimée 5:35 | 3 points à valider avant enregistrement (exemple neutralisé, démonstration réelle ou non, raccourci AZERTY). PowerPoint fait avec l'outil `_outils-video`. À valider par Zézé avant le chapitre 3. |
+| Chapitre 3 : Git et GitHub, le filet de sécurité du code | script prêt | 2026-09-21 | estimée 6:29 | 4 points à valider avant enregistrement (exemple `/commit` neutralisé, demande du premier commit, config Git globale, jeton GitHub). 8 diapositives. À valider par Zézé avant le chapitre 4. |
+| Chapitre 4 : Vercel et OVH, mettre en ligne en quelques minutes | script prêt | 2026-09-21 | estimée 6:15 | 4 points à valider avant enregistrement (affirmation "Afrique" chez OVH à vérifier, exemple Vivier IA, démonstration du déploiement, libellés d'interface et achat OVH). 7 diapositives. Dernier chapitre de la section 1. À valider par Zézé avant la section 2. |
 
 ### Section 2 — 🧠 La Méthode
 

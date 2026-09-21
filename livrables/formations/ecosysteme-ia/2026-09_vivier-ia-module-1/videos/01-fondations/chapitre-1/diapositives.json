@@ -1,0 +1,74 @@
+{
+  "sortie": "diapositives-chapitre-1.pptx",
+  "titre": "Pourquoi Claude Code va changer votre métier",
+  "sujet": "Vivier IA, Module 1, section 1, chapitre 1",
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 1 · CHAPITRE 1",
+      "titre": "Pourquoi Claude Code va changer votre métier",
+      "objectif": "Objectif : comprendre ce qui change, puis lancer Claude Code sur votre ordinateur.",
+      "pastilles": ["Ce qui change", "Ce qui ne change pas", "Installer Claude Code"],
+      "notes": "Moment du script : 0:00. Accroche et annonce du plan. Trois parties : ce qui change, ce qui ne change pas, puis l'installation. À la fin, Claude Code est lancé sur l'ordinateur de l'élève. Tout s'anime tout seul à l'ouverture de la diapositive."
+    },
+    {
+      "type": "flux",
+      "surtitre": "LE CONSTAT",
+      "rangees": [
+        { "etiquette": "AVANT", "style": "ancien", "boites": ["Idée", "Syntaxe", "Machine"] },
+        { "etiquette": "MAINTENANT", "style": "nouveau", "boites": ["Idée", { "t": "Claude", "accent": true }, "Résultat"] }
+      ],
+      "phrase": "Votre rôle : *architecte et validateur*",
+      "notes": "Moment du script : 0:22. Clic 1 au moment de « Avec Claude Code, cela change » : la ligne « Maintenant » apparaît. Clic 2 : la phrase finale, vous n'êtes plus le traducteur vers la machine, vous devenez l'architecte et le validateur."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "CE QUI CHANGE",
+      "titre": "Trois basculements",
+      "cartes": [
+        { "titre": "La barrière technique s'effondre", "texte": "Pas les compétences. L'effort se déplace : cadrer, donner un contexte, valider." },
+        { "titre": "La vitesse change d'ordre de grandeur", "texte": "Des semaines d'équipe deviennent des heures ou des jours, pour un produit simple à moyen." },
+        { "titre": "Le métier devient un produit de bout en bout", "texte": "Du terminal jusqu'au déploiement : Git, hébergement, tests." }
+      ],
+      "notes": "Moments du script : 0:56 (premier basculement), 1:27 (deuxième), 2:00 (troisième). Un clic par carte, au début du paragraphe correspondant."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "CE QUI NE CHANGE PAS",
+      "titre": "Savoir cadrer, découper, *vérifier*",
+      "intro": "Exemple : un audit d'IA pour un client de l'immobilier.",
+      "avant": { "etiquette": "AVANT", "titre": "Plusieurs semaines", "texte": "Un développeur et un chef de projet." },
+      "apres": { "etiquette": "APRÈS", "titre": "Quelques jours", "texte": "Une seule personne, qui cadre et qui valide." },
+      "notes": "Moments du script : 2:30 (ce qui ne change pas) puis 2:57 (l'exemple concret). Clic 1 : la carte « Avant ». Clic 2 : la carte « Après ». Le travail ne disparaît pas, il change de nature : moins de syntaxe, plus de jugement sur ce qu'il faut construire et vérifier."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "PASSONS À LA PRATIQUE",
+      "titre": "Installer Claude Code en trois commandes",
+      "lignes": [
+        { "etiquette": "Vérifier Node.js, version 18 ou plus", "commande": "node --version" },
+        { "etiquette": "Installer Claude Code", "commande": "npm install -g @anthropic-ai/claude-code" },
+        { "etiquette": "Le lancer, dans le dossier de votre projet", "commande": "claude" }
+      ],
+      "notes": "Moment du script : 3:34. Un clic par commande : node --version, puis npm install, puis claude. Ensuite on bascule sur le terminal en plein écran, police agrandie. Les commandes sont exactement celles du cours."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "SI ÇA BLOQUE",
+      "titre": "Deux blocages fréquents",
+      "cartes": [
+        { "titre": "L'installation est coupée", "texte": "La commande claude --version renvoie une erreur. Ne relancez pas par-dessus : désinstallez, puis réinstallez avec une connexion stable.", "code": ["npm uninstall -g", "@anthropic-ai/claude-code"] },
+        { "titre": "Windows bloque les scripts", "texte": "PowerShell affiche : l'exécution de scripts est désactivée. C'est une protection par défaut. La correction autorise les scripts locaux seulement.", "code": ["Set-ExecutionPolicy -Scope CurrentUser", "-ExecutionPolicy RemoteSigned"] }
+      ],
+      "notes": "Moments du script : 6:32 (installation coupée, clic 1) puis 7:14 (Windows, clic 2). Sous Windows, vous pouvez montrer Get-ExecutionPolicy -List, sans modifier la politique de votre poste pendant l'enregistrement. Réflexe commun : lire le message d'erreur en entier, diagnostiquer, puis corriger."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Architecte et validateur,\npas traducteur de syntaxe.",
+      "points": ["L'effort se déplace, il ne disparaît pas.", "Une personne seule peut livrer un produit complet, du code au déploiement."],
+      "final": "Prochaine vidéo : le terminal et l'éditeur de code, votre nouvel espace de travail.",
+      "notes": "Moment du script : 8:02. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 1, chapitre 2)."
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+{
+  "sortie": "diapositives-chapitre-4.pptx",
+  "titre": "Vercel et OVH, mettre en ligne en quelques minutes",
+  "sujet": "Vivier IA, Module 1, section 1, chapitre 4",
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 1 · CHAPITRE 4",
+      "titre": "Vercel et OVH,\nmettre en ligne\nen quelques minutes",
+      "objectif": "Objectif : choisir votre hébergeur, puis déployer une page sur Vercel.",
+      "pastilles": ["Vercel et OVH", "Le choix", "Le déploiement"],
+      "notes": "Moment du script : 0:00. Accroche et annonce du plan : deux hébergeurs, comment choisir, puis un déploiement pas à pas sur Vercel. Dernier chapitre de la section 1. Tout s'anime tout seul à l'ouverture de la diapositive."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "POURQUOI METTRE EN LIGNE",
+      "enonce": "Un projet n'est *livré*\nque lorsqu'il est *en ligne*.",
+      "appui": "Pas seulement quand le code fonctionne en local, sur votre machine.",
+      "notes": "Moment du script : 0:18. La phrase apparaît seule. Clic à « Pas seulement quand le code fonctionne » : le texte d'appui. C'est le rôle de l'hébergement et du déploiement."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "DEUX OPTIONS À CONNAÎTRE",
+      "titre": "Vercel et OVH, qui fait quoi ?",
+      "intro": "Le choix dépend du projet.",
+      "avant": { "etiquette": "VERCEL", "titre": "Rapidité et simplicité", "texte": "Sites et applications web modernes, déploiement automatique." },
+      "apres": { "etiquette": "OVH", "titre": "Contrôle et infrastructure", "texte": "Serveur dédié, base de données auto-hébergée, contraintes spécifiques." },
+      "notes": "Moment du script : 0:40. Clic 1 à « Vercel est une plateforme » : la carte Vercel. Clic 2 à « OVH est un hébergeur » : la carte OVH. Vercel : MVP, sites vitrines, front-end. OVH : hébergeur plus traditionnel, coûts maîtrisés sur la durée."
+    },
+    {
+      "type": "flux",
+      "surtitre": "L'EXEMPLE CONCRET",
+      "rangees": [
+        { "etiquette": "SITE VITRINE", "style": "clair", "boites": ["Site statique", "Push GitHub", { "t": "Vercel", "accent": true }] },
+        { "etiquette": "BACKEND N8N", "style": "clair", "boites": ["Docker et workers", "Contrôle serveur", { "t": "OVH", "accent": true }] }
+      ],
+      "phrase": "Le choix dépend du *projet*.",
+      "notes": "Moment du script : 1:24. La ligne « Site vitrine » est déjà visible. Clic 1 à « À l'inverse » : la ligne « Backend n8n ». Clic 2 à la fin : la phrase finale."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "PASSONS À LA PRATIQUE",
+      "titre": "Déployer sur Vercel",
+      "lignes": [
+        { "etiquette": "Créer un compte gratuit", "detail": "Sur vercel.com, idéalement avec votre compte GitHub." },
+        { "etiquette": "Ajouter un projet", "detail": "Tableau de bord, « Add New Project », puis le dépôt GitHub." },
+        { "etiquette": "Valider la configuration", "detail": "Vercel détecte votre projet et propose une configuration par défaut." },
+        { "etiquette": "Chaque git push redéploie le site", "detail": "Sur la branche principale, sans action manuelle supplémentaire." }
+      ],
+      "notes": "Moment du script : 2:07. Un clic par étape (4 clics). Puis on bascule sur vercel.com, déjà connecté au compte de démonstration. Vérifier le libellé « Add New Project » à l'écran le jour de l'enregistrement (point 4 de la section 2 du script). Après cette diapositive : démonstration du déploiement dans le tableau de bord (3:05), sans diapositive."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "CÔTÉ OVH",
+      "titre": "Créer un compte OVH",
+      "lignes": [
+        { "etiquette": "Créer un compte", "detail": "Sur ovh.com." },
+        { "etiquette": "Choisir l'offre adaptée au besoin réel", "detail": "Hébergement web mutualisé pour un site simple, VPS pour un backend comme n8n." }
+      ],
+      "notes": "Moment du script : 5:05. Un clic par étape (2 clics). Un VPS est un serveur privé virtuel. L'installation complète d'un n8n de production sur un VPS est couverte au Module 2, section 5. Afficher seulement le site et la page des offres : aucun achat, aucune information de paiement (point 4 de la section 2 du script)."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Vercel pour aller vite,\nOVH pour garder le contrôle.",
+      "points": [
+        "Vercel : rapide, automatisé, adapté aux projets web standards.",
+        "OVH : plus de contrôle, adapté aux besoins d'infrastructure spécifiques.",
+        "Un projet n'est livré que lorsqu'il est accessible en ligne."
+      ],
+      "final": "Prochaine vidéo : Agentic Coding vs Vibe Coding, la vraie différence.",
+      "notes": "Moment du script : 5:50. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 2, chapitre 1)."
+    }
+  ]
+}

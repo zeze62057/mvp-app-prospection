@@ -1,0 +1,90 @@
+{
+  "sortie": "diapositives-chapitre-3.pptx",
+  "titre": "Git et GitHub, le filet de sécurité du code",
+  "sujet": "Vivier IA, Module 1, section 1, chapitre 3",
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 1 · CHAPITRE 3",
+      "titre": "Git et GitHub,\nle filet de sécurité\ndu code",
+      "objectif": "Objectif : comprendre le filet de sécurité, puis faire votre premier commit.",
+      "pastilles": ["Git et GitHub", "Trois réflexes", "L'installation"],
+      "notes": "Moment du script : 0:00. Accroche et annonce du plan : ce que font Git et GitHub, pourquoi c'est un filet de sécurité, trois réflexes, puis l'installation. Tout s'anime tout seul à l'ouverture de la diapositive."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "LES DÉFINITIONS",
+      "titre": "Git et GitHub, qui fait quoi ?",
+      "intro": "Git garde l'historique. GitHub l'héberge en ligne.",
+      "avant": { "etiquette": "GIT", "titre": "L'historique du projet", "texte": "Chaque état est un commit : une photo datée du code." },
+      "apres": { "etiquette": "GITHUB", "titre": "L'hébergement en ligne", "texte": "Sauvegarde, partage et collaboration." },
+      "notes": "Moment du script : 0:20. Clic 1 à « Git garde en mémoire » : la carte Git. Clic 2 à « GitHub est la plateforme » : la carte GitHub. Un commit est une photo datée du code à un instant donné."
+    },
+    {
+      "type": "flux",
+      "surtitre": "LE FILET DE SÉCURITÉ",
+      "rangees": [
+        { "etiquette": "SANS GIT", "style": "gris", "boites": ["Modification", "Ça casse", "Parfois irréversible"] },
+        { "etiquette": "AVEC GIT", "style": "clair", "boites": ["Modification", "Ça casse", { "t": "Retour à l'état d'avant", "accent": true }] }
+      ],
+      "phrase": "Presque rien n'est perdu *définitivement*.",
+      "notes": "Moment du script : 0:42. La ligne « Sans Git » est déjà visible. Clic 1 à « Avec Git, vous revenez à un état antérieur » : la deuxième ligne. Clic 2 à « Presque rien n'est perdu » : la phrase finale."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "TROIS RÉFLEXES",
+      "titre": "À installer dès le départ",
+      "cartes": [
+        { "titre": "Committer régulièrement", "texte": "À chaque étape stable du projet, pas seulement à la fin." },
+        { "titre": "Des messages clairs", "texte": "Ils expliquent le pourquoi du changement, pas juste « modif »." },
+        { "titre": "Pousser vers GitHub", "texte": "Une sauvegarde hors de votre machine. Vous validez avant de pousser." }
+      ],
+      "notes": "Moments du script : 1:05 (premier réflexe), puis les deux suivants. Un clic par carte, au début de chaque réflexe. La diapositive reste affichée jusqu'à 2:18 : le point sur la validation avant un push (1:33) et l'exemple concret (1:48) se disent sur cette diapositive."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "PASSONS À LA PRATIQUE",
+      "titre": "Installer Git",
+      "lignes": [
+        { "etiquette": "Windows : l'installateur, options par défaut", "commande": "git-scm.com" },
+        { "etiquette": "Mac : macOS propose l'installation si Git est absent", "commande": "git --version" },
+        { "etiquette": "Linux (Debian, Ubuntu)", "commande": "sudo apt install git" }
+      ],
+      "notes": "Moment du script : 2:18. Un clic par système : Windows, Mac, Linux. Puis on bascule sur le navigateur, page git-scm.com. Git est déjà installé sur la machine d'enregistrement : afficher la page sans installer."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "À FAIRE UNE SEULE FOIS",
+      "titre": "Configurer Git",
+      "lignes": [
+        { "etiquette": "Votre nom", "commande": "git config --global user.name \"Votre Nom\"" },
+        { "etiquette": "Votre adresse e-mail", "commande": "git config --global user.email \"votre.email@exemple.com\"" }
+      ],
+      "notes": "Moment du script : 3:04. Un clic par commande. Ne pas exécuter ces commandes pendant l'enregistrement : elles écraseraient la configuration Git de votre poste (voir le point 3 de la section 2 du script)."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "GITHUB",
+      "titre": "Mettre votre projet sur GitHub",
+      "lignes": [
+        { "etiquette": "Créer un compte", "detail": "Gratuit, sur github.com." },
+        { "etiquette": "Créer un dépôt", "detail": "Un dépôt vide, depuis le site." },
+        { "etiquette": "Connecter votre projet", "detail": "Puis pousser le premier commit. Claude Code peut le faire pour vous." },
+        { "etiquette": "S'authentifier avec un jeton d'accès personnel", "detail": "Settings, Developer settings, Personal access tokens." }
+      ],
+      "notes": "Moment du script : 3:30. Un clic par étape (4 clics). Afficher seulement github.com déconnecté, ou un compte de démonstration. Ne créer aucun jeton à l'écran : un jeton est un secret (voir le point 4 de la section 2 du script). Après cette diapositive : démonstration du premier commit dans VS Code (4:37), sans diapositive."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Git protège votre projet,\nGitHub le sauvegarde.",
+      "points": [
+        "Git garde un historique réversible du projet.",
+        "GitHub héberge et sécurise cet historique en ligne.",
+        "Committez souvent, avec des messages clairs, et validez avant de pousser."
+      ],
+      "final": "Prochaine vidéo : Vercel et OVH, mettre en ligne en quelques minutes.",
+      "notes": "Moment du script : 6:05. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 1, chapitre 4)."
+    }
+  ]
+}
