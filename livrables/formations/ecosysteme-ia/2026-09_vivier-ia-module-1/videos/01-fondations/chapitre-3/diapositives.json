@@ -2,6 +2,7 @@
   "sortie": "diapositives-chapitre-3.pptx",
   "titre": "Git et GitHub, le filet de sécurité du code",
   "sujet": "Vivier IA, Module 1, section 1, chapitre 3",
+  "bureau": { "dossier": "Module 1 - Section 1 - Les Fondations", "nom": "Chapitre 3" },
   "diapositives": [
     {
       "type": "titre",

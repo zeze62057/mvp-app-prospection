@@ -25,6 +25,10 @@ npm install
 
 Dépendances : pptxgenjs, sharp, jszip. Le dossier `node_modules/` n'est pas versionné.
 
+## Ce qui est rangé sur le Bureau de Zézé
+
+`node synchroniser-bureau.mjs` (tous les chapitres, les outils, le site de démonstration, le suivi) ou `node synchroniser-bureau.mjs <chapitre>` (un seul). Résultat : `Bureau\Diapositives Vivier IA\<Module - Section>\<Chapitre N>\` avec `Diapositives.pptx`, `Script.md`, `Enregistrement.md` et `Plan des diapositives.md`, plus un `LISEZ-MOI.txt`. Ce sont des copies : `terminer-chapitre.mjs` les met à jour à chaque exécution.
+
 ## La commande unique (à utiliser en pratique)
 
 ```

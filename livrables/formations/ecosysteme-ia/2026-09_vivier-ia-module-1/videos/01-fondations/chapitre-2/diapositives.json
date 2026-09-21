@@ -2,6 +2,7 @@
   "sortie": "diapositives-chapitre-2.pptx",
   "titre": "Le terminal et l'IDE, votre nouvel espace de travail",
   "sujet": "Vivier IA, Module 1, section 1, chapitre 2",
+  "bureau": { "dossier": "Module 1 - Section 1 - Les Fondations", "nom": "Chapitre 2" },
   "diapositives": [
     {
       "type": "titre",

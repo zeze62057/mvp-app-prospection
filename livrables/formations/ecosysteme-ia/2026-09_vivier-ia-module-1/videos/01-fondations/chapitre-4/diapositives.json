@@ -2,6 +2,7 @@
   "sortie": "diapositives-chapitre-4.pptx",
   "titre": "Vercel et OVH, mettre en ligne en quelques minutes",
   "sujet": "Vivier IA, Module 1, section 1, chapitre 4",
+  "bureau": { "dossier": "Module 1 - Section 1 - Les Fondations", "nom": "Chapitre 4" },
   "diapositives": [
     {
       "type": "titre",

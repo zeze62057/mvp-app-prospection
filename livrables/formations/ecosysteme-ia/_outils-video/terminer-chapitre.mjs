@@ -40,15 +40,7 @@ lancer("Planche d'apercu", "node", [path.join(outils, "planche.mjs"), dossier]);
 lancer("Fiches 02 et 03", "node", [path.join(outils, "generer-fiches.mjs"), jsonChemin]);
 
 if (spec.bureau) {
-  const bureau = execFileSync("powershell", ["-NoProfile", "-Command", "[Environment]::GetFolderPath('Desktop')"], { encoding: "utf8" }).trim();
-  const cible = path.join(bureau, "Diapositives Vivier IA", spec.bureau.dossier, `${spec.bureau.nom}.pptx`);
-  fs.mkdirSync(path.dirname(cible), { recursive: true });
-  try {
-    fs.copyFileSync(pptx, cible);
-    console.log(`\n=== Copie sur le Bureau : ${cible}`);
-  } catch (e) {
-    console.log(`\n=== Copie sur le Bureau IMPOSSIBLE (${e.code}) : le fichier est probablement ouvert dans PowerPoint.`);
-  }
+  lancer("Copie sur le Bureau (diapositives, script, fiches)", "node", [path.join(outils, "synchroniser-bureau.mjs"), dossier]);
 }
 
 const alertes = verif.split("\n").filter((l) => l.includes("ALERTE"));

@@ -2,6 +2,7 @@
   "sortie": "diapositives-chapitre-1.pptx",
   "titre": "Pourquoi Claude Code va changer votre métier",
   "sujet": "Vivier IA, Module 1, section 1, chapitre 1",
+  "bureau": { "dossier": "Module 1 - Section 1 - Les Fondations", "nom": "Chapitre 1" },
   "diapositives": [
     {
       "type": "titre",
