@@ -18,7 +18,15 @@ if (!process.argv[2] || !fs.existsSync(specChemin)) {
   console.error("Usage : node construire-pptx.mjs <chemin/diapositives.json>");
   process.exit(1);
 }
-const spec = JSON.parse(fs.readFileSync(specChemin, "utf8"));
+// Les notes peuvent citer {{tN}} : l'heure de la N-ieme ligne du tableau de 01-script.md (le fichier voisin).
+// Cela evite de recopier a la main des heures qui changent a chaque retouche du script.
+let specBrut = fs.readFileSync(specChemin, "utf8");
+const scriptVoisin = path.join(path.dirname(specChemin), "01-script.md");
+if (fs.existsSync(scriptVoisin)) {
+  const heures = [...fs.readFileSync(scriptVoisin, "utf8").matchAll(/^\| (\d+:\d\d) \|/gm)].map((m) => m[1]);
+  specBrut = specBrut.replace(/\{\{t(\d+)\}\}/g, (_, n) => heures[n - 1] ?? "?:??");
+}
+const spec = JSON.parse(specBrut);
 const sortiePptx = path.join(path.dirname(specChemin), spec.sortie ?? "diapositives.pptx");
 const SRC_FOND = path.join(ICI, "assets", "fond-robot.jpg"); // 588 x 330
 const SRC_LOGO = path.join(ICI, "assets", "logo-vivier-ia.jpg"); // 1280 x 853
@@ -180,7 +188,7 @@ const MISES_EN_PAGE = {
     logo(s, { x: 13.333 - 0.7 - 2.3, y: 5.55, w: 2.3 });
     const X = 6.39, Wc = 6.05;
     texte(s, d.surtitre, { x: X, y: 1.1, w: Wc, h: 0.5, fontSize: 13, bold: true, charSpacing: 1, color: C.sarcelleClair, fontFace: TITRE, objectName: `s${i}-surtitre` });
-    texte(s, runs(d.titre, C.fond), { x: X, y: 1.85, w: Wc, h: 1.6, fontSize: 34, bold: true, fontFace: TITRE, lineSpacingMultiple: 1.05, objectName: `s${i}-titre` });
+    texte(s, runs(d.titre, C.fond), { x: X, y: 1.85, w: Wc, h: 1.9, fontSize: 34, bold: true, fontFace: TITRE, lineSpacingMultiple: 1.05, objectName: `s${i}-titre` });
     if (String(d.titre).length > 60) avertir(`Titre de couverture long (${String(d.titre).length} caracteres) : il risque de depasser 3 lignes.`);
     texte(s, d.objectif, { x: X, y: 3.75, w: Wc, h: 0.9, fontSize: 17, color: C.texteClair, objectName: `s${i}-objectif` });
     let x = X, y = 4.95;

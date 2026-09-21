@@ -25,7 +25,27 @@ npm install
 
 Dépendances : pptxgenjs, sharp, jszip. Le dossier `node_modules/` n'est pas versionné.
 
-## Les trois commandes
+## La commande unique (à utiliser en pratique)
+
+```
+node terminer-chapitre.mjs <dossier-du-chapitre>
+```
+
+Elle enchaîne les quatre commandes ci-dessous, puis écrit `02-diapositives.md` et `03-enregistrement-et-mise-en-ligne.md` (`generer-fiches.mjs`) et copie le PowerPoint sur le Bureau (clé `bureau` du JSON). On écrit à la main seulement `01-script.md` et `diapositives.json`. À relancer après chaque retouche.
+
+Clés optionnelles de `diapositives.json`, en plus de `sortie`, `titre`, `sujet` et `diapositives` :
+
+| Clé | Contenu |
+|---|---|
+| `bureau` | `{ "dossier": "Module 1 - Section 2 - La Méthode", "nom": "Chapitre 1" }` : où copier le PowerPoint sur le Bureau |
+| `fiche` | `{ "description": "...", "points": ["..."] }` : la fiche à coller sur la plateforme |
+| `preparation`, `avant`, `pendant`, `apres`, `secrets` | listes de lignes ajoutées à la checklist d'enregistrement (la veille, juste avant, pendant, après) et à la vérification des secrets |
+| `entre` | passages à l'écran sans diapositive (la démonstration) |
+| `aVerifier` | points d'interface à revoir le jour de l'enregistrement |
+
+Dans les `notes` des diapositives, `{{tN}}` est remplacé par l'heure de la N-ième ligne du tableau de `01-script.md` : on ne recopie jamais une heure à la main.
+
+## Les quatre commandes
 
 1. **Minuter le script** (remplit les `{{tN}}` et `{{duree_estimee}}` de `01-script.md`) :
    ```
@@ -43,7 +63,13 @@ Dépendances : pptxgenjs, sharp, jszip. Le dossier `node_modules/` n'est pas ver
    ```
    powershell -NoProfile -ExecutionPolicy Bypass -File verifier-pptx.ps1 -Fichier <chemin complet du .pptx>
    ```
-   Le script ouvre le fichier, compte par diapositive les effets (par clic, avec la précédente, après la précédente), la transition et la longueur des notes, puis exporte chaque diapositive en PNG dans un dossier `rendu/` à côté du fichier. **Regardez les images** : le comptage ne détecte ni un texte qui déborde, ni un titre qui touche le logo. Le dossier `rendu/` se régénère à volonté : ne le versionnez pas. `-ExecutionPolicy Bypass` ne s'applique qu'à cette commande et ne change pas le réglage de Windows.
+   Le script ouvre le fichier, compte par diapositive les effets (par clic, avec la précédente, après la précédente), la transition et la longueur des notes, puis exporte chaque diapositive en PNG dans un dossier `rendu/` à côté du fichier. Il signale aussi les **ALERTES** de mise en page : texte qui déborde de son cadre (toujours un vrai défaut), élément qui sort de la diapositive, titre sur plus de 3 lignes, mot seul en fin de ligne (parfois voulu). Il ne voit pas un titre qui touche le logo : regardez les images.
+
+4. **Générer la planche d'aperçu** (une seule image pour tout le chapitre) :
+   ```
+   node planche.mjs <chapitre>
+   ```
+   Elle assemble les diapositives de `rendu/` en `rendu/planche.png`, à regarder en entier. Le dossier `rendu/` se régénère à volonté : ne le versionnez pas. `-ExecutionPolicy Bypass` ne s'applique qu'à cette commande et ne change pas le réglage de Windows.
 
 Le déroulé animé n'est pas joué par ce contrôle : à tester en mode diaporama avant l'enregistrement.
 

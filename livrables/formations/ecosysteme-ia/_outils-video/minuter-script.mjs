@@ -45,5 +45,5 @@ const resume = `**${mots} mots prononcés**, soit environ ${(mots / RYTHME).toFi
 texte = texte.includes("{{duree_estimee}}")
   ? texte.replace("{{duree_estimee}}", resume)
   : texte.replace(/\*\*\d+ mots prononcés\*\*[^\n]*avant coupes au montage\./, resume);
-fs.writeFileSync(fichier, texte, "utf8");
+if (texte !== fs.readFileSync(fichier, "utf8")) fs.writeFileSync(fichier, texte, "utf8");
 console.log(`${lignes} passages | ${mots} mots | ${manip} s de manipulation | total ${format(cumul)} (${(cumul / 60).toFixed(1)} min)`);
