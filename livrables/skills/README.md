@@ -8,6 +8,7 @@ Fiches des skills de ton Jarvis. **Les fichiers actifs sont dans `.claude/skills
 |-------|------|------------------|
 | `approche-projet` | Cadrer et dérouler un projet de bout en bout selon la méthode du workspace. Renvoie à `livrables/transverse/methode-approche-projet.md` | Nouveau projet, ou "comment aborder ce projet" |
 | `approche-ia-marketing-reseau` | Construire une application ou une fonctionnalité IA pour le marketing de réseau, en s'appuyant sur le programme MLM | Outil IA pour Longrich, ou "est-ce que cette fonctionnalité IA a du sens en MLM" |
+| `creer-video-formation` | Préparer la vidéo d'un chapitre de l'écosystème IA pour tes élèves (écran filmé, voix off, vouvoiement) : script minuté, plan de diapositives, checklist d'enregistrement, fiche plateforme, mise en ligne guidée. Ne fabrique pas la vidéo | "Crée la vidéo du chapitre X", "les vidéos du Module N" |
 | `contenu-vivier-ia` | Rédiger un brouillon d'article pour l'onglet "Contenu" de la communauté gratuite Vivier Academies, à partir d'une veille IA. Ne publie jamais seul | "Prépare un article pour Contenu" |
 | `pratiquer-technique` | Te guider pas à pas dans la pratique réelle d'un chapitre technique, pour que tu montes toi-même en compétence | Tu veux t'entraîner sur un chapitre (Module 1, 2...) |
 | `preparer-demo-formation` | Transformer un chapitre de cours en script de démonstration pour une vidéo ou un live | "Prépare une démo" ou un script pour filmer un chapitre |

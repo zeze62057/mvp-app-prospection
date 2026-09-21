@@ -1,0 +1,114 @@
+---
+name: creer-video-formation
+description: >-
+  Prépare tout ce qu'il faut pour enregistrer la vidéo d'un chapitre du
+  programme de formation écosystème IA de Zézé (Modules 1 à 5 de Vivier IA),
+  destinée à ses élèves, en format écran filmé avec voix off. Pour un chapitre
+  donné, produit le cadrage, le script parlé minuté avec plan d'écran, le plan
+  des diapositives (à construire dans Claude Design), la checklist
+  d'enregistrement, la fiche à coller sur la plateforme, puis guide la mise en
+  ligne pas à pas. Se déclenche quand Zézé demande de créer, préparer ou
+  scripter une vidéo de formation pour ses élèves, "la vidéo du chapitre X",
+  ou "les vidéos du Module N". Ne fabrique jamais le fichier vidéo lui-même.
+---
+
+# Skill : Créer une vidéo de formation
+
+## Mission
+
+Pour un chapitre du programme écosystème IA, livrer à Zézé un dossier prêt à enregistrer : il n'a plus qu'à lancer l'enregistrement d'écran et à parler. Le skill ne produit pas de contenu pédagogique nouveau : il met en scène, à l'oral, un chapitre déjà rédigé et validé.
+
+Ce skill réutilise les règles de `preparer-demo-formation` (ne rien inventer, préparer avant de filmer ce qui est long, jamais de vraie clé à l'écran) et la variante "Formation" de `livrables/transverse/methode-approche-projet.md` (relecture de fidélité au cours avant de valider). Il ne modifie pas `preparer-demo-formation`, qui reste le skill des démos live.
+
+## Décisions actées (2026-09-21)
+
+- **Format** : écran filmé avec voix off. Zézé montre l'outil à l'écran et commente. Les diapositives servent d'ouverture, de repères et de récapitulatif, pas de contenu principal.
+- **Adresse aux élèves** : vouvoiement dans tout ce qui est dit à l'oral ("vous"), même si la plateforme tutoie.
+- **Unité de travail** : un chapitre = une vidéo. Une section de cours contient plusieurs chapitres, et une vidéo de 30 minutes perd les élèves.
+- **Périmètre** : les 5 modules de `livrables/formations/ecosysteme-ia/`. Le skill traite n'importe quelle section, chapitre par chapitre.
+- **Livraison** : préparation et mise en ligne guidée. Le skill n'envoie jamais rien sur la plateforme sans l'accord de Zézé.
+
+## Comment utiliser ce skill
+
+### Étape 0 : identifier le chapitre
+
+Si Zézé ne l'a pas précisé, demandez le module, la section et le chapitre. S'il demande "les vidéos du Module N" ou "d'une section", proposez la liste des chapitres, faites-en valider l'ordre, puis traitez un chapitre à la fois. Ne préparez pas tout d'un bloc.
+
+### Étape 1 : lire les sources, en entier
+
+Avant d'écrire quoi que ce soit, lisez :
+- le chapitre dans le fichier de section du module (`0X-nom-section.md`) ;
+- la fiche de prompts associée (`0X-nom-section-prompts.md`) si elle existe : ses prompts sont prêts à l'emploi, n'en inventez pas d'autres ;
+- la sous-section "Installation pratique" du chapitre, et ses pièges fréquents ;
+- pour le Module 1, `00-guide-de-reussite.md` : l'étape correspondante donne le "à faire" concret et le "signal de passage" que la vidéo doit permettre d'atteindre ;
+- `SUIVI-VIDEOS.md` (voir plus bas) pour voir ce qui existe déjà.
+
+Ne jamais inventer un exemple, une commande, un chiffre ou un prompt absent de ces sources. Si le chapitre n'a pas d'exemple concret ou pas d'installation pratique alors que l'outil doit être installé, dites-le à Zézé : soit on enrichit d'abord le chapitre, soit on enregistre avec ce qui existe.
+
+**Le cours est parfois écrit pour Zézé, pas pour des élèves.** Le premier essai l'a montré : le chapitre 1 du Module 1 parle à Zézé (« vu où tu veux aller, cabinet de conseil, école »), cite Chatllow et renvoie à des dossiers du workspace. Une vidéo publique ne doit contenir ni ses projets personnels, ni des chemins internes, ni ses clients. Repérez ces passages à la lecture. Neutralisez-les dans le script (« un consultant, un formateur ou un entrepreneur »), et listez chacun dans une section « Points à valider avec Zézé » du fichier `01-script.md`, avec le texte d'origine et la version proposée. Ne les modifiez jamais en silence, et ne changez rien d'autre sur le fond.
+
+### Étape 2 : produire les livrables
+
+Écrire dans `livrables/formations/ecosysteme-ia/<module>/videos/<section>/chapitre-<N>/` trois fichiers.
+
+**`01-script.md`** contient :
+
+1. **Cadrage** : objectif d'apprentissage en une phrase (repris du signal de passage quand il existe), prérequis de l'élève, durée cible entre 6 et 12 minutes, exemple concret du chapitre qui portera la vidéo.
+2. **Points à valider avec Zézé** : les passages du cours adaptés pour des élèves (voir l'étape 1), avec le texte d'origine et la version proposée.
+3. **Script minuté**, sous forme de tableau à quatre colonnes :
+
+   | Minute | Ce que vous dites | Ce qu'on voit à l'écran | Action à faire |
+   |---|---|---|---|
+
+   Le tableau suit toujours ce fil : accroche, annonce du plan, points clés, démonstration de l'exemple concret, installation pratique si le chapitre en a une, erreurs fréquentes, récapitulatif, prochaine étape.
+4. **Durée estimée** : nombre de mots prononcés divisé par 140 (rythme de voix off posée en français), plus le temps de manipulation à l'écran. Calculez-la sur les mots réellement écrits, jamais au jugé, et vérifiez qu'elle tient dans la durée cible. Indiquez que 140 est une hypothèse à corriger après le premier enregistrement.
+
+**`02-diapositives.md`** contient le plan de 5 à 7 diapositives (titre du chapitre, objectif, plan, un point clé par diapositive, récapitulatif, prochaine étape), avec pour chacune le texte exact et le moment du script où elle apparaît. Le visuel se construit dans Claude Design, pas dans Canva : terminez par un prompt prêt à coller dans Claude Design, au gabarit à 4 éléments (Contexte, Objectif, Périmètre, Autonomie), avec la charte Vivier IA (encre `#113832`, sarcelle `#2B8C82`, corail `#FF7A4D`, fond `#F2F7F5`). Annoncez ce prompt à Zézé et attendez sa validation avant tout lancement.
+
+**`03-enregistrement-et-mise-en-ligne.md`** contient :
+
+1. **Checklist d'enregistrement** :
+   - écran propre : notifications coupées, onglets inutiles fermés, zoom du terminal à 150 %, résolution 1080p ;
+   - comptes et projet de démonstration déjà créés ;
+   - test à blanc d'une minute, pour vérifier le son et la lisibilité ;
+   - plan B si une démonstration échoue en direct (poursuivre, ou couper et reprendre) ;
+   - **outil d'enregistrement** : celui de la plateforme capte l'écran et le son du système, pas le micro. Pour une voix off, enregistrez avec un logiciel qui capte le micro (OBS Studio est gratuit) et envoyez ensuite le fichier.
+2. **Vérification des secrets** : aucune vraie clé d'API, aucun mot de passe, aucune donnée client réelle à l'écran. Utilisez des identifiants de démonstration, jamais ceux de Chatllow, de Chariow ou d'un client. Vérifiez aussi la barre d'onglets, l'historique du terminal et les fichiers `.env` ouverts.
+3. **Fiche plateforme** prête à coller : titre de la vidéo, description en deux phrases, trois à cinq points clés, durée réelle à renseigner après l'enregistrement.
+
+### Étape 3 : règles d'écriture du script parlé
+
+Un script à l'oral n'est pas le cours recopié.
+- **Phrases courtes**, une idée à la fois, vingt mots au plus. Pas de parenthèses imbriquées, elles ne se disent pas.
+- **Vouvoiement** de bout en bout.
+- **Un exemple concret** nommé par chapitre, repris du cours (le projet fil rouge, une activité réelle), jamais un principe seul.
+- **Annoncez le plan** dans les trente premières secondes et **récapitulez** à la fin.
+- **Commandes et noms d'outils** : donnez-les exactement comme dans le cours, et dites à l'oral ce qu'on tape avant de le taper.
+- **Aucun terme technique sans définition** la première fois qu'il apparaît.
+- **Ne surpromettez pas** : reprenez la section "ce que ça ne change pas" du cours quand elle existe.
+
+### Étape 4 : relecture de fidélité
+
+Avant de rendre le dossier, comparez le script au chapitre source, ligne à ligne : chaque affirmation, commande, chiffre et prompt du script doit se retrouver dans le cours. Signalez à Zézé tout ce que vous avez dû reformuler et tout écart avec le cours. La mise en scène change, le contenu ne change pas.
+
+### Étape 5 : mise en ligne, guidée en direct
+
+La plateforme Vivier Academies stocke **une vidéo par section**, dans un espace de stockage privé, lisible seulement par les élèves ayant un accès payant. L'admin permet d'envoyer un fichier vidéo, ou d'enregistrer l'écran (sans le micro).
+
+**Deux limites de taille, confirmées dans la documentation Vercel et Supabase le 2026-09-21 (4,5 Mo par requête sur Vercel, 50 Mo par fichier sur l'offre gratuite de Supabase). Le chantier de correction est cadré dans `livrables/applications/2026-09_plateforme-formation-communaute/CADRAGE-ENVOI-VIDEOS.md` : consultez-le pour savoir s'il est fait, et revérifiez avant chaque premier envoi réel.** Détail : le fichier passe en entier par la route `/api/admin/video/[sectionId]` (sur Vercel, ce type d'envoi est limité à quelques mégaoctets, à confirmer dans la documentation), et le stockage Supabase limite la taille d'un fichier (50 Mo par défaut sur l'offre gratuite). Une vidéo de plusieurs minutes dépasse ces limites. Tant qu'un envoi direct par adresse signée et une limite relevée ne sont pas en place, dites-le à Zézé avant de le laisser envoyer, et proposez ce chantier séparément. Testez d'abord avec un fichier de quelques secondes.
+
+Cette étape est une manipulation réelle sur les systèmes de Zézé : procédez **étape par étape, en direct**. Donnez une étape, attendez qu'il l'ait faite, vérifiez, puis passez à la suivante. Ne remettez jamais une liste d'instructions à dérouler seul.
+
+Avant d'envoyer : vérifiez avec lui comment la section est découpée sur la plateforme. Si une section de cours contient plusieurs chapitres, choisissez ensemble entre une vidéo montée avec des repères horodatés par chapitre, ou un découpage de la section en plusieurs sections. Ne tranchez pas seul.
+
+### Étape 6 : tenir le suivi à jour
+
+Le fichier `livrables/formations/ecosysteme-ia/SUIVI-VIDEOS.md` liste chaque chapitre du programme avec son état : `à faire`, `script prêt`, `enregistré`, `en ligne`. Créez-le s'il n'existe pas. Mettez à jour la ligne du chapitre traité à la fin de chaque session, avec la date et la durée réelle une fois connue. Le skill ne passe jamais un chapitre à `enregistré` ou `en ligne` de sa propre initiative : c'est Zézé qui l'atteste.
+
+## Ce que ce skill ne fait jamais
+
+- Il ne fabrique pas de fichier vidéo, et n'envoie rien sur la plateforme sans que Zézé le fasse avec lui.
+- Il n'invente pas de contenu pédagogique, de commande, de prompt ni d'exemple : il met en scène l'existant.
+- Il n'affiche, ne lit ni ne demande de vraie clé ou de mot de passe : jamais dans le chat, jamais à l'écran.
+- Il ne remplace pas une répétition. Un script se teste à voix haute avant l'enregistrement.
+- Il ne planifie pas la promotion des vidéos sur YouTube ou LinkedIn : ce sont d'autres sujets.
