@@ -7,6 +7,27 @@
 
 ---
 
+## 2026-09-21
+
+### Plateforme Vivier Academies : déploiement, bilan et hygiène du dépôt
+
+- **Déploiement** : 21 commits poussés sur `origin/main` (`557a4a7..1985528`), le projet Vercel `vivier-academies` déploie en production. Migration 0038 (retrait de l'insertion directe sur `adhesions`) testée puis appliquée. Build local testé dans le navigateur sur la vraie base : questions d'adhésion, annuaire, mentions, édition de post, profil enrichi, masterclass réservée à un niveau. Non testé : administration des niveaux et de la page À propos, onglets flottants, rendu mobile, site réellement déployé
+- **Lots construits depuis le 20 septembre** (migrations 0032 à 0037) : annuaire et badge de niveau, modification de post, likes de commentaires et mentions, profil enrichi, page À propos, niveaux personnalisables, masterclass réservées à un niveau, questions d'adhésion, calendrier des masterclass et appels découverte
+- **Bilan de la base de production** : 61 sections (Vivier IA : 7 sans texte et modules 2 à 5 sans section, Bâtisseur Pro : 54 dont 50 avec texte), 0 vidéo, 5 paiements tous "en attente" sans référence Chariow, 32 profils dont environ 28 comptes de test. La plateforme est avancée techniquement mais ne peut pas encore encaisser un premier élève
+- **Blocages identifiés** : paiement Chariow jamais confirmé de bout en bout (carte seule au checkout, Guinée absente des pays Mobile Money documentés, prix non transmissible par l'API, produit Vivier IA écrit en dur dans le workflow n8n) ; site derrière l'authentification Vercel, `VERCEL_TOKEN` invalide, 2 des 4 projets Vercel liés au dépôt en échec ; envoi de vidéo impossible en ligne (4,5 Mo par requête chez Vercel, 50 Mo par fichier sur l'offre gratuite Supabase)
+- **Hygiène du dépôt** : migration 0025 (catégorie `n8n` des prompts) constatée non appliquée, testée dans une transaction annulée puis appliquée avec l'accord de Zézé. La 0039 (accents de la vitrine) était déjà en base, son fichier est committé. 4 commits : vitrine, fichier 0039, 31 leçons et 55 prompts en attente de relecture, exclusion du skill externe `ui-ux-pro-max` (3,8 Mo de code tiers non audité)
+- 6 commits en avance sur `origin/main` au moment du bilan, aucun push
+- **Restent ouverts** : décision Chariow, site public, relecture puis chargement des leçons, vidéos, typographie, photo réelle de Zézé, vitrine Chatllow légère, nettoyage des comptes de test
+
+### Vidéos de formation et agent TikTok
+
+- 11 chapitres sur 123 prêts (Module 1, sections 1 et 2, section 3 chapitres 1 à 3), aucune vidéo enregistrée. Outil `synchroniser-bureau.mjs` pour ranger les supports dans le dossier du Bureau
+- Cadrages écrits, à valider avant toute construction : automatisations de la plateforme (20/09), envoi direct des vidéos vers la plateforme (21/09), agent community manager TikTok (21/09, en pause)
+
+### Plugin Ponytail
+
+- Installé au niveau utilisateur (v4.10.0, `DietrichGebert/ponytail`) avec le `claude.exe` de l'extension VS Code, car `/plugin` est indisponible dans cette extension. Code des hooks lu avant l'installation : aucun accès réseau. Mode `full` par défaut
+
 ## 2026-09-20
 
 ### Plateforme Vivier Academies : fil façon Skool, faille corrigée, photo, notifications, messagerie et modération

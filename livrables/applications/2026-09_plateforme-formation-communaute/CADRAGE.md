@@ -1,6 +1,6 @@
 # Cadrage — Vivier Academies (plateforme de formation et communauté)
 
-Date du cadrage : 2026-09-12, mis à jour le 2026-09-13. Suivi de construction ajouté le 2026-09-17 (voir section 10), le cadrage lui-même (sections 0 à 9) n'a pas bougé depuis le 2026-09-14.
+Date du cadrage : 2026-09-12, mis à jour le 2026-09-13. Suivi de construction ajouté le 2026-09-17 et mis à jour le 2026-09-21 (voir section 10), le cadrage lui-même (sections 0 à 9) n'a pas bougé depuis le 2026-09-14.
 
 Nom de la plateforme globale : **Vivier Academies** (tranché le 2026-09-13, aucune collision directe trouvée).
 
@@ -125,7 +125,7 @@ Le cadrage (sections 0 à 9) a été figé le 2026-09-14. Cette section trace ce
 - Page individuelle de progression par élève
 - Vitrine publique avec vraies données (FAQ, parcours dynamique, pas de contenu statique codé en dur)
 - Tunnel de paiement Mobile Money : côté produit (création de la session) et côté paiement réel, branché sur **Chariow** via **n8n** (webhook `creer-paiement-vivier-ia`, confirmation `successful.sale` avec vérification de signature HMAC qui active l'accès via `/api/webhooks/paiement`)
-- Modules 1 (Écosystème Claude, 7 sections), 3, 4 et 5 rédigés intégralement (contenu texte source dans `livrables/formations/ecosysteme-ia/`) ; Module 2 (n8n) a son guide de réussite mais pas encore ses sections en base
+- Textes sources des Modules 1 à 5 rédigés dans `livrables/formations/ecosysteme-ia/`, mais **aucun n'est chargé en base au 2026-09-21** : Vivier IA a 5 modules, dont 7 sections (Module 1) sans texte, et les modules 2 à 5 n'ont aucune section. 31 leçons et 55 prompts sont prêts dans `livrables/formations/ecosysteme-ia/_relecture-publication/`, en attente de la relecture de Zézé
 - Fonctionnalités additionnelles construites en cours de route, au-delà du périmètre V1 initialement listé : bibliothèque de prompts, ressources (liens et fichiers téléchargeables), masterclass, prise de RDV découverte, contenu éditorial avec workflow brouillon/publication (lié au skill `contenu-vivier-ia`), FAQ et parcours de vitrine pilotés par la base plutôt que codés en dur
 - Outils admin construits : création de formation en libre-service, prix modifiable par formation, accès payant manuel (filet de sécurité), enregistrement vidéo directement rattaché à une section
 - **Paramètres de communauté (2026-09-19, migration 0024)** :
@@ -161,7 +161,15 @@ Le cadrage (sections 0 à 9) a été figé le 2026-09-14. Cette section trace ce
   - **Blocage** : table `blocages`, portée limitée aux messages. Le bloqué reçoit un message générique et ne peut pas savoir qu'il est bloqué (il ne voit aucun blocage, et les erreurs sont identiques à celles d'un refus ordinaire)
   - **Signalement** : table `signalements`. La création passe par la fonction `signaler`, qui lit elle-même le contenu, son auteur et son espace : un membre ne peut ni forger un faux extrait, ni signaler ce qu'il ne peut pas voir, ni un message qu'il n'a pas reçu. **L'admin ne lit jamais une conversation privée** : il ne voit que le message signalé, copié au moment du signalement. Il peut marquer traité, et supprimer un post ou un commentaire signalé (jamais un message privé)
   - Non inclus : suspendre un membre, supprimer un message privé
-- **Constats hors périmètre, non corrigés** : le compteur « membres » et le classement de la page communauté sont faux dès qu'il y a plusieurs membres (la table `adhesions` n'est lisible que pour ses propres lignes) ; l'en-tête de navigation déborde sur mobile (6 liens sur une ligne)
+- **Constats hors périmètre, corrigés le 2026-09-20** (migration 0031 et correctif mobile, voir plus haut) : le compteur « membres » et le classement de la page communauté étaient faux dès qu'il y avait plusieurs membres (la table `adhesions` n'est lisible que pour ses propres lignes) ; l'en-tête de navigation débordait sur mobile (6 liens sur une ligne)
+
+**Suivi du 2026-09-21 (déploiement, lots 0032 à 0039, bilan de la base)** :
+- **Déploiement** : les commits sont poussés sur `origin/main`, le projet Vercel `vivier-academies` déploie en production
+- **Migrations 0032 à 0039** : annuaire des membres et badge de niveau (0032), modification et suppression de son post, likes de commentaires et mentions (0033), profil enrichi (0034), page À propos de chaque espace (0035), niveaux personnalisables et masterclass réservées à un niveau (0036), questions d'adhésion avec notifications (0037), retrait de l'insertion directe sur `adhesions` (0038, sécurité), accents de la vitrine (0039). La 0025 (catégorie `n8n` des prompts) était restée non appliquée, elle l'a été le 2026-09-21 après un test dans une transaction annulée
+- **État réel de la base de production** : 61 sections (Vivier IA : 7 sans texte, Bâtisseur Pro : 54 dont 50 avec texte), 0 vidéo, 10 prompts (tous Vivier IA), 5 paiements tous "en attente" et sans référence Chariow, 32 profils dont environ 28 comptes de test (le compteur public affiche donc « 33 membres » à tort). La communauté compte 6 posts, 1 like, 0 commentaire et 0 message : les fonctions existent, il n'y a pas encore d'usage réel. Masterclasses, niveaux et questions d'adhésion sont construits mais non configurés
+- **Blocages avant un premier élève payant** : (1) chaîne de paiement Chariow jamais confirmée de bout en bout (carte seule au checkout, Guinée absente des pays Mobile Money documentés par Chariow, prix non transmissible par l'API, produit Vivier IA écrit en dur dans le workflow n8n) ; (2) adresses Vercel derrière l'authentification, aucun domaine branché, `VERCEL_TOKEN` invalide, 2 des 4 projets Vercel liés au dépôt en échec ; (3) aucun texte de cours Vivier IA en base ; (4) envoi de vidéo impossible en ligne (limite Vercel de 4,5 Mo par requête, 50 Mo par fichier sur l'offre gratuite Supabase)
+- **Non testé dans le navigateur** : administration des niveaux et de la page À propos, onglets flottants, rendu mobile, site réellement déployé. Un échec réseau sur un like reste silencieux
+- **Cadrages complémentaires**, brouillons à valider avant toute construction : `CADRAGE-AUTOMATISATIONS.md` (2026-09-20) et `CADRAGE-ENVOI-VIDEOS.md` (2026-09-21)
 
 **Non construit, restant du périmètre "vient après" (section 7)** :
 - Lead magnets avancés, statistiques de communauté au-delà des compteurs de base
@@ -207,3 +215,5 @@ Toutes les identités sont maintenant tranchées : plateforme = Vivier Academies
 Il ne reste que des points d'exécution technique à trancher pendant la construction (voir section 9) : le cadrage est considéré comme suffisant pour passer à l'étape 3 (maquette Claude Design).
 
 **2026-09-17** — Ce document n'avait plus été mis à jour depuis la fin du cadrage (2026-09-14), alors que la construction a largement avancé entre-temps (voir section 10, nouvellement ajoutée). Écart constaté et corrigé : le document était resté figé à l'étape 3 alors que le projet est en réalité bien avancé dans l'étape 5 (construction), avec un second espace (Bâtisseur Pro) déjà partiellement répliqué.
+
+**2026-09-21** : suivi de construction mis à jour (section 10). Le cadrage lui-même (sections 0 à 9) n'a pas bougé. Écart corrigé : le texte des modules de Vivier IA était présenté comme rédigé alors qu'aucun n'est chargé en base. Constats ajoutés : état réel de la base de production, blocages avant un premier élève payant (paiement Chariow, site non public, contenu et vidéos absents), migrations 0032 à 0039.
