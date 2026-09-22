@@ -72,9 +72,13 @@ Avant même d'entrer dans le détail du premier module, il y a un geste qui va r
 
 Le principe tient en trois fichiers, que Claude Code sait lire automatiquement : un fichier qui dit qui tu es et comment tu veux qu'on te parle, un fichier de contexte qui détaille ta situation et tes objectifs, et un journal qui garde la trace de ce qui a été fait et décidé au fil du temps. Tu n'as pas besoin de les écrire toi-même : tu réponds à quelques questions, et c'est Claude Code qui les remplit pour toi.
 
-### Une installation guidée, en une seule fois
+### Une installation guidée, en une seule commande
 
-La fiche pratique de ce chapitre contient le prompt exact à utiliser. Il lance une courte interview : qui tu es, ce que tu fais, ce que tu attends de cette formation, et comment tu préfères qu'on communique avec toi. Une fois les réponses données, les trois fichiers sont créés, et ton assistant est immédiatement opérationnel.
+Vivier IA te fournit un module d'installation tout prêt, le Kit Starter Vivier Academies. Dans Claude Code, une seule commande suffit : `/install module-installs/kit-starter-vivier-academies`. Elle lance une courte interview de 5 questions : qui tu es, ce que tu fais, ce qui t'amène à cette formation, tes objectifs, et comment tu préfères qu'on communique avec toi. Une fois les réponses données, les trois fichiers sont créés, et ton assistant est immédiatement opérationnel.
+
+### Un workspace organisé dès le premier jour
+
+Le kit ne s'arrête pas à l'assistant. Il crée aussi un dossier `projets/`, séparé de `context/`. `context/` reste la mémoire de ton assistant, `projets/` devient l'endroit où tu construiras tout ce que tu pratiqueras au fil de la formation, à commencer par le fil rouge du Module 1. Cette séparation, un espace pour la mémoire et un espace pour le travail, est le premier réflexe d'organisation que tu prends, avant même d'avoir commencé le premier module.
 
 ### Ce que ça change dès la prochaine session
 

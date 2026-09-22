@@ -13,7 +13,7 @@ Source : `2026-09_vivier-ia-section-0-bienvenue/01-bienvenue.md`. Contenu origin
 |---|---|---|---|---|
 | Chapitre 1 : Présentation de la formation | script prêt | 2026-09-22 | estimée 2:14 | Contenu original, rien à neutraliser. Chapitre conceptuel, diapositives seules, sans démonstration. 6 diapositives, 0 alerte. |
 | Chapitre 2 : Comment bien suivre la formation | script prêt | 2026-09-22 | estimée 2:22 | Contenu original, rien à neutraliser. 1 point à valider : la phrase sur l'absence de délai est une déduction, pas une décision explicite de Zézé, à confirmer avant enregistrement. Chapitre conceptuel, diapositives seules. 6 diapositives, 0 alerte. |
-| Chapitre 3 : Installer votre assistant personnel | script prêt | 2026-09-22 | estimée 4:28 | 4 points à valider avant enregistrement (chapitre qui remplace module-installs/jarvis-install, un module tiers de Yassine SDIRI, réécriture originale décidée le 22/09, le nom Jarvis n'est jamais utilisé ; persona fictif Mariam distinct de celui du Module 1 section 4 ; questions de Claude Code non garanties mot pour mot ; les 2 prompts de la fiche repris mot pour mot). Démonstration réelle : assistant personnel créé puis rechargé. Dernier chapitre de la section. 5 diapositives, 0 alerte. |
+| Chapitre 3 : Installer votre assistant personnel | script prêt | 2026-09-22 | estimée 4:21 | 4 points a valider avant enregistrement. Le mecanisme repose desormais sur un vrai module reutilisable, module-installs/kit-starter-vivier-academies/ (packagé le 22/09, remplace jarvis-install de Yassine SDIRI, nom Jarvis jamais utilisé). Demonstration reelle : /install puis rechargement. Dernier chapitre de la section. 5 diapositives, 0 alerte. |
 
 ## Module 1 : écosystème Claude
 

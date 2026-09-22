@@ -1,6 +1,6 @@
 # Fiche pratique — Vrais prompts, Section 0 (Bienvenue)
 
-> Compagnon de [01-bienvenue.md](01-bienvenue.md). Un seul prompt ici, mais c'est celui qui compte le plus pour bien démarrer : installer ton assistant personnel.
+> Compagnon de [01-bienvenue.md](01-bienvenue.md).
 
 ---
 
@@ -8,23 +8,11 @@
 
 ### Démarrer ton assistant personnel
 
-À utiliser dans un dossier neuf, dédié à ton assistant (pas dans un projet client existant) :
+Une seule commande, dans un dossier neuf dédié à ton assistant (pas dans un projet client existant) :
 ```
-Je veux mettre en place mon assistant personnel avec toi. Crée trois
-fichiers : CLAUDE.md, qui explique qui je suis et comment tu dois me
-parler ; context/CONTEXT.md, avec ma situation, mes objectifs et mes
-projets en cours ; context/HISTORY.md, pour garder une trace des
-décisions importantes au fil du temps.
-
-Pose-moi les questions nécessaires pour remplir ces fichiers avec mes
-vraies informations. Ne les invente pas. Je veux que tu me demandes,
-entre autres : qui je suis et ce que je fais, ce qui m'amène à la
-formation Vivier IA, mes objectifs des prochains mois, et comment je
-préfère que tu communiques avec moi.
-
-Une fois que tu as toutes les réponses, résume-les moi avant d'écrire
-les fichiers, pour que je puisse corriger si besoin.
+/install module-installs/kit-starter-vivier-academies
 ```
+Claude Code lit le module et démarre l'interview de 5 questions. Le détail exact de ce que fait cette commande est dans `module-installs/kit-starter-vivier-academies/INSTALL.md`, si tu veux le lire avant de lancer.
 
 ### Recharger ton assistant en début de session
 

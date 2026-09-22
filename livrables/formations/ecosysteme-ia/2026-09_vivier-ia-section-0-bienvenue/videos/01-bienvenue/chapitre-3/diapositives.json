@@ -13,7 +13,7 @@
   },
   "preparation": [
     "Créer un dossier neuf, dédié à l'assistant personnel, distinct de tout projet client (par exemple `C:\\mon-assistant`).",
-    "Avoir sous la main les deux prompts de `01-bienvenue-prompts.md`, à coller tels quels.",
+    "Avoir sous la main la commande `/install module-installs/kit-starter-vivier-academies` et le prompt de rechargement de `01-bienvenue-prompts.md`.",
     "Préparer à l'avance des informations fictives cohérentes pour Mariam (prénom, reconversion vers le conseil IA, 2-3 objectifs, préférence de communication), pour répondre sans hésiter.",
     "Le nombre et la formulation exacte des questions de Claude Code ne sont pas garantis : répéter la démonstration avant l'enregistrement."
   ],
@@ -26,7 +26,7 @@
     "Montrer le récapitulatif de Claude Code avant l'écriture des fichiers : c'est le moment où l'élève voit qu'il garde le contrôle."
   ],
   "entre": [
-    "De {{t4}} à {{t6}}, la démonstration (interview, récapitulatif, création des 3 fichiers, puis rechargement) se fait dans VS Code, sans diapositive."
+    "De {{t4}} à {{t7}}, la démonstration (interview, récapitulatif, création des 3 fichiers, création du dossier projets/, puis rechargement) se fait dans VS Code, sans diapositive."
   ],
   "aVerifier": [
     "Que les 3 fichiers créés contiennent bien les informations fictives données à Claude Code, pas des inventions.",

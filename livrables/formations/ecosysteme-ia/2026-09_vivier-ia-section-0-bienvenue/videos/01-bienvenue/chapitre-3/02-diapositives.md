@@ -9,10 +9,10 @@
 | 1 | 0:00 | Installer votre assistant personnel | Vivier IA · bienvenue · chapitre 3. Objectif : un assistant réel, en une fois. Plan : 1. Comment ça fonctionne 2. Une installation réelle 3. Prêt pour le Module 1 |
 | 2 | 0:17 | Pourquoi commencer par ça | Un espace qui vous connaît, sans tout réexpliquer. Utile pour suivre cette formation, et bien au-delà si vous le souhaitez. |
 | 3 | 0:38 | Vous n'écrivez rien à la main | 1. Qui vous êtes : Comment vous voulez qu'on vous parle. 2. Votre contexte : Votre situation, vos objectifs. 3. Votre historique : Ce qui a été fait et décidé. |
-| 4 | 3:48 | Si vos réponses sont imparfaites | Ce n'est pas grave, rien n'est figé. Ça se corrige et s'enrichit au fil de la formation, comme des notes personnelles. |
-| 5 | 4:06 | Vous êtes prêt pour le Module 1. | Vous êtes prêt pour le Module 1. Trois fichiers suffisent : qui vous êtes, votre contexte, votre historique. Une interview guidée les remplit pour vous. Ce n'est pas figé : ça s'enrichit au fil de la formation. Prochaine vidéo : Module 1, la fondation de tout le programme. |
+| 4 | 3:41 | Si vos réponses sont imparfaites | Ce n'est pas grave, rien n'est figé. Ça se corrige et s'enrichit au fil de la formation, comme des notes personnelles. |
+| 5 | 3:59 | Vous êtes prêt pour le Module 1. | Vous êtes prêt pour le Module 1. Trois fichiers suffisent : qui vous êtes, votre contexte, votre historique. Une interview guidée les remplit pour vous. Ce n'est pas figé : ça s'enrichit au fil de la formation. Prochaine vidéo : Module 1, la fondation de tout le programme. |
 
-- De 1:00 à 3:12, la démonstration (interview, récapitulatif, création des 3 fichiers, puis rechargement) se fait dans VS Code, sans diapositive.
+- De 1:00 à 3:05, la démonstration (interview, récapitulatif, création des 3 fichiers, puis rechargement) se fait dans VS Code, sans diapositive.
 
 ## Fichier PowerPoint
 

@@ -9,7 +9,7 @@ Section 0, chapitre 3. Voir `01-script.md` et `02-diapositives.md`.
 - Tester le diaporama en mode présentation, avec les clics : `diapositives-chapitre-3.pptx`, 9 clics en tout.
 - **Valider les points de la section 2 du script** avant d'enregistrer.
 - Créer un dossier neuf, dédié à l'assistant personnel, distinct de tout projet client (par exemple `C:\mon-assistant`).
-- Avoir sous la main les deux prompts de `01-bienvenue-prompts.md`, à coller tels quels.
+- Avoir sous la main la commande `/install module-installs/kit-starter-vivier-academies` et le prompt de rechargement de `01-bienvenue-prompts.md`.
 - Préparer à l'avance des informations fictives cohérentes pour Mariam (prénom, reconversion vers le conseil IA, 2-3 objectifs, préférence de communication), pour répondre sans hésiter.
 - Le nombre et la formulation exacte des questions de Claude Code ne sont pas garantis : répéter la démonstration avant l'enregistrement.
 
@@ -53,7 +53,7 @@ Enregistrez tout l'écran en une seule prise. Le montage se limite aux coupures 
 - Une interview guidée les remplit pour vous, vous n'écrivez rien à la main.
 - Ce n'est pas figé : ça s'enrichit et se corrige au fil de la formation.
 
-**Durée** : à renseigner après l'enregistrement (estimation : 4 min 28 s avant montage).
+**Durée** : à renseigner après l'enregistrement (estimation : 4 min 21 s avant montage).
 
 ## 5. Mise en ligne, guidée en direct
 
