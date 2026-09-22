@@ -7,6 +7,21 @@
 
 ---
 
+## 2026-09-22
+
+### Cadrage et installation de l'équipe d'agents IA YouTube (Lumen)
+
+- Cadrage mené avec l'agent `agent-cadrage-projet` : aucune variante documentée dans `methode-approche-projet.md` ne correspondait (outil tiers auto-hébergé à adopter), grille "Automatisation n8n" empruntée en l'adaptant, méthode non modifiée. Brief complet : `livrables/youtube/2026-09_automatisation-agents-ia/CADRAGE.md`
+- Décisions actées : fournisseur Gemini (gratuit), budget 0€/mois, cadence visée 1 vidéo/semaine malgré moins d'1h/semaine de temps de revue (risque signalé, assumé par Zézé), identifiants YouTube réels connectés dès l'installation (pas de compte de test), priorité à la production vidéo complète en premier
+- Nom de la chaîne YouTube tranché : **Vivier IA**, le même nom que l'école (Zézé avait d'abord proposé "Vivier Académie", changé pour éviter deux marques proches)
+- Dépôt `darkzOGx/youtube-automation-agent` cloné dans `Mes Projets/youtube-automation-agent/` (hors du repo jarvis-starter-kit, c'est un outil tiers avec son propre git). `npm install` et scripts d'installation natifs (ffmpeg-static, sharp, sqlite3, protobufjs, @google/genai) approuvés. `.env` créé et pré-rempli (audience, `CHANNEL_NAME=Vivier IA`, `DEFAULT_PRIVACY_STATUS=private`)
+- `npm run walkthrough` mené en direct avec Zézé : clé Gemini configurée (`gemini-3.7-flash`), fournisseur vidéo "Local slideshow" (pas de coût), projet Google Cloud "Vivier IA YouTube" créé, YouTube Data API v3 activée, écran de consentement OAuth configuré (Externe, testeur `zezebilivogui93@gmail.com` ajouté après un premier blocage 403 par oubli de ce testeur), client OAuth "Vivier IA Desktop" (type Application de bureau) créé. Chaîne déclarée "Vivier IA", cadence hebdomadaire, audience renseignée
+- **Session suspendue le 22/09 sur un blocage non résolu** : `npm start` affichait "Setup is required" car `config/tokens.json` n'existait jamais (l'échange de jeton OAuth échoue en silence dans `walkthrough.js`, qui enchaîne quand même vers l'étape suivante sans bloquer). Deux tentatives de reconnexion YouTube ont échoué avec `❌ Token Exchange Failed: invalid_client` (Client ID/Secret qui ne correspondent pas aux yeux de Google). Hypothèse à vérifier en priorité à la reprise : le Client Secret copié depuis Google Cloud Console (page Identifiants → "Vivier IA Desktop") n'est peut-être pas le bon (champ masqué à révéler avant de copier, ou copie de la mauvaise valeur). Prochaine étape : ouvrir cette page, vérifier visuellement le Client Secret avant de le recoller, puis relancer `node walkthrough.js` → répondre N, N → "I already have a Client ID and Client Secret". Décision encore ouverte par ailleurs : miniatures/titres automatiques ou 100% manuels
+
+### Kit Starter Vivier Academies
+
+- Module d'installation de l'assistant personnel d'un élève, passé de 5 à 8 questions d'interview (ajout niveau avec l'IA, domaine prioritaire, temps disponible par semaine). Templates `CLAUDE.md` et `context/CONTEXT.md` mis à jour en conséquence. Fichier d'exemple de réponses ajouté (`exemple-reponses.md`, persona Mariam). Synchronisé avec les deux copies du Bureau (`Kit Starter Vivier Academies/` et `Diapositives Vivier IA/Kit Starter Vivier Academies/`)
+
 ## 2026-09-21
 
 ### Plateforme Vivier Academies : déploiement, bilan et hygiène du dépôt

@@ -23,6 +23,7 @@ Entrepreneur centré sur l'intelligence artificielle et l'écosystème Claude. Z
 ### Détails par activité
 
 **Chaîne YouTube IA**
+- Nom retenu le 22 septembre 2026 : Vivier IA (même nom que l'école, choisi pour ne pas créer deux marques proches)
 - Objectif : devenir la plus grande chaîne média de vulgarisation IA en francophonie
 - Cible : 1 million d'abonnés sur 5 ans
 - Statut : en préparation, pas encore lancée
@@ -72,6 +73,7 @@ Entrepreneur centré sur l'intelligence artificielle et l'écosystème Claude. Z
 - **Vidéos de formation Vivier IA** : 123 chapitres à enregistrer. Au 21 septembre 2026, 11 ont leur script et leur PowerPoint prêts, aucune vidéo n'est enregistrée. Suivi dans `livrables/formations/ecosysteme-ia/SUIVI-VIDEOS.md`
 - **Agent community manager TikTok** : cadré le 21 septembre 2026, en pause jusqu'à la fin de la plateforme. TikTok interdisant la publication automatique, ma validation est requise avant chaque publication
 - **Plateforme Chatllow** : vitrine, diagnostic IA public et espace client du cabinet, construite le 17 septembre 2026. Dossier : `livrables/applications/2026-09_plateforme-chatllow/`
+- **Équipe d'agents IA pour la chaîne YouTube (Lumen)** : cadré le 22 septembre 2026, outil tiers open source auto-hébergé (`darkzOGx/youtube-automation-agent`) qui automatise le pipeline recherche → script → production vidéo → revue → publication → apprentissage. Cloné dans `Mes Projets/youtube-automation-agent/` (hors du repo jarvis-starter-kit). Fournisseur Gemini, budget 0€/mois, cadence visée 1 vidéo/semaine, revue humaine obligatoire avant publication. Brief complet : `livrables/youtube/2026-09_automatisation-agents-ia/CADRAGE.md`. Restent : clé Gemini à ajouter dans le `.env` local, `npm run walkthrough` à lancer par Zézé (interactif, autorisation YouTube par navigateur), décision sur miniatures/titres automatiques ou 100% manuels
 - **Expertise écosystème Claude** : devenir expert reconnu sur Claude et ses outils
 - **Transition consultant** : devenir consultant multi-domaines grâce à l'IA
 
