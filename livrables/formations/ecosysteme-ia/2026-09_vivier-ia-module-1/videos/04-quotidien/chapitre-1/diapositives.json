@@ -1,0 +1,93 @@
+{
+  "sortie": "diapositives-chapitre-1.pptx",
+  "titre": "Second Brain, organiser son quotidien",
+  "sujet": "Vivier IA, Module 1, section 4, chapitre 1",
+  "bureau": { "dossier": "Module 1 - Section 4 - Claude Code au quotidien", "nom": "Chapitre 1" },
+  "fiche": {
+    "description": "Claude Code peut devenir un outil d'organisation personnelle, un second cerveau qui garde en mémoire votre contexte. Comprenez pourquoi ça compte, et mettez-en un en place réellement.",
+    "points": [
+      "Le second brain centralise contexte, objectifs, historique dans des fichiers accessibles.",
+      "Il évite de tout réexpliquer à chaque nouvelle session de travail.",
+      "Il assure une continuité de la pensée, surtout utile avec plusieurs activités en parallèle."
+    ]
+  },
+  "preparation": [
+    "Créer un dossier neuf, distinct du site vitrine des sections précédentes, par exemple `C:\\demo-second-brain`.",
+    "Avoir sous la main les deux prompts du chapitre 1 de `04-quotidien-prompts.md`, à coller tels quels.",
+    "Préparer à l'avance des informations fictives cohérentes pour le persona du coach en marketing de réseau (prénom, activité, 2-3 objectifs, 1-2 projets), pour répondre sans hésiter aux questions de Claude Code.",
+    "Le nombre et la formulation exacte des questions posées par Claude Code ne sont pas prévisibles : répéter la démonstration avant l'enregistrement."
+  ],
+  "avant": [
+    "VS Code : terminal en grande police, dossier vide ouvert.",
+    "Avoir la liste des informations fictives du persona sous les yeux, hors champ, pour y répondre naturellement."
+  ],
+  "pendant": [
+    "Répondre aux questions de Claude Code posément, comme le ferait un vrai apprenant découvrant l'exercice, pas en lisant un script mémorisé de façon mécanique.",
+    "Si Claude Code invente une information au lieu de la demander, l'arrêter et le signaler : c'est justement ce que le prompt lui demande de ne pas faire."
+  ],
+  "entre": [
+    "De {{t6}} à {{t7}}, la démonstration (création du second brain, questions et réponses, puis rechargement) se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que les 3 fichiers créés (CLAUDE.md, context/CONTEXT.md, context/HISTORY.md) contiennent bien les informations fictives données, pas des inventions de Claude Code.",
+    "Que le résumé du second prompt correspond fidèlement à ce qui a été écrit dans les fichiers."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 4 · CHAPITRE 1",
+      "titre": "Second Brain,\norganiser son\nquotidien",
+      "objectif": "Objectif : mettre en place un second brain réel.",
+      "pastilles": ["Ce que c'est", "Pourquoi ça compte", "Un second brain réel"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : ce qu'est un second brain, pourquoi ça compte au-delà du gain de temps, et sa mise en place en direct. Tout s'anime seul à l'ouverture. Première vidéo de la section 4."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "AU-DELÀ DES PROJETS CLIENTS",
+      "titre": "Un outil d'organisation personnelle",
+      "intro": "Un second cerveau, pas seulement un outil de code.",
+      "avant": { "etiquette": "SANS SECOND BRAIN", "titre": "Tout reconstruire", "texte": "Réexpliquer le contexte\nà chaque nouvelle session." },
+      "apres": { "etiquette": "AVEC UN SECOND BRAIN", "titre": "Une mémoire centralisée", "texte": "Contexte, objectifs et historique,\ntoujours accessibles." },
+      "notes": "Moment du script : {{t2}}. Titre seul, sans clic sur cette diapositive. Claude Code garde en mémoire le contexte de l'activité, les objectifs, l'historique des décisions."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "TROIS FICHIERS COMPLÉMENTAIRES",
+      "titre": "Un mécanisme simple",
+      "cartes": [
+        { "titre": "Qui vous êtes", "texte": "Comment collaborer avec vous." },
+        { "titre": "Votre contexte", "texte": "Objectifs, projets en cours." },
+        { "titre": "Votre historique", "texte": "Ce qui a été fait et décidé." }
+      ],
+      "notes": "Moment du script : {{t3}}. Un clic par carte (3 clics). Une seule commande, en début de session, recharge tout ça d'un coup, plutôt que de tout réexpliquer."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "L'INTÉRÊT RÉEL",
+      "enonce": "La continuité de la pensée,\npas seulement le temps gagné.",
+      "appui": "Une décision d'il y a trois semaines reste consultable, une incohérence peut être repérée.",
+      "notes": "Moment du script : {{t4}}. La phrase apparaît seule, puis un clic pour l'appui. Particulièrement précieux avec plusieurs activités en parallèle."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "UN EXEMPLE",
+      "titre": "Noté une fois, retrouvable toujours",
+      "intro": "L'information ne dépend plus de la mémoire.",
+      "avant": { "etiquette": "NOTÉ UNE FOIS", "titre": "Dans le journal", "texte": "Un changement, une décision, à la date où elle a eu lieu." },
+      "apres": { "etiquette": "RETROUVABLE TOUJOURS", "titre": "Des mois plus tard", "texte": "Sans avoir à le réexpliquer de mémoire." },
+      "notes": "Moment du script : {{t5}}. Clic 1 : la carte « Noté une fois ». Clic 2 : la carte « Retrouvable toujours »."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Une mémoire centralisée,\npas dans votre tête.",
+      "points": [
+        "Le second brain centralise contexte, objectifs et historique.",
+        "Il évite de tout réexpliquer à chaque nouvelle session.",
+        "Il assure une continuité de la pensée dans le temps."
+      ],
+      "final": "Prochaine vidéo : préparer vos livrables professionnels.",
+      "notes": "Moment du script : {{t8}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 4, chapitre 2)."
+    }
+  ]
+}
