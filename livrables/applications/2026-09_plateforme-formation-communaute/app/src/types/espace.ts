@@ -25,6 +25,8 @@ export type ContenuVitrine = {
   parcours_etape1?: string; // sous "Communaute gratuite"
   parcours_etape2?: string; // sous "Formation complete"
   parcours_etape3?: string; // sous "Communaute payante"
+  competences_titre?: string; // titre de la section "ce que tu sauras faire"
+  competences?: string[]; // une compétence par module
 };
 
 export type Espace = {

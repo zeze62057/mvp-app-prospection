@@ -141,6 +141,24 @@ export default async function VitrinePage({
         </div>
       </div>
 
+      {c.competences && c.competences.length > 0 && (
+        <div className="px-6 py-16 sm:px-16">
+          <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-texte)]">
+            au programme
+          </p>
+          <h2 className="font-display mb-8 max-w-xl text-2xl font-semibold sm:text-[29px]">
+            {c.competences_titre}
+          </h2>
+          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {c.competences.map((competence, i) => (
+              <div key={i} className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+                <p className="text-[13.5px] leading-relaxed text-[var(--texte)]">{competence}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {c.parcours_titre && (
         <div className="bg-[var(--encre)] px-6 py-16 text-[var(--sur-encre)] sm:px-16">
           <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-light)]">
