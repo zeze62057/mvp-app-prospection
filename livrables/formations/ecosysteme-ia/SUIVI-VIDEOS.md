@@ -3,7 +3,17 @@
 > Tenu à jour par le skill `creer-video-formation`. Un chapitre = une vidéo. États : `à faire`, `script prêt`, `enregistré`, `en ligne`.
 > Seul Zézé atteste qu'une vidéo est enregistrée ou en ligne : le skill ne passe jamais un chapitre à ces deux états de sa propre initiative.
 
-**123 chapitres** répartis dans les 5 modules. Les dossiers de travail sont dans `<module>/videos/<section>/chapitre-<N>/`.
+**126 chapitres** : 3 dans la Section 0 (avant les modules), 123 répartis dans les 5 modules. Les dossiers de travail sont dans `<module>/videos/<section>/chapitre-<N>/`.
+
+## Section 0 : bienvenue
+
+Source : `2026-09_vivier-ia-section-0-bienvenue/01-bienvenue.md`. Contenu original rédigé le 2026-09-22 (voir le README du dossier), pas encore relu par Zézé. Placée avant le Module 1, hors des 5 modules du programme.
+
+| Chapitre | État | Date | Durée réelle | Notes |
+|---|---|---|---|---|
+| Chapitre 1 : Présentation de la formation | script prêt | 2026-09-22 | estimée 2:14 | Contenu original, rien à neutraliser. Chapitre conceptuel, diapositives seules, sans démonstration. 6 diapositives, 0 alerte. |
+| Chapitre 2 : Comment bien suivre la formation | script prêt | 2026-09-22 | estimée 2:22 | Contenu original, rien à neutraliser. 1 point à valider : la phrase sur l'absence de délai est une déduction, pas une décision explicite de Zézé, à confirmer avant enregistrement. Chapitre conceptuel, diapositives seules. 6 diapositives, 0 alerte. |
+| Chapitre 3 : Installer votre assistant personnel | script prêt | 2026-09-22 | estimée 4:28 | 4 points à valider avant enregistrement (chapitre qui remplace module-installs/jarvis-install, un module tiers de Yassine SDIRI, réécriture originale décidée le 22/09, le nom Jarvis n'est jamais utilisé ; persona fictif Mariam distinct de celui du Module 1 section 4 ; questions de Claude Code non garanties mot pour mot ; les 2 prompts de la fiche repris mot pour mot). Démonstration réelle : assistant personnel créé puis rechargé. Dernier chapitre de la section. 5 diapositives, 0 alerte. |
 
 ## Module 1 : écosystème Claude
 
@@ -38,10 +48,10 @@ Source : `2026-09_vivier-ia-module-1/03-maitriser-loutil.md`
 | Chapitre 1 : Premiers pas, outils principaux et permissions | script prêt | 2026-09-21 | estimée 4:19 | 2 points à valider (démonstration limitée au prompt d'autonomie de la fiche, interface des autorisations non citée). 7 diapositives. |
 | Chapitre 2 : CLAUDE.md, le cerveau de votre projet | script prêt | 2026-09-21 | estimée 6:03 | 4 points à valider (deux passages remplacés : ton workspace et le changement de nom de l'école ; démonstration avec les 2 prompts de la fiche dans un dossier vide ; lecture automatique non montrée). 7 diapositives. |
 | Chapitre 3 : Skills et Slash Commands, vos raccourcis personnalisés | script prêt | 2026-09-21 | estimée 7:22 | 5 points à valider (commandes et skills de ton workspace remplacés, cas réel Chatllow non utilisé, deux demandes de test hors cours, contenu créé imprévisible). Démonstration avec les 2 prompts de la fiche. 6 diapositives. |
-| Chapitre 4 : MCP, connecter Claude Code à votre écosystème | à faire |  |  |  |
-| Chapitre 5 : Hooks, automatiser Claude Code | à faire |  |  |  |
-| Chapitre 6 : Structurer son projet, l'arborescence qui scale | à faire |  |  |  |
-| Chapitre 7 : Gérer les coûts intelligemment | à faire |  |  |  |
+| Chapitre 4 : MCP, connecter Claude Code à votre écosystème | script prêt | 2026-09-22 | estimée 4:14 | 4 points à valider avant enregistrement (exemple d'usage neutralisé, phrase Playwright reformulée, prompts Notion/Chatllow et Supabase/Kora de la fiche non utilisés, démonstration réelle confirmée). Démonstration en direct : connexion réelle du serveur MCP Playwright sur le dossier de démonstration. 6 diapositives, 0 alerte. |
+| Chapitre 5 : Hooks, automatiser Claude Code | script prêt | 2026-09-22 | estimée 4:22 | 1 point à valider avant enregistrement (git init nécessaire sur le dossier de démonstration, valeur fictive dans le .env de test). Aucune neutralisation cette fois, le chapitre ne cite aucun élément du workspace. Démonstration réelle : hook configuré par Claude Code puis testé (commit bloqué). 6 diapositives, 0 alerte. |
+| Chapitre 6 : Structurer son projet, l'arborescence qui scale | script prêt | 2026-09-22 | estimée 4:07 | 1 point à valider avant enregistrement (2 exemples tirés du workspace, dont un lié à Longrich, retirés et remplacés par la démonstration sur le site artisan). Démonstration réelle : audit puis réorganisation de l'arborescence par Claude Code, avec les 2 prompts de la fiche. 5 diapositives, 0 alerte. |
+| Chapitre 7 : Gérer les coûts intelligemment | script prêt | 2026-09-22 | estimée 3:17 | 1 point à valider avant enregistrement (référence au fichier 04-quotidien.md du workspace retirée). Dernier chapitre de la section : signal de passage complet rappelé, exercice de fin de section de la fiche cité. Démonstration réelle : découpage d'une tâche en étapes par Claude Code (proposition lue, non exécutée). 6 diapositives, 0 alerte. |
 
 ### Section 4 — ⚡ Claude Code au quotidien
 
@@ -49,7 +59,7 @@ Source : `2026-09_vivier-ia-module-1/04-quotidien.md`
 
 | Chapitre | État | Date | Durée réelle | Notes |
 |---|---|---|---|---|
-| Chapitre 1 : Second Brain, organiser son quotidien | à faire |  |  |  |
+| Chapitre 1 : Second Brain, organiser son quotidien | script prêt | 2026-09-22 | estimée 4:14 | 4 points à valider avant enregistrement, le chapitre le plus personnel du programme jusqu'ici (mécanisme décrit sans dire ce workspace, 4 activités réelles de Zézé remplacées par une formulation générique, exemple du renommage réel remplacé par un exemple hypothétique, persona de démo changé pour un coach MLM fictif, distinct de l'artisan des sections précédentes). Démonstration réelle : second brain créé puis rechargé. 6 diapositives, 0 alerte. |
 | Chapitre 2 : Préparer vos livrables professionnels | à faire |  |  |  |
 | Chapitre 3 : Gérer votre propre business (compta, processus, KPIs) | à faire |  |  |  |
 
