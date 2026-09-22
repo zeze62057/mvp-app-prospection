@@ -1,0 +1,83 @@
+{
+  "sortie": "diapositives-chapitre-6.pptx",
+  "titre": "Structurer son projet, l'arborescence qui scale",
+  "sujet": "Vivier IA, Module 1, section 3, chapitre 6",
+  "bureau": { "dossier": "Module 1 - Section 3 - Maîtriser l'outil", "nom": "Chapitre 6" },
+  "fiche": {
+    "description": "L'arborescence d'un projet a un impact direct sur l'efficacité du travail avec Claude Code. Comprenez pourquoi, puis faites auditer et réorganiser réellement le vôtre.",
+    "points": [
+      "Séparer clairement code, documentation, configuration et livrables.",
+      "Une mauvaise structure ralentit le travail même avec un agent compétent.",
+      "Poser une structure dès le début, plutôt que corriger le désordre après coup."
+    ]
+  },
+  "preparation": [
+    "Utiliser le site de démonstration `_ressources-demo/site-artisan` (2 fichiers : `index.html`, `style.css`), copié dans le dossier de démonstration des chapitres précédents.",
+    "Avoir sous la main les deux prompts du chapitre 6 de `03-maitriser-loutil-prompts.md`, à coller tels quels.",
+    "Le contenu proposé par Claude Code pour la nouvelle structure n'est pas prévisible : répéter la démonstration avant l'enregistrement."
+  ],
+  "avant": [
+    "VS Code : garder l'explorateur de fichiers visible pendant toute la démonstration, pour montrer l'arborescence avant et après.",
+    "Ouvrir le site dans le navigateur avant de commencer, pour pouvoir le recharger après la réorganisation et prouver qu'il fonctionne toujours."
+  ],
+  "pendant": [
+    "Laisser Claude Code proposer sa structure sans la présuggérer : c'est son diagnostic qui a de la valeur pédagogique ici.",
+    "Montrer explicitement le rechargement du site après réorganisation : la preuve que les chemins ont bien été corrigés."
+  ],
+  "entre": [
+    "De {{t5}} à {{t6}}, la démonstration (audit de l'arborescence, proposition, validation, réorganisation réelle) se fait dans VS Code et le navigateur, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que le site de démonstration recharge sans erreur 404 après la réorganisation (chemins CSS notamment).",
+    "La structure exacte que Claude Code va proposer n'est pas garantie : avoir un plan B si elle diverge trop du script."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 3 · CHAPITRE 6",
+      "titre": "Structurer\nson projet,\nl'arborescence",
+      "objectif": "Objectif : auditer et réorganiser pour de vrai.",
+      "pastilles": ["L'impact concret", "Ce qui manque sans elle", "Un audit réel"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : l'impact d'une bonne organisation, ce qui se passe quand elle manque, et un audit réel en direct. Tout s'anime tout seul à l'ouverture."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "CE QUE SÉPARE UNE BONNE STRUCTURE",
+      "titre": "Des responsabilités distinctes",
+      "cartes": [
+        { "titre": "Le code", "texte": "Ce qui fait fonctionner le produit." },
+        { "titre": "Documentation", "texte": "Ce qui explique, à part du code." },
+        { "titre": "Configuration", "texte": "Les réglages, séparés du reste." }
+      ],
+      "notes": "Moments du script : {{t2}} (titre seul) puis {{t3}}, un clic par carte (3 clics). La quatrième idée du script, séparer ce qui est livré du travail en cours, reste dans la voix off et le récapitulatif final, sans carte dédiée. Cette séparation reste valable quelle que soit la taille du projet."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "CE QUI SE PASSE SANS ELLE",
+      "titre": "Le désordre coûte cher, même à l'agent",
+      "intro": "Un projet mal structuré ralentit tout le monde.",
+      "avant": { "etiquette": "BONNE STRUCTURE", "titre": "L'agent s'y retrouve", "texte": "Chaque chose a sa place, prévisible." },
+      "apres": { "etiquette": "STRUCTURE QUI MANQUE", "titre": "Le désordre grandit", "texte": "Mauvais fichier modifié, logique dupliquée sans le savoir." },
+      "notes": "Moment du script : {{t4}}. Clic 1 : la carte « Bonne structure ». Clic 2 : la carte « Structure qui manque ». Même avec un agent très compétent, un désordre croissant ralentit le travail."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "LE PRINCIPE",
+      "enonce": "Une arborescence\nqui scale.",
+      "appui": "Compréhensible de 10 à 100 fichiers, posée dès le début, pas corrigée après coup.",
+      "notes": "Moment du script : {{t7}}. La phrase apparaît seule, puis un clic pour l'appui. C'est le principe de l'arborescence qui scale : le bon réflexe est de la poser tôt."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Une place pour chaque chose,\ndès le début.",
+      "points": [
+        "Séparer clairement code, documentation, configuration et livrables.",
+        "Une mauvaise structure ralentit le travail même avec un agent compétent.",
+        "Poser une structure dès le début, plutôt que corriger le désordre après coup."
+      ],
+      "final": "Prochaine vidéo : gérer les coûts intelligemment.",
+      "notes": "Moment du script : {{t8}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 3, chapitre 7, dernier de la section)."
+    }
+  ]
+}

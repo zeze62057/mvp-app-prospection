@@ -1,0 +1,90 @@
+{
+  "sortie": "diapositives-chapitre-7.pptx",
+  "titre": "Gérer les coûts intelligemment",
+  "sujet": "Vivier IA, Module 1, section 3, chapitre 7",
+  "bureau": { "dossier": "Module 1 - Section 3 - Maîtriser l'outil", "nom": "Chapitre 7" },
+  "fiche": {
+    "description": "Utiliser Claude Code a un coût, lié à l'usage réel. Trois leviers pour le maîtriser sans sacrifier la qualité, et un découpage réel de tâche en étapes validables.",
+    "points": [
+      "Le coût d'usage doit entrer dans le calcul de rentabilité d'un projet, jamais être ignoré.",
+      "Un cadrage précis réduit fortement les recommencements coûteux.",
+      "Découper les tâches limite le risque de tout reprendre après une erreur tardive."
+    ]
+  },
+  "preparation": [
+    "Utiliser le site de démonstration de l'artisan, déjà réorganisé au chapitre 6.",
+    "Avoir sous la main le prompt du chapitre 7 de `03-maitriser-loutil-prompts.md`, à coller tel quel.",
+    "Ne pas prévoir d'exécuter les 4 ou 5 étapes proposées : seule la proposition de découpage est montrée."
+  ],
+  "avant": [
+    "VS Code au premier plan, prêt à recevoir le prompt.",
+    "Relire le signal de passage de fin de section avant de filmer la dernière diapositive, pour l'annoncer avec justesse."
+  ],
+  "pendant": [
+    "Lire à voix haute au moins 2 ou 3 étapes de la proposition de Claude Code, pour que l'élève voie concrètement à quoi ressemble un bon découpage."
+  ],
+  "entre": [
+    "À {{t6}}, coller le prompt et lire la proposition de Claude Code se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que la proposition de découpage de Claude Code compte bien 4 ou 5 étapes, comme demandé : si elle diverge, l'ajuster à l'oral plutôt que la couper au montage."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 3 · CHAPITRE 7",
+      "titre": "Gérer les coûts\nintelligemment",
+      "objectif": "Objectif : maîtriser le coût sans perdre en qualité.",
+      "pastilles": ["Pourquoi ça compte", "Trois leviers", "Un découpage réel"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : pourquoi la dimension économique compte, trois leviers, et un découpage réel en direct. Dernier chapitre de la section. Tout s'anime seul à l'ouverture."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "LES LEVIERS DE MAÎTRISE",
+      "titre": "Trois façons de maîtriser le coût",
+      "cartes": [
+        { "titre": "Cadrer précisément", "texte": "Évite les allers-retours inutiles." },
+        { "titre": "Découper la tâche", "texte": "Évite de tout recommencer après une erreur." },
+        { "titre": "Réserver le lourd", "texte": "Aux moments où c'est\nvraiment nécessaire." }
+      ],
+      "notes": "Moments du script : {{t2}} (titre seul) puis {{t3}}, un clic par carte (3 clics). Ignorer le coût peut transformer un projet rentable sur le papier en projet qui coûte plus cher qu'il ne rapporte."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "UN EXEMPLE",
+      "titre": "Cibler, plutôt que tout refaire",
+      "intro": "Le même résultat, pour une fraction du coût.",
+      "avant": { "etiquette": "TOUT RÉGÉNÉRER", "titre": "Un module entier", "texte": "Pour corriger un seul paragraphe mal formulé." },
+      "apres": { "etiquette": "CIBLER PRÉCISÉMENT", "titre": "Le paragraphe concerné", "texte": "Même résultat final, coût très réduit." },
+      "notes": "Moment du script : {{t4}}. Clic 1 : la carte « Tout régénérer ». Clic 2 : la carte « Cibler précisément »."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "POUR UNE ACTIVITÉ FACTURÉE",
+      "enonce": "Le coût d'usage entre\ndans le calcul de rentabilité.",
+      "appui": "Une marge confortable au devis peut disparaître avec un usage d'IA mal maîtrisé.",
+      "notes": "Moment du script : {{t5}}. La phrase apparaît seule, puis un clic pour l'appui. C'est une compétence de gestion, pas seulement une compétence technique."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Maîtriser le coût,\nsans sacrifier la qualité.",
+      "points": [
+        "Le coût d'usage entre dans le calcul de rentabilité, jamais ignoré.",
+        "Un cadrage précis réduit fortement les recommencements coûteux.",
+        "Découper les tâches limite le risque de tout reprendre trop tard."
+      ],
+      "final": "Fin de la section : le signal de passage sur la diapositive suivante.",
+      "notes": "Moment du script : {{t7}}. Le titre apparaît seul, puis un clic par point, et un dernier clic pour l'annonce."
+    },
+    {
+      "type": "flux",
+      "surtitre": "FIN DE LA SECTION 3",
+      "rangees": [
+        { "etiquette": "SIGNAL DE PASSAGE", "style": "clair", "boites": ["CLAUDE.md à jour", "Skill actif", { "t": "Pas seulement\nen théorie", "accent": true }] }
+      ],
+      "phrase": "Prochaine section : Claude Code au quotidien.",
+      "notes": "Moment du script : {{t8}}. Rangée visible dès l'ouverture, clic pour la phrase d'annonce. Signal de passage complet de l'étape 3 du guide de réussite : si ce n'est pas encore acquis, reprendre le chapitre concerné avant d'avancer."
+    }
+  ]
+}

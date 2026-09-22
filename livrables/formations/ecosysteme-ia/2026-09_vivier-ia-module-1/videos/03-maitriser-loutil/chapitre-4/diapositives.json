@@ -1,0 +1,97 @@
+{
+  "sortie": "diapositives-chapitre-4.pptx",
+  "titre": "MCP, connecter Claude Code à votre écosystème",
+  "sujet": "Vivier IA, Module 1, section 3, chapitre 4",
+  "bureau": { "dossier": "Module 1 - Section 3 - Maîtriser l'outil", "nom": "Chapitre 4" },
+  "fiche": {
+    "description": "MCP connecte Claude Code à des outils extérieurs à votre projet. Comprenez ce qu'il résout, comment déclarer un serveur, et connectez-en un pour de vrai, avec une action réelle à la clé.",
+    "points": [
+      "MCP connecte Claude Code à des services externes au projet local.",
+      "Un serveur se déclare dans un fichier .mcp.json, à la racine du projet.",
+      "Plus de connexions veut dire plus de vigilance sur le périmètre autorisé."
+    ]
+  },
+  "preparation": [
+    "Reprendre le dossier de démonstration créé au chapitre 3 (par exemple `C:\\demo-g`), qui contient déjà `.claude/commands` et `.claude/skills`. Le fichier `.mcp.json` vient s'ajouter au même projet.",
+    "Avoir sous la main la configuration exacte du cours (chapitre 4 de `03-maitriser-loutil.md`) : le contenu du `.mcp.json` à créer, mot pour mot.",
+    "Vérifier que Node.js est installé et que `npx` est accessible dans le PATH : sinon la connexion échoue par timeout, sans message clair (point de vigilance du cours).",
+    "Prévoir de fermer et rouvrir Claude Code après la création du fichier, pour déclencher la demande d'autorisation."
+  ],
+  "avant": [
+    "VS Code : garder le même dossier de démonstration ouvert que le chapitre précédent, avec le terminal en grande police.",
+    "Vérifier la connexion internet : `npx` télécharge le serveur Playwright au tout premier lancement."
+  ],
+  "pendant": [
+    "Montrer l'invite d'autorisation de connexion telle qu'elle apparaît réellement, sans la couper au montage : c'est un moment pédagogique important.",
+    "Si la connexion échoue par timeout, montrez-le et diagnostiquez à voix haute : c'est exactement le point de vigilance Windows du chapitre."
+  ],
+  "entre": [
+    "De {{t6}} à {{t7}}, la démonstration (création de .mcp.json, relance de Claude Code, autorisation, puis ouverture du site dans le navigateur) se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que `npx` est bien accessible dans le PATH sur la machine d'enregistrement, testé avant de filmer pour éviter un aléa en direct.",
+    "Le temps du premier téléchargement du serveur Playwright (variable selon la connexion), à mesurer lors du test à blanc."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 3 · CHAPITRE 4",
+      "titre": "MCP, connecter\nClaude Code à\nvotre écosystème",
+      "objectif": "Objectif : connecter un serveur MCP réel.",
+      "pastilles": ["Ce que ça résout", "Comment le déclarer", "Une connexion réelle"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : ce que MCP résout, comment le déclarer, et une connexion réelle en direct. Tout s'anime tout seul à l'ouverture de la diapositive."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "LE PROBLÈME QUE MCP RÉSOUT",
+      "titre": "Le travail réel dépasse le projet local",
+      "intro": "Une grande partie se passe ailleurs.",
+      "avant": { "etiquette": "SANS MCP", "titre": "Seulement le local", "texte": "Les fichiers du projet, rien d'autre." },
+      "apres": { "etiquette": "AVEC MCP", "titre": "Des outils connectés", "texte": "L'agent lit et écrit directement dedans,\navec votre autorisation." },
+      "notes": "Moments du script : {{t2}} (Sans MCP, clic 1) puis {{t3}} (Avec MCP, clic 2). MCP veut dire Model Context Protocol. Exemples cités : Notion, Google Drive, une base de données."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "UN EXEMPLE",
+      "titre": "Deux agents, zéro copier-coller",
+      "intro": "Chaque étape se fait directement dans l'outil.",
+      "avant": { "etiquette": "RÉDIGER ET ENREGISTRER", "titre": "Un agent de contenu", "texte": "Écrit puis enregistre directement\ndans une base partagée." },
+      "apres": { "etiquette": "GÉNÉRER ET ATTACHER", "titre": "Un second agent", "texte": "Génère un visuel et l'attache automatiquement au bon endroit." },
+      "notes": "Moment du script : {{t4}}. La carte « Rédiger et enregistrer » est visible. Clic à « Puis un second agent » : la carte « Générer et attacher »."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "L'INSTALLATION",
+      "titre": "Un fichier, une autorisation",
+      "lignes": [
+        { "etiquette": "Le fichier à créer, à la racine du projet", "commande": ".mcp.json" },
+        { "etiquette": "Le serveur de cet exemple (Playwright)", "commande": "npx @playwright/mcp@latest" },
+        { "etiquette": "Sur Windows, sans Node.js déjà en place", "detail": "npx doit être accessible dans le PATH, sinon la connexion échoue par timeout." }
+      ],
+      "notes": "Moment du script : {{t5}}. Un clic par ligne (3 clics). Ensuite, la démonstration se fait dans VS Code, sans diapositive : création du fichier, relance, autorisation, puis ouverture du site dans le navigateur."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "LE POINT DE VIGILANCE",
+      "titre": "Plus de connexions, plus de rigueur",
+      "cartes": [
+        { "titre": "Ne pas inventer", "texte": "Aucune propriété qui n'existe pas déjà dans l'outil connecté." },
+        { "titre": "Rien d'implicite", "texte": "Aucune modification qui n'a pas été explicitement demandée." },
+        { "titre": "Toujours vérifier", "texte": "Confirmer qu'une action a réellement réussi,\njamais le supposer." }
+      ],
+      "notes": "Moment du script : {{t8}}. Un clic par carte (3 clics). Ce sont les garde-fous du cours, valables pour n'importe quel service connecté."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Des outils extérieurs,\nsous votre autorisation.",
+      "points": [
+        "MCP connecte Claude Code à des services externes au projet local.",
+        "L'agent agit directement dedans, avec votre autorisation préalable.",
+        "Plus de connexions veut dire plus de vigilance sur le périmètre."
+      ],
+      "final": "Prochaine vidéo : les Hooks, pour automatiser Claude Code.",
+      "notes": "Moment du script : {{t9}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 3, chapitre 5)."
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "sortie": "diapositives-chapitre-5.pptx",
+  "titre": "Hooks, automatiser Claude Code",
+  "sujet": "Vivier IA, Module 1, section 3, chapitre 5",
+  "bureau": { "dossier": "Module 1 - Section 3 - Maîtriser l'outil", "nom": "Chapitre 5" },
+  "fiche": {
+    "description": "Un hook est une règle automatique, déclenchée à un moment précis, pas une instruction ponctuelle. Comprenez ce qui le distingue, et configurez-en un réel avec l'aide de Claude Code.",
+    "points": [
+      "Hook = règle automatique, déclenchée à un moment précis, pas une instruction ponctuelle.",
+      "Garantit un comportement systématique, indépendant de la vigilance du moment.",
+      "Pertinent une fois un besoin de fiabilité identifié par l'expérience, pas dès le premier jour."
+    ]
+  },
+  "preparation": [
+    "Reprendre le dossier de démonstration des chapitres précédents (par exemple `C:\\demo-g`).",
+    "Initialiser Git dessus si ce n'est pas déjà fait (`git init`) : nécessaire pour tester le hook.",
+    "Avoir sous la main le prompt du chapitre 5 de `03-maitriser-loutil-prompts.md`, à coller tel quel.",
+    "Préparer une valeur fictive pour le `.env` de test (jamais une vraie clé), par exemple `FAKE_KEY=test`."
+  ],
+  "avant": [
+    "VS Code et un terminal Git côte à côte, police agrandie.",
+    "Vérifier qu'aucun vrai fichier `.env` du poste n'est visible dans l'explorateur pendant la démonstration."
+  ],
+  "pendant": [
+    "Laisser Claude Code rédiger la règle sans intervenir : c'est le point du chapitre, ne pas l'écrire à sa place.",
+    "Montrer le message de blocage du commit en entier, à l'écran : c'est la preuve que le hook fonctionne."
+  ],
+  "entre": [
+    "De {{t5}} à {{t6}}, la démonstration (configuration du hook par Claude Code, puis test avec un faux .env) se fait dans VS Code et le terminal, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que le `.env` de test ne contient qu'une valeur fictive, jamais un vrai identifiant ou une vraie clé.",
+    "Que `git init` a bien été fait avant la démonstration, ou le prévoir dans le minutage si filmé en direct."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 3 · CHAPITRE 5",
+      "titre": "Hooks,\nautomatiser\nClaude Code",
+      "objectif": "Objectif : configurer un hook réel.",
+      "pastilles": ["Une règle automatique", "Des exemples concrets", "Un hook testé en direct"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : ce qui distingue un hook d'une instruction, des exemples concrets, et un hook réel configuré et testé. Tout s'anime tout seul à l'ouverture."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "CE QUI CHANGE",
+      "titre": "Systématique, pas ponctuel",
+      "intro": "La différence tient à la régularité.",
+      "avant": { "etiquette": "UNE INSTRUCTION", "titre": "Dépend du moment", "texte": "S'applique si on pense à la redemander ce jour-là." },
+      "apres": { "etiquette": "UN HOOK", "titre": "S'applique toujours", "texte": "Se déclenche au même moment, à chaque fois, sans exception." },
+      "notes": "Moment du script : {{t2}}. Clic 1 : la carte « Une instruction ». Clic 2 : la carte « Un hook ». Exemples de moments de déclenchement : avant qu'un outil s'exécute, après une réponse, à la fin d'une session."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "DES EXEMPLES CONCRETS",
+      "titre": "Trois besoins de fiabilité",
+      "cartes": [
+        { "titre": "Avant un commit", "texte": "Forcer une vérification systématique avant chaque commit Git." },
+        { "titre": "Dossier sensible", "texte": "Empêcher une action dans un dossier de clés d'API." },
+        { "titre": "Tâche terminée", "texte": "Déclencher une notification quand une tâche longue se termine." }
+      ],
+      "notes": "Moment du script : {{t3}}. Un clic par carte (3 clics). Chaque exemple répond à un besoin de fiabilité qu'on ne veut plus laisser dépendre de la vigilance du moment."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "L'INSTALLATION",
+      "titre": "Un fichier, une règle",
+      "lignes": [
+        { "etiquette": "Le fichier, partagé ou personnel", "commande": ".claude/settings.json" },
+        { "etiquette": "Le moment de déclenchement (exemple)", "commande": "PreToolUse" },
+        { "etiquette": "Le chemin le plus fiable", "detail": "Demander à Claude Code de configurer le hook, plutôt que l'écrire à la main." }
+      ],
+      "notes": "Moment du script : {{t4}}. Un clic par ligne (3 clics). Ensuite, la démonstration se fait dans VS Code et le terminal, sans diapositive : configuration du hook, puis test avec un faux .env."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "QUAND L'INTRODUIRE",
+      "enonce": "Pas besoin d'un hook\ndès le premier projet.",
+      "appui": "Un mécanisme à réserver au jour où un besoin récurrent de fiabilité se fait sentir.",
+      "notes": "Moment du script : {{t7}}. La phrase apparaît seule, puis un clic pour l'appui. C'est un mécanisme plus avancé, pertinent une fois identifié par l'expérience, pas dès le premier jour."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Une règle automatique,\npas une instruction.",
+      "points": [
+        "Hook : une règle qui se déclenche à un moment précis, systématiquement.",
+        "Indépendant de la vigilance du moment, contrairement à une instruction ponctuelle.",
+        "Pertinent une fois un besoin de fiabilité identifié, pas dès le premier jour."
+      ],
+      "final": "Prochaine vidéo : structurer son projet, l'arborescence qui scale.",
+      "notes": "Moment du script : {{t8}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (section 3, chapitre 6)."
+    }
+  ]
+}
