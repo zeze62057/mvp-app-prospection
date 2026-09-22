@@ -1,0 +1,88 @@
+{
+  "sortie": "diapositives-chapitre-3.pptx",
+  "titre": "MCP Playwright, votre navigateur au service du dev",
+  "sujet": "Vivier IA, Module 1, section 5, chapitre 3",
+  "bureau": { "dossier": "Module 1 - Section 5 - Le Fullstack, projet fil rouge", "nom": "Chapitre 3" },
+  "fiche": {
+    "description": "MCP Playwright donne à Claude Code la capacité de tester réellement une application, en pilotant un vrai navigateur. Testez-le en direct sur le formulaire d'Alpha Conseil.",
+    "points": [
+      "Playwright pilote un vrai navigateur, exactement comme un utilisateur humain.",
+      "Connecté via MCP, Claude Code peut tester réellement, pas seulement relire le code.",
+      "Réduit le risque de découvrir des problèmes trop tard, au moment le plus coûteux."
+    ]
+  },
+  "preparation": [
+    "Reprendre le dossier `/alpha-conseil` créé au chapitre 1, ouvert dans Claude Code.",
+    "Vérifier que le serveur MCP Playwright est bien connecté avant l'enregistrement.",
+    "Avoir sous la main le prompt du chapitre 3 de `05-fullstack-fil-rouge-prompts.md`, à coller tel quel."
+  ],
+  "avant": [
+    "VS Code : terminal en grande police, dossier `alpha-conseil` du chapitre 1 ouvert.",
+    "Fermer les autres onglets ou fenêtres de navigateur, pour que le pilotage automatique de Playwright soit bien visible."
+  ],
+  "pendant": [
+    "Laisser Playwright ouvrir la page et remplir les champs sans intervenir.",
+    "Si le message de confirmation ne s'affiche pas, ne pas cacher l'échec : c'est justement ce que l'outil sert à détecter."
+  ],
+  "entre": [
+    "De {{t4}} à {{t5}}, la démonstration (Playwright ouvre le formulaire, remplit les champs, vérifie la confirmation) se fait dans VS Code et le navigateur, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que Claude Code rapporte bien ce qu'il a observé à l'écran (pas une supposition), avec le détail des 4 champs remplis et la confirmation affichée."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 5 · CHAPITRE 3",
+      "titre": "MCP Playwright,\nvotre navigateur\nau service du dev",
+      "objectif": "Objectif : tester réellement, pas seulement relire le code.",
+      "pastilles": ["Ce que fait Playwright", "Un changement pour Validate", "Une démonstration réelle"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan. Tout s'anime seul à l'ouverture."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "CE QUE FAIT PLAYWRIGHT",
+      "enonce": "Piloter un navigateur,\ncomme un utilisateur humain.",
+      "appui": "Ouvrir une page, cliquer, remplir un formulaire, vérifier ce qui s'affiche réellement.",
+      "notes": "Moment du script : {{t2}}. La phrase apparaît seule, puis un clic pour l'appui."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "UN CHANGEMENT DE NATURE",
+      "titre": "Pour la phase Validate",
+      "intro": "Deux façons très différentes d'affirmer que ça marche.",
+      "avant": { "etiquette": "SANS PLAYWRIGHT", "titre": "Une supposition", "texte": "« Le code semble\ncorrect en le relisant »." },
+      "apres": { "etiquette": "AVEC PLAYWRIGHT", "titre": "Une observation", "texte": "« J'ai vérifié en ouvrant\nréellement la page »." },
+      "notes": "Moment du script : {{t3}}. Titre seul, sans clic."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "APRÈS LA DÉMONSTRATION",
+      "enonce": "Ce qui a été observé à l'écran,\npas « le code a l'air correct ».",
+      "appui": "Playwright valide chaque phase de build : le formulaire, le dashboard, la page de statut.",
+      "notes": "Moment du script : {{t5}}. La phrase apparaît seule, puis un clic pour l'appui."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "UNE COMPÉTENCE TRANSVERSALE",
+      "titre": "Au-delà de ce seul projet",
+      "cartes": [
+        { "titre": "Transférable", "texte": "À tout projet\navec une interface." },
+        { "titre": "La majorité des livraisons", "texte": "D'un cabinet\nde conseil." }
+      ],
+      "notes": "Moment du script : {{t6}}. Un clic par carte (2 clics)."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Tester réellement,\npas supposer.",
+      "points": [
+        "Playwright pilote un vrai navigateur.",
+        "Connecté via MCP, Claude Code teste, sans supposer.",
+        "Réduit le risque de découvrir un problème trop tard."
+      ],
+      "final": "Prochaine vidéo : Phase 1, le formulaire d'intake client.",
+      "notes": "Moment du script : {{t7}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce."
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "sortie": "diapositives-chapitre-2.pptx",
+  "titre": "L'architecture fullstack n8n + Claude Code",
+  "sujet": "Vivier IA, Module 1, section 5, chapitre 2",
+  "bureau": { "dossier": "Module 1 - Section 5 - Le Fullstack, projet fil rouge", "nom": "Chapitre 2" },
+  "fiche": {
+    "description": "Le projet Alpha Conseil combine Claude Code (le produit) et n8n (les automatisations). Comprenez cette répartition, et faites-la clarifier par Claude Code en direct.",
+    "points": [
+      "Claude Code construit le produit, n8n orchestre les automatisations et connexions externes.",
+      "Séparer produit et plomberie entre systèmes facilite la maintenance future.",
+      "Architecture adaptée à des livraisons rapides, avec de l'évolutivité derrière."
+    ]
+  },
+  "preparation": [
+    "Reprendre le dossier `/alpha-conseil` créé au chapitre 1, ouvert dans Claude Code.",
+    "Avoir sous la main le prompt du chapitre 2 de `05-fullstack-fil-rouge-prompts.md`, à coller tel quel.",
+    "Cette vidéo est une discussion, aucun fichier n'est créé : le texte généré par Claude Code n'est pas prévisible, répéter avant l'enregistrement."
+  ],
+  "avant": [
+    "VS Code : terminal en grande police, dossier `alpha-conseil` du chapitre 1 ouvert."
+  ],
+  "pendant": [
+    "Laisser Claude Code lister ses candidats en entier avant de commenter."
+  ],
+  "entre": [
+    "De {{t5}} à {{t6}}, la démonstration (clarification de la répartition Claude Code / n8n) se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que la liste d'automatisations proposée par Claude Code reste cohérente avec les exemples du script (email de confirmation, notification, CRM, qualification IA), même si le texte exact diffère."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 5 · CHAPITRE 2",
+      "titre": "L'architecture\nn8n + Claude Code",
+      "objectif": "Objectif : répartir un projet entre produit et automatisations.",
+      "pastilles": ["Deux briques complémentaires", "La logique de répartition", "Une démonstration réelle"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan. Tout s'anime seul à l'ouverture."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "DEUX BRIQUES COMPLÉMENTAIRES",
+      "titre": "Le produit et la plomberie",
+      "intro": "Chacune avec un rôle bien distinct.",
+      "avant": { "etiquette": "CLAUDE CODE", "titre": "Le produit", "texte": "Interface, logique métier,\nbase de données." },
+      "apres": { "etiquette": "N8N", "titre": "Les automatisations", "texte": "Emails, notifications,\nsynchronisations, IA en tâche de fond." },
+      "notes": "Moment du script : {{t2}}. Titre seul, sans clic."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "LA LOGIQUE DE RÉPARTITION",
+      "titre": "Deux questions à se poser",
+      "cartes": [
+        { "titre": "Visible par l'utilisateur ?", "texte": "Construit et maintenu\ndans le code." },
+        { "titre": "Plomberie entre systèmes ?", "texte": "Géré par n8n,\nvisuel et modifiable." }
+      ],
+      "notes": "Moment du script : {{t3}}. Un clic par carte (2 clics)."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "SUR LE FORMULAIRE D'INTAKE",
+      "titre": "Après la soumission",
+      "cartes": [
+        { "titre": "Confirmation\npar email", "texte": "Envoyé au prospect." },
+        { "titre": "Notification", "texte": "Vous ou votre équipe,\npar Slack." },
+        { "titre": "Suivi CRM", "texte": "Ligne ajoutée\nautomatiquement." },
+        { "titre": "Qualification\npar IA", "texte": "Chaud, tiède ou froid,\nselon les réponses." }
+      ],
+      "notes": "Moment du script : {{t4}}. Un clic par carte (4 clics)."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "POURQUOI C'EST ADAPTÉ",
+      "enonce": "Un client grand compte ajuste\nses processus sans redéveloppement.",
+      "appui": "Le workflow visuel s'ouvre et s'ajuste directement, sans toucher au code.",
+      "notes": "Moment du script : {{t6}}. La phrase apparaît seule, puis un clic pour l'appui."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Le produit d'un côté,\nla plomberie de l'autre.",
+      "points": [
+        "Claude Code construit le produit, n8n orchestre les automatisations.",
+        "Séparer les deux facilite la maintenance future.",
+        "Adapté à des livraisons rapides, avec de l'évolutivité derrière."
+      ],
+      "final": "Prochaine vidéo : MCP Playwright, votre navigateur au service du dev.",
+      "notes": "Moment du script : {{t7}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce."
+    }
+  ]
+}

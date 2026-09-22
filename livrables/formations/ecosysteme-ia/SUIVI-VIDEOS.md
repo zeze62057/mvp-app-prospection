@@ -60,8 +60,8 @@ Source : `2026-09_vivier-ia-module-1/04-quotidien.md`
 | Chapitre | État | Date | Durée réelle | Notes |
 |---|---|---|---|---|
 | Chapitre 1 : Second Brain, organiser son quotidien | script prêt | 2026-09-22 | estimée 4:14 | 4 points à valider avant enregistrement, le chapitre le plus personnel du programme jusqu'ici (mécanisme décrit sans dire ce workspace, 4 activités réelles de Zézé remplacées par une formulation générique, exemple du renommage réel remplacé par un exemple hypothétique, persona de démo changé pour un coach MLM fictif, distinct de l'artisan des sections précédentes). Démonstration réelle : second brain créé puis rechargé. 6 diapositives, 0 alerte. |
-| Chapitre 2 : Préparer vos livrables professionnels | à faire |  |  |  |
-| Chapitre 3 : Gérer votre propre business (compta, processus, KPIs) | à faire |  |  |  |
+| Chapitre 2 : Préparer vos livrables professionnels | script prêt | 2026-09-22 | estimée 3:46 | 3 points a valider avant enregistrement (neutralisation Chatllow/CAC40, demonstration reelle confirmee sur Menuiserie Dubois et exemple hotellerie, texte du prompt 2 remplace par l'exemple du cours). 6 diapositives, 0 alerte. |
+| Chapitre 3 : Gérer votre propre business (compta, processus, KPIs) | script prêt | 2026-09-22 | estimée 2:58 | Dernier chapitre de la section. 3 points a valider avant enregistrement (application directe neutralisee, exemple/chemin interne neutralise, persona coach MLM pour la demonstration). Signal de passage complet de la section 4 rappele. 6 diapositives, 0 alerte. |
 
 ### Section 5 — 🚀 Le Fullstack, projet fil rouge
 
@@ -69,12 +69,12 @@ Source : `2026-09_vivier-ia-module-1/05-fullstack-fil-rouge.md`
 
 | Chapitre | État | Date | Durée réelle | Notes |
 |---|---|---|---|---|
-| Chapitre 1 : De Lovable à Claude Code, la transition production | à faire |  |  |  |
-| Chapitre 2 : L'architecture fullstack n8n + Claude Code | à faire |  |  |  |
-| Chapitre 3 : MCP Playwright, votre navigateur au service du dev | à faire |  |  |  |
-| Chapitre 4 : Build Phase 1, formulaire d'intake client | à faire |  |  |  |
-| Chapitre 5 : Build Phase 2, dashboard de suivi | à faire |  |  |  |
-| Chapitre 6 : Build Phase 3, page de statut et livraison finale | à faire |  |  |  |
+| Chapitre 1 : De Lovable à Claude Code, la transition production | script prêt | 2026-09-22 | estimée 2:53 | Premier chapitre de la section fil rouge. 2 points a valider (demonstration reelle, aucune neutralisation necessaire). Cree le dossier /alpha-conseil reutilise dans les chapitres 3 a 6. 6 diapositives, 0 alerte. |
+| Chapitre 2 : L'architecture fullstack n8n + Claude Code | script prêt | 2026-09-22 | estimée 2:35 | 3 points a valider (notifier Zeze -> vous notifier, client CAC40 -> client grand compte, demonstration de discussion sans fichier cree). 6 diapositives, 0 alerte. |
+| Chapitre 3 : MCP Playwright, votre navigateur au service du dev | script prêt | 2026-09-22 | estimée 2:44 | 3 points a valider (cabinet Chatllow -> cabinet de conseil, demo jouee sur le formulaire simple du chapitre 1, MCP Playwright doit etre connecte avant enregistrement). 6 diapositives, 0 alerte. |
+| Chapitre 4 : Build Phase 1, formulaire d'intake client | script prêt | 2026-09-22 | estimée 3:44 | 3 points a valider (aucune neutralisation, 3 prompts Plan/Execute/Validate joues en direct dans l'ordre, resultat de Claude Code non previsible a repeter avant enregistrement). 4 diapositives, 0 alerte. |
+| Chapitre 5 : Build Phase 2, dashboard de suivi | script prêt | 2026-09-22 | estimée 3:14 | 3 points a valider (aucune neutralisation, 2 prompts joues en direct, resultat non previsible a repeter). 4 diapositives, 0 alerte. |
+| Chapitre 6 : Build Phase 3, page de statut et livraison finale | script prêt | 2026-09-22 | estimée 3:21 | Dernier chapitre de la section. 3 points a valider (aucune neutralisation, 2 prompts joues en direct, mise en ligne reelle non rejouee, seule sa verification l'est). Signal de passage complet de la section 5 rappele. 5 diapositives, 0 alerte. |
 
 ### Section 6 — 💸 Le Business
 

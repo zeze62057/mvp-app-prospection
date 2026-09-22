@@ -1,0 +1,91 @@
+{
+  "sortie": "diapositives-chapitre-3.pptx",
+  "titre": "Gérer votre propre business",
+  "sujet": "Vivier IA, Module 1, section 4, chapitre 3",
+  "bureau": { "dossier": "Module 1 - Section 4 - Claude Code au quotidien", "nom": "Chapitre 3" },
+  "fiche": {
+    "description": "Un usage souvent sous-exploité : utiliser Claude Code pour piloter votre propre activité, pas seulement les projets de vos clients. Facturation, rapports, KPIs, avec une démonstration réelle.",
+    "points": [
+      "Claude Code peut structurer suivi comptable, processus répétables, et tableaux de KPIs.",
+      "Les mêmes principes de cadrage et de vérification s'appliquent à votre propre business.",
+      "Centraliser le suivi de plusieurs activités évite les angles morts."
+    ]
+  },
+  "preparation": [
+    "Créer un dossier neuf, distinct des démonstrations précédentes, par exemple `C:\\demo-pilotage`.",
+    "Avoir sous la main le premier prompt du chapitre 3 de `04-quotidien-prompts.md`, adapté aux 3 activités fictives du persona (coaching individuel, formation en ligne, ventes de produits en direct) à la place de Chatllow, Vivier IA, Longrich.",
+    "Le texte et la structure exacts proposés par Claude Code ne sont pas prévisibles : répéter la démonstration avant l'enregistrement."
+  ],
+  "avant": [
+    "VS Code : terminal en grande police, dossier `demo-pilotage` ouvert."
+  ],
+  "pendant": [
+    "Valider la structure de colonnes proposée par Claude Code avant qu'il crée le fichier, comme le prompt le demande.",
+    "Si Claude Code invente des activités au lieu de reprendre celles données dans le prompt, l'arrêter et le signaler."
+  ],
+  "entre": [
+    "De {{t4}} à {{t5}}, la démonstration (structuration du tableau de facturation) se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que le tableau créé contient bien les colonnes demandées (activité, client, montant, statut, date) et les 3 activités fictives du persona, pas des inventions non demandées."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 4 · CHAPITRE 3",
+      "titre": "Gérer votre\npropre business",
+      "objectif": "Objectif : piloter votre activité, pas seulement vos clients.",
+      "pastilles": ["Compta, processus, KPIs", "Éviter les angles morts", "Une démonstration réelle"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan. Tout s'anime seul à l'ouverture. Dernière vidéo de la section 4."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "CE QUE ÇA PERMET",
+      "titre": "Trois usages concrets",
+      "cartes": [
+        { "titre": "Facturation", "texte": "Un suivi cohérent,\npar activité." },
+        { "titre": "Rapports", "texte": "Générés à partir\nde votre historique." },
+        { "titre": "KPIs", "texte": "Prospects, conversions,\nchiffre d'affaires." }
+      ],
+      "notes": "Moment du script : {{t2}}. Un clic par carte (3 clics). Mêmes principes que tout le module : cadrer, structurer, vérifier."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "PLUSIEURS ACTIVITÉS EN PARALLÈLE",
+      "titre": "Éviter l'angle mort",
+      "intro": "Un suivi séparé cache les décrochages.",
+      "avant": { "etiquette": "SUIVI SÉPARÉ", "titre": "Angle mort", "texte": "Une activité décroche\nsans que vous le voyiez." },
+      "apres": { "etiquette": "SUIVI CENTRALISÉ", "titre": "Vue d'ensemble", "texte": "Rien ne passe inaperçu,\nvous gagnez du temps." },
+      "notes": "Moment du script : {{t3}}. Titre seul, sans clic. Centraliser le suivi dans un seul système piloté par Claude Code."
+    },
+    {
+      "type": "commandes",
+      "surtitre": "POUR ALLER PLUS LOIN",
+      "titre": "Deux autres prompts de votre fiche",
+      "lignes": [
+        { "etiquette": "Tableau de KPIs", "detail": "Suivi hebdomadaire par activité : prospects, RDV, propositions, clients signés." },
+        { "etiquette": "Rapport d'activité", "detail": "Généré depuis votre historique, avec un point d'attention si une activité stagne." }
+      ],
+      "notes": "Moment du script : {{t5}}. Un clic par ligne (2 clics). Pas de démonstration en direct dans cette vidéo, les prompts sont prêts dans la fiche."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "FIN DE LA SECTION 4",
+      "enonce": "Le signal de passage\nà la section suivante.",
+      "appui": "Un second brain fonctionnel sur une de vos activités réelles, rechargeable avec un prompt comme « lis mes fichiers de contexte et résume où j'en suis ».",
+      "notes": "Moment du script : {{t6}}. La phrase apparaît seule, puis un clic pour l'appui, repris mot pour mot du signal de passage de la section 4."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Votre business,\npiloté comme un projet.",
+      "points": [
+        "Claude Code structure suivi comptable, processus et KPIs.",
+        "Les mêmes principes de cadrage et vérification s'appliquent.",
+        "Centraliser plusieurs activités évite les angles morts."
+      ],
+      "final": "Prochaine section : le fullstack, votre projet fil rouge.",
+      "notes": "Moment du script : {{t7}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la section 5."
+    }
+  ]
+}

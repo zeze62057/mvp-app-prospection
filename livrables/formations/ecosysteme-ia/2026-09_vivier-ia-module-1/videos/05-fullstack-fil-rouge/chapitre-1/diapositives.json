@@ -1,0 +1,90 @@
+{
+  "sortie": "diapositives-chapitre-1.pptx",
+  "titre": "De Lovable à Claude Code",
+  "sujet": "Vivier IA, Module 1, section 5, chapitre 1",
+  "bureau": { "dossier": "Module 1 - Section 5 - Le Fullstack, projet fil rouge", "nom": "Chapitre 1" },
+  "fiche": {
+    "description": "Premier chapitre du projet fil rouge Alpha Conseil : pourquoi et quand basculer d'un outil de prototypage rapide comme Lovable vers Claude Code pour la production réelle.",
+    "points": [
+      "Lovable et équivalents : excellents pour prototyper vite, pas pour la production durable.",
+      "Claude Code prend le relais pour la production réelle, extensible sur la durée.",
+      "Ne pas confondre l'outil de validation d'idée et l'outil de livraison finale."
+    ]
+  },
+  "preparation": [
+    "Créer un dossier neuf pour toute la section, par exemple `C:\\demo-alpha-conseil`, et ouvrir Claude Code depuis ce dossier.",
+    "Avoir sous la main le prompt du chapitre 1 de `05-fullstack-fil-rouge-prompts.md`, à coller tel quel.",
+    "Ce dossier sera réutilisé dans les chapitres 3, 4, 5 et 6 : ne pas le supprimer après l'enregistrement de cette vidéo."
+  ],
+  "avant": [
+    "VS Code : terminal en grande police, dossier `demo-alpha-conseil` vide ouvert.",
+    "Navigateur prêt à ouvrir le fichier généré, à côté de VS Code."
+  ],
+  "pendant": [
+    "Laisser Claude Code générer le fichier en entier avant de l'ouvrir dans le navigateur.",
+    "Si Claude Code ajoute un framework ou une dépendance non demandée, l'arrêter et le signaler : le prompt demande du HTML/CSS/JS simple, sans framework."
+  ],
+  "entre": [
+    "De {{t5}} à {{t6}}, la démonstration (reconstruction du prototype, ouverture dans le navigateur) se fait dans VS Code et le navigateur, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que le formulaire généré contient bien les 4 champs du prompt (nom, entreprise, besoin, budget estimé) et un bouton d'envoi avec message de confirmation.",
+    "Qu'aucun framework n'a été ajouté sans le demander."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 5 · CHAPITRE 1",
+      "titre": "De Lovable\nà Claude Code",
+      "objectif": "Objectif : savoir quand passer du prototype à la production.",
+      "pastilles": ["Le projet fil rouge", "La limite du prototype", "Le relais de Claude Code"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan. Tout s'anime seul à l'ouverture. Première vidéo de la section 5."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "UN POINT DE DÉPART COURANT",
+      "enonce": "Lovable : prototyper une idée\nen quelques heures.",
+      "appui": "Tester un concept, montrer une maquette, valider avant d'investir plus de temps.",
+      "notes": "Moment du script : {{t2}}. La phrase apparaît seule, puis un clic pour l'appui."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "OÙ LA LIMITE APPARAÎT",
+      "titre": "Démonstration ou production",
+      "intro": "Deux objectifs différents, deux outils différents.",
+      "avant": { "etiquette": "PROTOTYPAGE", "titre": "Vitesse de démo", "texte": "Données factices,\nsécurité esthétique." },
+      "apres": { "etiquette": "PRODUCTION", "titre": "Robustesse durable", "texte": "Données réelles, sécurité réelle,\névolutivité." },
+      "notes": "Moment du script : {{t3}}. Titre seul, sans clic."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "LE RELAIS PRIS PAR CLAUDE CODE",
+      "titre": "Ce qu'on garde, ce qu'on reconstruit",
+      "cartes": [
+        { "titre": "On garde", "texte": "L'idée validée,\nla référence visuelle." },
+        { "titre": "On reconstruit", "texte": "Une base solide,\nextensible." },
+        { "titre": "On évite", "texte": "Les limites structurelles\nd'un outil de démo." }
+      ],
+      "notes": "Moment du script : {{t4}}. Un clic par carte (3 clics)."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "APRÈS LA DÉMONSTRATION",
+      "enonce": "Ce n'est pas une copie visuelle,\nc'est une base pensée pour évoluer.",
+      "appui": "Ce dossier /alpha-conseil vous suivra sur toute la section 5.",
+      "notes": "Moment du script : {{t6}}. La phrase apparaît seule, puis un clic pour l'appui."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Prototyper vite,\nproduire solide.",
+      "points": [
+        "Lovable et équivalents : excellents pour prototyper, pas pour produire.",
+        "Claude Code prend le relais pour la production réelle.",
+        "Ne pas confondre validation d'idée et livraison finale."
+      ],
+      "final": "Prochaine vidéo : l'architecture Claude Code + n8n.",
+      "notes": "Moment du script : {{t7}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo."
+    }
+  ]
+}

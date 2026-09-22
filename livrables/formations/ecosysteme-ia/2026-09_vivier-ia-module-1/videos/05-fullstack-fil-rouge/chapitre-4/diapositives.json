@@ -1,0 +1,74 @@
+{
+  "sortie": "diapositives-chapitre-4.pptx",
+  "titre": "Build Phase 1, formulaire d'intake client",
+  "sujet": "Vivier IA, Module 1, section 5, chapitre 4",
+  "bureau": { "dossier": "Module 1 - Section 5 - Le Fullstack, projet fil rouge", "nom": "Chapitre 4" },
+  "fiche": {
+    "description": "Première vraie brique du projet fil rouge : le formulaire d'intake d'Alpha Conseil, construit avec le cycle Plan, Execute, Validate, testé avec Playwright.",
+    "points": [
+      "Premier point de contact structuré du système avec l'extérieur.",
+      "Cadrer les champs nécessaires, structurer la validation, connecter à la suite.",
+      "Construit et testé avec le cycle Plan, Execute, Validate."
+    ]
+  },
+  "preparation": [
+    "Reprendre le dossier `/alpha-conseil` créé au chapitre 1, ouvert dans Claude Code.",
+    "Vérifier que MCP Playwright est bien connecté.",
+    "Avoir sous la main les 3 prompts du chapitre 4 de `05-fullstack-fil-rouge-prompts.md`, à coller dans l'ordre.",
+    "Répéter la démonstration avant l'enregistrement : le plan exact et le temps de construction ne sont pas prévisibles."
+  ],
+  "avant": [
+    "VS Code : terminal en grande police, dossier `alpha-conseil` ouvert."
+  ],
+  "pendant": [
+    "Laisser Claude Code proposer son plan en entier avant de le valider, ne pas couper la lecture.",
+    "Laisser la construction se terminer avant de passer à Validate."
+  ],
+  "entre": [
+    "De {{t4}} à {{t6}}, la démonstration (Plan, Execute, Validate) se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que le plan proposé par Claude Code couvre bien les 4 champs et le stockage JSON local.",
+    "Que le test Playwright confirme réellement une nouvelle entrée dans le fichier JSON, pas une simple affirmation."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 5 · CHAPITRE 4",
+      "titre": "Build Phase 1,\nformulaire\nd'intake client",
+      "objectif": "Objectif : construire et tester la première brique.",
+      "pastilles": ["Ce que ça enseigne", "Pourquoi en premier", "Plan, Execute, Validate"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan. Tout s'anime seul à l'ouverture."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "CE QUE CETTE PHASE ENSEIGNE",
+      "titre": "Trois choses en pratique",
+      "cartes": [
+        { "titre": "Cadrer", "texte": "Les champs nécessaires,\nni plus ni moins." },
+        { "titre": "Valider", "texte": "Un email ressemble\nà un email." },
+        { "titre": "Connecter", "texte": "Où vont les données,\net ensuite." }
+      ],
+      "notes": "Moment du script : {{t2}}. Un clic par carte (3 clics)."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "POURQUOI CETTE BRIQUE EN PREMIER",
+      "enonce": "Autonome, concrète,\nreprésentative du module.",
+      "appui": "Testable seule, résultat visible immédiatement, cadrage et validation comme partout ailleurs.",
+      "notes": "Moment du script : {{t3}}. La phrase apparaît seule, puis un clic pour l'appui."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Une phase testée,\npas seulement codée.",
+      "points": [
+        "Premier point de contact structuré avec l'extérieur.",
+        "Cadrer, valider, connecter : les trois réflexes de cette phase.",
+        "Construite et testée avec Plan, Execute, Validate."
+      ],
+      "final": "Prochaine vidéo : Phase 2, le dashboard de suivi.",
+      "notes": "Moment du script : {{t7}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce."
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "sortie": "diapositives-chapitre-6.pptx",
+  "titre": "Build Phase 3, page de statut et livraison finale",
+  "sujet": "Vivier IA, Module 1, section 5, chapitre 6",
+  "bureau": { "dossier": "Module 1 - Section 5 - Le Fullstack, projet fil rouge", "nom": "Chapitre 6" },
+  "fiche": {
+    "description": "Dernière brique du projet fil rouge : la page de statut d'Alpha Conseil, qui referme la boucle, suivie d'une checklist de livraison finale complète.",
+    "points": [
+      "La page de statut ferme la boucle : le client voit l'avancement sans solliciter directement.",
+      "La livraison finale combine vérification rigoureuse, documentation claire, mise en ligne réelle.",
+      "C'est la synthèse pratique où convergent tous les chapitres du Module 1."
+    ]
+  },
+  "preparation": [
+    "Reprendre le dossier `/alpha-conseil` du chapitre 5, avec son formulaire et son dashboard.",
+    "Vérifier que MCP Playwright est bien connecté.",
+    "Avoir sous la main les 2 prompts du chapitre 6 de `05-fullstack-fil-rouge-prompts.md`, à coller dans l'ordre."
+  ],
+  "avant": [
+    "VS Code : terminal en grande police, dossier `alpha-conseil` ouvert."
+  ],
+  "pendant": [
+    "Vérifier explicitement, à l'écran, qu'un lien de statut ne donne pas accès aux autres demandes.",
+    "Laisser Claude Code répondre point par point à la checklist, sans résumer en un seul \"tout est bon\"."
+  ],
+  "entre": [
+    "De {{t3}} à {{t4}}, la démonstration (page de statut, puis checklist de livraison) se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que la page de statut n'expose bien que la demande correspondant à son lien, aucune autre.",
+    "Que la checklist finale a été confirmée point par point, pas résumée globalement."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 5 · CHAPITRE 6",
+      "titre": "Build Phase 3,\npage de statut\net livraison finale",
+      "objectif": "Objectif : fermer la boucle du projet fil rouge.",
+      "pastilles": ["La dernière brique", "Fermer la boucle", "La livraison finale"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan. Tout s'anime seul à l'ouverture. Dernière vidéo de la section 5."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "COMMENT CETTE PHASE FERME LA BOUCLE",
+      "enonce": "Intake, dashboard, statut :\ntrois briques connectées.",
+      "appui": "Les données saisies, suivies en interne, sont maintenant lisibles par la personne\nextérieure concernée.",
+      "notes": "Moment du script : {{t2}}. La phrase apparaît seule, puis un clic pour l'appui."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "CE QUE « LIVRAISON FINALE » VEUT DIRE",
+      "titre": "Trois éléments, pas juste du code",
+      "cartes": [
+        { "titre": "Vérification", "texte": "Le parcours complet,\navec Playwright." },
+        { "titre": "Documentation", "texte": "Pour que le client\ns'y retrouve seul." },
+        { "titre": "Mise en ligne", "texte": "Réelle, via Vercel\nou OVH." }
+      ],
+      "notes": "Moment du script : {{t5}}. Un clic par carte (3 clics)."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "FIN DE LA SECTION 5",
+      "enonce": "Le signal de passage\nà la section suivante.",
+      "appui": "Les 3 phases fonctionnent ensemble, testées réellement, sur un projet\nmontrable à quelqu'un.",
+      "notes": "Moment du script : {{t6}}. La phrase apparaît seule, puis un clic pour l'appui, repris mot pour mot du signal de passage de la section 5."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Tout le module\nconverge ici.",
+      "points": [
+        "La page de statut ferme la boucle du projet fil rouge.",
+        "La livraison finale combine vérification, documentation, mise en ligne.",
+        "C'est la synthèse pratique de tout le Module 1."
+      ],
+      "final": "Prochaine section : le Business, préparer une livraison client.",
+      "notes": "Moment du script : {{t7}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la section 6."
+    }
+  ]
+}
