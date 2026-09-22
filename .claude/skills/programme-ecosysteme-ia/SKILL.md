@@ -145,6 +145,7 @@ Priorisé selon le besoin prioritaire actuel de Zézé (développement sur l'éc
 - Mises à jour & organisation des workflows
 - Sécuriser et tester ses workflows
 - Notes de la communauté
+- Adopter une équipe d'agents IA tierce auto-hébergée (cadrage, installation, connexion à vos comptes)
 
 ---
 
@@ -266,6 +267,7 @@ Priorisé selon le besoin prioritaire actuel de Zézé (développement sur l'éc
 ## Règles importantes
 
 - Ce fichier est une table des matières, pas un cours. Ne jamais inventer le contenu détaillé d'un chapitre non développé ici.
+- **Chaque chapitre développé en cours doit prévoir sa propre pratique** (décision du 2026-09-22, actée dans le skill `creer-video-formation`) : en plus du "à faire" de fin de section, chaque vidéo de chapitre se termine par un petit exercice individuel, tiré de l'exemple ou des prompts déjà utilisés dans le chapitre, jamais inventé. Ce fichier ne liste pas ces exercices (ce n'est qu'un sommaire), mais toute proposition de nouveau chapitre ou module doit garder cette exigence en tête.
 - Ne jamais présenter ce programme comme celui de Vivier IA déjà finalisé : c'est une référence externe à adapter, pas le programme final de Zézé.
 - Si Zézé signale que ce programme a changé (nouveaux modules, réordonnancement), propose de mettre ce fichier à jour plutôt que de garder une version obsolète.
 - Pas de tirets longs (em dashes) dans les réponses.

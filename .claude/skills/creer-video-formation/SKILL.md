@@ -34,6 +34,7 @@ Ce skill réutilise les règles de `preparer-demo-formation` (ne rien inventer, 
 - **Manipulation ou test hors cours** (2026-09-22) : si une démonstration ou un test paraît utile mais n'est ni dans le chapitre ni dans sa fiche pratique, ne jamais l'inventer ni l'exécuter. Le lister dans les "points à valider avec Zézé" du `01-script.md`, comme fait jusqu'ici, jamais improvisé ni passé sous silence.
 - **Chapitres conceptuels** (2026-09-22) : pour un chapitre sans manipulation réelle à l'écran (mindset, RGPD, stratégie), diapositives seules par défaut, voix off dessus, sauf si le chapitre a réellement quelque chose à montrer (auquel cas le signaler et proposer un plan d'écran).
 - **Rappel de la pratique** (2026-09-22) : chaque module a un `00-guide-de-reussite.md` avec un "à faire" et un "signal de passage" par section (pas par chapitre). Ne pas créer un fichier d'exercice par chapitre. À la place, la diapositive "prochaine étape" et le script de chaque chapitre rappellent en une ligne le "à faire" de la section en cours, tiré du guide de réussite du module, jamais inventé. Sur le dernier chapitre d'une section, rappeler le "signal de passage" complet de cette section.
+- **Exercice pratique par chapitre** (2026-09-22) : en plus du "à faire" par section ci-dessus (qui reste, ne le remplace pas), chaque chapitre porte désormais son propre petit exercice individuel, pour que l'élève pratique après chaque vidéo, pas seulement en fin de section. Cet exercice n'est jamais inventé : il reprend l'exemple concret ou les prompts déjà utilisés dans le chapitre (la fiche pratique, le cas neutralisé de l'artisan), reformulés en consigne à faire soi-même ("faites-le maintenant sur votre propre projet, ou sur le site de démonstration"). Il figure dans `03-enregistrement-et-mise-en-ligne.md`, dans la fiche plateforme (voir Étape 2).
 
 ## Comment utiliser ce skill
 
@@ -94,6 +95,7 @@ Ne jamais inventer un exemple, une commande, un chiffre ou un prompt absent de c
    - **outil d'enregistrement** : celui de la plateforme capte l'écran et le son du système, pas le micro. Pour une voix off, enregistrez avec un logiciel qui capte le micro (OBS Studio est gratuit) et envoyez ensuite le fichier.
 2. **Vérification des secrets** : aucune vraie clé d'API, aucun mot de passe, aucune donnée client réelle à l'écran. Utilisez des identifiants de démonstration, jamais ceux de Chatllow, de Chariow ou d'un client. Vérifiez aussi la barre d'onglets, l'historique du terminal et les fichiers `.env` ouverts.
 3. **Fiche plateforme** prête à coller : titre de la vidéo, description en deux phrases, trois à cinq points clés, durée réelle à renseigner après l'enregistrement.
+4. **Exercice pratique** : une consigne courte, tirée de l'exemple ou des prompts déjà montrés dans le chapitre (jamais inventée), que l'élève applique lui-même sur son propre projet ou sur le site de démonstration. S'ajoute au "à faire" de fin de section, ne le remplace pas.
 
 ### Étape 3 : règles d'écriture du script parlé
 
