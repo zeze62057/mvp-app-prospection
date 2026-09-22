@@ -1,0 +1,82 @@
+{
+  "sortie": "diapositives-chapitre-3.pptx",
+  "titre": "Installer votre assistant personnel",
+  "sujet": "Vivier IA, Section 0, chapitre 3",
+  "bureau": { "dossier": "Section 0 - Bienvenue", "nom": "Chapitre 3" },
+  "fiche": {
+    "description": "Un geste simple qui rend tout le reste plus facile : installer votre assistant personnel avec Claude Code, en une seule fois, avant d'entrer dans le Module 1.",
+    "points": [
+      "Trois fichiers suffisent : qui vous êtes, votre contexte, votre historique.",
+      "Une interview guidée les remplit pour vous, vous n'écrivez rien à la main.",
+      "Ce n'est pas figé : ça s'enrichit et se corrige au fil de la formation."
+    ]
+  },
+  "preparation": [
+    "Créer un dossier neuf, dédié à l'assistant personnel, distinct de tout projet client (par exemple `C:\\mon-assistant`).",
+    "Avoir sous la main les deux prompts de `01-bienvenue-prompts.md`, à coller tels quels.",
+    "Préparer à l'avance des informations fictives cohérentes pour Mariam (prénom, reconversion vers le conseil IA, 2-3 objectifs, préférence de communication), pour répondre sans hésiter.",
+    "Le nombre et la formulation exacte des questions de Claude Code ne sont pas garantis : répéter la démonstration avant l'enregistrement."
+  ],
+  "avant": [
+    "VS Code : terminal en grande police, dossier vide ouvert.",
+    "Ne jamais utiliser le nom « Jarvis » à l'écran ou à l'oral : ce chapitre remplace un module d'un tiers, voir le README du dossier."
+  ],
+  "pendant": [
+    "Répondre aux questions posément, comme le ferait un vrai apprenant, pas en lisant un script mémorisé de façon mécanique.",
+    "Montrer le récapitulatif de Claude Code avant l'écriture des fichiers : c'est le moment où l'élève voit qu'il garde le contrôle."
+  ],
+  "entre": [
+    "De {{t4}} à {{t6}}, la démonstration (interview, récapitulatif, création des 3 fichiers, puis rechargement) se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que les 3 fichiers créés contiennent bien les informations fictives données à Claude Code, pas des inventions.",
+    "Que le résumé du second prompt correspond fidèlement à ce qui a été écrit dans les fichiers."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · BIENVENUE · CHAPITRE 3",
+      "titre": "Installer votre\nassistant\npersonnel",
+      "objectif": "Objectif : un assistant réel, en une fois.",
+      "pastilles": ["Comment ça fonctionne", "Une installation réelle", "Prêt pour le Module 1"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : le principe, une installation réelle en direct, puis prêt pour le Module 1. Tout s'anime seul à l'ouverture. Dernier chapitre de la section 0."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "POURQUOI COMMENCER PAR ÇA",
+      "enonce": "Un espace qui vous connaît,\nsans tout réexpliquer.",
+      "appui": "Utile pour suivre cette formation, et bien au-delà si vous le souhaitez.",
+      "notes": "Moment du script : {{t2}}. La phrase apparaît seule, puis un clic pour l'appui."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "TROIS FICHIERS",
+      "titre": "Vous n'écrivez rien à la main",
+      "cartes": [
+        { "titre": "Qui vous êtes", "texte": "Comment vous voulez\nqu'on vous parle." },
+        { "titre": "Votre contexte", "texte": "Votre situation, vos objectifs." },
+        { "titre": "Votre historique", "texte": "Ce qui a été fait et décidé." }
+      ],
+      "notes": "Moment du script : {{t3}}. Un clic par carte (3 clics). Une interview guidée les remplit, pas besoin de les écrire soi-même."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "SI VOS RÉPONSES SONT IMPARFAITES",
+      "enonce": "Ce n'est pas grave,\nrien n'est figé.",
+      "appui": "Ça se corrige et s'enrichit au fil de la formation, comme des notes personnelles.",
+      "notes": "Moment du script : {{t7}}. La phrase apparaît seule, puis un clic pour l'appui."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Vous êtes prêt\npour le Module 1.",
+      "points": [
+        "Trois fichiers suffisent : qui vous êtes, votre contexte, votre historique.",
+        "Une interview guidée les remplit pour vous.",
+        "Ce n'est pas figé : ça s'enrichit au fil de la formation."
+      ],
+      "final": "Prochaine vidéo : Module 1, la fondation de tout le programme.",
+      "notes": "Moment du script : {{t8}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce. Fin de la section 0."
+    }
+  ]
+}

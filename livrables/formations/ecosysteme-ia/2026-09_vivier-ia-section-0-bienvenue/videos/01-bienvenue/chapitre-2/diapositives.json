@@ -1,0 +1,77 @@
+{
+  "sortie": "diapositives-chapitre-2.pptx",
+  "titre": "Comment bien suivre la formation",
+  "sujet": "Vivier IA, Section 0, chapitre 2",
+  "bureau": { "dossier": "Section 0 - Bienvenue", "nom": "Chapitre 2" },
+  "fiche": {
+    "description": "Une vidéo sans pratique ne construit rien de durable. Découvrez la méthode qui fonctionne, le principe du signal de passage, et comment utiliser la communauté.",
+    "points": [
+      "Une vidéo sans pratique derrière ne construit rien de durable.",
+      "Un signal de passage est une preuve concrète, pas une case cochée.",
+      "La communauté sert à débloquer une vraie difficulté, pas seulement à être consultée."
+    ]
+  },
+  "preparation": [
+    "Chapitre sans démonstration : seules les diapositives sont nécessaires."
+  ],
+  "avant": [],
+  "pendant": [],
+  "entre": [],
+  "aVerifier": [
+    "La phrase sur l'absence de délai (point 1 du cadrage) : à confirmer avec Zézé avant l'enregistrement."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · BIENVENUE · CHAPITRE 2",
+      "titre": "Comment bien\nsuivre la\nformation",
+      "objectif": "Objectif : ne pas juste regarder.",
+      "pastilles": ["Le piège à éviter", "Le signal de passage", "La communauté"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : le piège de la lecture passive, le signal de passage, et l'usage de la communauté. Tout s'anime seul à l'ouverture."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "LE PIÈGE À ÉVITER",
+      "titre": "Regardée n'est pas pratiquée",
+      "intro": "C'est la pratique qui construit la compétence.",
+      "avant": { "etiquette": "REGARDÉE", "titre": "Ça paraît clair", "texte": "Mais la compréhension retombe vite\nsans usage réel." },
+      "apres": { "etiquette": "PRATIQUÉE", "titre": "Sur un cas réel", "texte": "Même minuscule, c'est ce qui reste ensuite." },
+      "notes": "Moment du script : {{t2}}. Clic 1 : la carte « Regardée ». Clic 2 : la carte « Pratiquée »."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "LA MÉTHODE",
+      "enonce": "Une vidéo,\npuis un vrai geste.",
+      "appui": "Trois vidéos d'affilée sans rien pratiquer donnent l'illusion d'avancer vite.",
+      "notes": "Moment du script : {{t3}}. La phrase apparaît seule, puis un clic pour l'appui. Reproduire l'exercice avant de passer au chapitre suivant."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "LE SIGNAL DE PASSAGE",
+      "titre": "Une preuve, pas une lecture",
+      "intro": "Exemple du cours : une URL publique qui fonctionne.",
+      "avant": { "etiquette": "PREUVE CONCRÈTE", "titre": "Obtenue par vous-même", "texte": "De bout en bout, même si\nle résultat est modeste." },
+      "apres": { "etiquette": "PAS UNE CASE COCHÉE", "titre": "Sans elle, on revient", "texte": "Reprendre ce qui manque, plutôt que continuer quand même." },
+      "notes": "Moment du script : {{t4}}. Clic 1 : la carte « Preuve concrète ». Clic 2 : la carte « Pas une case cochée »."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "LA COMMUNAUTÉ",
+      "enonce": "Débloquer une vraie\ndifficulté, pas insister seul.",
+      "appui": "Formuler où vous en êtes aide souvent à voir soi-même où ça coince.",
+      "notes": "Moments du script : {{t5}} (clic pour l'appui) puis {{t6}}, aucun nouveau clic. Pas de date limite fixée, mais une régularité modeste vaut mieux qu'une semaine intensive isolée."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Regarder ne suffit pas,\npratiquer construit.",
+      "points": [
+        "Une vidéo sans pratique derrière ne construit rien de durable.",
+        "Un signal de passage est une preuve concrète, pas une case cochée.",
+        "La communauté sert à débloquer une vraie difficulté."
+      ],
+      "final": "Prochaine vidéo : installer votre assistant personnel.",
+      "notes": "Moment du script : {{t7}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (Section 0, chapitre 3)."
+    }
+  ]
+}

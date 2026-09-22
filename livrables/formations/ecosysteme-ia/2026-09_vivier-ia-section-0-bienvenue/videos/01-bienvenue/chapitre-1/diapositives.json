@@ -1,0 +1,80 @@
+{
+  "sortie": "diapositives-chapitre-1.pptx",
+  "titre": "Présentation de la formation",
+  "sujet": "Vivier IA, Section 0, chapitre 1",
+  "bureau": { "dossier": "Section 0 - Bienvenue", "nom": "Chapitre 1" },
+  "fiche": {
+    "description": "Vivier IA vise à former et recruter les meilleurs, pas seulement informer un large public. Découvrez les 5 modules du programme et comment vous allez vivre cette formation.",
+    "points": [
+      "L'ambition de Vivier IA est de former et de recruter, pas seulement d'informer.",
+      "5 modules, dans un ordre pensé pour construire une base avant l'usage commercial.",
+      "Une formation vécue en communauté, avec une progression suivie module après module."
+    ]
+  },
+  "preparation": [
+    "Chapitre sans démonstration : seules les diapositives sont nécessaires.",
+    "Premier chapitre de tout le programme : soigner particulièrement le ton d'accueil."
+  ],
+  "avant": [],
+  "pendant": [],
+  "entre": [],
+  "aVerifier": [],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · BIENVENUE · CHAPITRE 1",
+      "titre": "Présentation\nde la formation",
+      "objectif": "Objectif : savoir où vous mettez les pieds.",
+      "pastilles": ["Ce que ça vise", "Les 5 modules", "Comment vous la vivez"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan : ce que Vivier IA cherche à faire, les 5 modules, et comment vivre la formation. Tout s'anime seul à l'ouverture. C'est la toute première vidéo du programme."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "L'AMBITION",
+      "enonce": "Former et recruter\nles meilleurs.",
+      "appui": "Un vivier de talents, pas seulement un public qui consomme du contenu.",
+      "notes": "Moment du script : {{t2}}. La phrase apparaît seule, puis un clic pour l'appui. Ça change ce qu'on attend de l'élève : pratiquer, pas seulement regarder."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "COMMENT ON APPREND ICI",
+      "titre": "L'outil s'apprend en le pratiquant",
+      "intro": "La formation utilise ce qu'elle enseigne.",
+      "avant": { "etiquette": "COURS CLASSIQUE", "titre": "On regarde", "texte": "Puis on espère se souvenir plus tard." },
+      "apres": { "etiquette": "VIVIER IA", "titre": "On pratique", "texte": "Avec Claude Code, dès le premier jour." },
+      "notes": "Moment du script : {{t3}}. Clic 1 : la carte « Cours classique ». Clic 2 : la carte « Vivier IA »."
+    },
+    {
+      "type": "flux",
+      "surtitre": "LE PROGRAMME",
+      "rangees": [
+        { "etiquette": "FONDATIONS", "style": "clair", "boites": ["1. Claude Code", "2. n8n", "3. Business IA"] },
+        { "etiquette": "SPÉCIALISATION", "style": "clair", "boites": ["4. RGPD / AI Act", "5. Lemlist"] }
+      ],
+      "notes": "Moments du script : {{t4}} (rangée 1, puis clic pour la rangée 2) et {{t5}} (aucun nouveau clic, la diapositive reste affichée). Ordre pensé pour construire une base avant l'usage commercial, pas une règle rigide."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "COMMENT VOUS LA VIVEZ",
+      "titre": "Pas seul devant un écran",
+      "cartes": [
+        { "titre": "Communauté gratuite", "texte": "Pour découvrir, sans engagement." },
+        { "titre": "Communauté payante", "texte": "Exercices et échanges avec d'autres élèves." },
+        { "titre": "Votre progression", "texte": "Suivie module après module." }
+      ],
+      "notes": "Moment du script : {{t6}}. Un clic par carte (3 clics). La plateforme est construite autour de cette communauté, pas seulement autour des vidéos."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Former et recruter,\npas juste informer.",
+      "points": [
+        "5 modules, dans un ordre pensé, mais pas rigide.",
+        "La formation utilise l'outil qu'elle enseigne, dès le premier jour.",
+        "Une formation vécue en communauté, avec une vraie progression."
+      ],
+      "final": "Prochaine vidéo : comment bien suivre cette formation.",
+      "notes": "Moment du script : {{t7}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la prochaine vidéo (Section 0, chapitre 2)."
+    }
+  ]
+}
