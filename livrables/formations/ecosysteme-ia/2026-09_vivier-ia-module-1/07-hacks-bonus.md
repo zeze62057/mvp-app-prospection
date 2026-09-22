@@ -63,8 +63,20 @@ Un plugin Claude Code n'est pas un mécanisme nouveau, c'est un emballage. Il re
 ### Installation pratique
 
 1. Ajouter une source de plugins (un "marketplace", souvent un simple dépôt Git) : `/plugin marketplace add <dépôt>`
-2. Installer un plugin depuis cette source : `/plugin install <nom-du-plugin>`
+2. Installer un plugin depuis cette source : `/plugin install <nom-du-plugin>@<nom-marketplace>`
 3. Une fois installé, tout ce que contient le plugin (commands, skills, agents, configuration MCP) devient disponible immédiatement dans le projet, sans copier-coller manuel de fichiers.
+
+### Où chercher et comment évaluer un plugin, concrètement
+
+Trois catalogues à connaître, du plus sûr au plus ouvert :
+
+- **La marketplace officielle** (`claude-plugins-official`), déjà ajoutée automatiquement au premier lancement de Claude Code. Elle se parcourt avec `/plugin` (onglet "Discover"), ou sur le site claude.com/plugins. Elle regroupe des intégrations connues (GitHub, GitLab, Notion, Figma, Slack, Supabase...), un plugin de revue de sécurité automatique, et des outils de workflow comme `commit-commands` pour les commits Git.
+- **La marketplace communautaire**, à ajouter soi-même avec `/plugin marketplace add anthropics/claude-plugins-community`, puis à installer avec `@claude-community`. Les plugins y passent par une validation automatique avant d'apparaître, mais restent l'œuvre de tiers.
+- **La marketplace de démonstration** d'Anthropic (`/plugin marketplace add anthropics/claude-code`), qui montre concrètement ce qu'un plugin peut faire, utile pour apprendre avant de chercher plus loin.
+
+Avant d'installer quoi que ce soit, l'onglet "Discover" affiche trois informations à regarder systématiquement : le **coût en contexte** (combien de tokens le plugin ajoute à chaque message), la **date de dernière mise à jour**, et la liste exacte de **ce qu'il va installer** (commands, agents, skills, hooks, serveurs MCP). Un plugin à l'abandon depuis des mois, ou qui ajoute beaucoup plus que le besoin réel, coûte cher pour peu de bénéfice.
+
+La règle de confiance à retenir, dans les mots mêmes de la documentation officielle : un plugin peut exécuter du code sur votre machine, avec vos droits d'accès. Anthropic ne contrôle pas ce que contiennent les plugins communautaires et ne peut pas garantir qu'ils font ce qu'ils prétendent. On n'installe que des plugins dont la source est vérifiée, jamais par simple curiosité.
 
 ### Un outil vivant, pas figé
 
@@ -81,6 +93,8 @@ C'est un bon chapitre de clôture parce qu'il rappelle que ce module 1 pose des 
 **Points clés**
 - Un plugin regroupe skills, commands, agents, MCP et hooks déjà connus, dans un seul paquet installable
 - Il capitalise l'outillage lui-même (pas seulement le code d'un projet), pour le réutiliser ou le partager en une commande
+- Trois catalogues à connaître : la marketplace officielle, la communautaire, la démonstration, chacune accessible avec `/plugin marketplace add` puis `/plugin` (onglet "Discover")
+- Avant d'installer : vérifier le coût en contexte, la date de mise à jour, et ne jamais installer un plugin dont la source n'est pas vérifiée
 - L'écosystème Claude Code évolue en continu : savoir chercher et évaluer une extension utile compte plus que tout mémoriser à un instant donné
 
 ---
