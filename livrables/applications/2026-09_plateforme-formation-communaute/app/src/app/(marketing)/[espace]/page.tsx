@@ -4,6 +4,12 @@ import { notFound } from "next/navigation";
 import { getEspaceParSlug } from "@/lib/espaces";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { TexteRiche } from "@/lib/texte-riche";
+import { tempsEcoule } from "@/lib/temps";
+import { chargerPostsFil } from "@/lib/fil";
+import { couleurAvatar } from "@/lib/avatar";
+import { Avatar } from "@/components/communaute/fil/Avatar";
+import { TexteAvecMentions } from "@/components/communaute/fil/TexteAvecMentions";
+import { IconePouce } from "@/components/communaute/fil/CartePost";
 
 export default async function VitrinePage({
   params,
@@ -17,9 +23,21 @@ export default async function VitrinePage({
   const c = espace.contenu_vitrine ?? {};
   const admin = createAdminClient();
 
-  const [{ count: nbMembres }, { data: modulesData }, { data: temoignages }] = await Promise.all([
+  const debutMois = new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), 1)).toISOString();
+  const maintenant = new Date().toISOString();
+
+  const [
+    { count: nbMembres },
+    { data: modulesData },
+    { data: avisPourMoyenne },
+    { data: temoignages },
+    { count: nbDiscussionsMois },
+    { count: nbMasterclassAvenir },
+    { data: prochainesMasterclasses },
+  ] = await Promise.all([
     admin.from("adhesions").select("*", { count: "exact", head: true }).eq("espace_id", espace.id).eq("statut", "approuve"),
     admin.from("modules").select("id, sections(id)").eq("espace_id", espace.id),
+    admin.from("temoignages").select("note").eq("espace_id", espace.id).eq("autorise_partage", true),
     admin
       .from("temoignages")
       .select("id, note, texte, profils(pseudo)")
@@ -28,11 +46,40 @@ export default async function VitrinePage({
       .order("note", { ascending: false })
       .order("created_at", { ascending: false })
       .limit(3),
+    admin.from("posts").select("*", { count: "exact", head: true }).eq("espace_id", espace.id).gte("created_at", debutMois),
+    admin.from("masterclasses").select("*", { count: "exact", head: true }).eq("espace_id", espace.id).gte("date_heure", maintenant),
+    admin
+      .from("masterclasses")
+      .select("id, titre, date_heure")
+      .eq("espace_id", espace.id)
+      .gte("date_heure", maintenant)
+      .order("date_heure")
+      .limit(1),
   ]);
 
   const nbModulesDisponibles = (modulesData ?? []).filter(
     (m) => ((m as unknown as { sections: unknown[] }).sections ?? []).length > 0
   ).length;
+
+  const noteMoyenne =
+    avisPourMoyenne && avisPourMoyenne.length > 0
+      ? avisPourMoyenne.reduce((total, a) => total + a.note, 0) / avisPourMoyenne.length
+      : null;
+
+  const prochaineMasterclass = (prochainesMasterclasses ?? [])[0] as
+    | { id: string; titre: string; date_heure: string }
+    | undefined;
+
+  // Apercu public : vrais posts et vrai classement, lus avec le client admin car un
+  // visiteur non connecte n'a pas de session RLS. Affichage strictement en lecture
+  // seule (pas de like/commentaire cliquable, pas de lien vers une page reservee aux
+  // membres) : ces actions echoueraient reellement pour quelqu'un de pas encore inscrit.
+  const [derniersPosts, { data: statsRpc }] = await Promise.all([
+    chargerPostsFil({ supabase: admin, espaceId: espace.id, userId: "", zone: "gratuite", limite: 3 }),
+    admin.rpc("stats_communaute", { p_espace: espace.id }),
+  ]);
+  const classement = (statsRpc as { classement?: { id: string; pseudo: string; points: number }[] } | null)
+    ?.classement ?? [];
 
   return (
     <div className="bg-[var(--fond)] text-[var(--texte)]">
@@ -140,6 +187,113 @@ export default async function VitrinePage({
           </div>
         </div>
       </div>
+
+      {/* Barre de stats reelles : "en ligne maintenant" de la capture de reference est
+          omis, aucun suivi de presence n'existe dans l'app. */}
+      <div className="mx-6 mb-16 flex flex-wrap gap-3.5 sm:mx-16">
+        {espace.afficher_compteur_public !== false && (
+          <div className="min-w-[150px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4">
+            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{nbMembres ?? 0}</div>
+            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">membres actifs</div>
+          </div>
+        )}
+        <div className="min-w-[150px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4">
+          <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{nbDiscussionsMois ?? 0}</div>
+          <div className="mt-0.5 text-xs text-[var(--texte-mute)]">discussion{(nbDiscussionsMois ?? 0) !== 1 ? "s" : ""} ce mois</div>
+        </div>
+        <div className="min-w-[150px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4">
+          <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{nbMasterclassAvenir ?? 0}</div>
+          <div className="mt-0.5 text-xs text-[var(--texte-mute)]">événement{(nbMasterclassAvenir ?? 0) !== 1 ? "s" : ""} à venir</div>
+        </div>
+        {noteMoyenne !== null && (
+          <div className="min-w-[150px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4">
+            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{noteMoyenne.toFixed(1)}/5</div>
+            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">satisfaction des membres</div>
+          </div>
+        )}
+      </div>
+
+      {prochaineMasterclass && (
+        <div className="mx-6 mb-16 flex flex-col items-start gap-4 rounded-[20px] bg-[var(--encre)] p-6 text-[var(--sur-encre)] sm:mx-16 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="mb-1.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-light)]">
+              prochain événement
+            </p>
+            <p className="font-display text-[17px] font-bold">{prochaineMasterclass.titre}</p>
+            <p className="mt-1 text-[12.5px] text-[var(--sur-encre-mute)]">
+              {new Date(prochaineMasterclass.date_heure).toLocaleDateString("fr-FR", {
+                day: "numeric",
+                month: "long",
+              })}{" "}
+              ·{" "}
+              {new Date(prochaineMasterclass.date_heure).toLocaleTimeString("fr-FR", {
+                hour: "2-digit",
+                minute: "2-digit",
+                timeZone: "Africa/Conakry",
+              })}{" "}
+              · En ligne
+            </p>
+          </div>
+          <Link
+            href={`/${espace.slug}/communaute`}
+            className="whitespace-nowrap rounded-[10px] bg-[var(--corail)] px-6 py-3 text-[13.5px] font-extrabold text-[var(--encre)]"
+          >
+            S&apos;inscrire →
+          </Link>
+        </div>
+      )}
+
+      {(derniersPosts.length > 0 || classement.length > 0) && (
+        <div className="grid grid-cols-1 gap-8 px-6 py-16 sm:px-16 lg:grid-cols-[1fr_300px]">
+          {derniersPosts.length > 0 && (
+            <div>
+              <h2 className="font-display mb-6 text-2xl font-semibold sm:text-[29px]">
+                Les dernières discussions
+              </h2>
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+                {derniersPosts.map((item) => (
+                  <div key={item.post.id} className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+                    <div className="mb-2.5 flex items-center gap-2.5">
+                      <Avatar id={item.auteur.id} pseudo={item.auteur.pseudo} taille={30} urlPhoto={item.auteur.avatarUrl} />
+                      <div className="min-w-0">
+                        <div className="truncate text-[12.5px] font-bold">{item.auteur.pseudo}</div>
+                        <div className="font-mono text-[10px] text-[var(--texte-mute)]">{tempsEcoule(item.post.created_at)}</div>
+                      </div>
+                    </div>
+                    {item.post.titre && (
+                      <h3 className="font-display mb-1.5 text-[14.5px] font-bold leading-snug">{item.post.titre}</h3>
+                    )}
+                    <p className="line-clamp-3 text-[12.5px] leading-relaxed text-[var(--texte-mute)]">
+                      <TexteAvecMentions texte={item.post.contenu} />
+                    </p>
+                    <div className="mt-3.5 flex items-center gap-3 border-t border-[var(--ligne)] pt-3 text-[11.5px] text-[var(--texte-mute)]">
+                      <span className="flex items-center gap-1.5 font-bold">
+                        <IconePouce plein={false} />
+                        {item.nbLikes}
+                      </span>
+                      <span>{item.nbCommentaires} commentaire{item.nbCommentaires !== 1 ? "s" : ""}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {classement.length > 0 && (
+            <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+              <div className="font-display mb-3.5 text-[14px] font-bold">Membres actifs</div>
+              {classement.slice(0, 5).map((m, i) => (
+                <div key={m.id} className="flex items-center gap-2.5 py-1.5">
+                  <span className="w-4 shrink-0 font-mono text-[11px] font-bold text-[var(--texte-mute)]">{i + 1}</span>
+                  <div className="h-7 w-7 flex-shrink-0 rounded-full" style={{ background: couleurAvatar(m.id) }} />
+                  <span className="flex-1 truncate text-xs font-bold">{m.pseudo}</span>
+                  <span className="font-mono text-[11px] font-bold text-[var(--corail)]">{m.points} pts</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {c.competences && c.competences.length > 0 && (
         <div className="px-6 py-16 sm:px-16">
