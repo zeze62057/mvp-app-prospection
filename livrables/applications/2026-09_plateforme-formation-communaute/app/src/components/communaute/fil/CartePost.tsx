@@ -17,6 +17,25 @@ export function IconePouce({ plein }: { plein: boolean }) {
   );
 }
 
+function IconeCoeur() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 0 0 0-7.8Z" />
+    </svg>
+  );
+}
+
+function IconeRire() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="9.5" />
+      <path d="M8 13.5s1.5 2.5 4 2.5 4-2.5 4-2.5" />
+      <path d="M8.5 9h.01" />
+      <path d="M15.5 9h.01" />
+    </svg>
+  );
+}
+
 function IconeBulle() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -178,6 +197,15 @@ export function CartePost({
             {nbLikes}
           </button>
         </form>
+
+        {/* Types de reaction supplementaires de la capture de reference, pas encore
+            branches (seul le like existe en base) : visibles mais desactives. */}
+        <button type="button" disabled title="Bientôt disponible" className="flex items-center opacity-40" aria-label="Réagir (cœur) — bientôt disponible">
+          <IconeCoeur />
+        </button>
+        <button type="button" disabled title="Bientôt disponible" className="flex items-center opacity-40" aria-label="Réagir (rire) — bientôt disponible">
+          <IconeRire />
+        </button>
 
         {detail ? (
           <span className="flex items-center gap-1.5 font-bold">
