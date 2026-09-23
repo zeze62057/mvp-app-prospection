@@ -610,3 +610,100 @@ export async function refuserExpert(candidatureId: string) {
   await admin.from("candidatures_expert").update({ statut: "refuse" }).eq("id", candidatureId);
   revalidatePath("/admin");
 }
+
+// Devoirs, remises et badges attribues a la main (migration 0043).
+
+export async function creerDevoir(
+  _etat: { erreur: string | null; succes: boolean },
+  formData: FormData
+) {
+  await verifierAdmin();
+
+  const espaceId = String(formData.get("espace_id") ?? "");
+  const moduleId = String(formData.get("module_id") ?? "");
+  const titre = String(formData.get("titre") ?? "").trim();
+  const consigne = String(formData.get("consigne") ?? "").trim();
+  const dateLimite = String(formData.get("date_limite") ?? "");
+
+  if (!espaceId || !moduleId || !titre || !consigne || !dateLimite) {
+    return { erreur: "Espace, module, titre, consigne et date limite sont requis.", succes: false };
+  }
+  const date = new Date(dateLimite);
+  if (Number.isNaN(date.getTime())) {
+    return { erreur: "Date limite invalide.", succes: false };
+  }
+
+  const admin = createAdminClient();
+  const { error } = await admin.from("devoirs").insert({
+    espace_id: espaceId,
+    module_id: moduleId,
+    titre,
+    consigne,
+    date_limite: date.toISOString(),
+  });
+  if (error) return { erreur: error.message, succes: false };
+
+  revalidatePath("/admin");
+  return { erreur: null, succes: true };
+}
+
+export async function noterRemise(
+  _etat: { erreur: string | null; succes: boolean },
+  formData: FormData
+) {
+  await verifierAdmin();
+
+  const remiseId = String(formData.get("remise_id") ?? "");
+  const note = Number(String(formData.get("note") ?? ""));
+  const commentaire = String(formData.get("commentaire") ?? "").trim();
+
+  if (!remiseId || !Number.isInteger(note) || note < 0 || note > 20) {
+    return { erreur: "Note invalide : un nombre entier de 0 à 20.", succes: false };
+  }
+
+  const admin = createAdminClient();
+  const { error } = await admin
+    .from("devoirs_remises")
+    .update({ note, commentaire: commentaire || null, note_le: new Date().toISOString() })
+    .eq("id", remiseId);
+  if (error) return { erreur: error.message, succes: false };
+
+  revalidatePath("/admin");
+  return { erreur: null, succes: true };
+}
+
+// Meme logique de recherche par email que accorderAccesPayant ci-dessus : pas de
+// selecteur d'eleve construit, l'admin tape l'email du compte a recompenser.
+export async function attribuerBadge(
+  _etat: { erreur: string | null; succes: boolean },
+  formData: FormData
+) {
+  await verifierAdmin();
+
+  const email = String(formData.get("email") ?? "").trim();
+  const espaceId = String(formData.get("espace_id") ?? "");
+  const libelle = String(formData.get("libelle") ?? "").trim();
+  const emoji = String(formData.get("emoji") ?? "🏅").trim() || "🏅";
+
+  if (!email || !espaceId || !libelle) {
+    return { erreur: "Email, espace et libellé du badge sont requis.", succes: false };
+  }
+
+  const admin = createAdminClient();
+  const { data: usersData, error: erreurUsers } = await admin.auth.admin.listUsers();
+  if (erreurUsers) return { erreur: erreurUsers.message, succes: false };
+
+  const utilisateur = usersData.users.find((u) => u.email === email);
+  if (!utilisateur) return { erreur: "Aucun compte avec cet email.", succes: false };
+
+  const { error } = await admin.from("badges_manuels").insert({
+    espace_id: espaceId,
+    profil_id: utilisateur.id,
+    libelle,
+    emoji,
+  });
+  if (error) return { erreur: error.message, succes: false };
+
+  revalidatePath("/admin");
+  return { erreur: null, succes: true };
+}

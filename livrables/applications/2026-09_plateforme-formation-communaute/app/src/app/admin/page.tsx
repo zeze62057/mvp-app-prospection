@@ -28,6 +28,9 @@ import { FormulaireLienRessource } from "@/components/admin/FormulaireLienRessou
 import { FormulaireFichierRessource } from "@/components/admin/FormulaireFichierRessource";
 import { FormulaireMasterclass } from "@/components/admin/FormulaireMasterclass";
 import { FormulaireCreneauRdv } from "@/components/admin/FormulaireCreneauRdv";
+import { FormulaireDevoir } from "@/components/admin/FormulaireDevoir";
+import { FormulaireNoterRemise } from "@/components/admin/FormulaireNoterRemise";
+import { FormulaireBadge } from "@/components/admin/FormulaireBadge";
 
 export default async function AdminPage() {
   const supabase = await createClient();
@@ -192,6 +195,17 @@ export default async function AdminPage() {
     ...m,
     sections: [...(m.sections ?? [])].sort((a, b) => a.ordre - b.ordre),
   }));
+
+  // Devoirs et remises (migration 0043) : une remise non notee attend une action admin.
+  const { data: devoirs } = await admin
+    .from("devoirs")
+    .select("id, titre, date_limite, espaces(nom)")
+    .order("date_limite", { ascending: false });
+  const { data: remisesAttente } = await admin
+    .from("devoirs_remises")
+    .select("id, texte, fichier_path, rendu_at, devoirs(titre), profils(pseudo)")
+    .is("note", null)
+    .order("rendu_at", { ascending: true });
 
   return (
     <main className="p-16">
@@ -616,6 +630,65 @@ export default async function AdminPage() {
       </p>
       <div className="mt-6">
         <EnregistrementVideo espaces={espaces ?? []} modules={modulesTries} />
+      </div>
+
+      <h2 className="font-display mt-16 text-2xl font-semibold">
+        Devoirs
+      </h2>
+      <div className="mt-6">
+        <FormulaireDevoir espaces={espaces ?? []} modules={modulesTries} />
+      </div>
+      <p className="mb-3 mt-6 text-sm font-semibold text-[var(--texte-mute)]">
+        Remises à noter
+      </p>
+      <ul className="flex flex-col gap-2">
+        {(remisesAttente ?? []).map((r) => (
+          <li key={r.id} className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
+            <div className="flex flex-wrap items-center justify-between gap-2 text-sm">
+              <span>
+                <b>{(r.profils as unknown as { pseudo: string } | null)?.pseudo ?? "?"}</b>
+                {" — "}
+                {(r.devoirs as unknown as { titre: string } | null)?.titre ?? "?"}
+              </span>
+              <span className="text-xs text-[var(--texte-mute)]">
+                {new Date(r.rendu_at).toLocaleString("fr-FR")}
+              </span>
+            </div>
+            {r.texte && <p className="mt-2 text-xs text-[var(--texte-mute)]">{r.texte}</p>}
+            {r.fichier_path && (
+              <p className="mt-2 text-xs text-[var(--sarcelle)]">Fichier joint (à récupérer dans Supabase Storage : {r.fichier_path})</p>
+            )}
+            <FormulaireNoterRemise remiseId={r.id} />
+          </li>
+        ))}
+        {(remisesAttente ?? []).length === 0 && (
+          <p className="text-sm text-[var(--texte-mute)]">Aucune remise en attente de note.</p>
+        )}
+      </ul>
+      <p className="mb-3 mt-6 text-sm font-semibold text-[var(--texte-mute)]">
+        Tous les devoirs
+      </p>
+      <ul className="flex flex-col gap-2">
+        {(devoirs ?? []).map((d) => (
+          <li key={d.id} className="flex items-center justify-between rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
+            <span className="text-sm">
+              {d.titre} — {(d.espaces as unknown as { nom: string } | null)?.nom ?? "?"}
+            </span>
+            <span className="text-xs text-[var(--texte-mute)]">
+              limite {new Date(d.date_limite).toLocaleDateString("fr-FR")}
+            </span>
+          </li>
+        ))}
+        {(devoirs ?? []).length === 0 && (
+          <p className="text-sm text-[var(--texte-mute)]">Aucun devoir créé.</p>
+        )}
+      </ul>
+
+      <h2 className="font-display mt-16 text-2xl font-semibold">
+        Badges (attribution manuelle)
+      </h2>
+      <div className="mt-6">
+        <FormulaireBadge espaces={espaces ?? []} />
       </div>
     </main>
   );
