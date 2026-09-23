@@ -1,0 +1,79 @@
+{
+  "sortie": "diapositives-chapitre-2.pptx",
+  "titre": "Maintenir et faire évoluer un projet dans le temps",
+  "sujet": "Vivier IA, Module 1, section 6, chapitre 2",
+  "bureau": { "dossier": "Module 1 - Section 6 - Le Business", "nom": "Chapitre 2" },
+  "fiche": {
+    "description": "La relation avec un client ne s'arrête généralement pas à la livraison. Découvrez les 3 réflexes de la maintenance, et faites rédiger un message de suivi qui ouvre vers une phase 2.",
+    "points": [
+      "La relation client continue généralement bien après la livraison initiale.",
+      "Comprendre vite un projet ancien demande une bonne documentation.",
+      "La maintenance peut devenir un revenu récurrent, pas juste une contrainte."
+    ]
+  },
+  "preparation": [
+    "Créer un dossier neuf pour cette démonstration, par exemple `C:\\demo-suivi-client` (cette démonstration est un exercice d'écriture, pas de code).",
+    "Avoir sous la main le prompt de la Partie 5 de `06-business-prompts.md`, à coller tel quel."
+  ],
+  "avant": [
+    "VS Code : terminal en grande police, dossier `demo-suivi-client` ouvert."
+  ],
+  "pendant": [
+    "Laisser Claude Code rédiger le message en entier avant de le lire à voix haute."
+  ],
+  "entre": [
+    "De {{t5}} au clic suivant, la démonstration (message de suivi) se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que le message généré demande bien un retour d'usage concret et ouvre vers une phase 2, sans forcer la vente."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 6 · CHAPITRE 2",
+      "titre": "Maintenir et\nfaire évoluer\nun projet",
+      "objectif": "Objectif : comprendre ce que change la maintenance.",
+      "pastilles": ["Une discipline différente", "Trois réflexes", "Un revenu récurrent"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan. Tout s'anime seul à l'ouverture."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "LA RELATION NE S'ARRÊTE PAS LÀ",
+      "enonce": "Un projet vit dans le temps,\npas juste au moment de la livraison.",
+      "appui": "Un ajustement, un besoin nouveau, un bug qui apparaît après un usage prolongé.",
+      "notes": "Moment du script : {{t2}}. La phrase apparaît seule, puis un clic pour l'appui."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "UNE DISCIPLINE DIFFÉRENTE",
+      "titre": "Trois réflexes",
+      "cartes": [
+        { "titre": "Comprendre vite", "texte": "Grâce au CLAUDE.md\net à la structure." },
+        { "titre": "Évaluer l'impact", "texte": "Avant de toucher\nau code." },
+        { "titre": "Garder une trace", "texte": "De chaque évolution\napportée." }
+      ],
+      "notes": "Moment du script : {{t3}}. Un clic par carte (3 clics)."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "UN EXEMPLE",
+      "titre": "Avant de foncer",
+      "intro": "Un distributeur revient trois mois plus tard, pour un ajustement.",
+      "avant": { "etiquette": "RÉFLEXE À ÉVITER", "titre": "Foncer directement", "texte": "Modifier sans relire\nle contexte du projet." },
+      "apres": { "etiquette": "BON RÉFLEXE", "titre": "Évaluer d'abord", "texte": "Relire le CLAUDE.md,\nmesurer l'impact réel." },
+      "notes": "Moment du script : {{t4}}. Titre seul, sans clic."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "La maintenance,\nun revenu, pas une charge.",
+      "points": [
+        "La relation continue après la livraison initiale.",
+        "Une bonne documentation permet de reprendre vite un projet ancien.",
+        "La maintenance peut devenir un revenu récurrent."
+      ],
+      "final": "Prochaine vidéo : ce que vous pouvez vendre, et ce que vous ne devriez pas.",
+      "notes": "Moment du script : {{t6}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce."
+    }
+  ]
+}

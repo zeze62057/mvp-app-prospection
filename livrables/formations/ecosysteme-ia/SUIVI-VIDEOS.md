@@ -82,10 +82,10 @@ Source : `2026-09_vivier-ia-module-1/06-business.md`
 
 | Chapitre | État | Date | Durée réelle | Notes |
 |---|---|---|---|---|
-| Chapitre 1 : Préparer une livraison client (checklist, sécurité, handoff) | à faire |  |  |  |
-| Chapitre 2 : Maintenir et faire évoluer un projet dans le temps | à faire |  |  |  |
-| Chapitre 3 : Ce que vous pouvez vendre (et ce que vous ne devriez pas) | à faire |  |  |  |
-| Chapitre 4 : Construire votre bibliothèque de starters réutilisables | à faire |  |  |  |
+| Chapitre 1 : Préparer une livraison client (checklist, sécurité, handoff) | script prêt | 2026-09-22 | estimée 2:13 | 3 points a valider (aucune neutralisation, pas de prompt dedie dans la fiche donc demo tiree de l'exemple concret du cours, verification fonctionnelle non rejouee deja faite en section 5). 5 diapositives, 0 alerte. |
+| Chapitre 2 : Maintenir et faire évoluer un projet dans le temps | script prêt | 2026-09-22 | estimée 2:14 | 2 points a valider (aucune neutralisation, demo d'ecriture sur le scenario Batir Conseil SARL de la fiche, sans lien technique avec /alpha-conseil). 5 diapositives, 0 alerte. |
+| Chapitre 3 : Ce que vous pouvez vendre (et ce que vous ne devriez pas) | script prêt | 2026-09-23 | estimée 1:42 | 2 points a valider (CAC40 -> grands comptes, chapitre conceptuel sans demonstration). 6 diapositives, 0 alerte. |
+| Chapitre 4 : Construire votre bibliothèque de starters réutilisables | script prêt | 2026-09-23 | estimée 2:36 | Dernier chapitre de la section. 3 points a valider (chemins internes et Chatllow neutralises, client Chatllow/Longrich -> client similaire, demo appliquee au fil rouge sans prompt dedie). Signal de passage complet de la section 6 rappele. 6 diapositives, 0 alerte. |
 
 ### Section 7 — 💡 Hacks & vidéos bonus
 

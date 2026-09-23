@@ -1,0 +1,84 @@
+{
+  "sortie": "diapositives-chapitre-3.pptx",
+  "titre": "Ce que vous pouvez vendre (et ce que vous ne devriez pas)",
+  "sujet": "Vivier IA, Module 1, section 6, chapitre 3",
+  "bureau": { "dossier": "Module 1 - Section 6 - Le Business", "nom": "Chapitre 3" },
+  "fiche": {
+    "description": "Toutes les compétences de ce module n'ont pas la même valeur de vente. Ce qui se vend bien, ce qu'il faut éviter de promettre, et la règle de fond pour construire une réputation durable.",
+    "points": [
+      "Vendez des produits complets, des audits ciblés, de la formation, de la maintenance récurrente.",
+      "Ne promettez jamais au-delà de ce que la méthode permet réellement de garantir.",
+      "La confiance se construit sur la fiabilité effectivement tenue, jamais sur les promesses seules."
+    ]
+  },
+  "preparation": [
+    "Chapitre conceptuel, aucune manipulation à préparer."
+  ],
+  "avant": [],
+  "pendant": [],
+  "entre": [],
+  "aVerifier": [
+    "Vérifier que le déroulé animé s'enchaîne correctement en mode diaporama avant l'enregistrement."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 6 · CHAPITRE 3",
+      "titre": "Vendre, oui.\nMais pas\nn'importe quoi.",
+      "objectif": "Objectif : vendre sans promettre au-delà du réalisable.",
+      "pastilles": ["Ce qui se vend bien", "Ce qu'il faut éviter", "La règle de fond"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan. Tout s'anime seul à l'ouverture."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "CE QUI SE VEND BIEN",
+      "titre": "Quatre catégories",
+      "cartes": [
+        { "titre": "Produits livrés", "texte": "Sites, applications,\nautomatisations." },
+        { "titre": "Audits ciblés", "texte": "Où l'IA apporte\nune vraie valeur." },
+        { "titre": "Formation", "texte": "Et accompagnement." },
+        { "titre": "Maintenance", "texte": "De projets déjà\nexistants." }
+      ],
+      "notes": "Moment du script : {{t2}}. Un clic par carte (4 clics)."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "CE QU'IL FAUT ÉVITER",
+      "titre": "Trois pièges",
+      "cartes": [
+        { "titre": "Garanties intenables", "texte": "Que Claude Code ne\npeut pas tenir seul." },
+        { "titre": "Délais irréalistes", "texte": "\"L'IA fait tout\ninstantanément\"." },
+        { "titre": "Périmètre flou", "texte": "Mal cadré\nen amont." }
+      ],
+      "notes": "Moment du script : {{t3}}. Un clic par carte (3 clics)."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "UNE COMPARAISON CONCRÈTE",
+      "titre": "Risquée ou tenable",
+      "intro": "Sur l'automatisation d'un service client.",
+      "avant": { "etiquette": "PROMESSE RISQUÉE", "titre": "100% instantané", "texte": "Sans aucune\nsupervision." },
+      "apres": { "etiquette": "PROMESSE TENABLE", "titre": "Progressif et testé", "texte": "Supervisé, puis élargi\nselon les résultats." },
+      "notes": "Moment du script : {{t4}}. Titre seul, sans clic."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "LA RÈGLE DE FOND",
+      "enonce": "Vendre ce que la méthode\npermet réellement de livrer.",
+      "appui": "Particulièrement important auprès de grands comptes : la confiance se perd vite au premier engagement non tenu.",
+      "notes": "Moment du script : {{t5}}. La phrase apparaît seule, puis un clic pour l'appui."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Fiable et régulier,\npas exagéré.",
+      "points": [
+        "Produits complets, audits ciblés, formation, maintenance récurrente.",
+        "Ne jamais promettre au-delà de ce que la méthode garantit.",
+        "La confiance se construit sur la fiabilité tenue, pas les promesses."
+      ],
+      "final": "Prochaine vidéo : construire votre bibliothèque de starters réutilisables.",
+      "notes": "Moment du script : {{t6}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce."
+    }
+  ]
+}

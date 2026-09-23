@@ -1,0 +1,86 @@
+{
+  "sortie": "diapositives-chapitre-4.pptx",
+  "titre": "Construire votre bibliothèque de starters réutilisables",
+  "sujet": "Vivier IA, Module 1, section 6, chapitre 4",
+  "bureau": { "dossier": "Module 1 - Section 6 - Le Business", "nom": "Chapitre 4" },
+  "fiche": {
+    "description": "Dernier chapitre du module : chaque projet livré peut devenir la base d'un futur projet similaire. Découvrez l'intérêt économique des starters, et identifiez-en un dans votre propre projet fil rouge.",
+    "points": [
+      "Un starter est une base de projet réutilisable, déjà testée et documentée.",
+      "Plus la bibliothèque grandit, plus la marge augmente sur les projets similaires.",
+      "Généraliser soigneusement, sans jamais exposer d'informations confidentielles."
+    ]
+  },
+  "preparation": [
+    "Reprendre le dossier `/alpha-conseil` de la section 5, ouvert dans Claude Code.",
+    "Aucun autre prérequis technique."
+  ],
+  "avant": [
+    "VS Code : terminal en grande police, dossier `alpha-conseil` ouvert."
+  ],
+  "pendant": [
+    "Laisser Claude Code lister ses propositions en entier avant de commenter."
+  ],
+  "entre": [
+    "De {{t5}} au clic suivant, la démonstration (identification d'un starter dans Alpha Conseil) se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que les éléments proposés par Claude Code sont bien généralisables (structure, logique), pas des détails spécifiques à Alpha Conseil qui n'auraient aucun sens ailleurs."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 6 · CHAPITRE 4",
+      "titre": "Votre bibliothèque\nde starters\nréutilisables",
+      "objectif": "Objectif : transformer un projet livré en actif réutilisable.",
+      "pastilles": ["Ce qu'est un starter", "L'intérêt économique", "Une application réelle"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan. Tout s'anime seul à l'ouverture. Dernière vidéo de la section 6 et du module."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "L'INTÉRÊT ÉCONOMIQUE",
+      "enonce": "Chaque starter grandit,\nchaque projet similaire va plus vite.",
+      "appui": "La marge augmente, sans baisser le prix facturé au client.",
+      "notes": "Moment du script : {{t2}}. La phrase apparaît seule, puis un clic pour l'appui."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "UNE DISCIPLINE NÉCESSAIRE",
+      "titre": "Trois réflexes",
+      "cartes": [
+        { "titre": "Généraliser", "texte": "Sans copier de\ndonnées confidentielles." },
+        { "titre": "Documenter", "texte": "Pour quel besoin\nc'est adapté." },
+        { "titre": "Maintenir", "texte": "À jour dans\nle temps." }
+      ],
+      "notes": "Moment du script : {{t3}}. Un clic par carte (3 clics)."
+    },
+    {
+      "type": "avant-apres",
+      "surtitre": "UN EXEMPLE RÉEL",
+      "titre": "Un starter qui grandit",
+      "intro": "Une bibliothèque de générateurs d'audit IA sectoriels.",
+      "avant": { "etiquette": "PREMIER SECTEUR", "titre": "Tout à construire", "texte": "Structure, scoring,\nformat de rapport." },
+      "apres": { "etiquette": "SECTEURS SUIVANTS", "titre": "Une fraction du temps", "texte": "La base existe déjà,\nreste l'adaptation." },
+      "notes": "Moment du script : {{t4}}. Titre seul, sans clic."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "FIN DE LA SECTION 6",
+      "enonce": "Le signal de passage\nà la section suivante.",
+      "appui": "Une checklist de livraison testée, et une idée concrète de starter réutilisable.",
+      "notes": "Moment du script : {{t6}}. La phrase apparaît seule, puis un clic pour l'appui, repris mot pour mot du signal de passage de la section 6."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Chaque projet\nenrichit votre arsenal.",
+      "points": [
+        "Un starter est une base réutilisable, testée et documentée.",
+        "Plus la bibliothèque grandit, plus la marge augmente.",
+        "Généraliser toujours sans exposer d'informations confidentielles."
+      ],
+      "final": "Prochaine section : les Hacks et vidéos bonus.",
+      "notes": "Moment du script : {{t7}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce de la section 7."
+    }
+  ]
+}

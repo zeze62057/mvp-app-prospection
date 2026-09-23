@@ -1,0 +1,81 @@
+{
+  "sortie": "diapositives-chapitre-1.pptx",
+  "titre": "Préparer une livraison client",
+  "sujet": "Vivier IA, Module 1, section 6, chapitre 1",
+  "bureau": { "dossier": "Module 1 - Section 6 - Le Business", "nom": "Chapitre 1" },
+  "fiche": {
+    "description": "Livrer un projet, ce n'est pas dire « c'est fini » et envoyer un lien. Découvrez les 3 dimensions d'une checklist de livraison professionnelle, avec une vérification de sécurité en direct sur Alpha Conseil.",
+    "points": [
+      "Une livraison couvre fonctionnement, sécurité, et transmission (handoff).",
+      "Le handoff mal fait peut gâcher la perception d'un travail pourtant réussi.",
+      "Une checklist systématique évite d'oublier une étape sous la pression d'un délai."
+    ]
+  },
+  "preparation": [
+    "Reprendre le dossier `/alpha-conseil` de la section 5, ouvert dans Claude Code.",
+    "S'assurer qu'aucune vraie clé n'est présente dans ce dossier avant l'enregistrement (démonstration sur un projet réellement sans secret exposé)."
+  ],
+  "avant": [
+    "VS Code : terminal en grande police, dossier `alpha-conseil` ouvert."
+  ],
+  "pendant": [
+    "Laisser Claude Code chercher dans l'ensemble des fichiers avant de conclure.",
+    "Si un vrai secret existait par erreur, ne jamais le montrer à l'écran, couper et corriger avant de continuer."
+  ],
+  "entre": [
+    "De {{t4}} au clic suivant, la vérification de sécurité se fait dans VS Code, sans diapositive."
+  ],
+  "aVerifier": [
+    "Que Claude Code confirme explicitement l'absence de clé ou de secret dans le code, pas une réponse vague."
+  ],
+  "diapositives": [
+    {
+      "type": "titre",
+      "surtitre": "VIVIER IA · MODULE 1 · SECTION 6 · CHAPITRE 1",
+      "titre": "Préparer une\nlivraison client",
+      "objectif": "Objectif : livrer vraiment, pas juste envoyer un lien.",
+      "pastilles": ["Trois dimensions", "Le point le plus négligé", "Une vérification réelle"],
+      "notes": "Moment du script : {{t1}}. Accroche et annonce du plan. Tout s'anime seul à l'ouverture. Première vidéo de la section 6."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "TROIS DIMENSIONS",
+      "titre": "Aucune suffisante seule",
+      "cartes": [
+        { "titre": "Fonctionnel", "texte": "Testé en conditions\nréelles." },
+        { "titre": "Sécurité", "texte": "Données protégées,\naucune clé exposée." },
+        { "titre": "Handoff", "texte": "Le client autonome,\nsans vous." }
+      ],
+      "notes": "Moment du script : {{t2}}. Un clic par carte (3 clics)."
+    },
+    {
+      "type": "enonce",
+      "surtitre": "LE POINT LE PLUS NÉGLIGÉ",
+      "enonce": "Le handoff,\npas la technique.",
+      "appui": "Le client juge son sentiment d'autonomie, une fois que vous n'êtes plus là.",
+      "notes": "Moment du script : {{t3}}. La phrase apparaît seule, puis un clic pour l'appui."
+    },
+    {
+      "type": "cartes",
+      "surtitre": "SUR ALPHA CONSEIL",
+      "titre": "Le handoff, concrètement",
+      "cartes": [
+        { "titre": "Un guide", "texte": "Comment consulter\nson dashboard." },
+        { "titre": "Un contact", "texte": "Clair, en cas\nde problème." }
+      ],
+      "notes": "Moment du script : {{t5}}. Un clic par carte (2 clics)."
+    },
+    {
+      "type": "points",
+      "surtitre": "À RETENIR",
+      "titre": "Livrer, c'est trois choses\nà la fois.",
+      "points": [
+        "Fonctionnement, sécurité, handoff : les trois ensemble.",
+        "Le handoff mal fait peut gâcher un travail techniquement réussi.",
+        "Une checklist systématique évite d'oublier une étape."
+      ],
+      "final": "Prochaine vidéo : maintenir et faire évoluer un projet dans le temps.",
+      "notes": "Moment du script : {{t6}}. Le titre apparaît seul. Puis un clic par point, et un dernier clic pour l'annonce."
+    }
+  ]
+}
