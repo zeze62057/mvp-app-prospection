@@ -170,6 +170,7 @@ export function MenuLateral({
   const liens: { libelle: string; href: string; icone: CleIcone }[] = enZonePayante
     ? [
         { libelle: "Ma progression", href: `${base}/progression`, icone: "progression" },
+        { libelle: "Mes objectifs", href: `${base}/objectifs`, icone: "progression" },
         { libelle: "Communauté payante", href: `${base}/communaute-payante`, icone: "communaute" },
         { libelle: "Membres", href: `${base}/membres`, icone: "membres" },
         { libelle: "À propos", href: `${base}/a-propos`, icone: "a-propos" },

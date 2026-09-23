@@ -270,7 +270,7 @@ export default async function VitrinePage({
                     <div className="mt-3.5 flex items-center gap-3 border-t border-[var(--ligne)] pt-3 text-[11.5px] text-[var(--texte-mute)]">
                       <span className="flex items-center gap-1.5 font-bold">
                         <IconePouce plein={false} />
-                        {item.nbLikes}
+                        {item.nbReactions}
                       </span>
                       <span>{item.nbCommentaires} commentaire{item.nbCommentaires !== 1 ? "s" : ""}</span>
                     </div>

@@ -42,35 +42,14 @@ function IconeLien() {
   );
 }
 
-// Bouton d'action non encore branche (Video, Fichier, Lien) : visible comme sur la
-// capture de reference, mais desactive. Le message "Bientot disponible" sort au
-// survol (title) et au clic (etat local), pour couvrir aussi le tactile.
-function BoutonBientot({
-  icone,
-  label,
-  onClick,
-}: {
-  icone: React.ReactNode;
-  label: string;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      title="Bientôt disponible"
-      onClick={onClick}
-      className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)] opacity-60 hover:opacity-100"
-    >
-      {icone} {label}
-    </button>
-  );
-}
+type PieceJointe = "video" | "fichier" | "lien" | null;
 
 // Carte "Ecrire quelque chose" : repliee comme sur Skool, elle s'ouvre au clic en
-// formulaire (titre, texte, categorie, image). L'envoi passe par /api/posts, seul
-// chemin qui sache recevoir un fichier. Rangee de boutons Photo/Video/Fichier/Lien
-// pour matcher la capture de reference (NovaPulse) : seul Photo est reellement
-// branche, les trois autres affichent "Bientot disponible" (2026-09-23).
+// formulaire (titre, texte, categorie, piece jointe). L'envoi passe par /api/posts,
+// seul chemin qui sache recevoir un fichier. Photo, Video (lien YouTube), Fichier
+// (petit document) et Lien sont tous reellement branches (2026-09-23) : au plus
+// une piece jointe a la fois cote formulaire, /api/posts accepte les 4 en meme
+// temps si jamais plusieurs sont remplis.
 export function BarreEcrire({
   espaceSlug,
   zone,
@@ -94,12 +73,18 @@ export function BarreEcrire({
   const [enCours, setEnCours] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
   const [nomImage, setNomImage] = useState<string | null>(null);
-  const [bientot, setBientot] = useState<string | null>(null);
+  const [nomFichier, setNomFichier] = useState<string | null>(null);
+  const [pieceJointe, setPieceJointe] = useState<PieceJointe>(null);
+
+  function ouvrirAvec(piece: PieceJointe) {
+    setOuvert(true);
+    if (piece) setPieceJointe(piece);
+  }
 
   if (!ouvert) {
     return (
       <div className="mb-4 rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
-        <button type="button" onClick={() => setOuvert(true)} className="flex w-full items-center gap-3 text-left">
+        <button type="button" onClick={() => ouvrirAvec(null)} className="flex w-full items-center gap-3 text-left">
           <Avatar id={auteurId} pseudo={auteurPseudo} taille={36} urlPhoto={auteurAvatarUrl} />
           <span className="text-[14px] text-[var(--texte-mute)]">
             Partagez une idée, une question, une actualité...
@@ -108,25 +93,40 @@ export function BarreEcrire({
         <div className="mt-3 flex flex-wrap items-center gap-1 border-t border-[var(--ligne)] pt-3">
           <button
             type="button"
-            onClick={() => setOuvert(true)}
+            onClick={() => ouvrirAvec(null)}
             className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)] hover:text-[var(--texte)]"
           >
             <IconeCamera /> Photo
           </button>
-          <BoutonBientot icone={<IconeVideo />} label="Vidéo" onClick={() => setBientot("Vidéo")} />
-          <BoutonBientot icone={<IconeFichier />} label="Fichier" onClick={() => setBientot("Fichier")} />
-          <BoutonBientot icone={<IconeLien />} label="Lien" onClick={() => setBientot("Lien")} />
           <button
             type="button"
-            onClick={() => setOuvert(true)}
+            onClick={() => ouvrirAvec("video")}
+            className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)] hover:text-[var(--texte)]"
+          >
+            <IconeVideo /> Vidéo
+          </button>
+          <button
+            type="button"
+            onClick={() => ouvrirAvec("fichier")}
+            className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)] hover:text-[var(--texte)]"
+          >
+            <IconeFichier /> Fichier
+          </button>
+          <button
+            type="button"
+            onClick={() => ouvrirAvec("lien")}
+            className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)] hover:text-[var(--texte)]"
+          >
+            <IconeLien /> Lien
+          </button>
+          <button
+            type="button"
+            onClick={() => ouvrirAvec(null)}
             className="ml-auto rounded-[9px] bg-[var(--corail)] px-4 py-2 text-[12.5px] font-extrabold text-[var(--encre)]"
           >
             Publier
           </button>
         </div>
-        {bientot && (
-          <p className="mt-2 text-[11.5px] text-[var(--texte-mute)]">{bientot} : bientôt disponible.</p>
-        )}
       </div>
     );
   }
@@ -146,6 +146,8 @@ export function BarreEcrire({
       } else {
         formRef.current?.reset();
         setNomImage(null);
+        setNomFichier(null);
+        setPieceJointe(null);
         setOuvert(false);
         router.refresh();
       }
@@ -157,6 +159,10 @@ export function BarreEcrire({
   }
 
   const champ = "rounded-lg border border-[var(--ligne)] bg-[var(--fond)] px-3.5 py-2.5 text-[13px]";
+  const boutonPiece = (actif: boolean) =>
+    `flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold ${
+      actif ? "bg-[var(--fond)] text-[var(--texte)]" : "text-[var(--texte-mute)] hover:text-[var(--texte)]"
+    }`;
 
   return (
     <form
@@ -204,6 +210,31 @@ export function BarreEcrire({
           ))}
         </select>
       )}
+
+      {pieceJointe === "video" && (
+        <input
+          name="video"
+          type="url"
+          placeholder="Lien YouTube (https://youtube.com/watch?v=...)"
+          className={champ}
+        />
+      )}
+      {pieceJointe === "lien" && (
+        <input name="lien" type="url" placeholder="https://..." className={champ} />
+      )}
+      {pieceJointe === "fichier" && (
+        <label className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-dashed border-[var(--ligne)] px-3.5 py-2.5 text-[12.5px] font-bold text-[var(--texte-mute)]">
+          <IconeFichier /> {nomFichier ? nomFichier : "Choisir un fichier (PDF, Word, ZIP, texte — 10 Mo max)"}
+          <input
+            name="fichier"
+            type="file"
+            accept=".pdf,.doc,.docx,.zip,.txt"
+            className="sr-only"
+            onChange={(e) => setNomFichier(e.target.files?.[0]?.name ?? null)}
+          />
+        </label>
+      )}
+
       <div className="flex flex-wrap items-center gap-1 border-t border-[var(--ligne)] pt-2.5">
         <label className="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)] hover:text-[var(--texte)]">
           <IconeCamera /> {nomImage ? nomImage : "Photo"}
@@ -215,11 +246,28 @@ export function BarreEcrire({
             onChange={(e) => setNomImage(e.target.files?.[0]?.name ?? null)}
           />
         </label>
-        <BoutonBientot icone={<IconeVideo />} label="Vidéo" onClick={() => setBientot("Vidéo")} />
-        <BoutonBientot icone={<IconeFichier />} label="Fichier" onClick={() => setBientot("Fichier")} />
-        <BoutonBientot icone={<IconeLien />} label="Lien" onClick={() => setBientot("Lien")} />
+        <button
+          type="button"
+          onClick={() => setPieceJointe(pieceJointe === "video" ? null : "video")}
+          className={boutonPiece(pieceJointe === "video")}
+        >
+          <IconeVideo /> Vidéo
+        </button>
+        <button
+          type="button"
+          onClick={() => setPieceJointe(pieceJointe === "fichier" ? null : "fichier")}
+          className={boutonPiece(pieceJointe === "fichier")}
+        >
+          <IconeFichier /> Fichier
+        </button>
+        <button
+          type="button"
+          onClick={() => setPieceJointe(pieceJointe === "lien" ? null : "lien")}
+          className={boutonPiece(pieceJointe === "lien")}
+        >
+          <IconeLien /> Lien
+        </button>
       </div>
-      {bientot && <p className="text-[11.5px] text-[var(--texte-mute)]">{bientot} : bientôt disponible.</p>}
       {erreur && <p className="text-[13px] text-[var(--corail)]">{erreur}</p>}
       <div className="flex justify-end gap-2">
         <button

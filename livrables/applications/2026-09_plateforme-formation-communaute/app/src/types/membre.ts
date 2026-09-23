@@ -33,7 +33,13 @@ export type Post = {
   image_path: string | null;
   categorie_id: string | null;
   modifie_le: string | null; // renseigne quand le titre ou le texte change (migration 0033)
+  video_url: string | null; // lien externe (YouTube...), jamais de fichier video televerse (migration 0044)
+  fichier_path: string | null;
+  fichier_nom: string | null;
+  lien_url: string | null;
 };
+
+export type TypeReaction = "like" | "coeur" | "rire";
 
 // Categorie de post, geree par l'admin, propre a un espace (migration 0026).
 export type CategoriePost = {
@@ -84,6 +90,40 @@ export type Section = {
   video_path: string | null;
   a_contenu: boolean; // true si la section a un texte de lecon (voir migration 0023)
   contenu?: string | null; // texte Markdown de la lecon, charge uniquement par la page de lecon
+};
+
+// Devoirs, remises et badges attribues a la main (migration 0043). Les badges
+// automatiques (premier module, serie de jours, formation terminee) ne sont pas
+// stockes : calcules depuis la progression deja en base.
+export type Devoir = {
+  id: string;
+  espace_id: string;
+  module_id: string;
+  titre: string;
+  consigne: string;
+  date_limite: string;
+  created_at: string;
+};
+
+export type DevoirRemise = {
+  id: string;
+  devoir_id: string;
+  profil_id: string;
+  texte: string | null;
+  fichier_path: string | null;
+  rendu_at: string;
+  note: number | null;
+  commentaire: string | null;
+  note_le: string | null;
+};
+
+export type BadgeManuel = {
+  id: string;
+  espace_id: string;
+  profil_id: string;
+  libelle: string;
+  emoji: string;
+  created_at: string;
 };
 
 export type StatutPaiement = "en_attente" | "confirme" | "echoue";

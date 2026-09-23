@@ -22,24 +22,28 @@ function slugValide(slug: string) {
   return /^[a-z0-9-]{1,60}$/.test(slug);
 }
 
-// Like : un clic ajoute le vote, un second le retire. Le like est le vote existant
-// (post_votes) : ses points et son RLS ne changent pas.
-export async function basculerLike(retour: string, postId: string) {
+// Reaction (like/coeur/rire) : une seule par membre et par post (migration 0044).
+// Choisir le meme type qu'avant retire la reaction, un type different la change.
+// Le vote reste le meme post_votes qu'avant (basculerLike) : ses points et son RLS
+// ne changent pas, seul le type choisi differe.
+export async function basculerReaction(retour: string, postId: string, type: "like" | "coeur" | "rire") {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) return;
 
   const { data: voteExistant } = await supabase
     .from("post_votes")
-    .select("id")
+    .select("id, type")
     .eq("post_id", postId)
     .eq("profil_id", userData.user.id)
     .maybeSingle();
 
-  if (voteExistant) {
+  if (voteExistant?.type === type) {
     await supabase.from("post_votes").delete().eq("id", voteExistant.id);
+  } else if (voteExistant) {
+    await supabase.from("post_votes").update({ type }).eq("id", voteExistant.id);
   } else {
-    await supabase.from("post_votes").insert({ post_id: postId, profil_id: userData.user.id });
+    await supabase.from("post_votes").insert({ post_id: postId, profil_id: userData.user.id, type });
   }
 
   if (cheminValide(retour)) revalidatePath(retour);

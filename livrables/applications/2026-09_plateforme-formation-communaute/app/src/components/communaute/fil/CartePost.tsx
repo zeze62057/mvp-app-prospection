@@ -1,7 +1,9 @@
 import Link from "next/link";
-import { basculerLike, epinglerPost } from "@/app/(membre)/[espace]/post/actions";
+import { basculerReaction, epinglerPost } from "@/app/(membre)/[espace]/post/actions";
 import { tempsEcoule } from "@/lib/temps";
+import { urlIntegration } from "@/lib/youtube";
 import type { PostFil } from "@/lib/fil";
+import type { TypeReaction } from "@/types/membre";
 import { Avatar } from "./Avatar";
 import { BoutonSignaler } from "@/components/moderation/BoutonSignaler";
 import { BadgeMembre } from "@/components/communaute/BadgeMembre";
@@ -63,7 +65,7 @@ export function CartePost({
   userId: string;
   detail?: boolean; // page du post : texte complet, pas de lien vers soi-meme
 }) {
-  const { post, auteur, categorie, nbLikes, aLike, nbCommentaires, dernierCommentaireAt, imageUrl } = item;
+  const { post, auteur, categorie, nbReactions, maReaction, nbCommentaires, dernierCommentaireAt, imageUrl, fichierUrl } = item;
   const lienPost = `/${espaceSlug}/post/${post.id}`;
   const lienProfil = `/${espaceSlug}/membres/${auteur.id}`;
 
@@ -139,6 +141,40 @@ export function CartePost({
           🧲 {post.magnet_texte}
         </div>
       )}
+
+      {post.video_url && urlIntegration(post.video_url) && (
+        <div className="relative mt-3 aspect-video w-full overflow-hidden rounded-xl border border-[var(--ligne)]">
+          <iframe
+            src={urlIntegration(post.video_url)!}
+            title="Vidéo du post"
+            className="absolute inset-0 h-full w-full"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+        </div>
+      )}
+
+      {fichierUrl && (
+        <a
+          href={fichierUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 flex items-center gap-2 rounded-xl border border-[var(--ligne)] px-3.5 py-2.5 text-[12.5px] font-bold text-[var(--sarcelle)]"
+        >
+          📎 {post.fichier_nom ?? "Fichier joint"}
+        </a>
+      )}
+
+      {post.lien_url && (
+        <a
+          href={post.lien_url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 flex items-center gap-2 truncate rounded-xl border border-[var(--ligne)] px-3.5 py-2.5 text-[12.5px] font-bold text-[var(--sarcelle)]"
+        >
+          🔗 {post.lien_url}
+        </a>
+      )}
     </>
   );
 
@@ -185,27 +221,26 @@ export function CartePost({
         </Link>
       )}
 
-      <div className="mt-3.5 flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-[var(--ligne)] pt-3 text-[12.5px] text-[var(--texte-mute)]">
-        <form action={basculerLike.bind(null, retour, post.id)}>
-          <button
-            type="submit"
-            aria-pressed={aLike}
-            aria-label={aLike ? "Retirer mon like" : "Liker ce post"}
-            className={`flex items-center gap-1.5 font-bold ${aLike ? "text-[var(--sarcelle)]" : ""}`}
-          >
-            <IconePouce plein={aLike} />
-            {nbLikes}
-          </button>
-        </form>
-
-        {/* Types de reaction supplementaires de la capture de reference, pas encore
-            branches (seul le like existe en base) : visibles mais desactives. */}
-        <button type="button" disabled title="Bientôt disponible" className="flex items-center opacity-40" aria-label="Réagir (cœur) — bientôt disponible">
-          <IconeCoeur />
-        </button>
-        <button type="button" disabled title="Bientôt disponible" className="flex items-center opacity-40" aria-label="Réagir (rire) — bientôt disponible">
-          <IconeRire />
-        </button>
+      <div className="mt-3.5 flex flex-wrap items-center gap-x-3.5 gap-y-2 border-t border-[var(--ligne)] pt-3 text-[12.5px] text-[var(--texte-mute)]">
+        {(
+          [
+            { type: "like" as TypeReaction, icone: <IconePouce plein={maReaction === "like"} />, libelle: "Liker" },
+            { type: "coeur" as TypeReaction, icone: <IconeCoeur />, libelle: "Réagir avec un cœur" },
+            { type: "rire" as TypeReaction, icone: <IconeRire />, libelle: "Réagir avec un rire" },
+          ]
+        ).map(({ type, icone, libelle }) => (
+          <form key={type} action={basculerReaction.bind(null, retour, post.id, type)}>
+            <button
+              type="submit"
+              aria-pressed={maReaction === type}
+              aria-label={maReaction === type ? `Retirer ma réaction (${type})` : libelle}
+              className={`flex items-center gap-1.5 font-bold ${maReaction === type ? "text-[var(--sarcelle)]" : ""}`}
+            >
+              {icone}
+            </button>
+          </form>
+        ))}
+        <span className="font-bold">{nbReactions}</span>
 
         {detail ? (
           <span className="flex items-center gap-1.5 font-bold">

@@ -10,7 +10,7 @@ import { urlsAvatars } from "@/lib/avatars";
 import { filtreRecherche } from "@/lib/recherche";
 import { libelleNiveau } from "@/lib/niveaux";
 import { chargerNiveaux } from "@/lib/niveaux-donnees";
-import type { CategoriePost, Commentaire, Post, ZonePost } from "@/types/membre";
+import type { CategoriePost, Commentaire, Post, TypeReaction, ZonePost } from "@/types/membre";
 
 export type AuteurFil = {
   id: string;
@@ -26,11 +26,12 @@ export type PostFil = {
   post: Post;
   auteur: AuteurFil;
   categorie: CategoriePost | null;
-  nbLikes: number;
-  aLike: boolean;
+  nbReactions: number; // toutes reactions confondues (migration 0044) ; nom "nbLikes" garde en base (post_votes)
+  maReaction: TypeReaction | null;
   nbCommentaires: number;
   dernierCommentaireAt: string | null;
   imageUrl: string | null;
+  fichierUrl: string | null;
 };
 
 const LIMITE_FIL = 50;
@@ -93,7 +94,7 @@ export async function chargerPostsFil({
       chargerCategories(supabase, espaceId),
       chargerNiveaux(supabase, espaceId),
       supabase.from("profils").select("id, pseudo, role, points, avatar_path").in("id", auteurIds),
-      supabase.from("post_votes").select("post_id, profil_id").in("post_id", postIds),
+      supabase.from("post_votes").select("post_id, profil_id, type").in("post_id", postIds),
       supabase.rpc("commentaires_resume", { p_post_ids: postIds }),
       zonesPayantes ? supabase.rpc("experts_espace", { p_espace: espaceId }) : Promise.resolve({ data: [] }),
     ]);
@@ -107,28 +108,39 @@ export async function chargerPostsFil({
       r,
     ])
   );
-  const likesParPost = new Map<string, string[]>();
+  const reactionsParPost = new Map<string, { profil_id: string; type: TypeReaction }[]>();
   (votes ?? []).forEach((v) => {
-    likesParPost.set(v.post_id, [...(likesParPost.get(v.post_id) ?? []), v.profil_id]);
+    reactionsParPost.set(v.post_id, [
+      ...(reactionsParPost.get(v.post_id) ?? []),
+      { profil_id: v.profil_id, type: v.type as TypeReaction },
+    ]);
   });
 
-  // Liens temporaires des images et des photos de profil, un appel par bucket.
+  // Liens temporaires des images, des fichiers joints et des photos de profil, un appel par bucket.
   const chemins = posts.map((p) => p.image_path).filter((c): c is string => !!c);
+  const cheminsFichiers = posts.map((p) => p.fichier_path).filter((c): c is string => !!c);
   const liens = new Map<string, string>();
-  const [signes, photos] = await Promise.all([
+  const liensFichiers = new Map<string, string>();
+  const [signes, signesFichiers, photos] = await Promise.all([
     chemins.length > 0
       ? createAdminClient().storage.from("posts-images").createSignedUrls(chemins, VALIDITE_LIEN_IMAGE_S)
+      : Promise.resolve({ data: [] as { path: string | null; signedUrl: string }[] }),
+    cheminsFichiers.length > 0
+      ? createAdminClient().storage.from("posts-fichiers").createSignedUrls(cheminsFichiers, VALIDITE_LIEN_IMAGE_S)
       : Promise.resolve({ data: [] as { path: string | null; signedUrl: string }[] }),
     urlsAvatars((profils ?? []) as { id: string; avatar_path: string | null }[]),
   ]);
   (signes.data ?? []).forEach((s) => {
     if (s.path && s.signedUrl) liens.set(s.path, s.signedUrl);
   });
+  (signesFichiers.data ?? []).forEach((s) => {
+    if (s.path && s.signedUrl) liensFichiers.set(s.path, s.signedUrl);
+  });
 
   return posts.map((post) => {
     const profil = parAuteur.get(post.auteur_id);
     const resume = resumeParPost.get(post.id);
-    const likes = likesParPost.get(post.id) ?? [];
+    const reactions = reactionsParPost.get(post.id) ?? [];
     return {
       post,
       auteur: {
@@ -141,11 +153,12 @@ export async function chargerPostsFil({
         avatarUrl: photos.get(post.auteur_id) ?? null,
       },
       categorie: post.categorie_id ? (parCategorie.get(post.categorie_id) ?? null) : null,
-      nbLikes: likes.length,
-      aLike: likes.includes(userId),
+      nbReactions: reactions.length,
+      maReaction: reactions.find((r) => r.profil_id === userId)?.type ?? null,
       nbCommentaires: resume ? Number(resume.nb) : 0,
       dernierCommentaireAt: resume?.dernier_at ?? null,
       imageUrl: post.image_path ? (liens.get(post.image_path) ?? null) : null,
+      fichierUrl: post.fichier_path ? (liensFichiers.get(post.fichier_path) ?? null) : null,
     };
   });
 }
