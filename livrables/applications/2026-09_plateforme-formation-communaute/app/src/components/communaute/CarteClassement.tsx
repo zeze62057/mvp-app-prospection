@@ -29,7 +29,7 @@ export function CarteClassement({
           </span>
           <div className="h-7 w-7 flex-shrink-0 rounded-full" style={{ background: couleurAvatar(m.id) }} />
           <span className="flex-1 truncate text-xs font-bold">{m.pseudo}</span>
-          <span className="font-mono text-[11px] font-bold text-[var(--corail)]">{m.points} pts</span>
+          <span className="font-mono text-[11px] font-bold text-[var(--corail)]">{m.points} pts 🔥</span>
         </div>
       ))}
     </div>

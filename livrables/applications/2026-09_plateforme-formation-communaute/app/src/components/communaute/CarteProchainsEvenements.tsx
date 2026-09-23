@@ -4,6 +4,7 @@ import { chargerEvenements } from "@/lib/calendrier-donnees";
 import { heure, parseMois } from "@/lib/calendrier";
 
 const LIBELLE_TYPE = { masterclass: "Masterclass", rdv: "Appel découverte" } as const;
+const ICONE_TYPE = { masterclass: "🎤", rdv: "📞" } as const;
 const TEINTE_TYPE = {
   masterclass: "bg-[rgba(255,122,77,0.14)] text-[var(--corail-texte)]",
   rdv: "bg-[rgba(43,140,130,0.12)] text-[var(--sarcelle-texte)]",
@@ -60,12 +61,18 @@ export async function CarteProchainsEvenements({
               {new Date(e.debut).toLocaleDateString("fr-FR", { month: "short" })}
             </span>
           </div>
-          <div className="min-w-0">
+          <div className="min-w-0 flex-1">
             <div className="truncate text-[12px] font-bold">{e.titre}</div>
             <div className="font-mono text-[10.5px] text-[var(--texte-mute)]">
               {heure(e.debut)} · {LIBELLE_TYPE[e.type]}
             </div>
           </div>
+          <span
+            className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[var(--encre)] text-[13px]"
+            aria-hidden="true"
+          >
+            {ICONE_TYPE[e.type]}
+          </span>
         </Link>
       ))}
     </div>

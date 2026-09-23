@@ -199,7 +199,7 @@ export function CartePost({
 
         {!detail && (
           <Link href={lienPost} className="ml-auto text-[11.5px] font-bold text-[var(--sarcelle)]">
-            Lire la suite →
+            {post.epingle ? "Voir le post →" : "Lire la suite →"}
           </Link>
         )}
       </div>

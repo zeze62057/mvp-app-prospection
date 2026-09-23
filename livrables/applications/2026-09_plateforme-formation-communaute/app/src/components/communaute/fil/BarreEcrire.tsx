@@ -5,15 +5,52 @@ import { useRouter } from "next/navigation";
 import type { CategoriePost, ZonePost } from "@/types/membre";
 import { Avatar } from "./Avatar";
 
+// Icones traits (pas d'emoji), pour matcher le style de la capture de reference.
+function IconeCamera() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M2 8a2 2 0 0 1 2-2h2l1.4-2h5.2L14 6h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8Z" />
+      <circle cx="12" cy="13" r="3.5" />
+    </svg>
+  );
+}
+
+function IconeVideo() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="m22 8-6 4 6 4V8Z" />
+      <rect x="2" y="6" width="14" height="12" rx="2" />
+    </svg>
+  );
+}
+
+function IconeFichier() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M21.44 11.05 12.25 20.24a5.5 5.5 0 0 1-7.78-7.78l9.19-9.19a3.5 3.5 0 0 1 4.95 4.95L9.41 17.41a1.5 1.5 0 0 1-2.12-2.12l8.49-8.49" />
+    </svg>
+  );
+}
+
+function IconeLien() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M9 17H7a5 5 0 0 1 0-10h2" />
+      <path d="M15 7h2a5 5 0 1 1 0 10h-2" />
+      <line x1="8" y1="12" x2="16" y2="12" />
+    </svg>
+  );
+}
+
 // Bouton d'action non encore branche (Video, Fichier, Lien) : visible comme sur la
 // capture de reference, mais desactive. Le message "Bientot disponible" sort au
 // survol (title) et au clic (etat local), pour couvrir aussi le tactile.
 function BoutonBientot({
-  emoji,
+  icone,
   label,
   onClick,
 }: {
-  emoji: string;
+  icone: React.ReactNode;
   label: string;
   onClick: () => void;
 }) {
@@ -24,7 +61,7 @@ function BoutonBientot({
       onClick={onClick}
       className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)] opacity-60 hover:opacity-100"
     >
-      <span aria-hidden="true">{emoji}</span> {label}
+      {icone} {label}
     </button>
   );
 }
@@ -74,11 +111,11 @@ export function BarreEcrire({
             onClick={() => setOuvert(true)}
             className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)] hover:text-[var(--texte)]"
           >
-            <span aria-hidden="true">📷</span> Photo
+            <IconeCamera /> Photo
           </button>
-          <BoutonBientot emoji="🎥" label="Vidéo" onClick={() => setBientot("Vidéo")} />
-          <BoutonBientot emoji="📎" label="Fichier" onClick={() => setBientot("Fichier")} />
-          <BoutonBientot emoji="🔗" label="Lien" onClick={() => setBientot("Lien")} />
+          <BoutonBientot icone={<IconeVideo />} label="Vidéo" onClick={() => setBientot("Vidéo")} />
+          <BoutonBientot icone={<IconeFichier />} label="Fichier" onClick={() => setBientot("Fichier")} />
+          <BoutonBientot icone={<IconeLien />} label="Lien" onClick={() => setBientot("Lien")} />
           <button
             type="button"
             onClick={() => setOuvert(true)}
@@ -169,7 +206,7 @@ export function BarreEcrire({
       )}
       <div className="flex flex-wrap items-center gap-1 border-t border-[var(--ligne)] pt-2.5">
         <label className="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)] hover:text-[var(--texte)]">
-          <span aria-hidden="true">📷</span> {nomImage ? nomImage : "Photo"}
+          <IconeCamera /> {nomImage ? nomImage : "Photo"}
           <input
             name="image"
             type="file"
@@ -178,9 +215,9 @@ export function BarreEcrire({
             onChange={(e) => setNomImage(e.target.files?.[0]?.name ?? null)}
           />
         </label>
-        <BoutonBientot emoji="🎥" label="Vidéo" onClick={() => setBientot("Vidéo")} />
-        <BoutonBientot emoji="📎" label="Fichier" onClick={() => setBientot("Fichier")} />
-        <BoutonBientot emoji="🔗" label="Lien" onClick={() => setBientot("Lien")} />
+        <BoutonBientot icone={<IconeVideo />} label="Vidéo" onClick={() => setBientot("Vidéo")} />
+        <BoutonBientot icone={<IconeFichier />} label="Fichier" onClick={() => setBientot("Fichier")} />
+        <BoutonBientot icone={<IconeLien />} label="Lien" onClick={() => setBientot("Lien")} />
       </div>
       {bientot && <p className="text-[11.5px] text-[var(--texte-mute)]">{bientot} : bientôt disponible.</p>}
       {erreur && <p className="text-[13px] text-[var(--corail)]">{erreur}</p>}
