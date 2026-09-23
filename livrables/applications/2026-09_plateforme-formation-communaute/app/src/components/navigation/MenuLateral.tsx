@@ -163,13 +163,14 @@ export function MenuLateral({
 
   const estActif = (cible: string) => chemin === cible || chemin.startsWith(`${cible}/`);
 
-  const enZonePayante = ["communaute-payante", "progression", "formation", "expert"].some((p) =>
+  const enZonePayante = ["communaute-payante", "progression", "formation", "expert", "devoirs", "objectifs"].some((p) =>
     estActif(`${base}/${p}`)
   );
 
   const liens: { libelle: string; href: string; icone: CleIcone }[] = enZonePayante
     ? [
         { libelle: "Ma progression", href: `${base}/progression`, icone: "progression" },
+        { libelle: "Mes devoirs", href: `${base}/devoirs`, icone: "contenu" },
         { libelle: "Mes objectifs", href: `${base}/objectifs`, icone: "progression" },
         { libelle: "Communauté payante", href: `${base}/communaute-payante`, icone: "communaute" },
         { libelle: "Membres", href: `${base}/membres`, icone: "membres" },

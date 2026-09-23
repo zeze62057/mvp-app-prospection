@@ -151,6 +151,35 @@ export default async function ProgressionPage({
     .filter(({ remise }) => !remise) // deja rendu : ne compte plus comme echeance a venir
     .sort((a, b) => a.devoir.date_limite.localeCompare(b.devoir.date_limite));
 
+  // Tendances "cette semaine" : uniquement quand elles se calculent depuis des
+  // dates deja reelles (completion, remise, notation). La moyenne generale n'a
+  // pas de tendance affichee tant qu'il n'y a pas de notes des deux cotes de la
+  // semaine a comparer : jamais de delta invente. La serie de jours n'a pas de
+  // tendance non plus : un delta n'aurait pas de sens pour un compteur qui se
+  // reinitialise a chaque jour manque.
+  const ilYA7Jours = new Date(maintenant - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const moduleIdParSection = new Map((sections ?? []).map((s) => [s.id, s.module_id]));
+  const premiereCompletionParModule = new Map<string, string>();
+  (progressionRows ?? []).forEach((p) => {
+    const modId = moduleIdParSection.get(p.section_id);
+    if (!modId) return;
+    const actuel = premiereCompletionParModule.get(modId);
+    if (!actuel || p.completed_at < actuel) premiereCompletionParModule.set(modId, p.completed_at);
+  });
+  const modulesSuivisSemaine = [...premiereCompletionParModule.values()].filter((d) => d >= ilYA7Jours).length;
+  const devoirsRendusSemaine = (remises ?? []).filter((r) => r.rendu_at >= ilYA7Jours).length;
+  const notesRecentes = (remises ?? [])
+    .filter((r) => r.note !== null && r.note_le && r.note_le >= ilYA7Jours)
+    .map((r) => r.note as number);
+  const notesAnciennes = (remises ?? [])
+    .filter((r) => r.note !== null && r.note_le && r.note_le < ilYA7Jours)
+    .map((r) => r.note as number);
+  const moyenneDelta =
+    notesRecentes.length > 0 && notesAnciennes.length > 0
+      ? notesRecentes.reduce((s, n) => s + n, 0) / notesRecentes.length -
+        notesAnciennes.reduce((s, n) => s + n, 0) / notesAnciennes.length
+      : null;
+
   // Badges automatiques : calcules depuis la progression deja reelle, jamais stockes.
   const badgesAuto = [
     { libelle: "Premier pas", emoji: "🌱", obtenu: totalTerminees >= 1 },
@@ -201,7 +230,10 @@ export default async function ProgressionPage({
             <p className="font-display text-[23px] font-extrabold tracking-tight">
               Bonjour {profil?.pseudo ?? ""} 👋
             </p>
-            <p className="mt-1 text-[12.5px] capitalize text-[var(--texte-mute)]">{dateDuJour}</p>
+            <p className="mt-1 text-[12.5px] text-[var(--texte-mute)]">
+              Voici un aperçu de ton parcours et de tes dernières activités.
+            </p>
+            <p className="mt-1 text-[11px] capitalize text-[var(--texte-mute)]">{dateDuJour}</p>
           </div>
           {streak > 0 && (
             <div className="flex items-center gap-2 rounded-full border border-[rgba(255,122,77,0.25)] bg-[rgba(255,122,77,0.1)] px-4 py-2 font-mono text-xs font-bold text-[var(--corail)]">
@@ -216,17 +248,28 @@ export default async function ProgressionPage({
               {modulesSuivis} / {modulesAffiches.length}
             </div>
             <div className="mt-0.5 text-xs text-[var(--texte-mute)]">cours suivis</div>
+            {modulesSuivisSemaine > 0 && (
+              <div className="mt-1 text-[10.5px] font-bold text-[var(--sarcelle)]">↗ +{modulesSuivisSemaine} cette semaine</div>
+            )}
           </div>
           <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
             <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
               {(remises ?? []).length} / {(devoirs ?? []).length}
             </div>
             <div className="mt-0.5 text-xs text-[var(--texte-mute)]">devoirs rendus</div>
+            {devoirsRendusSemaine > 0 && (
+              <div className="mt-1 text-[10.5px] font-bold text-[var(--sarcelle)]">↗ +{devoirsRendusSemaine} cette semaine</div>
+            )}
           </div>
           {moyenneGenerale !== null ? (
             <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
               <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{moyenneGenerale.toFixed(1)} / 20</div>
               <div className="mt-0.5 text-xs text-[var(--texte-mute)]">moyenne générale</div>
+              {moyenneDelta !== null && (
+                <div className={`mt-1 text-[10.5px] font-bold ${moyenneDelta >= 0 ? "text-[var(--sarcelle)]" : "text-[var(--corail)]"}`}>
+                  {moyenneDelta >= 0 ? "↗ +" : "↘ "}{moyenneDelta.toFixed(1)} cette semaine
+                </div>
+              )}
             </div>
           ) : (
             <div className="rounded-xl border border-dashed border-[var(--ligne)] bg-[var(--fond-carte)] p-4 opacity-70">
