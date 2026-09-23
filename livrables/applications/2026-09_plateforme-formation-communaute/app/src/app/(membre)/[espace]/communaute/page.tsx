@@ -8,8 +8,11 @@ import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAd
 import { FilCommunaute } from "@/components/communaute/fil/FilCommunaute";
 import { MessageAccueil } from "@/components/communaute/MessageAccueil";
 import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
-import { couleurAvatar } from "@/lib/avatar";
-import type { Adhesion } from "@/types/membre";
+import { CarteCommunaute } from "@/components/communaute/CarteCommunaute";
+import { CarteProchainsEvenements } from "@/components/communaute/CarteProchainsEvenements";
+import { CarteClassement } from "@/components/communaute/CarteClassement";
+import { CarteEncouragement } from "@/components/communaute/CarteEncouragement";
+import type { Adhesion, StatsCommunaute } from "@/types/membre";
 
 export default async function CommunauteGratuitePage({
   params,
@@ -114,23 +117,13 @@ export default async function CommunauteGratuitePage({
     );
   }
 
-  const [{ data: monProfil }, { count: nbPosts }, { data: statsRpc }] = await Promise.all([
+  const [{ data: monProfil }, { data: statsRpc }] = await Promise.all([
     supabase.from("profils").select("pseudo, role").eq("id", userData.user.id).maybeSingle(),
-    supabase
-      .from("posts")
-      .select("*", { count: "exact", head: true })
-      .eq("espace_id", espace.id)
-      .eq("zone", "gratuite"),
     // Compteur et classement via une fonction : la table adhesions n'est lisible que pour
     // ses propres lignes, donc les compter directement donnait toujours 1 (migration 0031).
     supabase.rpc("stats_communaute", { p_espace: espace.id }),
   ]);
-  const stats = statsRpc as {
-    nb_membres: number;
-    classement: { id: string; pseudo: string; points: number }[];
-  } | null;
-  const nbMembres = stats?.nb_membres ?? 0;
-  const classementTrie = stats?.classement ?? [];
+  const stats = statsRpc as StatsCommunaute | null;
 
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
@@ -204,45 +197,21 @@ export default async function CommunauteGratuitePage({
         </div>
 
         <div className="flex flex-col gap-4">
-          <div className="rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-[18px]">
-            <div className="font-display mb-3.5 text-[13px] font-bold">{espace.nom}</div>
-            <div className="flex">
-              <Link href={`/${espace.slug}/membres`} className="flex-1 text-center" aria-label="Voir les membres">
-                <div className="font-display text-[19px] font-extrabold text-[var(--sarcelle)]">
-                  {nbMembres ?? 0}
-                </div>
-                <div className="mt-0.5 font-mono text-[9.5px] text-[var(--texte-mute)] underline">membres</div>
-              </Link>
-              <div className="flex-1 border-l border-[var(--ligne)] text-center">
-                <div className="font-display text-[19px] font-extrabold text-[var(--sarcelle)]">
-                  {nbPosts ?? 0}
-                </div>
-                <div className="mt-0.5 font-mono text-[9.5px] text-[var(--texte-mute)]">posts</div>
-              </div>
-            </div>
-          </div>
+          <CarteCommunaute
+            espaceNom={espace.nom}
+            espaceSlug={espace.slug}
+            nbMembres={stats?.nb_membres ?? 0}
+            nbEleves={stats?.nb_eleves ?? 0}
+            banniereUrl={
+              espace.banniere_path
+                ? supabase.storage.from("bannieres-espaces").getPublicUrl(espace.banniere_path).data.publicUrl
+                : null
+            }
+          />
 
-          <div className="rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-[18px]">
-            <div className="font-display mb-3.5 text-[13px] font-bold">Classement</div>
-            {classementTrie.map((c, i) => (
-              <div
-                key={c.id}
-                className={`flex items-center gap-2.5 py-2 ${
-                  i < classementTrie.length - 1 ? "border-b border-[var(--ligne)]" : ""
-                }`}
-              >
-                <span className={`w-4 font-mono text-xs font-bold ${i === 0 ? "text-[var(--corail)]" : "text-[var(--texte-mute)]"}`}>
-                  {i + 1}
-                </span>
-                <div className="h-7 w-7 flex-shrink-0 rounded-full" style={{ background: couleurAvatar(c.id) }} />
-                <span className="flex-1 text-xs font-bold">{c.pseudo}</span>
-                <span className="font-mono text-[11px] text-[var(--texte-mute)]">{c.points} pts</span>
-              </div>
-            ))}
-            {classementTrie.length === 0 && (
-              <p className="text-xs text-[var(--texte-mute)]">Pas encore de classement.</p>
-            )}
-          </div>
+          <CarteProchainsEvenements supabase={supabase} espace={espace} userId={userData.user.id} />
+
+          <CarteClassement classement={stats?.classement ?? []} />
 
           <div className="rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-[18px]">
             <div className="font-display mb-3.5 text-[13px] font-bold">Naviguer</div>
@@ -271,6 +240,8 @@ export default async function CommunauteGratuitePage({
               Mon profil
             </Link>
           </div>
+
+          <CarteEncouragement espaceNom={espace.nom} />
         </div>
       </div>
     </div>

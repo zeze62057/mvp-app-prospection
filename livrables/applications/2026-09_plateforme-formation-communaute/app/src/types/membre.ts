@@ -201,6 +201,15 @@ export type NotificationMembre = {
   created_at: string;
 };
 
+// Retour de la fonction stats_communaute (migration 0031) : compteurs et
+// classement par points a vie, reserves aux membres de l'espace.
+export type StatsCommunaute = {
+  nb_membres: number;
+  nb_eleves: number;
+  classement: { id: string; pseudo: string; points: number }[];
+  eleves: { id: string; pseudo: string }[];
+};
+
 // Message prive entre deux membres d'un meme espace (migration 0030).
 export type MessagePrive = {
   id: string;

@@ -8,8 +8,12 @@ import { FilCommunaute } from "@/components/communaute/fil/FilCommunaute";
 import { MessageAccueil } from "@/components/communaute/MessageAccueil";
 import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
 import { CartePostulerExpert } from "@/components/communaute/CartePostulerExpert";
+import { CarteCommunaute } from "@/components/communaute/CarteCommunaute";
+import { CarteProchainsEvenements } from "@/components/communaute/CarteProchainsEvenements";
+import { CarteClassement } from "@/components/communaute/CarteClassement";
+import { CarteEncouragement } from "@/components/communaute/CarteEncouragement";
 import { couleurAvatar } from "@/lib/avatar";
-import type { AccesPayant, CandidatureExpert } from "@/types/membre";
+import type { AccesPayant, CandidatureExpert, StatsCommunaute } from "@/types/membre";
 
 export default async function CommunautePayantePage({
   params,
@@ -101,7 +105,8 @@ export default async function CommunautePayantePage({
     supabase.rpc("stats_communaute", { p_espace: espace.id }),
   ]);
 
-  const membres = ((statsRpc as { eleves: { id: string; pseudo: string }[] } | null)?.eleves ?? []);
+  const stats = statsRpc as StatsCommunaute | null;
+  const membres = stats?.eleves ?? [];
 
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
@@ -187,6 +192,22 @@ export default async function CommunautePayantePage({
         </div>
 
         <div className="flex flex-col gap-4">
+          <CarteCommunaute
+            espaceNom={espace.nom}
+            espaceSlug={espace.slug}
+            nbMembres={stats?.nb_membres ?? 0}
+            nbEleves={stats?.nb_eleves ?? 0}
+            banniereUrl={
+              espace.banniere_path
+                ? supabase.storage.from("bannieres-espaces").getPublicUrl(espace.banniere_path).data.publicUrl
+                : null
+            }
+          />
+
+          <CarteProchainsEvenements supabase={supabase} espace={espace} userId={userData.user.id} />
+
+          <CarteClassement classement={stats?.classement ?? []} />
+
           <div className="rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-[18px]">
             <div className="font-display mb-3.5 text-[13px] font-bold">Membres</div>
             {membres.map((m) => (
@@ -216,6 +237,8 @@ export default async function CommunautePayantePage({
               Espace reserve aux eleves ayant debloque la formation complete {espace.nom}.
             </p>
           </div>
+
+          <CarteEncouragement espaceNom={espace.nom} />
         </div>
       </div>
     </div>

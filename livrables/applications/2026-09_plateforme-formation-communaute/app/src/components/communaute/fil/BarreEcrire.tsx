@@ -5,9 +5,35 @@ import { useRouter } from "next/navigation";
 import type { CategoriePost, ZonePost } from "@/types/membre";
 import { Avatar } from "./Avatar";
 
-// Barre "Ecrire quelque chose" : repliee comme sur Skool, elle s'ouvre au clic en
+// Bouton d'action non encore branche (Video, Fichier, Lien) : visible comme sur la
+// capture de reference, mais desactive. Le message "Bientot disponible" sort au
+// survol (title) et au clic (etat local), pour couvrir aussi le tactile.
+function BoutonBientot({
+  emoji,
+  label,
+  onClick,
+}: {
+  emoji: string;
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      title="Bientôt disponible"
+      onClick={onClick}
+      className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)] opacity-60 hover:opacity-100"
+    >
+      <span aria-hidden="true">{emoji}</span> {label}
+    </button>
+  );
+}
+
+// Carte "Ecrire quelque chose" : repliee comme sur Skool, elle s'ouvre au clic en
 // formulaire (titre, texte, categorie, image). L'envoi passe par /api/posts, seul
-// chemin qui sache recevoir un fichier.
+// chemin qui sache recevoir un fichier. Rangee de boutons Photo/Video/Fichier/Lien
+// pour matcher la capture de reference (NovaPulse) : seul Photo est reellement
+// branche, les trois autres affichent "Bientot disponible" (2026-09-23).
 export function BarreEcrire({
   espaceSlug,
   zone,
@@ -31,17 +57,40 @@ export function BarreEcrire({
   const [enCours, setEnCours] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
   const [nomImage, setNomImage] = useState<string | null>(null);
+  const [bientot, setBientot] = useState<string | null>(null);
 
   if (!ouvert) {
     return (
-      <button
-        type="button"
-        onClick={() => setOuvert(true)}
-        className="mb-4 flex w-full items-center gap-3 rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-3.5 text-left"
-      >
-        <Avatar id={auteurId} pseudo={auteurPseudo} taille={36} urlPhoto={auteurAvatarUrl} />
-        <span className="text-[14px] text-[var(--texte-mute)]">Écrire quelque chose</span>
-      </button>
+      <div className="mb-4 rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
+        <button type="button" onClick={() => setOuvert(true)} className="flex w-full items-center gap-3 text-left">
+          <Avatar id={auteurId} pseudo={auteurPseudo} taille={36} urlPhoto={auteurAvatarUrl} />
+          <span className="text-[14px] text-[var(--texte-mute)]">
+            Partagez une idée, une question, une actualité...
+          </span>
+        </button>
+        <div className="mt-3 flex flex-wrap items-center gap-1 border-t border-[var(--ligne)] pt-3">
+          <button
+            type="button"
+            onClick={() => setOuvert(true)}
+            className="flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)] hover:text-[var(--texte)]"
+          >
+            <span aria-hidden="true">📷</span> Photo
+          </button>
+          <BoutonBientot emoji="🎥" label="Vidéo" onClick={() => setBientot("Vidéo")} />
+          <BoutonBientot emoji="📎" label="Fichier" onClick={() => setBientot("Fichier")} />
+          <BoutonBientot emoji="🔗" label="Lien" onClick={() => setBientot("Lien")} />
+          <button
+            type="button"
+            onClick={() => setOuvert(true)}
+            className="ml-auto rounded-[9px] bg-[var(--corail)] px-4 py-2 text-[12.5px] font-extrabold text-[var(--encre)]"
+          >
+            Publier
+          </button>
+        </div>
+        {bientot && (
+          <p className="mt-2 text-[11.5px] text-[var(--texte-mute)]">{bientot} : bientôt disponible.</p>
+        )}
+      </div>
     );
   }
 
@@ -103,24 +152,24 @@ export function BarreEcrire({
           className={champ}
         />
       )}
-      <div className="flex flex-wrap items-center gap-2.5">
-        {categories.length > 0 && (
-          <select
-            name="categorie_id"
-            defaultValue={categorieParDefaut ?? ""}
-            className="rounded-lg border border-[var(--ligne)] bg-[var(--fond)] px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)]"
-          >
-            <option value="">Sans catégorie</option>
-            {categories.map((c) => (
-              <option key={c.id} value={c.id}>
-                {c.emoji ? `${c.emoji} ` : ""}
-                {c.libelle}
-              </option>
-            ))}
-          </select>
-        )}
-        <label className="cursor-pointer rounded-lg border border-[var(--ligne)] bg-[var(--fond)] px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)]">
-          {nomImage ? `🖼 ${nomImage}` : "🖼 Ajouter une image"}
+      {categories.length > 0 && (
+        <select
+          name="categorie_id"
+          defaultValue={categorieParDefaut ?? ""}
+          className="self-start rounded-lg border border-[var(--ligne)] bg-[var(--fond)] px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)]"
+        >
+          <option value="">Sans catégorie</option>
+          {categories.map((c) => (
+            <option key={c.id} value={c.id}>
+              {c.emoji ? `${c.emoji} ` : ""}
+              {c.libelle}
+            </option>
+          ))}
+        </select>
+      )}
+      <div className="flex flex-wrap items-center gap-1 border-t border-[var(--ligne)] pt-2.5">
+        <label className="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-[12.5px] font-bold text-[var(--texte-mute)] hover:text-[var(--texte)]">
+          <span aria-hidden="true">📷</span> {nomImage ? nomImage : "Photo"}
           <input
             name="image"
             type="file"
@@ -129,7 +178,11 @@ export function BarreEcrire({
             onChange={(e) => setNomImage(e.target.files?.[0]?.name ?? null)}
           />
         </label>
+        <BoutonBientot emoji="🎥" label="Vidéo" onClick={() => setBientot("Vidéo")} />
+        <BoutonBientot emoji="📎" label="Fichier" onClick={() => setBientot("Fichier")} />
+        <BoutonBientot emoji="🔗" label="Lien" onClick={() => setBientot("Lien")} />
       </div>
+      {bientot && <p className="text-[11.5px] text-[var(--texte-mute)]">{bientot} : bientôt disponible.</p>}
       {erreur && <p className="text-[13px] text-[var(--corail)]">{erreur}</p>}
       <div className="flex justify-end gap-2">
         <button

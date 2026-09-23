@@ -17,6 +17,7 @@ import { getStatsEspace } from "@/lib/stats-communaute";
 import { CarteStatsEspace } from "@/components/admin/CarteStatsEspace";
 import { FormulaireParametresCommunaute } from "@/components/admin/FormulaireParametresCommunaute";
 import { FormulairePresentationEspace } from "@/components/admin/FormulairePresentationEspace";
+import { FormulaireBanniereEspace } from "@/components/admin/FormulaireBanniereEspace";
 import { GestionNiveaux } from "@/components/admin/GestionNiveaux";
 import { GestionQuestionsAdhesion } from "@/components/admin/GestionQuestionsAdhesion";
 import { NIVEAUX_PAR_DEFAUT, type NiveauConfig } from "@/lib/niveaux";
@@ -400,6 +401,27 @@ export default async function AdminPage() {
             />
           );
         })}
+      </ul>
+
+      <h2 className="font-display mt-16 text-2xl font-semibold">
+        Banniere communaute
+      </h2>
+      <p className="mt-2 text-sm text-[var(--texte-mute)]">
+        L&apos;image affichee en haut de la carte communaute (sidebar), une par espace.
+        Sans image, un degrade par defaut s&apos;affiche.
+      </p>
+      <ul className="mt-6 flex flex-col gap-3">
+        {(espaces ?? []).map((e) => (
+          <FormulaireBanniereEspace
+            key={e.id}
+            espace={{ id: e.id, nom: e.nom }}
+            bannierUrl={
+              e.banniere_path
+                ? admin.storage.from("bannieres-espaces").getPublicUrl(e.banniere_path).data.publicUrl
+                : null
+            }
+          />
+        ))}
       </ul>
 
       <h2 className="font-display mt-16 text-2xl font-semibold">

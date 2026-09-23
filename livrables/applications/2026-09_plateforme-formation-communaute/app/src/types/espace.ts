@@ -40,4 +40,5 @@ export type Espace = {
   contenu_vitrine: ContenuVitrine;
   periode_activite_jours: number; // fenetre d'un membre "actif" dans les stats admin (migration 0024)
   afficher_compteur_public: boolean; // compteur de membres sur la vitrine (migration 0024)
+  banniere_path: string | null; // chemin dans le bucket public bannieres-espaces (migration 0042)
 };
