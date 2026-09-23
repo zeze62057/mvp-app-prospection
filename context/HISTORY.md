@@ -7,6 +7,14 @@
 
 ---
 
+## 2026-09-23
+
+### Message d'accueil élèves, en pause faute d'email pro
+
+- Message d'accueil post-paiement rédigé et validé : `livrables/applications/2026-09_plateforme-formation-communaute/message-accueil-eleves.md`
+- Investigation faite : workflow n8n `Confirmation Paiement Chariow - Vivier IA` (actif) identifié comme point d'insertion pour l'envoi automatique, credential SMTP déjà présent dans n8n. Route `/api/webhooks/paiement` modifiée pour renvoyer `pseudo` et `email` de l'élève (lookup `profils` + `auth.users`), TypeScript vérifié, **non committé**
+- **Suspendu à la demande de Zézé** : pas d'adresse d'expédition pro disponible pour l'instant. Reprendre une fois l'email pro acheté : ajouter le nœud d'envoi email dans le workflow n8n (entre "Activer acces payant" et "Repondre 200"), avec l'adresse From choisie
+
 ## 2026-09-22
 
 ### Cadrage et installation de l'équipe d'agents IA YouTube (Lumen)
