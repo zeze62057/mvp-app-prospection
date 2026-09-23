@@ -27,7 +27,7 @@ export function PastillesCategories({
       className="-mx-1 mb-4 flex gap-2 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       <Link href={base} className={classe(!categorieActive)} scroll={false}>
-        Tout
+        ‹ Tout
       </Link>
       {categories.map((c) => (
         <Link

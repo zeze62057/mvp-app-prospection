@@ -63,13 +63,16 @@ export async function CarteProchainsEvenements({
           </div>
           <div className="min-w-0 flex-1">
             <div className="truncate text-[12px] font-bold">{e.titre}</div>
+            {/* Tous les evenements ont un lien obligatoire (masterclasses.lien,
+                creneaux_rdv.lien, colonnes not null) : "En ligne" est toujours vrai. */}
             <div className="font-mono text-[10.5px] text-[var(--texte-mute)]">
-              {heure(e.debut)} · {LIBELLE_TYPE[e.type]}
+              {heure(e.debut)} · En ligne
             </div>
           </div>
           <span
             className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-[var(--encre)] text-[13px]"
-            aria-hidden="true"
+            role="img"
+            aria-label={LIBELLE_TYPE[e.type]}
           >
             {ICONE_TYPE[e.type]}
           </span>
