@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getEspaceParSlug } from "@/lib/espaces";
 import { createClient } from "@/lib/supabase/server";
+import { createAdminClient } from "@/lib/supabase/admin";
 import { deconnexion } from "../communaute/actions";
 import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
 import { FilCommunaute } from "@/components/communaute/fil/FilCommunaute";
@@ -108,6 +109,22 @@ export default async function CommunautePayantePage({
   const stats = statsRpc as StatsCommunaute | null;
   const membres = stats?.eleves ?? [];
 
+  // Stats reelles pour le bandeau d'accueil : "en ligne maintenant" de la capture de
+  // reference est omis, aucun suivi de presence n'existe dans l'app.
+  const debutMois = new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), 1)).toISOString();
+  const maintenant = new Date().toISOString();
+  const [{ count: nbDiscussionsMois }, { count: nbMasterclassAvenir }, { data: avisPourMoyenne }] =
+    await Promise.all([
+      supabase.from("posts").select("*", { count: "exact", head: true }).eq("espace_id", espace.id).eq("zone", "payante").gte("created_at", debutMois),
+      supabase.from("masterclasses").select("*", { count: "exact", head: true }).eq("espace_id", espace.id).gte("date_heure", maintenant),
+      // Client admin : la lecture des avis n'est pas ouverte aux membres via RLS (voir vitrine).
+      createAdminClient().from("temoignages").select("note").eq("espace_id", espace.id).eq("autorise_partage", true),
+    ]);
+  const noteMoyenne =
+    avisPourMoyenne && avisPourMoyenne.length > 0
+      ? avisPourMoyenne.reduce((total, a) => total + a.note, 0) / avisPourMoyenne.length
+      : null;
+
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
       <div className="flex items-center justify-between gap-4 border-b border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-4 sm:px-7">
@@ -121,6 +138,40 @@ export default async function CommunautePayantePage({
       </div>
 
       <OngletsFlottants espaceSlug={espace.slug} />
+
+      <div className="bg-[var(--encre)] px-4 py-7 text-[var(--sur-encre)] sm:px-7">
+        <p className="font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-light)]">
+          communauté payante
+        </p>
+        <h1 className="font-display mt-1.5 text-2xl font-semibold sm:text-[27px]">
+          Bienvenue {monProfil?.pseudo ?? "parmi les élèves"}
+        </h1>
+        {espace.tagline && (
+          <p className="mt-1.5 max-w-lg text-[13.5px] text-[var(--sur-encre-mute)]">{espace.tagline}</p>
+        )}
+      </div>
+
+      {/* "En ligne maintenant" de la capture de reference est omis : aucun suivi de presence n'existe. */}
+      <div className="mx-auto flex max-w-5xl flex-wrap gap-3.5 p-7 pb-0">
+        <div className="min-w-[140px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4">
+          <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{stats?.nb_eleves ?? 0}</div>
+          <div className="mt-0.5 text-xs text-[var(--texte-mute)]">élève{(stats?.nb_eleves ?? 0) !== 1 ? "s" : ""}</div>
+        </div>
+        <div className="min-w-[140px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4">
+          <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{nbDiscussionsMois ?? 0}</div>
+          <div className="mt-0.5 text-xs text-[var(--texte-mute)]">discussion{(nbDiscussionsMois ?? 0) !== 1 ? "s" : ""} ce mois</div>
+        </div>
+        <div className="min-w-[140px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4">
+          <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{nbMasterclassAvenir ?? 0}</div>
+          <div className="mt-0.5 text-xs text-[var(--texte-mute)]">événement{(nbMasterclassAvenir ?? 0) !== 1 ? "s" : ""} à venir</div>
+        </div>
+        {noteMoyenne !== null && (
+          <div className="min-w-[140px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4">
+            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{noteMoyenne.toFixed(1)}/5</div>
+            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">satisfaction des membres</div>
+          </div>
+        )}
+      </div>
 
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 p-7 md:grid-cols-[1fr_300px]">
         <div>
