@@ -48,40 +48,67 @@ export function CartePost({
   const lienPost = `/${espaceSlug}/post/${post.id}`;
   const lienProfil = `/${espaceSlug}/membres/${auteur.id}`;
 
-  const entete = (
-    <>
-      <div className="mb-2.5 flex items-center gap-2.5">
-        <Link href={lienProfil} aria-label={`Voir le profil de ${auteur.pseudo}`} className="flex-shrink-0">
-          <Avatar id={auteur.id} pseudo={auteur.pseudo} taille={36} urlPhoto={auteur.avatarUrl} />
-        </Link>
-        <div className="min-w-0 flex-1">
-          <div className="flex flex-wrap items-center gap-2">
-            <Link href={lienProfil} className="text-[13.5px] font-bold hover:text-[var(--sarcelle)]">
-              {auteur.pseudo}
-            </Link>
-            <BadgeAuteur auteur={auteur} />
-          </div>
-          <div className="flex flex-wrap items-center gap-2 font-mono text-[10.5px] text-[var(--texte-mute)]">
-            <span>{tempsEcoule(post.created_at)}</span>
-            {post.modifie_le && <span title={new Date(post.modifie_le).toLocaleString("fr-FR")}>· modifié</span>}
-            {categorie && (
-              <span className="rounded-[5px] bg-[rgba(43,140,130,0.1)] px-1.5 py-px text-[var(--sarcelle)]">
-                {categorie.emoji ? `${categorie.emoji} ` : ""}
-                {categorie.libelle}
-              </span>
-            )}
-          </div>
-        </div>
-        {post.epingle && (
-          <span className="flex-shrink-0 rounded-full bg-[rgba(255,122,77,0.14)] px-2.5 py-1 font-mono text-[10px] font-bold text-[var(--corail)]">
-            📌 Épinglé
-          </span>
+  // Menu "..." : regroupe les actions de gestion du post (modifier/supprimer, ecrire/signaler,
+  // epingler), separees des reactions (like/commentaires) restees dans la ligne du bas.
+  // <details> natif : pas de nouveau JS, mais ne se ferme pas seul au clic exterieur.
+  // ponytail: fermeture au clic exterieur a ajouter si ca genait a l'usage.
+  const menu = (
+    <details className="relative ml-auto flex-shrink-0">
+      <summary
+        aria-label="Options du post"
+        className="flex h-7 w-7 cursor-pointer list-none items-center justify-center rounded-full text-[15px] text-[var(--texte-mute)] hover:bg-[var(--fond)] [&::-webkit-details-marker]:hidden"
+      >
+        ⋯
+      </summary>
+      <div className="absolute right-0 top-8 z-10 min-w-[180px] rounded-[10px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-1.5 text-[12.5px] font-bold shadow-md [&_button]:w-full [&_button]:text-left [&_form]:block [&_a]:block [&_a]:no-underline [&_button]:no-underline [&>*]:rounded-lg [&>*]:px-2.5 [&>*]:py-1.5 hover:[&>*]:bg-[var(--fond)]">
+        {auteur.id === userId ? (
+          <>
+            <Link href={`/${espaceSlug}/post/${post.id}/modifier`}>✎ Modifier</Link>
+            <BoutonSupprimerPost espaceSlug={espaceSlug} postId={post.id} />
+          </>
+        ) : (
+          <>
+            <Link href={`/${espaceSlug}/messages/${auteur.id}`}>✉ Écrire à {auteur.pseudo}</Link>
+            <BoutonSignaler type="post" cibleId={post.id} />
+          </>
+        )}
+        {estAdmin && (
+          <form action={epinglerPost.bind(null, retour, post.id, !post.epingle)}>
+            <button type="submit">{post.epingle ? "📌 Désépingler" : "📌 Épingler"}</button>
+          </form>
         )}
       </div>
-    </>
+    </details>
   );
 
-  const corpsCarte = (
+  const entete = (
+    <div className="mb-2.5 flex items-center gap-2.5">
+      <Link href={lienProfil} aria-label={`Voir le profil de ${auteur.pseudo}`} className="flex-shrink-0">
+        <Avatar id={auteur.id} pseudo={auteur.pseudo} taille={36} urlPhoto={auteur.avatarUrl} />
+      </Link>
+      <div className="min-w-0 flex-1">
+        <div className="flex flex-wrap items-center gap-2">
+          <Link href={lienProfil} className="text-[13.5px] font-bold hover:text-[var(--sarcelle)]">
+            {auteur.pseudo}
+          </Link>
+          <BadgeAuteur auteur={auteur} />
+        </div>
+        <div className="flex flex-wrap items-center gap-2 font-mono text-[10.5px] text-[var(--texte-mute)]">
+          <span>{tempsEcoule(post.created_at)}</span>
+          {post.modifie_le && <span title={new Date(post.modifie_le).toLocaleString("fr-FR")}>· modifié</span>}
+          {categorie && (
+            <span className="rounded-[5px] bg-[rgba(43,140,130,0.1)] px-1.5 py-px text-[var(--sarcelle)]">
+              {categorie.emoji ? `${categorie.emoji} ` : ""}
+              {categorie.libelle}
+            </span>
+          )}
+        </div>
+      </div>
+      {menu}
+    </div>
+  );
+
+  const texte = (
     <>
       {post.titre && <h3 className="font-display mb-1.5 text-[16px] font-bold leading-snug">{post.titre}</h3>}
       <p className={`whitespace-pre-wrap text-[13.5px] leading-[1.6] text-[var(--texte)] ${detail ? "" : "line-clamp-4"}`}>
@@ -93,21 +120,45 @@ export function CartePost({
           🧲 {post.magnet_texte}
         </div>
       )}
-
-      {imageUrl && (
-        // eslint-disable-next-line @next/next/no-img-element -- lien temporaire signe, pas d'optimisation possible
-        <img
-          src={imageUrl}
-          alt=""
-          loading="lazy"
-          className={`mt-3 w-full rounded-xl border border-[var(--ligne)] object-cover ${detail ? "max-h-[520px]" : "max-h-[320px]"}`}
-        />
-      )}
     </>
   );
 
+  // En vue detail, l'image passe en pleine largeur sous le texte. Dans le fil, elle
+  // devient une vignette a droite du texte, comme sur la capture de reference.
+  const image = imageUrl && (
+    // eslint-disable-next-line @next/next/no-img-element -- lien temporaire signe, pas d'optimisation possible
+    <img
+      src={imageUrl}
+      alt=""
+      loading="lazy"
+      className={
+        detail
+          ? "mt-3 max-h-[520px] w-full rounded-xl border border-[var(--ligne)] object-cover"
+          : "h-24 w-24 flex-shrink-0 rounded-xl border border-[var(--ligne)] object-cover sm:h-28 sm:w-28"
+      }
+    />
+  );
+
+  const corpsCarte =
+    imageUrl && !detail ? (
+      <div className="flex items-start gap-4">
+        <div className="min-w-0 flex-1">{texte}</div>
+        {image}
+      </div>
+    ) : (
+      <>
+        {texte}
+        {image}
+      </>
+    );
+
   return (
-    <article className="mb-3.5 rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+    <article className="relative mb-3.5 rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+      {post.epingle && (
+        <span className="absolute -top-2.5 left-5 rounded-full bg-[var(--corail)] px-2.5 py-1 font-mono text-[10px] font-bold text-[var(--encre)] shadow-sm">
+          📌 Épinglé
+        </span>
+      )}
       {entete}
       {detail ? corpsCarte : (
         <Link href={lienPost} className="block">
@@ -146,30 +197,10 @@ export function CartePost({
           </span>
         )}
 
-        {auteur.id === userId && (
-          <>
-            <Link href={`/${espaceSlug}/post/${post.id}/modifier`} className="text-[11.5px] font-bold hover:text-[var(--sarcelle)]">
-              ✎ Modifier
-            </Link>
-            <BoutonSupprimerPost espaceSlug={espaceSlug} postId={post.id} />
-          </>
-        )}
-
-        {auteur.id !== userId && (
-          <>
-            <Link href={`/${espaceSlug}/messages/${auteur.id}`} className="text-[11.5px] font-bold hover:text-[var(--sarcelle)]">
-              ✉ Écrire à {auteur.pseudo}
-            </Link>
-            <BoutonSignaler type="post" cibleId={post.id} />
-          </>
-        )}
-
-        {estAdmin && (
-          <form action={epinglerPost.bind(null, retour, post.id, !post.epingle)} className="ml-auto">
-            <button type="submit" className="text-[11.5px] font-bold underline">
-              {post.epingle ? "Désépingler" : "Épingler"}
-            </button>
-          </form>
+        {!detail && (
+          <Link href={lienPost} className="ml-auto text-[11.5px] font-bold text-[var(--sarcelle)]">
+            Lire la suite →
+          </Link>
         )}
       </div>
     </article>

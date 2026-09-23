@@ -206,7 +206,7 @@ export default async function CommunautePayantePage({
 
           <CarteProchainsEvenements supabase={supabase} espace={espace} userId={userData.user.id} />
 
-          <CarteClassement classement={stats?.classement ?? []} />
+          <CarteClassement espaceSlug={espace.slug} classement={stats?.classement ?? []} />
 
           <div className="rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-[18px]">
             <div className="font-display mb-3.5 text-[13px] font-bold">Membres</div>

@@ -45,7 +45,6 @@ export async function FilCommunaute({
 
   return (
     <div>
-      <BarreRecherche base={base} terme={terme} categorieActive={categorieValide} />
       <BarreEcrire
         espaceSlug={espace.slug}
         zone={zone}
@@ -56,6 +55,7 @@ export async function FilCommunaute({
         categorieParDefaut={categorieValide}
       />
       <PastillesCategories base={base} categories={categories} categorieActive={categorieValide} />
+      <BarreRecherche base={base} terme={terme} categorieActive={categorieValide} />
 
       {items.map((item) => (
         <CartePost

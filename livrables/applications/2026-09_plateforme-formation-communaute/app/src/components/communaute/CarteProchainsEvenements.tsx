@@ -4,7 +4,10 @@ import { chargerEvenements } from "@/lib/calendrier-donnees";
 import { heure, parseMois } from "@/lib/calendrier";
 
 const LIBELLE_TYPE = { masterclass: "Masterclass", rdv: "Appel découverte" } as const;
-const PASTILLE_TYPE = { masterclass: "bg-[var(--corail)]", rdv: "bg-[var(--sarcelle)]" } as const;
+const TEINTE_TYPE = {
+  masterclass: "bg-[rgba(255,122,77,0.14)] text-[var(--corail-texte)]",
+  rdv: "bg-[rgba(43,140,130,0.12)] text-[var(--sarcelle-texte)]",
+} as const;
 
 // Apercu des prochains evenements en colonne de droite. Reutilise chargerEvenements
 // (source du calendrier complet), pas de nouvelle requete ni de nouvelle table.
@@ -47,13 +50,20 @@ export async function CarteProchainsEvenements({
         <Link
           key={e.type + e.id}
           href={e.page}
-          className="mb-2.5 flex items-start gap-2.5 last:mb-0 hover:text-[var(--sarcelle)]"
+          className="mb-2.5 flex items-center gap-2.5 last:mb-0 hover:text-[var(--sarcelle)]"
         >
-          <span className={`mt-1 h-2 w-2 flex-shrink-0 rounded-full ${PASTILLE_TYPE[e.type]}`} />
+          <div className={`flex w-11 flex-shrink-0 flex-col items-center rounded-lg py-1 ${TEINTE_TYPE[e.type]}`}>
+            <span className="text-[15px] font-extrabold leading-none">
+              {new Date(e.debut).toLocaleDateString("fr-FR", { day: "numeric" })}
+            </span>
+            <span className="font-mono text-[9px] uppercase">
+              {new Date(e.debut).toLocaleDateString("fr-FR", { month: "short" })}
+            </span>
+          </div>
           <div className="min-w-0">
             <div className="truncate text-[12px] font-bold">{e.titre}</div>
             <div className="font-mono text-[10.5px] text-[var(--texte-mute)]">
-              {new Date(e.debut).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })} · {heure(e.debut)} · {LIBELLE_TYPE[e.type]}
+              {heure(e.debut)} · {LIBELLE_TYPE[e.type]}
             </div>
           </div>
         </Link>

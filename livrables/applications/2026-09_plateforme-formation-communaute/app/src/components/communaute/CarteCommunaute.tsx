@@ -70,10 +70,10 @@ export function CarteCommunaute({
 
         <div className="mb-3.5 flex gap-4 font-mono text-[11.5px] text-[var(--texte-mute)]">
           <span>
-            <b className="text-[var(--texte)]">{nbMembres}</b> membres
+            👥 <b className="text-[var(--texte)]">{nbMembres}</b> membres
           </span>
           <span>
-            <b className="text-[var(--texte)]">{nbEleves}</b> eleves
+            🎓 <b className="text-[var(--texte)]">{nbEleves}</b> eleves
           </span>
         </div>
 
