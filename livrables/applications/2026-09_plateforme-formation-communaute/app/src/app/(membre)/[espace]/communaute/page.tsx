@@ -129,35 +129,6 @@ export default async function CommunauteGratuitePage({
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
       <div className="flex items-center justify-between gap-4 border-b border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-4 sm:px-7">
         <span className="font-display shrink-0 text-[14.5px] font-bold">{espace.nom}</span>
-        <div className="flex min-w-0 gap-6 overflow-x-auto whitespace-nowrap font-mono text-[13px] font-bold text-[var(--texte-mute)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <span className="border-b-2 border-[var(--sarcelle)] pb-1 text-[var(--sarcelle)]">
-            Communaute
-          </span>
-          <Link href={`/${espace.slug}/membres`} className="hover:text-[var(--sarcelle)]">
-            Membres
-          </Link>
-          <Link href={`/${espace.slug}/a-propos`} className="hover:text-[var(--sarcelle)]">
-            À propos
-          </Link>
-          <Link href={`/${espace.slug}/calendrier`} className="hover:text-[var(--sarcelle)]">
-            Calendrier
-          </Link>
-          <Link href={`/${espace.slug}/contenu`} className="hover:text-[var(--sarcelle)]">
-            Contenu
-          </Link>
-          <Link href={`/${espace.slug}/ressources`} className="hover:text-[var(--sarcelle)]">
-            Ressources
-          </Link>
-          <Link href={`/${espace.slug}/masterclass`} className="hover:text-[var(--sarcelle)]">
-            Masterclass
-          </Link>
-          <Link href={`/${espace.slug}/prompts`} className="hover:text-[var(--sarcelle)]">
-            Prompts
-          </Link>
-          <Link href={`/${espace.slug}/rdv`} className="hover:text-[var(--sarcelle)]">
-            RDV
-          </Link>
-        </div>
         {boutonDeconnexion}
       </div>
 
@@ -200,6 +171,7 @@ export default async function CommunauteGratuitePage({
           <CarteCommunaute
             espaceNom={espace.nom}
             espaceSlug={espace.slug}
+            tagline={espace.tagline}
             nbMembres={stats?.nb_membres ?? 0}
             nbEleves={stats?.nb_eleves ?? 0}
             banniereUrl={

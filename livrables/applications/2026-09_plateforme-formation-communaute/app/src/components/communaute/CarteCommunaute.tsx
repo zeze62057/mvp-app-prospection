@@ -10,12 +10,14 @@ import { useState } from "react";
 export function CarteCommunaute({
   espaceNom,
   espaceSlug,
+  tagline,
   nbMembres,
   nbEleves,
   banniereUrl,
 }: {
   espaceNom: string;
   espaceSlug: string;
+  tagline: string;
   nbMembres: number;
   nbEleves: number;
   banniereUrl: string | null;
@@ -65,7 +67,7 @@ export function CarteCommunaute({
         </div>
         <div className="font-display mb-1 text-[15px] font-bold">{espaceNom}</div>
         <p className="mb-3.5 text-[11.5px] text-[var(--texte-mute)]">
-          Communaute {espaceNom}
+          {tagline || `Communauté ${espaceNom}`}
         </p>
 
         <div className="mb-3.5 flex gap-4 font-mono text-[11.5px] text-[var(--texte-mute)]">

@@ -117,29 +117,6 @@ export default async function CommunautePayantePage({
             eleves
           </span>
         </div>
-        <div className="flex min-w-0 gap-6 overflow-x-auto whitespace-nowrap font-mono text-[13px] font-bold text-[var(--texte-mute)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-          <Link href={`/${espace.slug}/progression`} className="hover:text-[var(--sarcelle)]">
-            Ma progression
-          </Link>
-          <span className="border-b-2 border-[var(--sarcelle)] pb-1 text-[var(--sarcelle)]">
-            Communaute payante
-          </span>
-          <Link href={`/${espace.slug}/membres`} className="hover:text-[var(--sarcelle)]">
-            Membres
-          </Link>
-          <Link href={`/${espace.slug}/a-propos`} className="hover:text-[var(--sarcelle)]">
-            À propos
-          </Link>
-          <Link href={`/${espace.slug}/calendrier`} className="hover:text-[var(--sarcelle)]">
-            Calendrier
-          </Link>
-          <Link href={`/${espace.slug}/formation`} className="hover:text-[var(--sarcelle)]">
-            Formation
-          </Link>
-          <Link href={`/${espace.slug}/expert`} className="hover:text-[var(--sarcelle)]">
-            Devenir Expert
-          </Link>
-        </div>
         {boutonDeconnexion}
       </div>
 
@@ -195,6 +172,7 @@ export default async function CommunautePayantePage({
           <CarteCommunaute
             espaceNom={espace.nom}
             espaceSlug={espace.slug}
+            tagline={espace.tagline}
             nbMembres={stats?.nb_membres ?? 0}
             nbEleves={stats?.nb_eleves ?? 0}
             banniereUrl={

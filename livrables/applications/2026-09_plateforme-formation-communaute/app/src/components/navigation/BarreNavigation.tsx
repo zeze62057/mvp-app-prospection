@@ -49,7 +49,8 @@ function Icone({ nom }: { nom: "accueil" | "messages" | "notifications" }) {
 }
 
 // Barre de navigation du membre : Accueil, Messages, Notifications (avec badge),
-// profil. Fixee en bas de l'ecran sur mobile, en pastille flottante sur ordinateur.
+// profil. Fixee en bas de l'ecran, mobile uniquement : sur ordinateur c'est
+// MenuLateral qui porte ces memes liens.
 // Le badge se met a jour en temps reel (Realtime, migration 0031), avec un sondage de
 // secours toutes les 2 minutes et au retour sur l'onglet, car le layout serveur ne se
 // recharge pas a chaque navigation.
@@ -130,7 +131,7 @@ export function BarreNavigation({
   return (
     <nav
       aria-label="Navigation du membre"
-      className="fixed inset-x-0 bottom-0 z-40 flex justify-around border-t border-[var(--ligne)] bg-[var(--fond-carte)] pb-[max(env(safe-area-inset-bottom),0.4rem)] pt-1.5 md:inset-x-auto md:bottom-5 md:left-1/2 md:-translate-x-1/2 md:gap-1 md:rounded-full md:border md:px-4 md:py-1.5 md:shadow-[0_10px_30px_rgba(17,56,50,0.18)]"
+      className="fixed inset-x-0 bottom-0 z-40 flex justify-around border-t border-[var(--ligne)] bg-[var(--fond-carte)] pb-[max(env(safe-area-inset-bottom),0.4rem)] pt-1.5 md:hidden"
     >
       {elements.map((e) => (
         <Link key={e.cle} href={e.href} className={classe(e.actif)} aria-current={e.actif ? "page" : undefined}>
