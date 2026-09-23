@@ -51,6 +51,22 @@ export async function POST(request: Request) {
         { profil_id: paiement.profil_id, espace_id: paiement.espace_id, actif: true },
         { onConflict: "profil_id,espace_id" }
       );
+
+    // Le pseudo et l'email sont renvoyes pour que n8n envoie le message
+    // d'accueil (voir livrables/applications/2026-09_plateforme-formation-communaute/message-accueil-eleves.md).
+    // L'envoi reste orchestre par n8n, jamais gere directement ici.
+    const { data: profil } = await admin
+      .from("profils")
+      .select("pseudo")
+      .eq("id", paiement.profil_id)
+      .maybeSingle();
+
+    const { data: utilisateur } = await admin.auth.admin.getUserById(paiement.profil_id);
+
+    return NextResponse.json(
+      { recu: true, pseudo: profil?.pseudo ?? null, email: utilisateur?.user?.email ?? null },
+      { status: 200 }
+    );
   }
 
   return NextResponse.json({ recu: true }, { status: 200 });
