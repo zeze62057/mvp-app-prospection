@@ -243,8 +243,9 @@ export default async function VitrinePage({
         </div>
       )}
 
-      {(derniersPosts.length > 0 || classement.length > 0) && (
-        <div className="grid grid-cols-1 gap-8 px-6 py-16 sm:px-16 lg:grid-cols-[1fr_300px]">
+      {/* La carte communaute (colonne de droite) est toujours utile, meme sans posts ni
+          classement a montrer : ce bloc n'est donc plus conditionne a leur presence. */}
+      <div className="grid grid-cols-1 gap-8 px-6 py-16 sm:px-16 lg:grid-cols-[1fr_300px]">
           {derniersPosts.length > 0 && (
             <div>
               <h2 className="font-display mb-6 text-2xl font-semibold sm:text-[29px]">
@@ -279,21 +280,49 @@ export default async function VitrinePage({
             </div>
           )}
 
-          {classement.length > 0 && (
-            <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
-              <div className="font-display mb-3.5 text-[14px] font-bold">Membres actifs</div>
-              {classement.slice(0, 5).map((m, i) => (
-                <div key={m.id} className="flex items-center gap-2.5 py-1.5">
-                  <span className="w-4 shrink-0 font-mono text-[11px] font-bold text-[var(--texte-mute)]">{i + 1}</span>
-                  <div className="h-7 w-7 flex-shrink-0 rounded-full" style={{ background: couleurAvatar(m.id) }} />
-                  <span className="flex-1 truncate text-xs font-bold">{m.pseudo}</span>
-                  <span className="font-mono text-[11px] font-bold text-[var(--corail)]">{m.points} pts</span>
+          <div className="flex flex-col gap-4">
+              <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+                <div className="font-display mb-1 text-[14.5px] font-bold">
+                  {espace.nom}
                 </div>
-              ))}
-            </div>
-          )}
+                {espace.tagline && (
+                  <p className="mb-3.5 text-[11.5px] leading-relaxed text-[var(--texte-mute)]">{espace.tagline}</p>
+                )}
+                <div className="mb-3.5 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-[var(--texte-mute)]">
+                  {espace.afficher_compteur_public !== false && (
+                    <span>
+                      👥 <b className="text-[var(--texte)]">{nbMembres ?? 0}</b> membres
+                    </span>
+                  )}
+                  {noteMoyenne !== null && (
+                    <span>
+                      ★ <b className="text-[var(--texte)]">{noteMoyenne.toFixed(1)}/5</b>
+                    </span>
+                  )}
+                </div>
+                <Link
+                  href={`/${espace.slug}/communaute`}
+                  className="block w-full rounded-[9px] bg-[var(--encre)] px-4 py-2.5 text-center text-[12.5px] font-bold text-[var(--sur-encre)]"
+                >
+                  Rejoindre la communauté →
+                </Link>
+              </div>
+
+              {classement.length > 0 && (
+                <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+                  <div className="font-display mb-3.5 text-[14px] font-bold">Membres actifs</div>
+                  {classement.slice(0, 5).map((m, i) => (
+                    <div key={m.id} className="flex items-center gap-2.5 py-1.5">
+                      <span className="w-4 shrink-0 font-mono text-[11px] font-bold text-[var(--texte-mute)]">{i + 1}</span>
+                      <div className="h-7 w-7 flex-shrink-0 rounded-full" style={{ background: couleurAvatar(m.id) }} />
+                      <span className="flex-1 truncate text-xs font-bold">{m.pseudo}</span>
+                      <span className="font-mono text-[11px] font-bold text-[var(--corail)]">{m.points} pts</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+          </div>
         </div>
-      )}
 
       {c.competences && c.competences.length > 0 && (
         <div className="px-6 py-16 sm:px-16">
