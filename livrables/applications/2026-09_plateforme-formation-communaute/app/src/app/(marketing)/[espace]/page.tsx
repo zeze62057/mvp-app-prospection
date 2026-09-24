@@ -81,19 +81,50 @@ export default async function VitrinePage({
   const classement = (statsRpc as { classement?: { id: string; pseudo: string; points: number }[] } | null)
     ?.classement ?? [];
 
+  // Entrees du menu : seulement celles dont la section existe et s'affiche.
+  const menu = [
+    { href: "#accueil", libelle: "Accueil" },
+    ...(c.parcours_titre ? [{ href: "#parcours", libelle: "Parcours" }] : []),
+    ...(c.competences && c.competences.length > 0 ? [{ href: "#programme", libelle: "Programme" }] : []),
+    { href: "#communaute", libelle: "Communauté" },
+    ...(temoignages && temoignages.length > 0 ? [{ href: "#temoignages", libelle: "Témoignages" }] : []),
+    { href: "#acces", libelle: "Accès" },
+    ...(c.faq && c.faq.length > 0 ? [{ href: "#faq", libelle: "FAQ" }] : []),
+  ];
+
   return (
     <div className="bg-[var(--fond)] text-[var(--texte)]">
-      <div className="flex items-center justify-between px-6 py-6 sm:px-16">
-        <span className="font-display text-lg font-semibold">Vivier Academies</span>
-        <Link
-          href={`/${espace.slug}/communaute`}
-          className="text-sm font-semibold text-[var(--texte-mute)] hover:text-[var(--texte)]"
-        >
-          Se connecter
-        </Link>
-      </div>
+      {/* Menu : uniquement les entrees dont la section s'affiche reellement. */}
+      <header className="sticky top-0 z-20 border-b border-[var(--ligne)] bg-[rgba(242,247,245,0.92)] backdrop-blur">
+        <div className="flex items-center justify-between gap-4 px-6 py-4 sm:px-16">
+          <Link href="#accueil" className="font-display text-lg font-semibold">
+            Vivier Academies
+          </Link>
+          <nav aria-label="Sections de la page" className="hidden items-center gap-6 text-[13px] font-semibold text-[var(--texte-mute)] md:flex">
+            {menu.map((m) => (
+              <a key={m.href} href={m.href} className="hover:text-[var(--texte)]">
+                {m.libelle}
+              </a>
+            ))}
+          </nav>
+          <div className="flex items-center gap-3">
+            <Link
+              href={`/${espace.slug}/communaute`}
+              className="hidden text-[13px] font-semibold text-[var(--texte-mute)] hover:text-[var(--texte)] sm:block"
+            >
+              Se connecter
+            </Link>
+            <Link
+              href={`/${espace.slug}/communaute`}
+              className="rounded-full bg-[var(--encre)] px-4 py-2 text-[12.5px] font-bold text-[var(--sur-encre)]"
+            >
+              Rejoindre
+            </Link>
+          </div>
+        </div>
+      </header>
 
-      <div className="flex flex-col gap-14 px-6 pb-20 pt-2 sm:px-16 lg:flex-row lg:items-start lg:gap-16">
+      <div id="accueil" className="flex scroll-mt-20 flex-col gap-14 px-6 pb-20 pt-2 sm:px-16 lg:flex-row lg:items-start lg:gap-16">
         <div className="flex-1 pt-9">
           {c.hero_kicker && (
             <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(43,140,130,0.25)] bg-[rgba(43,140,130,0.09)] py-1.5 pl-2.5 pr-3 font-mono text-xs tracking-wide text-[var(--sarcelle-texte)]">
@@ -119,6 +150,15 @@ export default async function VitrinePage({
             >
               Rejoindre la communauté gratuite
             </Link>
+            <button
+              type="button"
+              disabled
+              title="Bientôt disponible"
+              className="cursor-not-allowed rounded-[10px] border border-[var(--ligne)] bg-transparent px-6 py-4 text-[14.5px] font-bold text-[var(--texte-mute)] opacity-60"
+            >
+              Voir la présentation
+              <span className="ml-2 font-mono text-[10px] font-normal">bientôt</span>
+            </button>
             <span className="text-xs text-[var(--texte-mute)]">
               Sur approbation — réponse sous 24h
             </span>
@@ -245,7 +285,9 @@ export default async function VitrinePage({
 
       {/* La carte communaute (colonne de droite) est toujours utile, meme sans posts ni
           classement a montrer : ce bloc n'est donc plus conditionne a leur presence. */}
-      <div className="grid grid-cols-1 gap-8 px-6 py-16 sm:px-16 lg:grid-cols-[1fr_300px]">
+      <section id="communaute" className="scroll-mt-20 bg-[var(--encre)] px-6 py-16 text-[var(--sur-encre)] sm:px-16">
+        <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-light)]">communauté</p>
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_300px]">
           {derniersPosts.length > 0 && (
             <div>
               <h2 className="font-display mb-6 text-2xl font-semibold sm:text-[29px]">
@@ -253,21 +295,21 @@ export default async function VitrinePage({
               </h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 {derniersPosts.map((item) => (
-                  <div key={item.post.id} className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+                  <div key={item.post.id} className="rounded-2xl border border-[rgba(234,245,242,0.14)] bg-[rgba(234,245,242,0.06)] p-5">
                     <div className="mb-2.5 flex items-center gap-2.5">
                       <Avatar id={item.auteur.id} pseudo={item.auteur.pseudo} taille={30} urlPhoto={item.auteur.avatarUrl} />
                       <div className="min-w-0">
                         <div className="truncate text-[12.5px] font-bold">{item.auteur.pseudo}</div>
-                        <div className="font-mono text-[10px] text-[var(--texte-mute)]">{tempsEcoule(item.post.created_at)}</div>
+                        <div className="font-mono text-[10px] text-[var(--sur-encre-mute)]">{tempsEcoule(item.post.created_at)}</div>
                       </div>
                     </div>
                     {item.post.titre && (
                       <h3 className="font-display mb-1.5 text-[14.5px] font-bold leading-snug">{item.post.titre}</h3>
                     )}
-                    <p className="line-clamp-3 text-[12.5px] leading-relaxed text-[var(--texte-mute)]">
+                    <p className="line-clamp-3 text-[12.5px] leading-relaxed text-[var(--sur-encre-mute)]">
                       <TexteAvecMentions texte={item.post.contenu} />
                     </p>
-                    <div className="mt-3.5 flex items-center gap-3 border-t border-[var(--ligne)] pt-3 text-[11.5px] text-[var(--texte-mute)]">
+                    <div className="mt-3.5 flex items-center gap-3 border-t border-[rgba(234,245,242,0.14)] pt-3 text-[11.5px] text-[var(--sur-encre-mute)]">
                       <span className="flex items-center gap-1.5 font-bold">
                         <IconePouce plein={false} />
                         {item.nbReactions}
@@ -280,52 +322,51 @@ export default async function VitrinePage({
             </div>
           )}
 
-          <div className="flex flex-col gap-4">
-              <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
-                <div className="font-display mb-1 text-[14.5px] font-bold">
-                  {espace.nom}
-                </div>
-                {espace.tagline && (
-                  <p className="mb-3.5 text-[11.5px] leading-relaxed text-[var(--texte-mute)]">{espace.tagline}</p>
-                )}
-                <div className="mb-3.5 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-[var(--texte-mute)]">
-                  {espace.afficher_compteur_public !== false && (
-                    <span>
-                      👥 <b className="text-[var(--texte)]">{nbMembres ?? 0}</b> membres
-                    </span>
-                  )}
-                  {noteMoyenne !== null && (
-                    <span>
-                      ★ <b className="text-[var(--texte)]">{noteMoyenne.toFixed(1)}/5</b>
-                    </span>
-                  )}
-                </div>
-                <Link
-                  href={`/${espace.slug}/communaute`}
-                  className="block w-full rounded-[9px] bg-[var(--encre)] px-4 py-2.5 text-center text-[12.5px] font-bold text-[var(--sur-encre)]"
-                >
-                  Rejoindre la communauté →
-                </Link>
-              </div>
-
-              {classement.length > 0 && (
-                <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
-                  <div className="font-display mb-3.5 text-[14px] font-bold">Membres actifs</div>
-                  {classement.slice(0, 5).map((m, i) => (
-                    <div key={m.id} className="flex items-center gap-2.5 py-1.5">
-                      <span className="w-4 shrink-0 font-mono text-[11px] font-bold text-[var(--texte-mute)]">{i + 1}</span>
-                      <div className="h-7 w-7 flex-shrink-0 rounded-full" style={{ background: couleurAvatar(m.id) }} />
-                      <span className="flex-1 truncate text-xs font-bold">{m.pseudo}</span>
-                      <span className="font-mono text-[11px] font-bold text-[var(--corail)]">{m.points} pts</span>
-                    </div>
-                  ))}
-                </div>
+          <div className={`flex flex-col gap-4 ${derniersPosts.length === 0 ? "lg:col-span-2 lg:max-w-sm" : ""}`}>
+            <div className="rounded-2xl border border-[rgba(234,245,242,0.14)] bg-[rgba(234,245,242,0.06)] p-5">
+              <div className="font-display mb-1 text-[14.5px] font-bold">{espace.nom}</div>
+              {espace.tagline && (
+                <p className="mb-3.5 text-[11.5px] leading-relaxed text-[var(--sur-encre-mute)]">{espace.tagline}</p>
               )}
+              <div className="mb-3.5 flex flex-wrap gap-x-4 gap-y-1 font-mono text-[11px] text-[var(--sur-encre-mute)]">
+                {espace.afficher_compteur_public !== false && (
+                  <span>
+                    👥 <b className="text-[var(--sur-encre)]">{nbMembres ?? 0}</b> membres
+                  </span>
+                )}
+                {noteMoyenne !== null && (
+                  <span>
+                    ★ <b className="text-[var(--sur-encre)]">{noteMoyenne.toFixed(1)}/5</b>
+                  </span>
+                )}
+              </div>
+              <Link
+                href={`/${espace.slug}/communaute`}
+                className="block w-full rounded-[9px] bg-[var(--corail)] px-4 py-2.5 text-center text-[12.5px] font-bold text-[var(--encre)]"
+              >
+                Rejoindre la communauté →
+              </Link>
+            </div>
+
+            {classement.length > 0 && (
+              <div className="rounded-2xl border border-[rgba(234,245,242,0.14)] bg-[rgba(234,245,242,0.06)] p-5">
+                <div className="font-display mb-3.5 text-[14px] font-bold">Membres actifs</div>
+                {classement.slice(0, 5).map((m, i) => (
+                  <div key={m.id} className="flex items-center gap-2.5 py-1.5">
+                    <span className="w-4 shrink-0 font-mono text-[11px] font-bold text-[var(--sur-encre-mute)]">{i + 1}</span>
+                    <div className="h-7 w-7 flex-shrink-0 rounded-full" style={{ background: couleurAvatar(m.id) }} />
+                    <span className="flex-1 truncate text-xs font-bold">{m.pseudo}</span>
+                    <span className="font-mono text-[11px] font-bold text-[var(--corail)]">{m.points} pts</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
+      </section>
 
       {c.competences && c.competences.length > 0 && (
-        <div className="px-6 py-16 sm:px-16">
+        <div id="programme" className="scroll-mt-20 px-6 py-16 sm:px-16">
           <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-texte)]">
             au programme
           </p>
@@ -343,37 +384,32 @@ export default async function VitrinePage({
       )}
 
       {c.parcours_titre && (
-        <div className="bg-[var(--encre)] px-6 py-16 text-[var(--sur-encre)] sm:px-16">
-          <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-light)]">
+        <section id="parcours" className="scroll-mt-20 px-6 py-16 sm:px-16">
+          <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-texte)]">
             le parcours
           </p>
           <h2 className="font-display mb-11 max-w-xl text-2xl font-semibold sm:text-[29px]">
             {c.parcours_titre}
           </h2>
-          <div className="grid grid-cols-1 gap-8 sm:grid-cols-3">
-            <div>
-              <p className="mb-3.5 font-mono text-[13px] text-[var(--corail)]">01 / rejoindre</p>
-              <p className="font-display mb-2.5 text-base font-bold">Communauté gratuite</p>
-              <p className="text-[13.5px] leading-relaxed text-[var(--sur-encre-mute)]">
-                {c.parcours_etape1}
-              </p>
-            </div>
-            <div className="sm:border-l sm:border-[rgba(234,245,242,0.14)] sm:pl-8">
-              <p className="mb-3.5 font-mono text-[13px] text-[var(--corail)]">02 / débloquer</p>
-              <p className="font-display mb-2.5 text-base font-bold">Formation complète</p>
-              <p className="text-[13.5px] leading-relaxed text-[var(--sur-encre-mute)]">
-                {c.parcours_etape2}
-              </p>
-            </div>
-            <div className="sm:border-l sm:border-[rgba(234,245,242,0.14)] sm:pl-8">
-              <p className="mb-3.5 font-mono text-[13px] text-[var(--corail)]">03 / construire</p>
-              <p className="font-display mb-2.5 text-base font-bold">Communauté payante</p>
-              <p className="text-[13.5px] leading-relaxed text-[var(--sur-encre-mute)]">
-                {c.parcours_etape3}
-              </p>
-            </div>
-          </div>
-        </div>
+          <ol className="grid grid-cols-1 gap-9 sm:grid-cols-3 sm:gap-6">
+            {[
+              { titre: "Communauté gratuite", texte: c.parcours_etape1 },
+              { titre: "Formation complète", texte: c.parcours_etape2 },
+              { titre: "Communauté payante", texte: c.parcours_etape3 },
+            ].map((etape, i) => (
+              <li key={etape.titre} className="relative">
+                {i < 2 && (
+                  <span aria-hidden className="absolute left-12 right-[-12px] top-[18px] hidden h-px bg-[var(--ligne)] sm:block" />
+                )}
+                <span className="relative mb-4 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--encre)] font-mono text-[13px] font-bold text-[var(--sur-encre)]">
+                  {i + 1}
+                </span>
+                <p className="font-display mb-2 text-base font-bold">{etape.titre}</p>
+                <p className="text-[13.5px] leading-relaxed text-[var(--texte-mute)]">{etape.texte}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
       )}
 
       {(c.fondateur_lede || (c.fondateur_paragraphes && c.fondateur_paragraphes.length > 0)) && (
@@ -424,7 +460,7 @@ export default async function VitrinePage({
       )}
 
       {temoignages && temoignages.length > 0 && (
-        <div className="px-6 py-16 sm:px-16">
+        <div id="temoignages" className="scroll-mt-20 px-6 py-16 sm:px-16">
           <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-texte)]">
             preuve, pas promesse
           </p>
@@ -455,8 +491,35 @@ export default async function VitrinePage({
         </div>
       )}
 
+      {/* Acces : remplace le bloc Tarifs de la capture de reference. Paiement en une fois, sur la page
+          tunnel existante (inchangee) ; aucun abonnement, aucun prix mensuel ou annuel. */}
+      <section id="acces" className="scroll-mt-20 px-6 py-16 sm:px-16">
+        <div className="mx-auto max-w-xl rounded-[20px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-8 shadow-[0_24px_60px_rgba(17,56,50,0.12)]">
+          <p className="mb-2 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-texte)]">formation complète</p>
+          <h2 className="font-display text-2xl font-semibold">{espace.nom}</h2>
+          {espace.tagline && <p className="mt-1.5 text-[13.5px] text-[var(--texte-mute)]">{espace.tagline}</p>}
+          <p className="font-display mt-5 text-4xl font-extrabold text-[var(--sarcelle)]">
+            {espace.prix.toLocaleString("fr-FR")}
+            <span className="ml-1.5 font-mono text-sm font-normal text-[var(--texte-mute)]">{espace.devise}</span>
+          </p>
+          <p className="mt-1 font-mono text-[11px] uppercase tracking-wide text-[var(--texte-mute)]">paiement unique</p>
+          {c.parcours_etape2 && (
+            <p className="mt-4 text-[13.5px] leading-relaxed text-[var(--texte-mute)]">{c.parcours_etape2}</p>
+          )}
+          <Link
+            href={`/${espace.slug}/tunnel`}
+            className="mt-6 block w-full rounded-[11px] bg-[var(--encre)] px-5 py-4 text-center text-[14.5px] font-extrabold text-[var(--sur-encre)] transition-transform hover:-translate-y-0.5"
+          >
+            Débloquer la formation
+          </Link>
+          <p className="mt-2.5 text-center text-[11.5px] text-[var(--texte-mute)]">
+            Il faut un compte : tu te connectes ou tu en crées un, puis tu arrives sur le paiement.
+          </p>
+        </div>
+      </section>
+
       {c.faq && c.faq.length > 0 && (
-        <div className="px-6 py-16 sm:px-16">
+        <div id="faq" className="scroll-mt-20 px-6 py-16 sm:px-16">
           <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-texte)]">
             questions fréquentes
           </p>
@@ -500,10 +563,22 @@ export default async function VitrinePage({
         </div>
       )}
 
-      <div className="flex flex-col items-start justify-between gap-2 border-t border-[var(--ligne)] px-6 py-7 font-mono text-xs text-[var(--texte-mute)] sm:flex-row sm:items-center sm:px-16">
-        <span>vivier academies</span>
-        <span>le vivier des talents ia francophones</span>
-      </div>
+      <footer className="flex flex-col gap-4 border-t border-[var(--ligne)] px-6 py-8 sm:flex-row sm:items-center sm:justify-between sm:px-16">
+        <div>
+          <span className="font-display text-[15px] font-semibold">Vivier Academies</span>
+          <span className="mt-1 block font-mono text-xs text-[var(--texte-mute)]">le vivier des talents ia francophones</span>
+        </div>
+        <nav aria-label="Liens du pied de page" className="flex flex-wrap gap-x-6 gap-y-2 text-[12.5px] font-semibold text-[var(--texte-mute)]">
+          {menu.map((m) => (
+            <a key={m.href} href={m.href} className="hover:text-[var(--texte)]">
+              {m.libelle}
+            </a>
+          ))}
+          <Link href={`/${espace.slug}/communaute`} className="hover:text-[var(--texte)]">
+            Se connecter
+          </Link>
+        </nav>
+      </footer>
     </div>
   );
 }
