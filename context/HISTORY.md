@@ -34,6 +34,16 @@
 - Constats : le compte ZzTestB est un compte admin de test resté en base (risque de sécurité, nettoyage à faire). Les 26 profils "Filler" ne sont pas dans l'authentification et faussent les chiffres de Rapports (conversion, demandes). Les 5 paiements en attente sont des tests de Zézé du 15/09, sans référence Chariow
 - 9 commits poussés sur `origin/main` (`899da2a..79a7d4f`) avec l'accord de Zézé
 
+### Chargement des cours Vivier IA en base
+
+- Décision de Zézé : charger d'abord, relire ensuite sur la plateforme (option A puis B). Aucun élève n'a accès au site aujourd'hui, le chargement se corrige par simple relance
+- Essai à blanc relancé avant écriture : 31 leçons, 110 règles de réécriture (118 remplacements, validées par Zézé), 0 motif interdit restant. Une seule leçon avait changé depuis la relecture du 20/09 : module 1, section 7, qui gagne un paragraphe sur les marketplaces de plugins
+- Ce paragraphe a été vérifié dans la documentation officielle de Claude Code (marketplace officielle ajoutée automatiquement, marketplace communautaire `@claude-community`, marketplace de démonstration, syntaxe `nom@marketplace`, onglet Discover avec coût en contexte et date de mise à jour, avertissement de sécurité) : 7 points sur 7 confirmés, texte conservé
+- Écrit en base : 31 leçons (24 sections créées, 7 remplies), 55 prompts créés (méthode 17, fondations 17, quotidien 4, business 2, n8n 15), 1 prompt existant corrigé d'une ligne (« Démarrer un second brain pour une activité »). Vérifié : 43 927 mots en base, identique à l'essai à blanc, 65 prompts au total pour Vivier IA
+- Vérifié dans le navigateur avec un compte élève jetable (accès payant et adhésion gratuite temporaires, supprimés ensuite) : les 31 leçons s'ouvrent, sans Markdown brut visible (159 titres, 659 puces, 5 blocs de code), la bibliothèque affiche les prompts avec boutons de copie
+- Constat : la bibliothèque de prompts est dans l'espace de la communauté gratuite. Un élève payant qui n'a pas rejoint la gratuite voit "Dernier pas" et ne peut pas l'ouvrir. À trancher : les prompts doivent-ils être accessibles aux élèves payants ?
+- Bâtisseur Pro : le Module 1 (4 sections) n'a toujours pas de texte
+
 ### Second passage de fidélité au modèle (commits `b40a329` et suivant)
 
 - Écarts d'apparence fermés : logo Clé et marque dans le menu, pictos typographiques (les emoji grisés étaient illisibles sur fond sombre), courbe avec axe, grille, remplissage et bulle, en-têtes de tables, 4 tuiles de statistiques clés, période en un seul menu avec dates réelles, puce utilisateur avec menu, cloche sur toutes les pages (contexte admin partagé, `lib/admin-contexte.ts`), ronds colorés dans l'activité, illustration SVG de la bannière
