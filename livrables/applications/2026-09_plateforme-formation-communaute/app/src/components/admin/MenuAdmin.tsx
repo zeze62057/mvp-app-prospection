@@ -19,7 +19,7 @@ export const GROUPES: { titre: string; entrees: Entree[] }[] = [
       { libelle: "Inscriptions", href: "/admin#inscriptions" },
       { libelle: "Candidatures Expert", href: "/admin#candidatures-expert" },
       { libelle: "Accès payant manuel", href: "/admin#acces-payant-manuel" },
-      { libelle: "Administrateurs" },
+      { libelle: "Administrateurs", href: "/admin/administrateurs" },
     ],
   },
   {
