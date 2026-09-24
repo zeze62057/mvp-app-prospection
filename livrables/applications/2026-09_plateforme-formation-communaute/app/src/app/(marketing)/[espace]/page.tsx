@@ -97,7 +97,7 @@ export default async function VitrinePage({
     { data: prochainesMasterclasses },
   ] = await Promise.all([
     admin.from("adhesions").select("*", { count: "exact", head: true }).eq("espace_id", espace.id).eq("statut", "approuve"),
-    admin.from("modules").select("id, sections(id)").eq("espace_id", espace.id),
+    admin.from("modules").select("id, titre, ordre, sections(id)").eq("espace_id", espace.id).order("ordre"),
     admin.from("temoignages").select("note").eq("espace_id", espace.id).eq("autorise_partage", true),
     admin
       .from("temoignages")
@@ -118,9 +118,10 @@ export default async function VitrinePage({
       .limit(1),
   ]);
 
-  const nbModulesDisponibles = (modulesData ?? []).filter(
+  const modulesAvecContenu = (modulesData ?? []).filter(
     (m) => ((m as unknown as { sections: unknown[] }).sections ?? []).length > 0
-  ).length;
+  ) as unknown as { id: string; titre: string }[];
+  const nbModulesDisponibles = modulesAvecContenu.length;
 
   const noteMoyenne =
     avisPourMoyenne && avisPourMoyenne.length > 0
@@ -146,6 +147,7 @@ export default async function VitrinePage({
   const menu = [
     { href: "#accueil", libelle: "Accueil" },
     ...(c.parcours_titre ? [{ href: "#parcours", libelle: "Parcours" }] : []),
+    ...(modulesAvecContenu.length >= 2 ? [{ href: "#methode", libelle: "Méthode" }] : []),
     ...(c.competences && c.competences.length > 0 ? [{ href: "#programme", libelle: "Programme" }] : []),
     { href: "#communaute", libelle: "Communauté" },
     ...(temoignages && temoignages.length > 0 ? [{ href: "#temoignages", libelle: "Témoignages" }] : []),
@@ -443,6 +445,38 @@ export default async function VitrinePage({
           </div>
         </div>
       </section>
+
+      {/* Methode : les vrais modules de la formation, dans l'ordre. Masquee sous 2 modules. */}
+      {modulesAvecContenu.length >= 2 && (
+        <section id="methode" className="scroll-mt-20 bg-[rgba(43,140,130,0.07)] px-6 py-16 sm:px-16">
+          <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,380px)_1fr]">
+            <Visuel slug={espace.slug} nom="methode" i={2} className="relative hidden h-56 overflow-hidden rounded-3xl border border-[rgba(43,140,130,0.25)] shadow-[0_20px_50px_rgba(17,56,50,0.18)] lg:block">
+              <span className="absolute left-5 top-5 rounded-xl bg-[rgba(11,38,34,0.72)] px-3.5 py-2 text-[12px] font-bold text-[var(--sur-encre)] backdrop-blur">
+                <b className="font-display text-[15px] text-[var(--corail)]">{modulesAvecContenu.length}</b> modules
+              </span>
+            </Visuel>
+            <div>
+              <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-texte)]">la méthode</p>
+              <h2 className="font-display mb-8 max-w-xl text-2xl font-semibold sm:text-[29px]">
+                Un parcours en {modulesAvecContenu.length} modules, dans l&apos;ordre.
+              </h2>
+              <ol className="grid grid-cols-1 gap-6 sm:grid-cols-[repeat(auto-fit,minmax(140px,1fr))]">
+                {modulesAvecContenu.map((m, i) => (
+                  <li key={m.id} className="relative">
+                    {i < modulesAvecContenu.length - 1 && (
+                      <span aria-hidden className="absolute left-11 right-[-12px] top-[18px] hidden h-px bg-[rgba(43,140,130,0.35)] sm:block" />
+                    )}
+                    <span className="relative mb-3 flex h-9 w-9 items-center justify-center rounded-full bg-[var(--sarcelle)] font-mono text-[13px] font-bold text-white">
+                      {i + 1}
+                    </span>
+                    <p className="text-[13.5px] font-bold leading-snug">{m.titre}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          </div>
+        </section>
+      )}
 
       {c.competences && c.competences.length > 0 && (
         <div id="programme" className="scroll-mt-20 px-6 py-16 sm:px-16">
