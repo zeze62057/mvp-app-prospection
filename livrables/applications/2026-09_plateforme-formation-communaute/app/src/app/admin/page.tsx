@@ -31,6 +31,17 @@ import { FormulaireCreneauRdv } from "@/components/admin/FormulaireCreneauRdv";
 import { FormulaireDevoir } from "@/components/admin/FormulaireDevoir";
 import { FormulaireNoterRemise } from "@/components/admin/FormulaireNoterRemise";
 import { FormulaireBadge } from "@/components/admin/FormulaireBadge";
+import { MenuAdmin } from "@/components/admin/MenuAdmin";
+import { GrapheEvolution } from "@/components/admin/GrapheEvolution";
+import { AnneauRepartition } from "@/components/admin/AnneauRepartition";
+import { BarreHautAdmin } from "@/components/admin/BarreHautAdmin";
+
+function ilYa(dateIso: string) {
+  const min = Math.max(0, Math.round((Date.now() - new Date(dateIso).getTime()) / 60000));
+  if (min < 60) return `il y a ${min} min`;
+  if (min < 60 * 24) return `il y a ${Math.floor(min / 60)} h`;
+  return `il y a ${Math.floor(min / (60 * 24))} j`;
+}
 
 export default async function AdminPage() {
   const supabase = await createClient();
@@ -39,7 +50,7 @@ export default async function AdminPage() {
 
   const { data: profil } = await supabase
     .from("profils")
-    .select("role")
+    .select("role, pseudo")
     .eq("id", userData.user.id)
     .maybeSingle();
 
@@ -207,14 +218,438 @@ export default async function AdminPage() {
     .is("note", null)
     .order("rendu_at", { ascending: true });
 
+  // -------------------------------------------------------------------------
+  // Tableau de bord (mission "refaire le tableau de bord admin", 2026-09-24).
+  // Aucune donnee inventee : chaque chiffre vient d'une requete reelle. Les
+  // variations ("+X%") ne s'affichent que si les deux periodes comparees ont
+  // au moins une valeur.
+  // -------------------------------------------------------------------------
+  const il30j = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+  const il60j = new Date(new Date().getTime() - 60 * 24 * 60 * 60 * 1000).toISOString();
+
+  const [
+    { count: totalEleves },
+    { count: coursPublies },
+    { count: elevesNouveaux30j },
+    { count: elevesPrecedent30j },
+    { data: paiementsConfirmes30j },
+    { data: paiementsConfirmesPrecedent30j },
+    { data: adhesionsAnnee },
+    { data: derniersInscrits },
+    { data: paiementsRecents },
+    { data: avisTousEspaces },
+    { data: remisesRecentes },
+    { data: contenusPublies },
+  ] = await Promise.all([
+    admin.from("acces_payant").select("*", { count: "exact", head: true }).eq("actif", true),
+    admin.from("sections").select("*", { count: "exact", head: true }).or("a_contenu.eq.true,video_path.not.is.null"),
+    admin.from("acces_payant").select("*", { count: "exact", head: true }).eq("actif", true).gte("paye_at", il30j),
+    admin.from("acces_payant").select("*", { count: "exact", head: true }).eq("actif", true).gte("paye_at", il60j).lt("paye_at", il30j),
+    admin.from("paiements").select("montant").eq("statut", "confirme").gte("confirme_at", il30j),
+    admin.from("paiements").select("montant").eq("statut", "confirme").gte("confirme_at", il60j).lt("confirme_at", il30j),
+    admin
+      .from("adhesions")
+      .select("created_at")
+      .gte("created_at", new Date(new Date().getTime() - 365 * 24 * 60 * 60 * 1000).toISOString()),
+    admin
+      .from("adhesions")
+      .select("id, statut, created_at, profils(pseudo), espaces(nom)")
+      .order("created_at", { ascending: false })
+      .limit(5),
+    admin
+      .from("paiements")
+      .select("id, montant, devise, statut, created_at, profils(pseudo), espaces(nom)")
+      .order("created_at", { ascending: false })
+      .limit(5),
+    admin.from("temoignages").select("espace_id, note"),
+    admin
+      .from("devoirs_remises")
+      .select("id, rendu_at, devoirs(titre), profils(pseudo)")
+      .order("rendu_at", { ascending: false })
+      .limit(5),
+    admin
+      .from("contenus")
+      .select("id, titre, created_at")
+      .eq("statut", "publie")
+      .order("created_at", { ascending: false })
+      .limit(5),
+  ]);
+
+  const revenus30j = (paiementsConfirmes30j ?? []).reduce((s, p) => s + p.montant, 0);
+  const revenusPrecedent30j = (paiementsConfirmesPrecedent30j ?? []).reduce((s, p) => s + p.montant, 0);
+  const variationRevenus =
+    revenusPrecedent30j > 0 ? Math.round(((revenus30j - revenusPrecedent30j) / revenusPrecedent30j) * 100) : null;
+  const variationEleves =
+    (elevesPrecedent30j ?? 0) > 0
+      ? Math.round((((elevesNouveaux30j ?? 0) - (elevesPrecedent30j ?? 0)) / (elevesPrecedent30j ?? 1)) * 100)
+      : null;
+  const devise = espaces?.[0]?.devise ?? "GNF";
+
+  // Evolution des inscriptions : 12 derniers mois, comptage reel par mois (adhesions.created_at).
+  const moisLabels: { cle: string; libelle: string }[] = [];
+  for (let i = 11; i >= 0; i--) {
+    const d = new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth() - i, 1));
+    moisLabels.push({
+      cle: `${d.getUTCFullYear()}-${d.getUTCMonth()}`,
+      libelle: d.toLocaleDateString("fr-FR", { month: "short", timeZone: "UTC" }),
+    });
+  }
+  const comptesParMois = new Map<string, number>();
+  (adhesionsAnnee ?? []).forEach((a) => {
+    const d = new Date(a.created_at);
+    const cle = `${d.getUTCFullYear()}-${d.getUTCMonth()}`;
+    comptesParMois.set(cle, (comptesParMois.get(cle) ?? 0) + 1);
+  });
+  const evolutionInscriptions = moisLabels.map((m) => ({ libelle: m.libelle, valeur: comptesParMois.get(m.cle) ?? 0 }));
+
+  // Repartition et popularite par formation : reutilise statsParEspace (deja calcule plus bas
+  // pour la section "Statistiques de communaute"), pas de nouvelle agregation dupliquee.
+  const noteMoyenneParEspace = new Map<string, number>();
+  const parEspaceAvis = new Map<string, number[]>();
+  (avisTousEspaces ?? []).forEach((a) => {
+    parEspaceAvis.set(a.espace_id, [...(parEspaceAvis.get(a.espace_id) ?? []), a.note]);
+  });
+  parEspaceAvis.forEach((notes, espaceId) => {
+    noteMoyenneParEspace.set(espaceId, notes.reduce((s, n) => s + n, 0) / notes.length);
+  });
+
+  // Taux de completion et satisfaction moyens, ponderes par eleve/avis (pas juste la moyenne
+  // des moyennes par espace, pour ne pas sur-representer une petite formation).
+  const avancementsValides = (statsParEspace ?? []).filter(
+    ({ stats }) => stats.progression.avancementMoyen !== null && stats.progression.nbEleves > 0
+  );
+  const totalElevesAvancement = avancementsValides.reduce((s, { stats }) => s + stats.progression.nbEleves, 0);
+  const tauxCompletionMoyen =
+    totalElevesAvancement > 0
+      ? Math.round(
+          avancementsValides.reduce((s, { stats }) => s + (stats.progression.avancementMoyen ?? 0) * stats.progression.nbEleves, 0) /
+            totalElevesAvancement
+        )
+      : null;
+  const tousLesAvis = (avisTousEspaces ?? []).map((a) => a.note);
+  const satisfactionMoyenne = tousLesAvis.length > 0 ? tousLesAvis.reduce((s, n) => s + n, 0) / tousLesAvis.length : null;
+
+  // Fil d'activite recente : fusion de 4 sources reelles, la plus recente en premier.
+  // Les messages prives n'en font pas partie (l'admin n'y a jamais acces).
+  const pseudoDe = (p: unknown) => (p as { pseudo: string } | null)?.pseudo ?? "?";
+  const activite = [
+    ...(derniersInscrits ?? []).map((d) => ({
+      date: d.created_at as string,
+      icone: "👤",
+      titre: `Inscription de ${pseudoDe(d.profils)}`,
+      detail: (d.espaces as unknown as { nom: string } | null)?.nom ?? "?",
+    })),
+    ...(paiementsRecents ?? []).map((p) => ({
+      date: p.created_at as string,
+      icone: "💳",
+      titre: `Paiement ${p.statut === "confirme" ? "confirmé" : p.statut === "echoue" ? "échoué" : "en attente"} de ${p.montant.toLocaleString("fr-FR")} ${p.devise}`,
+      detail: pseudoDe(p.profils),
+    })),
+    ...(remisesRecentes ?? []).map((r) => ({
+      date: r.rendu_at as string,
+      icone: "📝",
+      titre: `Devoir rendu par ${pseudoDe(r.profils)}`,
+      detail: (r.devoirs as unknown as { titre: string } | null)?.titre ?? "?",
+    })),
+    ...(contenusPublies ?? []).map((c) => ({
+      date: c.created_at as string,
+      icone: "📰",
+      titre: "Article publié dans Contenu",
+      detail: c.titre as string,
+    })),
+  ]
+    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+    .slice(0, 6);
+
+  // Cloche : tout ce qui attend une action de l'admin. Le lien va vers la premiere section non vide.
+  const attentes = [
+    { n: (demandes ?? []).length, href: "#inscriptions" },
+    { n: (candidaturesExpert ?? []).length, href: "#candidatures-expert" },
+    { n: (signalements ?? []).length, href: "#signalements" },
+    { n: (remisesAttente ?? []).length, href: "#devoirs" },
+  ];
+  const nbAttente = attentes.reduce((s, a) => s + a.n, 0);
+  const cibleCloche = attentes.find((a) => a.n > 0)?.href ?? "#tableau-de-bord";
+
+  const raccourcis = [
+    { icone: "➕", libelle: "Ajouter un élève", href: "#acces-payant-manuel" },
+    { icone: "🎓", libelle: "Créer une formation", href: "#catalogue-formations" },
+    { icone: "▶️", libelle: "Publier un cours", href: "#cours" },
+    { icone: "💳", libelle: "Voir les paiements", href: "#paiements-recents" },
+    { icone: "🚩", libelle: "Voir les signalements", href: "#signalements" },
+    { icone: "⭐", libelle: "Gérer les évaluations", href: "#devoirs" },
+  ];
+
   return (
-    <main className="p-16">
-      <p className="font-mono text-xs uppercase tracking-wide text-[var(--corail)]">
+    <div className="md:flex">
+      <MenuAdmin />
+      <main className="min-w-0 flex-1 p-4 md:p-16">
+      <BarreHautAdmin pseudo={profil?.pseudo ?? ""} nbAttente={nbAttente} cible={cibleCloche} />
+      <div id="tableau-de-bord" className="grid scroll-mt-8 gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
+      <div className="min-w-0">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <p className="font-display text-[15px] font-bold">Bonjour {profil?.pseudo ?? ""} 👋</p>
+            <h1 className="font-display mt-1 text-[26px] font-semibold">Tableau de bord administrateur</h1>
+            <p className="mt-1 text-[13px] text-[var(--texte-mute)]">
+              Voici un aperçu de l&apos;activité de votre plateforme de formation.
+            </p>
+          </div>
+          <span
+            title="Bientôt disponible"
+            className="cursor-not-allowed rounded-lg border border-dashed border-[var(--ligne)] px-3.5 py-2 font-mono text-[11.5px] font-bold text-[var(--texte-mute)] opacity-60"
+          >
+            📅 Choisir une période — bientôt disponible
+          </span>
+        </div>
+
+        <div className="mt-7 grid grid-cols-2 gap-3.5 2xl:grid-cols-4">
+          <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
+            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{totalEleves ?? 0}</div>
+            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">total des élèves</div>
+            {variationEleves !== null && (
+              <div className={`mt-1 text-[10.5px] font-bold ${variationEleves >= 0 ? "text-[var(--sarcelle)]" : "text-[var(--corail)]"}`}>
+                {variationEleves >= 0 ? "↗ +" : "↘ "}{variationEleves}% vs 30j précédents
+              </div>
+            )}
+          </div>
+          <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
+            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
+              {(espaces ?? []).filter((e) => e.actif).length}
+            </div>
+            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">formations actives</div>
+          </div>
+          <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
+            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{coursPublies ?? 0}</div>
+            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">cours publiés</div>
+          </div>
+          <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
+            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
+              {revenus30j.toLocaleString("fr-FR")} {devise}
+            </div>
+            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">revenus (30 derniers jours)</div>
+            {variationRevenus !== null && (
+              <div className={`mt-1 text-[10.5px] font-bold ${variationRevenus >= 0 ? "text-[var(--sarcelle)]" : "text-[var(--corail)]"}`}>
+                {variationRevenus >= 0 ? "↗ +" : "↘ "}{variationRevenus}% vs 30j précédents
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 gap-4 2xl:grid-cols-[1fr_340px]">
+          <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+            <div className="mb-4 flex items-center justify-between">
+              <span className="font-display text-[14px] font-bold">📈 Évolution des inscriptions (12 derniers mois)</span>
+            </div>
+            <GrapheEvolution points={evolutionInscriptions} />
+          </div>
+          <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+            <div className="mb-4 font-display text-[14px] font-bold">🥧 Répartition des formations</div>
+            <AnneauRepartition
+              segments={(statsParEspace ?? []).map(({ espace, stats }) => ({ libelle: espace.nom, valeur: stats.nbMembres }))}
+            />
+          </div>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 gap-4 2xl:grid-cols-2">
+          <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+            <div className="mb-3.5 flex items-center justify-between">
+              <span className="font-display text-[14px] font-bold">Derniers inscrits</span>
+              <span title="Bientôt disponible" className="cursor-not-allowed font-mono text-[10.5px] font-bold text-[var(--texte-mute)] opacity-60">Voir tout →</span>
+            </div>
+            {(derniersInscrits ?? []).length === 0 ? (
+              <p className="text-[12.5px] text-[var(--texte-mute)]">Aucune inscription pour le moment.</p>
+            ) : (
+              <table className="w-full text-left text-[12px]">
+                <tbody>
+                  {(derniersInscrits ?? []).map((d) => (
+                    <tr key={d.id} className="border-t border-[var(--ligne)] first:border-t-0">
+                      <td className="py-2 font-bold">{(d.profils as unknown as { pseudo: string } | null)?.pseudo ?? "?"}</td>
+                      <td className="py-2 text-[var(--texte-mute)]">{(d.espaces as unknown as { nom: string } | null)?.nom ?? "?"}</td>
+                      <td className="py-2 text-right font-mono text-[10.5px] text-[var(--texte-mute)]">
+                        {new Date(d.created_at).toLocaleDateString("fr-FR")}
+                      </td>
+                      <td className="py-2 pl-2 text-right">
+                        <span
+                          className={`rounded-[5px] px-1.5 py-px font-mono text-[9.5px] font-bold ${
+                            d.statut === "approuve"
+                              ? "bg-[rgba(43,140,130,0.12)] text-[var(--sarcelle-texte)]"
+                              : d.statut === "refuse"
+                                ? "bg-[rgba(255,122,77,0.14)] text-[var(--corail-texte)]"
+                                : "bg-[var(--fond)] text-[var(--texte-mute)]"
+                          }`}
+                        >
+                          {d.statut}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+
+          <div id="paiements-recents" className="scroll-mt-8 rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+            <div className="mb-3.5 flex items-center justify-between">
+              <span className="font-display text-[14px] font-bold">Paiements récents</span>
+              <span title="Bientôt disponible" className="cursor-not-allowed font-mono text-[10.5px] font-bold text-[var(--texte-mute)] opacity-60">Voir tout →</span>
+            </div>
+            {(paiementsRecents ?? []).length === 0 ? (
+              <p className="text-[12.5px] text-[var(--texte-mute)]">Aucun paiement pour le moment.</p>
+            ) : (
+              <table className="w-full text-left text-[12px]">
+                <tbody>
+                  {(paiementsRecents ?? []).map((p) => (
+                    <tr key={p.id} className="border-t border-[var(--ligne)] first:border-t-0">
+                      <td className="py-2 font-bold">{(p.profils as unknown as { pseudo: string } | null)?.pseudo ?? "?"}</td>
+                      <td className="py-2 text-[var(--texte-mute)]">{p.montant.toLocaleString("fr-FR")} {p.devise}</td>
+                      <td className="py-2 pl-2 text-right">
+                        <span
+                          className={`rounded-[5px] px-1.5 py-px font-mono text-[9.5px] font-bold ${
+                            p.statut === "confirme"
+                              ? "bg-[rgba(43,140,130,0.12)] text-[var(--sarcelle-texte)]"
+                              : p.statut === "echoue"
+                                ? "bg-[rgba(255,122,77,0.14)] text-[var(--corail-texte)]"
+                                : "bg-[var(--fond)] text-[var(--texte-mute)]"
+                          }`}
+                        >
+                          {p.statut}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-6 grid grid-cols-1 gap-4 2xl:grid-cols-[1fr_340px]">
+          <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+            <div className="mb-3.5 flex items-center justify-between">
+              <span className="font-display text-[14px] font-bold">Formations les plus populaires</span>
+              <span title="Bientôt disponible" className="cursor-not-allowed font-mono text-[10.5px] font-bold text-[var(--texte-mute)] opacity-60">Voir tout →</span>
+            </div>
+            {(statsParEspace ?? []).length === 0 ? (
+              <p className="text-[12.5px] text-[var(--texte-mute)]">Aucune formation pour le moment.</p>
+            ) : (
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+                {[...(statsParEspace ?? [])]
+                  .sort((a, b) => b.stats.nbMembres - a.stats.nbMembres)
+                  .map(({ espace, stats }) => (
+                    <div key={espace.id} className="overflow-hidden rounded-xl border border-[var(--ligne)]">
+                      <div
+                        aria-hidden
+                        className="h-20 bg-[linear-gradient(135deg,var(--encre),var(--sarcelle))] bg-cover bg-center"
+                        style={
+                          espace.banniere_path
+                            ? {
+                                backgroundImage: `url(${admin.storage.from("bannieres-espaces").getPublicUrl(espace.banniere_path).data.publicUrl})`,
+                              }
+                            : undefined
+                        }
+                      />
+                      <div className="p-3.5">
+                      <div className="mb-1 font-display text-[13px] font-bold">{espace.nom}</div>
+                      <div className="flex items-center justify-between text-[11px] text-[var(--texte-mute)]">
+                        <span>{stats.nbMembres} membre{stats.nbMembres !== 1 ? "s" : ""}</span>
+                        {noteMoyenneParEspace.has(espace.id) && (
+                          <span className="font-mono font-bold text-[var(--corail-texte)]">
+                            ★ {noteMoyenneParEspace.get(espace.id)!.toFixed(1)}
+                          </span>
+                        )}
+                      </div>
+                      </div>
+                    </div>
+                  ))}
+              </div>
+            )}
+          </div>
+
+          <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+            <div className="mb-3.5 font-display text-[14px] font-bold">Statistiques clés</div>
+            <div className="flex flex-col gap-3">
+              <div className="flex items-center justify-between">
+                <span className="text-[12px] text-[var(--texte-mute)]">Taux de complétion moyen</span>
+                <span className="font-mono text-[13px] font-bold text-[var(--sarcelle)]">
+                  {tauxCompletionMoyen !== null ? `${tauxCompletionMoyen}%` : "Donnée non disponible"}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span className="text-[12px] text-[var(--texte-mute)]">Satisfaction moyenne</span>
+                <span className="font-mono text-[13px] font-bold text-[var(--sarcelle)]">
+                  {satisfactionMoyenne !== null ? `${satisfactionMoyenne.toFixed(1)} / 5` : "Donnée non disponible"}
+                </span>
+              </div>
+              <div className="flex items-center justify-between opacity-50">
+                <span className="text-[12px] text-[var(--texte-mute)]" title="Bientôt disponible">Taux de rétention</span>
+                <span className="font-mono text-[11px] font-bold text-[var(--texte-mute)]">Bientôt disponible</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside className="flex flex-col gap-4">
+        <div className="rounded-2xl bg-[var(--encre)] p-5 text-[var(--sur-encre)]">
+          <p className="font-display text-[16px] font-bold leading-snug">Gérez votre plateforme en toute simplicité</p>
+          <p className="mt-2 text-[12px] text-[var(--sur-encre-mute)]">
+            Accédez rapidement aux sections d&apos;administration et gardez le contrôle sur votre communauté de formation.
+          </p>
+          <a
+            href="#raccourcis"
+            className="mt-4 inline-block rounded-full bg-[var(--corail)] px-4 py-2 text-[12px] font-bold text-[var(--encre)]"
+          >
+            Voir les raccourcis →
+          </a>
+        </div>
+
+        <div id="raccourcis" className="scroll-mt-8 rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+          <div className="mb-3.5 font-display text-[14px] font-bold">Raccourcis rapides</div>
+          <div className="grid grid-cols-2 gap-2.5">
+            {raccourcis.map((r) => (
+              <a
+                key={r.libelle}
+                href={r.href}
+                className="flex flex-col items-start gap-1.5 rounded-xl border border-[var(--ligne)] p-3 text-[11.5px] font-bold hover:border-[var(--sarcelle)]"
+              >
+                <span aria-hidden className="text-[16px]">{r.icone}</span>
+                {r.libelle}
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+          <div className="mb-3.5 font-display text-[14px] font-bold">Activité récente</div>
+          {activite.length === 0 ? (
+            <p className="text-[12.5px] text-[var(--texte-mute)]">Aucune activité pour le moment.</p>
+          ) : (
+            <ul className="flex flex-col gap-3.5">
+              {activite.map((a, i) => (
+                <li key={i} className="flex gap-3">
+                  <span aria-hidden className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[var(--fond)] text-[14px]">
+                    {a.icone}
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[12px] font-bold leading-snug">{a.titre}</p>
+                    <p className="truncate text-[11.5px] text-[var(--texte-mute)]">{a.detail}</p>
+                    <p className="font-mono text-[10px] text-[var(--texte-mute)]">{ilYa(a.date)}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </aside>
+      </div>
+
+      <p className="font-mono text-xs uppercase tracking-wide text-[var(--corail)] mt-16">
         administration
       </p>
-      <h1 className="font-display mt-4 text-3xl font-semibold">
+      <h2 id="inscriptions" className="font-display mt-4 text-2xl font-semibold scroll-mt-8">
         Demandes d&apos;acces en attente
-      </h1>
+      </h2>
 
       <ul className="mt-8 flex flex-col gap-3">
         {(demandes ?? []).map((demande) => (
@@ -265,7 +700,7 @@ export default async function AdminPage() {
         )}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="candidatures-expert" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Candidatures Expert en attente
       </h2>
       <ul className="mt-6 flex flex-col gap-3">
@@ -309,7 +744,7 @@ export default async function AdminPage() {
         )}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="signalements" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Signalements ({(signalements ?? []).length})
       </h2>
       <p className="mt-2 text-sm text-[var(--texte-mute)]">
@@ -344,7 +779,7 @@ export default async function AdminPage() {
         )}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="statistiques-communaute" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Statistiques de communaute
       </h2>
       <ul className="mt-6 flex flex-col gap-3">
@@ -356,7 +791,7 @@ export default async function AdminPage() {
         )}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="parametres-generaux" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Reglages de communaute
       </h2>
       <p className="mt-2 text-sm text-[var(--texte-mute)]">
@@ -378,7 +813,7 @@ export default async function AdminPage() {
         ))}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="questions-adhesion" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Questions d&apos;adhesion
       </h2>
       <p className="mt-2 text-sm text-[var(--texte-mute)]">
@@ -395,7 +830,7 @@ export default async function AdminPage() {
         ))}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="niveaux" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Niveaux
       </h2>
       <p className="mt-2 text-sm text-[var(--texte-mute)]">
@@ -417,7 +852,7 @@ export default async function AdminPage() {
         })}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="personnalisation" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Banniere communaute
       </h2>
       <p className="mt-2 text-sm text-[var(--texte-mute)]">
@@ -441,6 +876,7 @@ export default async function AdminPage() {
       <h2 className="font-display mt-16 text-2xl font-semibold">
         Page A propos
       </h2>
+      {/* Pas d'ancre propre : fait partie du groupe "Personnalisation" avec la banniere ci-dessus. */}
       <p className="mt-2 text-sm text-[var(--texte-mute)]">
         Une video et un texte de presentation par espace, visibles des membres seulement
         (menu « A propos » de la communaute).
@@ -459,7 +895,7 @@ export default async function AdminPage() {
         })}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="categories" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Catégories du fil
       </h2>
       <p className="mt-2 text-sm text-[var(--texte-mute)]">
@@ -479,13 +915,14 @@ export default async function AdminPage() {
       <h2 className="font-display mt-16 text-2xl font-semibold">
         Prix des formations
       </h2>
+      {/* Pas d'ancre propre : fait partie du groupe "Catalogue des formations" avec la creation ci-dessous. */}
       <ul className="mt-6 flex flex-col gap-3">
         {(espaces ?? []).map((e) => (
           <LignePrixEspace key={e.id} espace={e} />
         ))}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="acces-payant-manuel" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Acces payant manuel (filet de securite)
       </h2>
       <p className="mt-2 text-sm text-[var(--texte-mute)]">
@@ -497,7 +934,7 @@ export default async function AdminPage() {
         <FormulaireAccesPayant espaces={espaces ?? []} />
       </div>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="catalogue-formations" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Creer une nouvelle formation
       </h2>
       <p className="mt-2 text-sm text-[var(--texte-mute)]">
@@ -519,7 +956,7 @@ export default async function AdminPage() {
         ))}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="ressources" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Ressources (outils et fichiers)
       </h2>
       <p className="mt-2 text-sm text-[var(--texte-mute)]">
@@ -530,7 +967,7 @@ export default async function AdminPage() {
         <FormulaireFichierRessource espaces={espaces ?? []} />
       </div>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="masterclass" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Masterclass (communaute gratuite)
       </h2>
       <div className="mt-6">
@@ -559,7 +996,7 @@ export default async function AdminPage() {
         )}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="contenu" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Brouillons de contenu
       </h2>
       <p className="mt-2 text-sm text-[var(--texte-mute)]">
@@ -599,7 +1036,7 @@ export default async function AdminPage() {
         )}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="rdv" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         RDV (appel decouverte, communaute gratuite)
       </h2>
       <div className="mt-6">
@@ -621,7 +1058,7 @@ export default async function AdminPage() {
         )}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="cours" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Enregistrer une video de cours
       </h2>
       <p className="mt-2 text-sm text-[var(--texte-mute)]">
@@ -632,7 +1069,7 @@ export default async function AdminPage() {
         <EnregistrementVideo espaces={espaces ?? []} modules={modulesTries} />
       </div>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="devoirs" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Devoirs
       </h2>
       <div className="mt-6">
@@ -684,12 +1121,13 @@ export default async function AdminPage() {
         )}
       </ul>
 
-      <h2 className="font-display mt-16 text-2xl font-semibold">
+      <h2 id="badges" className="font-display mt-16 text-2xl font-semibold scroll-mt-8">
         Badges (attribution manuelle)
       </h2>
       <div className="mt-6">
         <FormulaireBadge espaces={espaces ?? []} />
       </div>
-    </main>
+      </main>
+    </div>
   );
 }
