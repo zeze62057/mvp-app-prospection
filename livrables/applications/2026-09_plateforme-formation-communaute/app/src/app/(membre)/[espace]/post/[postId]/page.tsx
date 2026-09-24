@@ -10,6 +10,7 @@ import { CartePost, IconePouce } from "@/components/communaute/fil/CartePost";
 import { TexteAvecMentions } from "@/components/communaute/fil/TexteAvecMentions";
 import { FormulaireCommentaire } from "@/components/communaute/fil/FormulaireCommentaire";
 import { BoutonSignaler } from "@/components/moderation/BoutonSignaler";
+import { BoutonSupprimerAdmin } from "@/components/moderation/BoutonSupprimerAdmin";
 
 export default async function PostPage({
   params,
@@ -80,6 +81,15 @@ export default async function PostPage({
                   )}
                   {c.auteur_id !== userId && (
                     <BoutonSignaler type="commentaire" cibleId={c.id} classe="text-[11px] text-[var(--texte-mute)] hover:text-[var(--corail)]" />
+                  )}
+                  {profil?.role === "admin" && c.auteur_id !== userId && (
+                    <BoutonSupprimerAdmin
+                      type="commentaire"
+                      id={c.id}
+                      retour={retour}
+                      classe="text-[11px] font-bold text-[var(--corail-texte)] underline"
+                      libelle="Supprimer (admin)"
+                    />
                   )}
                   {c.auteur_id === userId && (
                     <form action={supprimerCommentaire.bind(null, retour, c.id)} className="ml-auto">

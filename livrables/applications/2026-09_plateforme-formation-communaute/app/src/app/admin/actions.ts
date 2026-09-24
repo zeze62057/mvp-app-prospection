@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { verifierAdmin } from "@/lib/admin-guard";
+import { supprimerContenuModeration } from "@/lib/moderation-contenu";
 import { extraireIdYoutube } from "@/lib/youtube";
 import {
   NIVEAUX_PAR_DEFAUT,
@@ -373,10 +374,10 @@ export async function traiterSignalement(signalementId: string) {
   revalidatePath("/admin");
 }
 
-// Supprime le post ou le commentaire signale (et l'image du post), puis marque traites
+// Supprime le post ou le commentaire signale (image et fichier joint compris, journalise), puis marque traites
 // tous les signalements portant sur ce meme contenu.
 export async function supprimerContenuSignale(signalementId: string) {
-  await verifierAdmin();
+  const adminId = await verifierAdmin();
   const admin = createAdminClient();
 
   const { data: s } = await admin
@@ -386,19 +387,7 @@ export async function supprimerContenuSignale(signalementId: string) {
     .maybeSingle();
   if (!s || (s.type !== "post" && s.type !== "commentaire")) return;
 
-  if (s.type === "post") {
-    const { data: post } = await admin.from("posts").select("image_path").eq("id", s.cible_id).maybeSingle();
-    if (post?.image_path) await admin.storage.from("posts-images").remove([post.image_path]);
-    await admin.from("posts").delete().eq("id", s.cible_id);
-  } else {
-    await admin.from("commentaires").delete().eq("id", s.cible_id);
-  }
-
-  await admin
-    .from("signalements")
-    .update({ statut: "traite", traite_at: new Date().toISOString() })
-    .eq("type", s.type)
-    .eq("cible_id", s.cible_id);
+  await supprimerContenuModeration(admin, adminId, s.type, s.cible_id as string);
   revalidatePath("/admin");
 }
 

@@ -3,7 +3,7 @@
 // qui ne peuvent pas importer une fonction depuis un fichier "use server".
 import { createClient } from "@/lib/supabase/server";
 
-export async function verifierAdmin() {
+export async function verifierAdmin(): Promise<string> {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) throw new Error("Non connecte.");
@@ -15,4 +15,5 @@ export async function verifierAdmin() {
     .maybeSingle();
 
   if (profil?.role !== "admin") throw new Error("Reserve aux admins.");
+  return userData.user.id;
 }

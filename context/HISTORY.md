@@ -34,6 +34,16 @@
 - Constats : le compte ZzTestB est un compte admin de test resté en base (risque de sécurité, nettoyage à faire). Les 26 profils "Filler" ne sont pas dans l'authentification et faussent les chiffres de Rapports (conversion, demandes). Les 5 paiements en attente sont des tests de Zézé du 15/09, sans référence Chariow
 - 9 commits poussés sur `origin/main` (`899da2a..79a7d4f`) avec l'accord de Zézé
 
+### Pouvoirs d'administration : lot 2, modération
+
+- Décisions : pas de notification à l'auteur d'un contenu supprimé, journal des actions d'admin oui
+- **Migration 0046 appliquée** : table `journal_admin` (qui a fait quoi, quand, sur quoi, extrait), sans aucune politique et avec les droits retirés à `anon` et `authenticated` : seul le serveur y lit et y écrit. Testée avant application dans une transaction annulée avec de vrais rôles (service oui, membre et anonyme refusés). Si le compte d'un admin est supprimé, sa ligne de journal reste
+- **Fonction unique** `supprimerContenuModeration` (`lib/moderation-contenu.ts`) : supprime un post ou un commentaire, retire du stockage l'image et le fichier joint (le fichier joint d'un post signalé restait orphelin jusque-là), marque traités les signalements liés, écrit au journal. Le journal ne bloque jamais une suppression déjà faite. Le chemin des signalements l'utilise aussi
+- Bouton "Supprimer (admin)" dans le menu "…" de tout post et sur chaque commentaire, visible d'un admin seulement (jamais sur ses propres contenus, qui ont déjà "Supprimer"), avec confirmation. Page `/admin/moderation` : 50 derniers posts et commentaires, filtres espace, type et texte (caractères spéciaux neutralisés), suppression avec confirmation, filtres conservés après l'action
+- Testé dans un espace jetable (supprimé ensuite avec ses comptes, ses fichiers de stockage et ses lignes de journal) : commentaire supprimé, post avec fichier supprimé depuis le fil (fichier retiré du stockage), post supprimé depuis la page, 3 lignes de journal correctes, élève sans bouton admin, page refusée à un élève
+- Défaut trouvé et corrigé au passage : un post avec fichier joint affiché dans le fil mettait un lien dans un lien (erreur d'hydratation React). Le fichier est maintenant rendu hors du lien du post
+- Incident de test : une coupure réseau a laissé une session Postgres orpheline dans une transaction, terminée sans conséquence
+
 ### Pouvoirs d'administration : lot 1, gestion du programme
 
 - Demande de Zézé : l'admin doit pouvoir promouvoir un admin, retirer un membre de la communauté gratuite, approuver les publications avant parution, supprimer un commentaire, ajouter un module ou un chapitre. Cadrage : retirer = perdre l'accès à la communauté (le compte reste), "publicité" = publications des membres, promotion d'admin avec confirmation, journal et protection du dernier admin. Ordre validé : 1 programme, 2 modération (supprimer post et commentaire), 3 membres (retirer, promouvoir), 4 approbation des publications

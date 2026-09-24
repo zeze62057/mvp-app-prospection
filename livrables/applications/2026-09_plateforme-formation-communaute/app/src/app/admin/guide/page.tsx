@@ -54,6 +54,12 @@ const SECTIONS: { titre: string; href: string; texte: string }[] = [
       "Créer des devoirs, noter les remises sur 20, attribuer des badges à la main, régler les niveaux (points requis, masterclass réservée à un niveau).",
   },
   {
+    titre: "Posts et commentaires",
+    href: "/admin/moderation",
+    texte:
+      "Les 50 derniers posts et commentaires, avec filtres par espace, type et texte. Tu peux supprimer n'importe lequel, même sans signalement, depuis cette page ou avec le bouton « Supprimer (admin) » dans la communauté. Chaque suppression est inscrite dans le journal des actions d'admin.",
+  },
+  {
     titre: "Modération",
     href: "/admin#signalements",
     texte:

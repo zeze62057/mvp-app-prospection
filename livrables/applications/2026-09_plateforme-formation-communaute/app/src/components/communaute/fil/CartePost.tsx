@@ -8,6 +8,7 @@ import { Avatar } from "./Avatar";
 import { BoutonSignaler } from "@/components/moderation/BoutonSignaler";
 import { BadgeMembre } from "@/components/communaute/BadgeMembre";
 import { BoutonSupprimerPost } from "./BoutonSupprimerPost";
+import { BoutonSupprimerAdmin } from "@/components/moderation/BoutonSupprimerAdmin";
 import { TexteAvecMentions } from "./TexteAvecMentions";
 
 export function IconePouce({ plein }: { plein: boolean }) {
@@ -98,6 +99,14 @@ export function CartePost({
             <button type="submit">{post.epingle ? "📌 Désépingler" : "📌 Épingler"}</button>
           </form>
         )}
+        {estAdmin && auteur.id !== userId && (
+          // Apres suppression, la page du post n'existe plus : retour au fil de la zone du post.
+          <BoutonSupprimerAdmin
+            type="post"
+            id={post.id}
+            retour={detail ? `/${espaceSlug}/${post.zone === "payante" ? "communaute-payante" : "communaute"}` : retour}
+          />
+        )}
       </div>
     </details>
   );
@@ -129,6 +138,19 @@ export function CartePost({
     </div>
   );
 
+  // Fichier joint : dans le fil, il ne doit pas etre dans le <Link> qui enveloppe le corps du post
+  // (un lien dans un lien est invalide en HTML), on le rend donc apres ce lien.
+  const lienFichier = fichierUrl ? (
+        <a
+          href={fichierUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 flex items-center gap-2 rounded-xl border border-[var(--ligne)] px-3.5 py-2.5 text-[12.5px] font-bold text-[var(--sarcelle)]"
+        >
+          📎 {post.fichier_nom ?? "Fichier joint"}
+        </a>
+      ) : null;
+
   const texte = (
     <>
       {post.titre && <h3 className="font-display mb-1.5 text-[16px] font-bold leading-snug">{post.titre}</h3>}
@@ -154,16 +176,7 @@ export function CartePost({
         </div>
       )}
 
-      {fichierUrl && (
-        <a
-          href={fichierUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-3 flex items-center gap-2 rounded-xl border border-[var(--ligne)] px-3.5 py-2.5 text-[12.5px] font-bold text-[var(--sarcelle)]"
-        >
-          📎 {post.fichier_nom ?? "Fichier joint"}
-        </a>
-      )}
+      {detail && lienFichier}
 
       {post.lien_url && (
         <a
@@ -220,6 +233,7 @@ export function CartePost({
           {corpsCarte}
         </Link>
       )}
+      {!detail && lienFichier}
 
       <div className="mt-3.5 flex flex-wrap items-center gap-x-3.5 gap-y-2 border-t border-[var(--ligne)] pt-3 text-[12.5px] text-[var(--texte-mute)]">
         {(
