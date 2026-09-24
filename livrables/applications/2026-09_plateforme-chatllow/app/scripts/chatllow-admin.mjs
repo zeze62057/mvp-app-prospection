@@ -25,7 +25,7 @@ function lireEnv(chemin) {
   return env;
 }
 const local = lireEnv(new URL("../.env.local", import.meta.url));
-const vivier = lireEnv(new URL("../../2026-09_plateforme-formation-communaute/app/.env.local", import.meta.url));
+const vivier = lireEnv(new URL("../../../2026-09_plateforme-formation-communaute/app/.env.local", import.meta.url));
 const url = local.NEXT_PUBLIC_SUPABASE_URL || vivier.NEXT_PUBLIC_SUPABASE_URL;
 const cle = local.SUPABASE_SERVICE_ROLE_KEY || vivier.SUPABASE_SERVICE_ROLE_KEY;
 if (!url || !cle) {
