@@ -72,6 +72,9 @@ export async function chargerPostsFil({
   limite = LIMITE_FIL,
 }: Options): Promise<PostFil[]> {
   let requete = supabase.from("posts").select("*").eq("espace_id", espaceId);
+  // Un post non publie n'est visible que de son auteur (migration 0048). Le RLS le garantit pour un membre ;
+  // ce filtre couvre les lectures faites avec le client admin (vitrine publique, userId vide).
+  requete = userId ? requete.or(`statut.eq.publie,auteur_id.eq.${userId}`) : requete.eq("statut", "publie");
   if (postId) requete = requete.eq("id", postId);
   if (zone) requete = requete.eq("zone", zone);
   if (categorieId) requete = requete.eq("categorie_id", categorieId);

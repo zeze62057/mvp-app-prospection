@@ -64,7 +64,7 @@ export default async function RapportsPage({
     admin.from("adhesions").select("espace_id, created_at").gte("created_at", depuisIso),
     admin.from("acces_payant").select("espace_id, paye_at").eq("actif", true).gte("paye_at", depuisIso),
     admin.from("paiements").select("espace_id, montant, statut, created_at, confirme_at").gte("created_at", depuisIso),
-    admin.from("posts").select("espace_id, auteur_id, created_at").gte("created_at", depuisIso),
+    admin.from("posts").select("espace_id, auteur_id, created_at").eq("statut", "publie").gte("created_at", depuisIso),
     admin.from("post_votes").select("profil_id, created_at, posts(espace_id)").gte("created_at", depuisIso),
     admin.from("progression").select("profil_id, completed_at, sections(modules(espace_id))").gte("completed_at", depuisIso),
     admin.from("devoirs_remises").select("rendu_at, note, devoirs(espace_id)").gte("rendu_at", depuisIso),

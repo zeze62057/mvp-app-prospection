@@ -42,6 +42,7 @@ export const GROUPES: { titre: string; entrees: Entree[] }[] = [
     entrees: [
       { libelle: "Questions d'adhésion", href: "/admin#questions-adhesion", icone: "?" },
       { libelle: "Modération", href: "/admin#signalements", icone: "⚑" },
+      { libelle: "Publications à approuver", href: "/admin/publications", icone: "✔" },
       { libelle: "Posts et commentaires", href: "/admin/moderation", icone: "✖" },
       { libelle: "Contenu", href: "/admin#contenu", icone: "☷" },
       { libelle: "Paiements", href: "/admin/paiements", icone: "¤" },

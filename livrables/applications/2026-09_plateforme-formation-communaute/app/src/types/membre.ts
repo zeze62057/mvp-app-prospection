@@ -37,6 +37,7 @@ export type Post = {
   fichier_path: string | null;
   fichier_nom: string | null;
   lien_url: string | null;
+  statut: "publie" | "en_attente" | "refuse"; // approbation avant parution (migration 0048)
 };
 
 export type TypeReaction = "like" | "coeur" | "rire";
@@ -228,7 +229,9 @@ export type TypeNotification =
   | "message"
   | "mention"
   | "demande_adhesion" // a un admin : quelqu'un demande a rejoindre (migration 0037)
-  | "adhesion_approuvee"; // au membre : sa demande est acceptee
+  | "adhesion_approuvee" // au membre : sa demande est acceptee
+  | "post_approuve" // a l'auteur : son post est publie (migration 0048)
+  | "post_refuse"; // a l'auteur : son post n'a pas ete retenu
 
 export type NotificationMembre = {
   id: string;

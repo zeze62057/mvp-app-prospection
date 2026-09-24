@@ -269,7 +269,7 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
       .order("created_at", { ascending: false })
       .limit(5),
     admin.from("temoignages").select("espace_id, note"),
-    admin.from("posts").select("auteur_id, created_at").gte("created_at", ilDebutPrecedent),
+    admin.from("posts").select("auteur_id, created_at").eq("statut", "publie").gte("created_at", ilDebutPrecedent),
     admin.from("post_votes").select("profil_id, created_at").gte("created_at", ilDebutPrecedent),
     admin.from("progression").select("profil_id, completed_at").gte("completed_at", ilDebutPrecedent),
     admin.auth.admin.listUsers({ page: 1, perPage: 1000 }).then((r) => r.data?.users ?? []),

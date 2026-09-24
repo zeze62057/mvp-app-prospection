@@ -64,7 +64,7 @@ export default async function VitrinePage({
       .order("note", { ascending: false })
       .order("created_at", { ascending: false })
       .limit(3),
-    admin.from("posts").select("*", { count: "exact", head: true }).eq("espace_id", espace.id).gte("created_at", debutMois),
+    admin.from("posts").select("*", { count: "exact", head: true }).eq("espace_id", espace.id).eq("statut", "publie").gte("created_at", debutMois),
     admin.from("masterclasses").select("*", { count: "exact", head: true }).eq("espace_id", espace.id).gte("date_heure", maintenant),
     admin
       .from("masterclasses")

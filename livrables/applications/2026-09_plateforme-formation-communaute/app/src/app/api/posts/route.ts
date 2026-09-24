@@ -109,7 +109,7 @@ export async function POST(request: Request) {
     }
   }
 
-  const { error } = await supabase.from("posts").insert({
+  const { data: cree, error } = await supabase.from("posts").insert({
     espace_id: espace.id,
     auteur_id: userData.user.id,
     contenu,
@@ -122,7 +122,7 @@ export async function POST(request: Request) {
     lien_url: lienSaisi || null,
     fichier_path: fichierPath,
     fichier_nom: fichierNom,
-  });
+  }).select("statut").single();
 
   if (error) {
     if (imagePath) await createAdminClient().storage.from("posts-images").remove([imagePath]);
@@ -130,5 +130,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ erreur: error.message }, { status: 400 });
   }
 
-  return NextResponse.json({ ok: true });
+  // Le statut est fixe par la base (migration 0048) : "en_attente" si l'espace exige l'approbation.
+  return NextResponse.json({ ok: true, enAttente: cree?.statut === "en_attente" });
 }

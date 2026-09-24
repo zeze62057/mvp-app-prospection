@@ -54,6 +54,12 @@ const SECTIONS: { titre: string; href: string; texte: string }[] = [
       "Créer des devoirs, noter les remises sur 20, attribuer des badges à la main, régler les niveaux (points requis, masterclass réservée à un niveau).",
   },
   {
+    titre: "Publications à approuver",
+    href: "/admin/publications",
+    texte:
+      "Réglage par espace : quand l'approbation est active, le post d'un membre reste invisible des autres jusqu'à ta décision (les tiens sont publiés tout de suite). File d'attente avec le contenu complet, approuver ou refuser, l'auteur est prévenu. Modifier un post publié le remet en attente. Désactivé par défaut.",
+  },
+  {
     titre: "Posts et commentaires",
     href: "/admin/moderation",
     texte:

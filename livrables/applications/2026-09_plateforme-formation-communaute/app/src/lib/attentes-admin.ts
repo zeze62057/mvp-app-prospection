@@ -11,11 +11,12 @@ export async function getAttentes(admin: SupabaseClient): Promise<Attente[]> {
     const requete = admin.from(table).select("*", { count: "exact", head: true });
     return valeur === null ? requete.is(colonne, null) : requete.eq(colonne, valeur);
   };
-  const [adhesions, candidatures, signalements, remises] = await Promise.all([
+  const [adhesions, candidatures, signalements, remises, publications] = await Promise.all([
     compte("adhesions", "statut", "en_attente"),
     compte("candidatures_expert", "statut", "en_attente"),
     compte("signalements", "statut", "ouvert"),
     compte("devoirs_remises", "note", null),
+    compte("posts", "statut", "en_attente"),
   ]);
 
   return [
@@ -23,5 +24,6 @@ export async function getAttentes(admin: SupabaseClient): Promise<Attente[]> {
     { cle: "candidatures", libelle: "Candidatures Expert", n: candidatures.count ?? 0, href: "/admin#candidatures-expert", action: "Approuver ou refuser" },
     { cle: "signalements", libelle: "Signalements ouverts", n: signalements.count ?? 0, href: "/admin#signalements", action: "Modérer" },
     { cle: "remises", libelle: "Devoirs à noter", n: remises.count ?? 0, href: "/admin#devoirs", action: "Noter" },
+    { cle: "publications", libelle: "Publications à approuver", n: publications.count ?? 0, href: "/admin/publications", action: "Approuver ou refuser" },
   ];
 }

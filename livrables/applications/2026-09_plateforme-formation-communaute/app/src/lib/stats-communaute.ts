@@ -75,11 +75,12 @@ export async function getStatsEspace(espace: {
       .select("*", { count: "exact", head: true })
       .eq("espace_id", espace.id)
       .eq("statut", "approuve"),
-    admin.from("posts").select("*", { count: "exact", head: true }).eq("espace_id", espace.id),
+    admin.from("posts").select("*", { count: "exact", head: true }).eq("espace_id", espace.id).eq("statut", "publie"),
     admin
       .from("posts")
       .select("auteur_id")
       .eq("espace_id", espace.id)
+      .eq("statut", "publie")
       .gte("created_at", depuis),
     admin
       .from("post_votes")

@@ -9,6 +9,14 @@
 
 ## 2026-09-24
 
+### Pouvoirs admin : programme, modération, membres, approbation des publications
+
+- Quatre lots livrés : gestion du programme (modules, sections, leçons), suppression de tout post ou commentaire avec journal, gestion des membres (retirer de la communauté, réintégrer, promouvoir ou retirer un admin avec confirmation par le pseudo et dernier admin protégé), approbation des publications avant affichage
+- Approbation : réglage par espace, désactivé par défaut (migration 0048, appliquée en production). Les posts d'un admin sont publiés tout de suite. Modifier un post publié le remet en attente. L'auteur est notifié de la décision. Les commentaires ne sont pas concernés
+- Testé de bout en bout par requêtes HTTP réelles avec de vraies sessions (navigateur de test indisponible) : post en attente, invisible des autres membres, file admin, approbation, refus, notifications, journal, réglage. Espace et comptes de test supprimés. Rendu visuel non vérifié à l'œil
+- Vitrines Vivier IA et Bâtisseur Pro refaites sur le modèle de référence, bouton de paiement existant conservé à la place des tarifs
+- Commits en avance sur `origin/main`, aucun push sans accord explicite
+
 ### Tableau de bord admin refait sur le modèle LearnHub
 
 - Commit `95fcbe9`, non poussé. Barre du haut (recherche de section, cloche des éléments en attente : demandes, candidatures Expert, signalements, devoirs à noter), colonne de droite (bannière, six raccourcis rapides, activité récente fusionnant inscriptions, paiements, devoirs rendus et articles publiés), cartes de formations avec l'image de bannière de l'espace

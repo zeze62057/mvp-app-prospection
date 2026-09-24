@@ -72,6 +72,7 @@ export function BarreEcrire({
   const [ouvert, setOuvert] = useState(false);
   const [enCours, setEnCours] = useState(false);
   const [erreur, setErreur] = useState<string | null>(null);
+  const [info, setInfo] = useState<string | null>(null);
   const [nomImage, setNomImage] = useState<string | null>(null);
   const [nomFichier, setNomFichier] = useState<string | null>(null);
   const [pieceJointe, setPieceJointe] = useState<PieceJointe>(null);
@@ -84,6 +85,11 @@ export function BarreEcrire({
   if (!ouvert) {
     return (
       <div className="mb-4 rounded-[14px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
+        {info && (
+          <p role="status" className="mb-3 rounded-lg bg-[rgba(255,122,77,0.12)] px-3.5 py-2.5 text-[12.5px] font-bold text-[var(--corail-texte)]">
+            {info}
+          </p>
+        )}
         <button type="button" onClick={() => ouvrirAvec(null)} className="flex w-full items-center gap-3 text-left">
           <Avatar id={auteurId} pseudo={auteurPseudo} taille={36} urlPhoto={auteurAvatarUrl} />
           <span className="text-[14px] text-[var(--texte-mute)]">
@@ -140,7 +146,7 @@ export function BarreEcrire({
     donnees.set("zone", zone);
     try {
       const reponse = await fetch("/api/posts", { method: "POST", body: donnees });
-      const json = (await reponse.json().catch(() => ({}))) as { erreur?: string };
+      const json = (await reponse.json().catch(() => ({}))) as { erreur?: string; enAttente?: boolean };
       if (!reponse.ok) {
         setErreur(json.erreur ?? "La publication a échoué.");
       } else {
@@ -149,6 +155,7 @@ export function BarreEcrire({
         setNomFichier(null);
         setPieceJointe(null);
         setOuvert(false);
+        setInfo(json.enAttente ? "Ton post est en attente d'approbation : il sera visible des autres membres dès qu'un admin l'aura validé. Tu le vois déjà dans le fil, marqué « en attente »." : null);
         router.refresh();
       }
     } catch {

@@ -126,6 +126,14 @@ export function CartePost({
         <div className="flex flex-wrap items-center gap-2 font-mono text-[10.5px] text-[var(--texte-mute)]">
           <span>{tempsEcoule(post.created_at)}</span>
           {post.modifie_le && <span title={new Date(post.modifie_le).toLocaleString("fr-FR")}>· modifié</span>}
+          {post.statut === "en_attente" && (
+            <span className="rounded-[5px] bg-[rgba(255,122,77,0.14)] px-1.5 py-px font-bold text-[var(--corail-texte)]">
+              en attente d&apos;approbation
+            </span>
+          )}
+          {post.statut === "refuse" && (
+            <span className="rounded-[5px] bg-[var(--fond)] px-1.5 py-px font-bold text-[var(--texte-mute)]">non retenu</span>
+          )}
           {categorie && (
             <span className="rounded-[5px] bg-[rgba(43,140,130,0.1)] px-1.5 py-px text-[var(--sarcelle)]">
               {categorie.emoji ? `${categorie.emoji} ` : ""}

@@ -13,6 +13,8 @@ const TEXTE: Record<NotificationMembre["type"], string> = {
   mention: "t'a mentionné",
   demande_adhesion: "demande à rejoindre la communauté",
   adhesion_approuvee: "Ta demande a été acceptée. Bienvenue !",
+  post_approuve: "Ton post a été approuvé et il est publié.",
+  post_refuse: "Ton post n'a pas été retenu par l'équipe.",
 };
 
 export default async function NotificationsPage({ params }: { params: Promise<{ espace: string }> }) {
@@ -83,7 +85,7 @@ export default async function NotificationsPage({ params }: { params: Promise<{ 
                     <Avatar id={n.acteur_id} pseudo={pseudo} taille={36} urlPhoto={photos.get(n.acteur_id) ?? null} />
                     <span className="min-w-0 flex-1">
                       <span className="block text-[13.5px]">
-                        {n.type === "adhesion_approuvee" ? (
+                        {n.type === "adhesion_approuvee" || n.type === "post_approuve" || n.type === "post_refuse" ? (
                           <b>{TEXTE[n.type]}</b>
                         ) : (
                           <>
