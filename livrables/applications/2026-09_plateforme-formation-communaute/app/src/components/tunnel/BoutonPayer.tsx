@@ -5,7 +5,18 @@ import { initierPaiement } from "@/app/(membre)/[espace]/tunnel/actions";
 
 const etatInitial = { erreur: null, checkoutUrl: null };
 
-export function BoutonPayer({ espaceSlug, montant, devise }: { espaceSlug: string; montant: number; devise: string }) {
+export function BoutonPayer({
+  espaceSlug,
+  montant,
+  devise,
+  defauts,
+}: {
+  espaceSlug: string;
+  montant: number;
+  devise: string;
+  // Prerempli avec les infos saisies a l'inscription ; l'eleve peut les modifier.
+  defauts?: { prenom?: string; nom?: string; telephone?: string };
+}) {
   const [etat, action] = useActionState(initierPaiement, etatInitial);
 
   useEffect(() => {
@@ -19,10 +30,11 @@ export function BoutonPayer({ espaceSlug, montant, devise }: { espaceSlug: strin
       <div className="grid grid-cols-2 gap-3">
         <div className="flex flex-col gap-1">
           <label className="font-mono text-[10.5px] uppercase tracking-wide text-[var(--texte-mute)]">
-            Prenom
+            Prénom
           </label>
           <input
             name="prenom"
+            defaultValue={defauts?.prenom}
             required
             className="rounded-lg border border-[var(--ligne)] bg-[var(--fond)] px-3 py-2.5 text-sm"
           />
@@ -33,6 +45,7 @@ export function BoutonPayer({ espaceSlug, montant, devise }: { espaceSlug: strin
           </label>
           <input
             name="nom"
+            defaultValue={defauts?.nom}
             required
             className="rounded-lg border border-[var(--ligne)] bg-[var(--fond)] px-3 py-2.5 text-sm"
           />
@@ -41,11 +54,12 @@ export function BoutonPayer({ espaceSlug, montant, devise }: { espaceSlug: strin
 
       <div className="flex flex-col gap-1">
         <label className="font-mono text-[10.5px] uppercase tracking-wide text-[var(--texte-mute)]">
-          Numero de telephone (Mobile Money)
+          Numéro de téléphone (Mobile Money)
         </label>
         <input
           name="telephone"
           type="tel"
+          defaultValue={defauts?.telephone}
           placeholder="6XX XX XX XX"
           required
           className="rounded-lg border border-[var(--ligne)] bg-[var(--fond)] px-3 py-2.5 text-sm"
