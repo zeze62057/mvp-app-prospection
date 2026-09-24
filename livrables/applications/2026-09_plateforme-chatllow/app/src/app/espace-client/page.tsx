@@ -141,7 +141,7 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
             <MarqueChatllow taille={30} sombre />
             <span>
               <span className="font-[family-name:var(--font-display)] block text-[18px] font-semibold leading-tight">Chatllow</span>
-              <span className="block text-[10.5px] text-[rgba(255,255,255,0.55)]">Cabinet de conseil IA</span>
+              <span className="block text-[10.5px] text-[rgba(255,255,255,0.55)]">L&apos;IA au service de votre performance</span>
             </span>
           </Link>
           <nav aria-label="Espace client" className="mt-7 flex flex-col gap-1">
@@ -181,8 +181,8 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
         <div className="mt-6 flex flex-col gap-4">
           <div className="relative overflow-hidden rounded-2xl p-4" style={{ background: "linear-gradient(135deg, oklch(45% 0.19 250), #1a1f33)" }}>
             <MascotteRobot className="pointer-events-none absolute -right-3 top-1 h-[74px] w-auto opacity-90" />
-            <div className="max-w-[150px] font-[family-name:var(--font-display)] text-[14.5px] font-semibold leading-snug">Un besoin d&apos;accompagnement personnalisé ?</div>
-            <p className="mt-1.5 text-[11.5px] leading-relaxed text-[rgba(255,255,255,0.75)]">Le fondateur du cabinet est là pour vous aider à passer à l&apos;action.</p>
+            <div className="max-w-[150px] font-[family-name:var(--font-display)] text-[14.5px] font-semibold leading-snug">Besoin d&apos;un accompagnement personnalisé ?</div>
+            <p className="mt-1.5 text-[11.5px] leading-relaxed text-[rgba(255,255,255,0.75)]">Nos consultants sont là pour vous aider à passer à l&apos;action.</p>
             <Link href="/rdv" className="mt-3 block rounded-full bg-white px-4 py-2 text-center text-[12.5px] font-semibold text-[#0b1020]">
               Prendre rendez-vous →
             </Link>
@@ -247,7 +247,7 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
                 >
                   <MascotteRobot className="pointer-events-none absolute -right-2 top-1/2 hidden h-[230px] w-auto -translate-y-1/2 sm:block" />
                   <span aria-hidden className="pointer-events-none absolute right-[210px] top-[34%] hidden rounded-full bg-[rgba(255,255,255,0.14)] px-4 py-2 text-[18px] leading-none tracking-[0.2em] text-white xl:block">•••</span>
-                  <p className="font-[family-name:var(--font-display)] text-[15px] font-medium text-[rgba(255,255,255,0.85)]">Bonjour {prenom}</p>
+                  <p className="font-[family-name:var(--font-display)] text-[15px] font-medium text-[rgba(255,255,255,0.85)]">Bonjour {prenom} <span aria-hidden>👋</span></p>
                   <h1 className="font-[family-name:var(--font-display)] mt-2 max-w-md text-[24px] font-semibold leading-tight sm:max-w-[420px] sm:text-[30px]">
                     Je suis votre assistant IA spécialisé dans le conseil et l&apos;intégration de l&apos;IA.
                   </h1>
@@ -364,22 +364,22 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
             </section>
 
             <section className={`${CARTE} p-5`}>
-              <h2 className="font-[family-name:var(--font-display)] text-[15px] font-semibold">Votre expert IA</h2>
+              <h2 className="font-[family-name:var(--font-display)] text-[15px] font-semibold">Nos experts IA</h2>
               <div className="mt-3.5 flex gap-3.5">
                 <Image src="/zeze-bilivogui.jpg" alt="Zézé Bilivogui" width={64} height={64} className="h-16 w-16 shrink-0 rounded-2xl object-cover object-top" />
                 <div>
                   <div className="text-[14px] font-semibold">Zézé Bilivogui</div>
-                  <div className="text-[12px] text-[var(--texte-mute)]">Fondateur de Chatllow</div>
+                  <div className="text-[12px] text-[var(--texte-mute)]">Expert en transformation digitale &amp; IA</div>
                   <Link href="/rdv" className="mt-2.5 inline-block rounded-full bg-[var(--indigo)] px-4 py-1.5 text-[12px] font-semibold text-[#0b1020]">
                     Prendre rendez-vous →
                   </Link>
                 </div>
               </div>
               <p className="mt-3.5 text-[12.5px] leading-relaxed text-[var(--texte-mute)]">
-                Spécialiste de l&apos;écosystème Claude. Le diagnostic est le même cadre d&apos;audit que celui utilisé en mission.
+                Fondateur de Chatllow, spécialiste de l&apos;écosystème Claude. Accompagnement des entreprises sur l&apos;intégration de l&apos;IA et l&apos;optimisation des processus.
               </p>
               <div className="mt-3 flex flex-wrap gap-2">
-                {["Écosystème Claude", "Diagnostic IA"].map((t) => (
+                {["Stratégie IA", "Automatisation", "Conseil"].map((t) => (
                   <span key={t} className="rounded-full bg-[var(--indigo-soft)] px-3 py-1 text-[11px] font-semibold text-[oklch(45%_0.19_250)]">{t}</span>
                 ))}
               </div>
@@ -411,8 +411,8 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
               <span aria-hidden className="pointer-events-none absolute -bottom-2 right-3 text-[84px] leading-none text-[rgba(255,255,255,0.16)]">↗</span>
               <div className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-snug">L&apos;IA, un levier de croissance pour votre entreprise</div>
               <p className="mt-1.5 text-[12px] leading-relaxed text-[rgba(255,255,255,0.8)]">Notre cabinet vous accompagne de la stratégie à la mise en œuvre.</p>
-              <Link href="/rdv" className="mt-3.5 inline-block rounded-full bg-white px-4 py-2 text-[12.5px] font-semibold text-[#0b1020]">
-                Prendre rendez-vous →
+              <Link href="/" className="mt-3.5 inline-block rounded-full bg-white px-4 py-2 text-[12.5px] font-semibold text-[#0b1020]">
+                Découvrir nos offres →
               </Link>
             </section>
           </aside>
