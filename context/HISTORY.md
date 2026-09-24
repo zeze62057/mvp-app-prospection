@@ -32,7 +32,14 @@
 - Taux de rétention ajouté aux statistiques clés (membres actifs la période précédente encore actifs). "Temps moyen de formation" reste "bientôt disponible" : aucune mesure du temps passé en base
 - Limites : cloche, badge et rétention non testés avec des données réelles (rien en attente, aucun membre actif la période précédente). Messages non testé avec des messages réels (la base n'en contient aucun)
 - Constats : le compte ZzTestB est un compte admin de test resté en base (risque de sécurité, nettoyage à faire). Les 26 profils "Filler" ne sont pas dans l'authentification et faussent les chiffres de Rapports (conversion, demandes). Les 5 paiements en attente sont des tests de Zézé du 15/09, sans référence Chariow
-- 9 commits en avance sur `origin/main`, aucun push
+- 9 commits poussés sur `origin/main` (`899da2a..79a7d4f`) avec l'accord de Zézé
+
+### Nettoyage des comptes de test
+
+- Inventaire lu en base puis validé par Zézé : 32 profils dont un seul réel (le sien). 31 supprimés : ZzTestB (admin de test), ZzTestA, TestAnnuM1 à M3 (dont un Expert avec 2 posts) et 26 profils Filler sans compte de connexion
+- Sauvegarde JSON faite avant suppression (dossier temporaire de session), garde-fous dans le script (arrêt si la liste ne fait pas exactement 31 profils au motif attendu, ou si le compte de Zézé est introuvable)
+- Résultat vérifié : 1 profil, 2 adhésions, 2 posts, 2 accès payants, tous à Zézé. Effets visibles : le compteur public de Vivier IA passe de 31 membres à 1, les chiffres de Rapports deviennent réels
+- Non testé : l'affichage de la vitrine publique avec un seul membre
 
 ## 2026-09-23
 
