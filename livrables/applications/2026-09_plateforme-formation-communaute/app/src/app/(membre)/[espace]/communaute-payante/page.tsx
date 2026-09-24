@@ -4,7 +4,7 @@ import { getEspaceParSlug } from "@/lib/espaces";
 import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { deconnexion } from "../communaute/actions";
-import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
+import { EcranConnexion } from "@/components/communaute/EcranConnexion";
 import { FilCommunaute } from "@/components/communaute/fil/FilCommunaute";
 import { MessageAccueil } from "@/components/communaute/MessageAccueil";
 import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
@@ -48,7 +48,7 @@ export default async function CommunautePayantePage({
           Connecte-toi pour acceder a la communaute payante.
         </p>
         <div className="mt-8">
-          <FormulaireAuth espaceSlug={espace.slug} espaceNom={espace.nom} />
+          <EcranConnexion espace={espace} />
         </div>
       </main>
     );

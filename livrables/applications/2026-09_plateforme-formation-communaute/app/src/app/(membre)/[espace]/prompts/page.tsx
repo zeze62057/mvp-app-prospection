@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getEspaceParSlug } from "@/lib/espaces";
 import { createClient } from "@/lib/supabase/server";
 import { deconnexion } from "../communaute/actions";
-import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
+import { EcranConnexion } from "@/components/communaute/EcranConnexion";
 import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAdhesion";
 import { BibliothequePrompts } from "@/components/prompts/BibliothequePrompts";
 import type { Adhesion, Prompt } from "@/types/membre";
@@ -37,7 +37,7 @@ export default async function PromptsPage({
           Cree un compte ou connecte-toi pour acceder a la bibliotheque de prompts.
         </p>
         <div className="mt-8">
-          <FormulaireAuth espaceSlug={espace.slug} espaceNom={espace.nom} />
+          <EcranConnexion espace={espace} />
         </div>
       </main>
     );

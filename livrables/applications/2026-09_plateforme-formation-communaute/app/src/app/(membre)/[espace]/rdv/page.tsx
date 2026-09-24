@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getEspaceParSlug } from "@/lib/espaces";
 import { createClient } from "@/lib/supabase/server";
 import { deconnexion } from "../communaute/actions";
-import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
+import { EcranConnexion } from "@/components/communaute/EcranConnexion";
 import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAdhesion";
 import { BoutonReserver, BoutonAnnuler } from "@/components/rdv/BoutonRdv";
 import type { Adhesion, CreneauRdv } from "@/types/membre";
@@ -35,7 +35,7 @@ export default async function RdvPage({
           Cree un compte ou connecte-toi pour reserver un appel decouverte.
         </p>
         <div className="mt-8">
-          <FormulaireAuth espaceSlug={espace.slug} espaceNom={espace.nom} />
+          <EcranConnexion espace={espace} />
         </div>
       </main>
     );

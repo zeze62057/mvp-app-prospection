@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getEspaceParSlug } from "@/lib/espaces";
 import { createClient } from "@/lib/supabase/server";
 import { deconnexion } from "./actions";
-import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
+import { EcranConnexion } from "@/components/communaute/EcranConnexion";
 import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAdhesion";
 import { FilCommunaute } from "@/components/communaute/fil/FilCommunaute";
 import { MessageAccueil } from "@/components/communaute/MessageAccueil";
@@ -42,7 +42,7 @@ export default async function CommunauteGratuitePage({
           Cree un compte ou connecte-toi pour demander l&apos;acces.
         </p>
         <div className="mt-8">
-          <FormulaireAuth espaceSlug={espace.slug} espaceNom={espace.nom} />
+          <EcranConnexion espace={espace} />
         </div>
       </main>
     );

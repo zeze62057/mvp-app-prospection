@@ -4,7 +4,7 @@ import { getEspaceParSlug } from "@/lib/espaces";
 import { createClient } from "@/lib/supabase/server";
 import { deconnexion } from "../communaute/actions";
 import { sInscrire, seDesinscrire } from "./actions";
-import { FormulaireAuth } from "@/components/communaute/FormulaireAuth";
+import { EcranConnexion } from "@/components/communaute/EcranConnexion";
 import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAdhesion";
 import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
 import { chargerNiveaux } from "@/lib/niveaux-donnees";
@@ -39,7 +39,7 @@ export default async function MasterclassPage({
           Cree un compte ou connecte-toi pour voir les prochaines masterclass.
         </p>
         <div className="mt-8">
-          <FormulaireAuth espaceSlug={espace.slug} espaceNom={espace.nom} />
+          <EcranConnexion espace={espace} />
         </div>
       </main>
     );
