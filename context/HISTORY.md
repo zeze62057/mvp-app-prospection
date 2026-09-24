@@ -7,7 +7,24 @@
 
 ---
 
+## 2026-09-24
+
+### Tableau de bord admin refait sur le modèle LearnHub
+
+- Commit `95fcbe9`, non poussé. Barre du haut (recherche de section, cloche des éléments en attente : demandes, candidatures Expert, signalements, devoirs à noter), colonne de droite (bannière, six raccourcis rapides, activité récente fusionnant inscriptions, paiements, devoirs rendus et articles publiés), cartes de formations avec l'image de bannière de l'espace
+- Aucune donnée inventée : chaque chiffre vient d'une requête réelle. Les messages privés n'apparaissent jamais dans le fil d'activité
+- Testé dans le navigateur à 1440 px et 390 px avec un compte admin jetable, créé puis supprimé (seule écriture en base). Plus de débordement horizontal sur mobile. Cloche et fil d'activité non testés avec des données en attente, la base n'avait rien à traiter
+- Toujours grisés "bientôt" : Élèves, Administrateurs, Paiements, Rapports, Messages, les "Voir tout", le sélecteur de période, le taux de rétention
+- Décision : prochaine page admin = Élèves, puis Paiements et Rapports
+
 ## 2026-09-23
+
+### Refonte de la communauté et tableau de bord élève
+
+- Communauté refaite d'après une capture de référence : menu latéral sur ordinateur à la place des onglets, zone de contenu, badge fondateur "Expert Agentic Coding" sur la vitrine
+- Vitrine et communauté payante : stats réelles, aperçu de discussions, classement public, carte de présentation, bandeau d'accueil
+- Côté élève (migrations 0043 et 0044) : devoirs remis par l'élève et notés sur 20 par l'admin, badges automatiques et manuels, échéances réelles, page `/devoirs` avec tendances hebdomadaires, réactions (like, coeur, rire), pièces jointes de post, objectifs personnels
+- Vidéos : section 6 du Module 1 (Le Business) préparée
 
 ### Message d'accueil élèves, en pause faute d'email pro
 
