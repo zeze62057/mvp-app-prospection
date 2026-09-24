@@ -6,10 +6,8 @@ import { MarqueChatllow } from "@/components/MarqueChatllow";
 import { MascotteRobot } from "@/components/MascotteRobot";
 import { Icone, type NomIcone } from "@/components/Icone";
 import { deconnexion } from "@/app/connexion/actions";
-import { nouvelleConversation } from "./actions";
-import { Chat, type MessageChat } from "@/components/espace-client/Chat";
-import { BoutonSujet } from "@/components/espace-client/BoutonSujet";
-import { EXPERTISES, LIMITE_MESSAGES_PAR_JOUR, PASTILLES, SUGGESTIONS, questionExpertise } from "@/lib/assistant-public";
+import { ApercuChat } from "@/components/espace-client/ApercuChat";
+import { EXPERTISES, PASTILLES, SUGGESTIONS } from "@/lib/assistant-public";
 
 export const metadata = { title: "Espace client — Chatllow" };
 
@@ -80,7 +78,7 @@ function Vide({ texte }: { texte: string }) {
   );
 }
 
-export default async function EspaceClientPage({ searchParams }: { searchParams: Promise<{ section?: string; sujet?: string }> }) {
+export default async function EspaceClientPage({ searchParams }: { searchParams: Promise<{ section?: string }> }) {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) redirect("/connexion");
@@ -108,16 +106,13 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
     );
   }
 
-  const { section: brute, sujet } = await searchParams;
+  const { section: brute } = await searchParams;
   const section: Section = MENU.some((m) => m.id === brute) ? (brute as Section) : "chat";
   const surChat = section === "chat";
 
-  const [{ data: projets }, { data: livrables }, { data: fil }] = await Promise.all([
+  const [{ data: projets }, { data: livrables }] = await Promise.all([
     supabase.from("chatllow_projets").select("*").order("created_at", { ascending: false }).returns<Projet[]>(),
     supabase.from("chatllow_livrables").select("*").order("created_at", { ascending: false }).returns<Livrable[]>(),
-    surChat
-      ? supabase.from("chatllow_messages").select("id, role, contenu, created_at").eq("archive", false).order("created_at", { ascending: true }).limit(60).returns<MessageChat[]>()
-      : Promise.resolve({ data: [] as MessageChat[] }),
   ]);
   const mesProjets = projets ?? [];
   const mesLivrables = livrables ?? [];
@@ -125,7 +120,6 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
   const prenom = client.contact.trim().split(/\s+/)[0];
   const initiales = client.contact.trim().split(/\s+/).map((m: string) => m[0]).slice(0, 2).join("").toUpperCase();
   const titreSection = MENU.find((m) => m.id === section)?.libelle ?? "";
-  const assistantDisponible = Boolean(process.env.ANTHROPIC_API_KEY);
 
   const chipSujet = "inline-flex items-center gap-1.5 rounded-full border border-[rgba(255,255,255,0.28)] px-4 py-1.5 text-[12px] font-semibold text-white hover:bg-[rgba(255,255,255,0.12)]";
 
@@ -163,15 +157,9 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
             <p className="px-3.5 text-[12px] font-semibold text-[rgba(255,255,255,0.6)]">Nos expertises IA</p>
             <ul className="mt-2.5 flex flex-col gap-0.5">
               {EXPERTISES.map((e) => (
-                <li key={e.libelle}>
-                  <BoutonSujet
-                    texte={questionExpertise(e.libelle)}
-                    surChat={surChat}
-                    className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2 text-left text-[12.5px] font-medium text-[rgba(255,255,255,0.72)] hover:bg-[rgba(255,255,255,0.07)]"
-                  >
-                    <Icone nom={e.icone} className="h-4 w-4 text-[oklch(72%_0.15_250)]" />
-                    {e.libelle}
-                  </BoutonSujet>
+                <li key={e.libelle} className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2 text-left text-[12.5px] font-medium text-[rgba(255,255,255,0.72)]">
+                  <Icone nom={e.icone} className="h-4 w-4 text-[oklch(72%_0.15_250)]" />
+                  {e.libelle}
                 </li>
               ))}
             </ul>
@@ -255,24 +243,23 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
                     Posez-moi vos questions, je vous aide à identifier des opportunités, à structurer vos projets et à trouver des solutions concrètes pour intégrer l&apos;IA dans vos services.
                   </p>
                   <div className="mt-5 flex flex-wrap gap-2 sm:max-w-[520px]">
-                    {PASTILLES.map((p) => (
-                      <BoutonSujet key={p.libelle} texte={p.question} surChat className={chipSujet}>
-                        <Icone nom={p.icone} className="h-3.5 w-3.5" />
-                        {p.libelle}
-                      </BoutonSujet>
-                    ))}
+                    {PASTILLES.map((p) =>
+                      p.href ? (
+                        <Link key={p.libelle} href={p.href} className={chipSujet}>
+                          <Icone nom={p.icone} className="h-3.5 w-3.5" />
+                          {p.libelle}
+                        </Link>
+                      ) : (
+                        <span key={p.libelle} title="Bientôt disponible" className={`${chipSujet} cursor-not-allowed opacity-60 hover:bg-transparent`}>
+                          <Icone nom={p.icone} className="h-3.5 w-3.5" />
+                          {p.libelle}
+                        </span>
+                      )
+                    )}
                   </div>
                 </section>
 
-                <Chat initial={fil ?? []} disponible={assistantDisponible} initiales={initiales} sujetInitial={sujet} limite={LIMITE_MESSAGES_PAR_JOUR} />
-
-                {(fil ?? []).length > 0 && (
-                  <form action={nouvelleConversation} className="-mt-3 text-right">
-                    <button type="submit" className="text-[12px] font-semibold text-[var(--texte-mute)] underline">
-                      Nouvelle conversation
-                    </button>
-                  </form>
-                )}
+                <ApercuChat initiales={initiales} />
               </>
             ) : (
               <>
@@ -349,15 +336,19 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
               <ul className="mt-3.5 flex flex-col gap-2.5">
                 {SUGGESTIONS.map((s) => (
                   <li key={s.texte}>
-                    <BoutonSujet
-                      texte={s.texte}
-                      surChat={surChat}
-                      className="flex w-full items-center gap-3 rounded-xl border border-[var(--ligne)] px-3 py-2.5 text-left text-[12.5px] font-semibold hover:bg-[var(--indigo-soft)]"
-                    >
-                      <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${s.teinte}`}><Icone nom={s.icone} /></span>
-                      <span className="flex-1">{s.texte}</span>
-                      <span aria-hidden>›</span>
-                    </BoutonSujet>
+                    {s.href ? (
+                      <Link href={s.href} className="flex w-full items-center gap-3 rounded-xl border border-[var(--ligne)] px-3 py-2.5 text-left text-[12.5px] font-semibold hover:bg-[var(--indigo-soft)]">
+                        <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${s.teinte}`}><Icone nom={s.icone} /></span>
+                        <span className="flex-1">{s.texte}</span>
+                        <span aria-hidden>›</span>
+                      </Link>
+                    ) : (
+                      <div title="Bientôt disponible" className="flex w-full cursor-not-allowed items-center gap-3 rounded-xl border border-[var(--ligne)] px-3 py-2.5 text-left text-[12.5px] font-semibold opacity-60">
+                        <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${s.teinte}`}><Icone nom={s.icone} /></span>
+                        <span className="flex-1">{s.texte}</span>
+                        <span className="font-[family-name:var(--font-mono)] text-[10px] font-normal">bientôt</span>
+                      </div>
+                    )}
                   </li>
                 ))}
               </ul>
