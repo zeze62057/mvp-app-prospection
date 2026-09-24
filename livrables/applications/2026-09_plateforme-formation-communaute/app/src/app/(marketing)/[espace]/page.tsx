@@ -144,14 +144,14 @@ export default async function VitrinePage({
   return (
     <div className="bg-[var(--fond)] text-[var(--texte)]">
       {/* Menu : uniquement les entrees dont la section s'affiche reellement. */}
-      <header className="sticky top-0 z-20 border-b border-[var(--ligne)] bg-[rgba(242,247,245,0.92)] backdrop-blur">
+      <header className="sticky top-0 z-20 border-b border-[rgba(234,245,242,0.12)] bg-[rgba(17,56,50,0.92)] text-[var(--sur-encre)] backdrop-blur">
         <div className="flex items-center justify-between gap-4 px-6 py-4 sm:px-16">
           <Link href="#accueil" className="font-display text-lg font-semibold">
             Vivier Academies
           </Link>
-          <nav aria-label="Sections de la page" className="hidden items-center gap-6 text-[13px] font-semibold text-[var(--texte-mute)] md:flex">
+          <nav aria-label="Sections de la page" className="hidden items-center gap-6 text-[13px] font-semibold text-[var(--sur-encre-mute)] md:flex">
             {menu.map((m) => (
-              <a key={m.href} href={m.href} className="hover:text-[var(--texte)]">
+              <a key={m.href} href={m.href} className="hover:text-[var(--sur-encre)]">
                 {m.libelle}
               </a>
             ))}
@@ -159,13 +159,13 @@ export default async function VitrinePage({
           <div className="flex items-center gap-3">
             <Link
               href={`/${espace.slug}/communaute`}
-              className="hidden text-[13px] font-semibold text-[var(--texte-mute)] hover:text-[var(--texte)] sm:block"
+              className="hidden text-[13px] font-semibold text-[var(--sur-encre-mute)] hover:text-[var(--sur-encre)] sm:block"
             >
               Se connecter
             </Link>
             <Link
               href={`/${espace.slug}/communaute`}
-              className="rounded-full bg-[var(--encre)] px-4 py-2 text-[12.5px] font-bold text-[var(--sur-encre)]"
+              className="rounded-full bg-[var(--corail)] px-4 py-2 text-[12.5px] font-bold text-[var(--encre)]"
             >
               Rejoindre
             </Link>
@@ -327,6 +327,22 @@ export default async function VitrinePage({
           classement a montrer : ce bloc n'est donc plus conditionne a leur presence. */}
       <section id="communaute" className="scroll-mt-20 bg-[var(--encre)] px-6 py-16 text-[var(--sur-encre)] sm:px-16">
         <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-light)]">communauté</p>
+        <h2 className="font-display mb-6 max-w-xl text-2xl font-semibold sm:text-[29px]">Tu avances avec les autres.</h2>
+        <ul className="mb-10 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-2">
+          {[
+            { i: "💬", t: "Discussions entre membres" },
+            { i: "🎥", t: "Masterclass en direct" },
+            { i: "📚", t: "Ressources réservées aux élèves" },
+            { i: "⭐", t: "Experts de l'espace" },
+          ].map((f) => (
+            <li key={f.t} className="flex items-center gap-3 text-[13.5px] font-semibold">
+              <span aria-hidden className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-lg border border-[rgba(95,199,184,0.35)] bg-[rgba(95,199,184,0.12)] text-base">
+                {f.i}
+              </span>
+              {f.t}
+            </li>
+          ))}
+        </ul>
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_300px]">
           {derniersPosts.length > 0 && (
             <div>
@@ -539,8 +555,13 @@ export default async function VitrinePage({
 
       {/* Acces : remplace le bloc Tarifs de la capture de reference. Paiement en une fois, sur la page
           tunnel existante (inchangee) ; aucun abonnement, aucun prix mensuel ou annuel. */}
-      <section id="acces" className="scroll-mt-20 px-6 py-16 sm:px-16">
-        <div className="mx-auto max-w-xl rounded-[20px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-8 shadow-[0_24px_60px_rgba(17,56,50,0.12)]">
+      <div
+        className={`grid grid-cols-1 gap-10 px-6 py-16 sm:px-16 ${
+          c.faq && c.faq.length > 0 ? "lg:grid-cols-[minmax(0,460px)_1fr] lg:items-start" : ""
+        }`}
+      >
+      <section id="acces" className="scroll-mt-20">
+        <div className="mx-auto w-full max-w-xl rounded-[20px] border border-[var(--ligne)] bg-[var(--fond-carte)] p-8 shadow-[0_24px_60px_rgba(17,56,50,0.12)]">
           <p className="mb-2 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-texte)]">formation complète</p>
           <h2 className="font-display text-2xl font-semibold">{espace.nom}</h2>
           {espace.tagline && <p className="mt-1.5 text-[13.5px] text-[var(--texte-mute)]">{espace.tagline}</p>}
@@ -580,14 +601,14 @@ export default async function VitrinePage({
       </section>
 
       {c.faq && c.faq.length > 0 && (
-        <div id="faq" className="scroll-mt-20 px-6 py-16 sm:px-16">
+        <div id="faq" className="scroll-mt-20">
           <p className="mb-2.5 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-texte)]">
             questions fréquentes
           </p>
           <h2 className="font-display mb-8 max-w-xl text-2xl font-semibold sm:text-[29px]">
             Ce que tu te demandes probablement
           </h2>
-          <div className="mx-auto flex max-w-2xl flex-col gap-3">
+          <div className="flex max-w-2xl flex-col gap-3">
             {c.faq.map((item, i) => (
               <details
                 key={i}
@@ -604,6 +625,7 @@ export default async function VitrinePage({
           </div>
         </div>
       )}
+      </div>
 
       {c.offre_texte && (
         <Visuel
