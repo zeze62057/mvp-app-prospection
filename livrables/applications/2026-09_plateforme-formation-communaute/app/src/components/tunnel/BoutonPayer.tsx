@@ -5,17 +5,22 @@ import { initierPaiement } from "@/app/(membre)/[espace]/tunnel/actions";
 
 const etatInitial = { erreur: null, checkoutUrl: null };
 
+
 export function BoutonPayer({
   espaceSlug,
   montant,
   devise,
   defauts,
+  boutonExterne = false,
 }: {
   espaceSlug: string;
   montant: number;
   devise: string;
   // Prerempli avec les infos saisies a l'inscription ; l'eleve peut les modifier.
   defauts?: { prenom?: string; nom?: string; telephone?: string };
+  // Le bouton "Payer" est alors affiche ailleurs dans la page (recapitulatif), rattache a ce formulaire
+  // par son identifiant : c'est le meme envoi, la meme action, seul l'emplacement du bouton change.
+  boutonExterne?: boolean;
 }) {
   const [etat, action] = useActionState(initierPaiement, etatInitial);
 
@@ -24,7 +29,7 @@ export function BoutonPayer({
   }, [etat.checkoutUrl]);
 
   return (
-    <form action={action} className="flex flex-col gap-3">
+    <form action={action} id={boutonExterne ? "form-paiement" : undefined} className="flex flex-col gap-3">
       <input type="hidden" name="espace_slug" value={espaceSlug} />
 
       <div className="grid grid-cols-2 gap-3">
@@ -66,12 +71,14 @@ export function BoutonPayer({
         />
       </div>
 
-      <button
-        type="submit"
-        className="mt-1 w-full rounded-[11px] bg-[var(--encre)] py-4 text-[14.5px] font-extrabold text-[var(--sur-encre)] transition-transform hover:-translate-y-0.5"
-      >
-        Payer {montant.toLocaleString("fr-FR")} {devise}
-      </button>
+      {!boutonExterne && (
+        <button
+          type="submit"
+          className="mt-1 w-full rounded-[11px] bg-[var(--encre)] py-4 text-[14.5px] font-extrabold text-[var(--sur-encre)] transition-transform hover:-translate-y-0.5"
+        >
+          Payer {montant.toLocaleString("fr-FR")} {devise}
+        </button>
+      )}
       {etat.erreur && <p className="text-sm text-[var(--corail)]">{etat.erreur}</p>}
     </form>
   );
