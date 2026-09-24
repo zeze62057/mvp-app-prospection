@@ -37,7 +37,7 @@ export default async function ContenuPage({
           Cree un compte ou connecte-toi pour lire le contenu gratuit.
         </p>
         <div className="mt-8">
-          <FormulaireAuth espaceSlug={espace.slug} />
+          <FormulaireAuth espaceSlug={espace.slug} espaceNom={espace.nom} />
         </div>
       </main>
     );

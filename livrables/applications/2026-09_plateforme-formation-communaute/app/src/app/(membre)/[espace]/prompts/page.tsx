@@ -37,7 +37,7 @@ export default async function PromptsPage({
           Cree un compte ou connecte-toi pour acceder a la bibliotheque de prompts.
         </p>
         <div className="mt-8">
-          <FormulaireAuth espaceSlug={espace.slug} />
+          <FormulaireAuth espaceSlug={espace.slug} espaceNom={espace.nom} />
         </div>
       </main>
     );

@@ -48,7 +48,7 @@ export default async function CommunautePayantePage({
           Connecte-toi pour acceder a la communaute payante.
         </p>
         <div className="mt-8">
-          <FormulaireAuth espaceSlug={espace.slug} />
+          <FormulaireAuth espaceSlug={espace.slug} espaceNom={espace.nom} />
         </div>
       </main>
     );

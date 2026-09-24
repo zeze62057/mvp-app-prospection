@@ -42,7 +42,7 @@ export default async function CommunauteGratuitePage({
           Cree un compte ou connecte-toi pour demander l&apos;acces.
         </p>
         <div className="mt-8">
-          <FormulaireAuth espaceSlug={espace.slug} />
+          <FormulaireAuth espaceSlug={espace.slug} espaceNom={espace.nom} />
         </div>
       </main>
     );

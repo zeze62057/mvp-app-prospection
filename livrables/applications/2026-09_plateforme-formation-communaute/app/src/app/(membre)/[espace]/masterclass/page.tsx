@@ -39,7 +39,7 @@ export default async function MasterclassPage({
           Cree un compte ou connecte-toi pour voir les prochaines masterclass.
         </p>
         <div className="mt-8">
-          <FormulaireAuth espaceSlug={espace.slug} />
+          <FormulaireAuth espaceSlug={espace.slug} espaceNom={espace.nom} />
         </div>
       </main>
     );
