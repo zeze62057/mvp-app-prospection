@@ -374,7 +374,7 @@ export default async function AdminPage() {
     { icone: "➕", libelle: "Ajouter un élève", href: "#acces-payant-manuel" },
     { icone: "🎓", libelle: "Créer une formation", href: "#catalogue-formations" },
     { icone: "▶️", libelle: "Publier un cours", href: "#cours" },
-    { icone: "💳", libelle: "Voir les paiements", href: "#paiements-recents" },
+    { icone: "💳", libelle: "Voir les paiements", href: "/admin/paiements" },
     { icone: "🚩", libelle: "Voir les signalements", href: "#signalements" },
     { icone: "⭐", libelle: "Gérer les évaluations", href: "#devoirs" },
   ];
@@ -489,7 +489,7 @@ export default async function AdminPage() {
           <div id="paiements-recents" className="scroll-mt-8 rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
             <div className="mb-3.5 flex items-center justify-between">
               <span className="font-display text-[14px] font-bold">Paiements récents</span>
-              <span title="Bientôt disponible" className="cursor-not-allowed font-mono text-[10.5px] font-bold text-[var(--texte-mute)] opacity-60">Voir tout →</span>
+              <Link href="/admin/paiements" className="font-mono text-[10.5px] font-bold text-[var(--sarcelle)]">Voir tout →</Link>
             </div>
             {(paiementsRecents ?? []).length === 0 ? (
               <p className="text-[12.5px] text-[var(--texte-mute)]">Aucun paiement pour le moment.</p>
