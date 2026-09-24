@@ -40,5 +40,7 @@ export type Espace = {
   contenu_vitrine: ContenuVitrine;
   periode_activite_jours: number; // fenetre d'un membre "actif" dans les stats admin (migration 0024)
   afficher_compteur_public: boolean; // compteur de membres sur la vitrine (migration 0024)
+  whatsapp_support: string | null; // numero WhatsApp de support, chiffres seulement avec indicatif (migration 0050)
+  whatsapp_message: string | null; // message pre-ecrit du bouton, facultatif (migration 0050)
   banniere_path: string | null; // chemin dans le bucket public bannieres-espaces (migration 0042)
 };

@@ -6,6 +6,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import { BoutonPayer } from "@/components/tunnel/BoutonPayer";
 import { Avatar } from "@/components/communaute/fil/Avatar";
 import { urlsAvatars } from "@/lib/avatars";
+import { lienWhatsApp } from "@/lib/whatsapp";
 import type { AccesPayant } from "@/types/membre";
 
 const AVANTAGES = [
@@ -68,6 +69,7 @@ export default async function TunnelPage({
   ]);
   const photos = await urlsAvatars(moi ? [moi as { id: string; avatar_path: string | null }] : []);
   const pseudo = (moi?.pseudo as string | undefined) ?? "Moi";
+  const lienAide = lienWhatsApp(espace.whatsapp_support, espace.whatsapp_message, espace.nom, pseudo);
   const modulesAvecContenu = (modules ?? []).filter(
     (m) => ((m as unknown as { sections: unknown[] }).sections ?? []).length > 0
   );
@@ -223,16 +225,29 @@ export default async function TunnelPage({
               <span aria-hidden className="text-[24px]">🛟</span>
               <div className="min-w-0 flex-1">
                 <div className="text-[13.5px] font-bold">Besoin d&apos;aide ?</div>
-                <p className="text-[12px] text-[var(--texte-mute)]">Une question sur ton paiement ? Le contact arrive bientôt.</p>
+                <p className="text-[12px] text-[var(--texte-mute)]">
+                  {lienAide ? "Tu n'arrives pas à payer ? Écris-nous sur WhatsApp, on t'aide à finaliser." : "Une question sur ton paiement ? Le contact arrive bientôt."}
+                </p>
               </div>
-              <button
-                type="button"
-                disabled
-                title="Bientôt disponible"
-                className="cursor-not-allowed rounded-full border border-[var(--ligne)] px-4 py-2 text-[12px] font-bold text-[var(--texte-mute)] opacity-70"
-              >
-                Contacter le support · bientôt
-              </button>
+              {lienAide ? (
+                <a
+                  href={lienAide}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="rounded-full bg-[#25d366] px-4 py-2 text-[12px] font-extrabold text-[#0b2622]"
+                >
+                  Contacter sur WhatsApp
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  disabled
+                  title="Bientôt disponible"
+                  className="cursor-not-allowed rounded-full border border-[var(--ligne)] px-4 py-2 text-[12px] font-bold text-[var(--texte-mute)] opacity-70"
+                >
+                  Contacter le support · bientôt
+                </button>
+              )}
             </div>
           </div>
 
@@ -290,14 +305,25 @@ export default async function TunnelPage({
             >
               <div className="font-display text-[16px] font-bold">Un doute ?</div>
               <p className="mt-1 text-[12.5px] leading-relaxed text-[var(--sur-encre-mute)]">Pose ta question avant de payer.</p>
-              <button
-                type="button"
-                disabled
-                title="Bientôt disponible"
-                className="mt-3.5 w-full cursor-not-allowed rounded-lg bg-[rgba(234,245,242,0.9)] py-2.5 text-[12.5px] font-bold text-[#0b2622] opacity-70"
-              >
-                Nous contacter · bientôt
-              </button>
+              {lienAide ? (
+                <a
+                  href={lienAide}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3.5 block w-full rounded-lg bg-[#25d366] py-2.5 text-center text-[12.5px] font-extrabold text-[#0b2622]"
+                >
+                  Nous écrire sur WhatsApp
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  disabled
+                  title="Bientôt disponible"
+                  className="mt-3.5 w-full cursor-not-allowed rounded-lg bg-[rgba(234,245,242,0.9)] py-2.5 text-[12.5px] font-bold text-[#0b2622] opacity-70"
+                >
+                  Nous contacter · bientôt
+                </button>
+              )}
             </div>
           </aside>
         </div>

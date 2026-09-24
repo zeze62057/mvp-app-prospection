@@ -12,6 +12,7 @@ import { couleurAvatar } from "@/lib/avatar";
 import { Avatar } from "@/components/communaute/fil/Avatar";
 import { TexteAvecMentions } from "@/components/communaute/fil/TexteAvecMentions";
 import { IconePouce } from "@/components/communaute/fil/CartePost";
+import { lienWhatsApp } from "@/lib/whatsapp";
 
 // Visuels fournis par Zezé : public/vitrines/<slug>/<nom>.jpg (hero, eco-1..3, comp-1..6, banniere).
 // Une image absente laisse le degrade en dessous : aucun trou, aucun test de fichier a faire.
@@ -643,6 +644,16 @@ export default async function VitrinePage({
           ) : connecte ? (
             <div className="mt-6">
               <BoutonPayer espaceSlug={espace.slug} montant={espace.prix} devise={espace.devise} />
+              {lienWhatsApp(espace.whatsapp_support, espace.whatsapp_message, espace.nom) && (
+                <a
+                  href={lienWhatsApp(espace.whatsapp_support, espace.whatsapp_message, espace.nom) ?? undefined}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 block text-center text-[12.5px] font-bold text-[var(--sarcelle-texte)]"
+                >
+                  Tu n&apos;arrives pas à payer ? Écris-nous sur WhatsApp
+                </a>
+              )}
             </div>
           ) : (
             <>

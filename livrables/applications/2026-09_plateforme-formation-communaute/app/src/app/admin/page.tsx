@@ -913,6 +913,8 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
               nom: e.nom,
               periode_activite_jours: e.periode_activite_jours ?? 7,
               afficher_compteur_public: e.afficher_compteur_public ?? true,
+              whatsapp_support: e.whatsapp_support ?? "",
+              whatsapp_message: e.whatsapp_message ?? "",
             }}
             messageAccueil={messageParEspace.get(e.id) ?? ""}
           />

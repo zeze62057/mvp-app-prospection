@@ -107,11 +107,27 @@ export async function modifierParametresCommunaute(
     return { erreur: "Le message d'accueil est limite a 2000 caracteres.", succes: false };
   }
 
+  // WhatsApp de support : on garde les chiffres (indicatif pays inclus, sans + ni espaces). Vide = pas de bouton.
+  const chiffresBruts = String(formData.get("whatsapp_support") ?? "").replace(/\D/g, "");
+  const whatsapp = chiffresBruts.startsWith("00") ? chiffresBruts.slice(2) : chiffresBruts;
+  if (whatsapp && !/^[0-9]{8,15}$/.test(whatsapp)) {
+    return { erreur: "Le numero WhatsApp doit avoir 8 a 15 chiffres, avec l'indicatif du pays (ex. 224620000000).", succes: false };
+  }
+  const messageWhatsapp = String(formData.get("whatsapp_message") ?? "").trim();
+  if (messageWhatsapp.length > 300) {
+    return { erreur: "Le message WhatsApp est limite a 300 caracteres.", succes: false };
+  }
+
   const admin = createAdminClient();
 
   const { data: espace, error: erreurEspace } = await admin
     .from("espaces")
-    .update({ periode_activite_jours: periode, afficher_compteur_public: afficherCompteur })
+    .update({
+      periode_activite_jours: periode,
+      afficher_compteur_public: afficherCompteur,
+      whatsapp_support: whatsapp || null,
+      whatsapp_message: messageWhatsapp || null,
+    })
     .eq("id", espaceId)
     .select("slug")
     .maybeSingle();
@@ -129,6 +145,7 @@ export async function modifierParametresCommunaute(
   revalidatePath(`/${espace.slug}`);
   revalidatePath(`/${espace.slug}/communaute`);
   revalidatePath(`/${espace.slug}/communaute-payante`);
+  revalidatePath(`/${espace.slug}/tunnel`);
   return { erreur: null, succes: true };
 }
 

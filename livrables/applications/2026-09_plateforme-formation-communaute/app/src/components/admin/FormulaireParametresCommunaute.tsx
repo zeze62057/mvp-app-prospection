@@ -14,6 +14,8 @@ export function FormulaireParametresCommunaute({
     nom: string;
     periode_activite_jours: number;
     afficher_compteur_public: boolean;
+    whatsapp_support: string;
+    whatsapp_message: string;
   };
   messageAccueil: string;
 }) {
@@ -69,6 +71,42 @@ export function FormulaireParametresCommunaute({
             placeholder="Bienvenue dans la communaute. Voici les regles : ..."
             className="rounded-lg border border-[var(--ligne)] px-3 py-2 text-sm"
           />
+        </div>
+
+        <div className="rounded-lg border border-[var(--ligne)] p-3">
+          <p className="text-xs font-medium">WhatsApp de support (paiement)</p>
+          <p className="mt-1 text-xs text-[var(--texte-mute)]">
+            Un bouton « Contacter sur WhatsApp » s&apos;affiche sur la page de paiement pour un client qui n&apos;arrive pas
+            à payer. Numéro vide = pas de bouton.
+          </p>
+          <div className="mt-3 flex flex-col gap-1">
+            <label htmlFor={`wa-num-${espace.id}`} className="text-xs text-[var(--texte-mute)]">
+              Numéro avec l&apos;indicatif du pays, sans + (ex. 224620000000)
+            </label>
+            <input
+              id={`wa-num-${espace.id}`}
+              name="whatsapp_support"
+              type="tel"
+              inputMode="numeric"
+              defaultValue={espace.whatsapp_support}
+              placeholder="224620000000"
+              className="w-56 rounded-lg border border-[var(--ligne)] px-3 py-1.5 text-sm"
+            />
+          </div>
+          <div className="mt-3 flex flex-col gap-1">
+            <label htmlFor={`wa-msg-${espace.id}`} className="text-xs text-[var(--texte-mute)]">
+              Message pré-écrit (facultatif, 300 caractères max). Le pseudo du client est ajouté à la fin.
+            </label>
+            <textarea
+              id={`wa-msg-${espace.id}`}
+              name="whatsapp_message"
+              rows={2}
+              maxLength={300}
+              defaultValue={espace.whatsapp_message}
+              placeholder={`Bonjour, je n'arrive pas à payer la formation ${espace.nom}.`}
+              className="rounded-lg border border-[var(--ligne)] px-3 py-2 text-sm"
+            />
+          </div>
         </div>
 
         <div className="flex items-center gap-3">
