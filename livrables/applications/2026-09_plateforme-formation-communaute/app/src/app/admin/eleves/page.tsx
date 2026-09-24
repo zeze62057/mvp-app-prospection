@@ -71,6 +71,7 @@ export default async function ElevesPage({
     { data: sections },
     { data: lignesNiveaux },
     { data: listeAuth },
+    { data: contacts },
   ] = await Promise.all([
     admin.from("profils").select("id, pseudo, role, points, created_at").order("created_at", { ascending: false }),
     admin.from("espaces").select("id, nom").order("nom"),
@@ -80,8 +81,11 @@ export default async function ElevesPage({
     admin.from("sections").select("id, modules(espace_id)"),
     admin.from("niveaux_espace").select("espace_id, niveau, libelle, points_requis").order("niveau"),
     admin.auth.admin.listUsers({ page: 1, perPage: 1000 }).then((r) => ({ data: r.data?.users ?? [] })),
+    // Prenom, nom, telephone saisis a l'inscription (migration 0049). Absents pour les comptes anterieurs.
+    admin.from("profils_contact").select("profil_id, prenom, nom, telephone"),
   ]);
 
+  const contactParId = new Map((contacts ?? []).map((k) => [k.profil_id as string, k as { prenom: string; nom: string; telephone: string }]));
   const emailParId = new Map((listeAuth ?? []).map((u) => [u.id, u.email ?? ""]));
   const nomEspace = new Map((espaces ?? []).map((e) => [e.id as string, e.nom as string]));
 
@@ -161,6 +165,7 @@ export default async function ElevesPage({
       id: p.id as string,
       pseudo: p.pseudo as string,
       email: emailParId.get(p.id as string) ?? "",
+      contact: contactParId.get(p.id as string) ?? null,
       role: p.role as string,
       points,
       creeLe: p.created_at as string,
@@ -179,7 +184,8 @@ export default async function ElevesPage({
     } else if (espaceFiltre && pastilles.length === 0) {
       return false;
     }
-    return !cherche || normaliser(l.pseudo).includes(cherche) || normaliser(l.email).includes(cherche);
+    return !cherche || normaliser(l.pseudo).includes(cherche) || normaliser(l.email).includes(cherche) ||
+      normaliser(`${l.contact?.prenom ?? ""} ${l.contact?.nom ?? ""}`).includes(cherche);
   });
 
   const nbPages = Math.max(1, Math.ceil(filtrees.length / PAR_PAGE));
@@ -226,7 +232,7 @@ export default async function ElevesPage({
       )}
 
       <form method="get" className="mt-5 flex flex-wrap items-center gap-2.5">
-        <input name="q" defaultValue={q} placeholder="Pseudo ou email" aria-label="Rechercher" className={`${champ} min-w-full sm:min-w-0 sm:max-w-xs sm:flex-1`} />
+        <input name="q" defaultValue={q} placeholder="Pseudo, nom ou email" aria-label="Rechercher" className={`${champ} min-w-full sm:min-w-0 sm:max-w-xs sm:flex-1`} />
         <select name="espace" defaultValue={espaceFiltre} aria-label="Espace" className={champ}>
           <option value="">Tous les espaces</option>
           {(espaces ?? []).map((e) => (
@@ -277,7 +283,22 @@ export default async function ElevesPage({
                       </span>
                     )}
                   </div>
+                  {l.contact && (
+                    <div className="text-[11.5px] font-semibold">
+                      {l.contact.prenom} {l.contact.nom}
+                    </div>
+                  )}
                   {l.email && <div className="text-[11px] text-[var(--texte-mute)]">{l.email}</div>}
+                  {l.contact && (
+                    <a
+                      href={`https://wa.me/${l.contact.telephone.replace(/D/g, "")}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[11px] font-semibold text-[var(--sarcelle)]"
+                    >
+                      {l.contact.telephone} · WhatsApp
+                    </a>
+                  )}
                 </td>
                 <td className="whitespace-nowrap px-4 py-3 text-[var(--texte-mute)]">
                   {new Date(l.creeLe).toLocaleDateString("fr-FR")}

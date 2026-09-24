@@ -122,6 +122,28 @@ export function FormulaireAuth({ espaceSlug, espaceNom }: { espaceSlug: string; 
             <form action={insc ? actionInscription : actionConnexion} className="mt-6 flex flex-col gap-4">
               <input type="hidden" name="espace_slug" value={espaceSlug} />
               {insc && (
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+              <div>
+                <label htmlFor="auth-prenom" className="mb-1.5 block text-[13px] font-bold">
+                  Prénom
+                </label>
+                <div className="relative">
+                  <Icone d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0" />
+                  <input id="auth-prenom" name="prenom" placeholder="Ton prénom" required autoComplete="given-name" className={CHAMP} />
+                </div>
+              </div>
+              <div>
+                <label htmlFor="auth-nom" className="mb-1.5 block text-[13px] font-bold">
+                  Nom
+                </label>
+                <div className="relative">
+                  <Icone d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm-7 8a7 7 0 0 1 14 0" />
+                  <input id="auth-nom" name="nom" placeholder="Ton nom" required autoComplete="family-name" className={CHAMP} />
+                </div>
+              </div>
+                </div>
+              )}
+              {insc && (
                 <div>
                   <label htmlFor="auth-pseudo" className="mb-1.5 block text-[13px] font-bold">
                     Pseudo
@@ -141,6 +163,17 @@ export function FormulaireAuth({ espaceSlug, espaceNom }: { espaceSlug: string; 
                   <input id="auth-email" type="email" name="email" placeholder="ton@email.com" required className={CHAMP} />
                 </div>
               </div>
+              {insc && (
+              <div>
+                <label htmlFor="auth-tel" className="mb-1.5 block text-[13px] font-bold">
+                  Téléphone / WhatsApp
+                </label>
+                <div className="relative">
+                  <Icone d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 6 6L16 14l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" />
+                  <input id="auth-tel" type="tel" name="telephone" placeholder="+224 6XX XX XX XX" required autoComplete="tel" className={CHAMP} />
+                </div>
+              </div>
+              )}
               <div>
                 <div className="mb-1.5 flex items-center justify-between">
                   <label htmlFor="auth-mdp" className="text-[13px] font-bold">
@@ -171,6 +204,17 @@ export function FormulaireAuth({ espaceSlug, espaceNom }: { espaceSlug: string; 
                   </button>
                 </div>
               </div>
+              {insc && (
+              <div>
+                <label htmlFor="auth-conf" className="mb-1.5 block text-[13px] font-bold">
+                  Confirmer le mot de passe
+                </label>
+                <div className="relative">
+                  <Icone d="M6 11h12v9H6v-9Zm2 0V8a4 4 0 0 1 8 0v3" />
+                  <input id="auth-conf" type={voir ? "text" : "password"} name="confirmation" placeholder="Répète ton mot de passe" required minLength={6} autoComplete="new-password" className={CHAMP} />
+                </div>
+              </div>
+              )}
               {etat.erreur && (
                 <p role="alert" className="rounded-lg bg-[rgba(255,122,77,0.14)] px-3.5 py-2.5 text-[13px] font-semibold text-[var(--corail)]">
                   {etat.erreur}

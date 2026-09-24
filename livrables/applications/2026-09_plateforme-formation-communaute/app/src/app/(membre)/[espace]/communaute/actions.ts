@@ -14,12 +14,24 @@ export async function inscription(
   const email = String(formData.get("email") ?? "");
   const motDePasse = String(formData.get("mot_de_passe") ?? "");
   const pseudo = String(formData.get("pseudo") ?? "");
+  const prenom = String(formData.get("prenom") ?? "").trim();
+  const nom = String(formData.get("nom") ?? "").trim();
+  const telephone = String(formData.get("telephone") ?? "").trim();
+  const confirmation = String(formData.get("confirmation") ?? "");
+
+  // Champs obligatoires verifies ici (le formulaire les exige aussi, mais le navigateur ne fait pas foi).
+  if (!prenom || !nom) return { erreur: "Le prénom et le nom sont obligatoires." };
+  const chiffres = telephone.replace(/\D/g, "");
+  if (!/^\+?[\d\s().-]+$/.test(telephone) || chiffres.length < 8 || chiffres.length > 15) {
+    return { erreur: "Le numéro de téléphone n'est pas valide (8 à 15 chiffres, avec l'indicatif si possible)." };
+  }
+  if (motDePasse !== confirmation) return { erreur: "Les deux mots de passe ne sont pas identiques." };
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signUp({
     email,
     password: motDePasse,
-    options: { data: { pseudo } },
+    options: { data: { pseudo, prenom, nom, telephone } },
   });
 
   if (error) return { erreur: error.message };
