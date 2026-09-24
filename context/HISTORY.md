@@ -34,6 +34,13 @@
 - Constats : le compte ZzTestB est un compte admin de test resté en base (risque de sécurité, nettoyage à faire). Les 26 profils "Filler" ne sont pas dans l'authentification et faussent les chiffres de Rapports (conversion, demandes). Les 5 paiements en attente sont des tests de Zézé du 15/09, sans référence Chariow
 - 9 commits poussés sur `origin/main` (`899da2a..79a7d4f`) avec l'accord de Zézé
 
+### Pouvoirs d'administration : lot 1, gestion du programme
+
+- Demande de Zézé : l'admin doit pouvoir promouvoir un admin, retirer un membre de la communauté gratuite, approuver les publications avant parution, supprimer un commentaire, ajouter un module ou un chapitre. Cadrage : retirer = perdre l'accès à la communauté (le compte reste), "publicité" = publications des membres, promotion d'admin avec confirmation, journal et protection du dernier admin. Ordre validé : 1 programme, 2 modération (supprimer post et commentaire), 3 membres (retirer, promouvoir), 4 approbation des publications
+- **Lot 1 construit** : page `/admin/programme` (menu Formations). Ajouter, renommer, réordonner (flèches) et supprimer modules et sections, éditeur Markdown de leçon avec aperçu au même rendu que la page élève (composants extraits dans `components/formation/composants-lecon.tsx`). Suppression refusée si des élèves ont terminé la section ou rendu un devoir du module, confirmation sinon, vidéo du stockage supprimée avec la section. Aucune migration
+- Testé dans un espace jetable inactif (supprimé ensuite avec ses comptes de test) : création, aperçu (le HTML n'est pas interprété), enregistrement, ordre des modules et des sections, suppression refusée avec une progression élève puis acceptée sans, leçon visible côté élève, page refusée à un élève
+- Limite connue : l'échange d'ordre se fait en trois écritures sans transaction (commentaire dans le code)
+
 ### Chargement des cours Vivier IA en base
 
 - Décision de Zézé : charger d'abord, relire ensuite sur la plateforme (option A puis B). Aucun élève n'a accès au site aujourd'hui, le chargement se corrige par simple relance

@@ -36,6 +36,12 @@ const SECTIONS: { titre: string; href: string; texte: string }[] = [
       "Approuver ou refuser les demandes d'accès à la communauté gratuite (avec les réponses aux questions d'adhésion), approuver les candidatures Expert, et accorder à la main un accès payant en filet de sécurité.",
   },
   {
+    titre: "Programme",
+    href: "/admin/programme",
+    texte:
+      "Ajouter, renommer, réordonner et supprimer les modules et les sections d'une formation, et écrire le texte des leçons en Markdown avec aperçu. Un module ou une section où des élèves ont déjà avancé ne peut pas être supprimé.",
+  },
+  {
     titre: "Catalogue, cours, masterclass, RDV, ressources",
     href: "/admin#catalogue-formations",
     texte:

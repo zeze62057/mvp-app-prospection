@@ -25,7 +25,8 @@ export const GROUPES: { titre: string; entrees: Entree[] }[] = [
     titre: "Formations",
     entrees: [
       { libelle: "Catalogue des formations", href: "/admin#catalogue-formations", icone: "☰" },
-      { libelle: "Cours", href: "/admin#cours", icone: "▶" },
+      { libelle: "Programme", href: "/admin/programme", icone: "☰" },
+      { libelle: "Cours (vidéos)", href: "/admin#cours", icone: "▶" },
       { libelle: "Catégories", href: "/admin#categories", icone: "▤" },
       { libelle: "Masterclass", href: "/admin#masterclass", icone: "▣" },
       { libelle: "RDV", href: "/admin#rdv", icone: "◷" },
