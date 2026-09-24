@@ -8,11 +8,10 @@ import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAd
 import { BibliothequePrompts } from "@/components/prompts/BibliothequePrompts";
 import type { Adhesion, Prompt } from "@/types/membre";
 
-// Bibliotheque de prompts : reservee a la communaute gratuite (haut de
-// tunnel), pas a l'acces payant. Meme gating que la communaute gratuite
-// (voir communaute/page.tsx), volontairement duplique plutot que
-// factorise pour l'instant : les deux pages divergeront probablement
-// (contenu different, actions differentes) une fois plus construites.
+// Bibliotheque de prompts : haut de tunnel, ouverte aux membres de la communaute gratuite et,
+// depuis la migration 0045 (2026-09-24), aussi a tout acces payant actif. Meme gating que la
+// communaute gratuite (voir communaute/page.tsx) pour le reste, volontairement duplique plutot
+// que factorise : les deux pages divergeront probablement une fois plus construites.
 export default async function PromptsPage({
   params,
 }: {
@@ -51,6 +50,16 @@ export default async function PromptsPage({
     .eq("espace_id", espace.id)
     .maybeSingle<Adhesion>();
 
+  // Un acces payant actif donne aussi acces a la bibliotheque (migration 0045), meme sans
+  // adhesion gratuite : le payant recoit au moins ce que recoit le gratuit.
+  const { data: acces } = await supabase
+    .from("acces_payant")
+    .select("actif")
+    .eq("profil_id", userData.user.id)
+    .eq("espace_id", espace.id)
+    .maybeSingle();
+  const aAccesPayant = !!acces?.actif;
+
   const boutonDeconnexion = (
     <form action={deconnexion.bind(null, espace.slug)}>
       <button type="submit" className="shrink-0 whitespace-nowrap text-xs text-[var(--texte-mute)] underline">
@@ -59,7 +68,7 @@ export default async function PromptsPage({
     </form>
   );
 
-  if (!adhesion) {
+  if (!adhesion && !aAccesPayant) {
     return (
       <main className="mx-auto max-w-md p-16">
         <p className="font-mono text-xs uppercase tracking-wide text-[var(--sarcelle)]">
@@ -78,7 +87,7 @@ export default async function PromptsPage({
     );
   }
 
-  if (adhesion.statut !== "approuve") {
+  if (adhesion && adhesion.statut !== "approuve" && !aAccesPayant) {
     return (
       <main className="mx-auto max-w-md p-16">
         <p className="font-mono text-xs uppercase tracking-wide text-[var(--sarcelle)]">

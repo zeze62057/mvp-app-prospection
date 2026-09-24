@@ -177,6 +177,7 @@ export function MenuLateral({
         { libelle: "À propos", href: `${base}/a-propos`, icone: "a-propos" },
         { libelle: "Calendrier", href: `${base}/calendrier`, icone: "calendrier" },
         { libelle: "Formation", href: `${base}/formation`, icone: "contenu" },
+        { libelle: "Prompts", href: `${base}/prompts`, icone: "prompts" },
         { libelle: "Devenir Expert", href: `${base}/expert`, icone: "expert" },
       ]
     : [
