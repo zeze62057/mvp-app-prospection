@@ -21,24 +21,36 @@ const FONDS = [
   "radial-gradient(circle at 50% 80%, rgba(95,199,184,0.4), transparent 60%), radial-gradient(circle at 80% 15%, rgba(255,122,77,0.3), transparent 50%), linear-gradient(135deg, #113832, #0b2622)",
 ];
 
+// Couches, de haut en bas : voile sombre (option), image fournie, photo de repli (option), trame de
+// points, degrade de la charte. Sans image fournie, le cadre reste decore.
+const TRAME = "radial-gradient(rgba(234,245,242,0.16) 1.5px, transparent 1.5px) 0 0/20px 20px";
+
 function Visuel({
   slug,
   nom,
   i = 0,
   className = "",
   children,
+  photoRepli,
+  voile,
 }: {
   slug: string;
   nom: string;
   i?: number;
   className?: string;
   children?: React.ReactNode;
+  photoRepli?: string;
+  voile?: boolean;
 }) {
+  const couches = [
+    voile ? "linear-gradient(to top, rgba(11,38,34,0.96) 0%, rgba(11,38,34,0.55) 45%, rgba(11,38,34,0.05) 100%)" : null,
+    `url(/vitrines/${slug}/${nom}.jpg) center top/cover no-repeat`,
+    photoRepli ? `url(${photoRepli}) center top/cover no-repeat` : null,
+    TRAME,
+    FONDS[i % FONDS.length],
+  ].filter(Boolean);
   return (
-    <div
-      className={`bg-cover bg-center ${className}`}
-      style={{ backgroundImage: `url(/vitrines/${slug}/${nom}.jpg), ${FONDS[i % FONDS.length]}` }}
-    >
+    <div className={className} style={{ background: couches.join(", ") }}>
       {children}
     </div>
   );
@@ -237,8 +249,19 @@ export default async function VitrinePage({
         </div>
 
         <div className="w-full flex-shrink-0 lg:w-[460px]">
-          <div className="relative flex min-h-[340px] flex-col justify-end overflow-hidden rounded-3xl border border-[rgba(234,245,242,0.14)] p-5 shadow-[0_30px_80px_rgba(0,0,0,0.4)]">
-            <Visuel slug={espace.slug} nom="hero" className="absolute inset-0" />
+          <div className="relative flex min-h-[460px] flex-col justify-end overflow-hidden rounded-3xl border border-[rgba(234,245,242,0.14)] p-5 shadow-[0_30px_80px_rgba(0,0,0,0.4)]">
+            <Visuel slug={espace.slug} nom="hero" photoRepli="/zeze-bilivogui.jpg" voile className="absolute inset-0" />
+            {/* Pastilles flottantes comme la capture : chiffres reels seulement. */}
+            <div className="absolute right-4 top-4 flex flex-col items-end gap-2.5">
+              {espace.afficher_compteur_public !== false && (
+                <span className="rounded-xl border border-[rgba(234,245,242,0.25)] bg-[rgba(11,38,34,0.72)] px-3.5 py-2 text-[12px] font-bold backdrop-blur">
+                  <b className="font-display text-[15px] text-[var(--sarcelle-light)]">{nbMembres ?? 0}</b> membres
+                </span>
+              )}
+              <span className="rounded-xl border border-[rgba(234,245,242,0.25)] bg-[rgba(11,38,34,0.72)] px-3.5 py-2 text-[12px] font-bold backdrop-blur">
+                <b className="font-display text-[15px] text-[var(--corail)]">{nbModulesDisponibles}</b> module{nbModulesDisponibles !== 1 ? "s" : ""}
+              </span>
+            </div>
           {c.terminal_lignes && c.terminal_lignes.length > 0 && (
             <div className="relative overflow-hidden rounded-2xl bg-[rgba(11,38,34,0.88)] shadow-[0_30px_70px_rgba(0,0,0,0.35)] backdrop-blur">
               <div className="flex items-center gap-2 bg-[var(--encre-2)] px-4 py-3">
@@ -432,12 +455,13 @@ export default async function VitrinePage({
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {c.competences.map((competence, i) => (
               <div key={i} className="overflow-hidden rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] shadow-[0_10px_30px_rgba(17,56,50,0.07)]">
-                <Visuel slug={espace.slug} nom={`comp-${i + 1}`} i={i} className="flex h-28 items-end p-3">
-                  <span className="rounded-md bg-[rgba(11,38,34,0.7)] px-2 py-0.5 font-mono text-[11px] font-bold text-[var(--sarcelle-light)]">
+                <Visuel slug={espace.slug} nom={`comp-${i + 1}`} i={i} className="h-28" />
+                <div className="px-5 pb-5">
+                  <span className="-mt-4 mb-3 flex h-8 w-8 items-center justify-center rounded-full border-2 border-[var(--fond-carte)] bg-[var(--sarcelle)] font-mono text-[11px] font-bold text-white shadow-md">
                     {String(i + 1).padStart(2, "0")}
                   </span>
-                </Visuel>
-                <p className="p-5 text-[13.5px] leading-relaxed text-[var(--texte)]">{competence}</p>
+                  <p className="text-[13.5px] leading-relaxed text-[var(--texte)]">{competence}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -454,19 +478,21 @@ export default async function VitrinePage({
           </h2>
           <ol className="grid grid-cols-1 gap-5 sm:grid-cols-3">
             {[
-              { titre: "Communauté gratuite", texte: c.parcours_etape1 },
-              { titre: "Formation complète", texte: c.parcours_etape2 },
-              { titre: "Communauté payante", texte: c.parcours_etape3 },
+              { titre: "Communauté gratuite", texte: c.parcours_etape1, href: `/${espace.slug}/communaute` },
+              { titre: "Formation complète", texte: c.parcours_etape2, href: "#acces" },
+              { titre: "Communauté payante", texte: c.parcours_etape3, href: "#acces" },
             ].map((etape, i) => (
               <li key={etape.titre} className="overflow-hidden rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] shadow-[0_10px_30px_rgba(17,56,50,0.07)]">
-                <Visuel slug={espace.slug} nom={`eco-${i + 1}`} i={i} className="flex h-40 items-start p-4">
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[var(--corail)] font-mono text-[13px] font-bold text-[var(--encre)]">
+                <Visuel slug={espace.slug} nom={`eco-${i + 1}`} i={i} className="h-40" />
+                <div className="px-5 pb-5">
+                  <span className="-mt-5 mb-3 flex h-10 w-10 items-center justify-center rounded-full border-2 border-[var(--fond-carte)] bg-[var(--corail)] font-mono text-[14px] font-bold text-[var(--encre)] shadow-md">
                     {i + 1}
                   </span>
-                </Visuel>
-                <div className="p-5">
                   <p className="font-display mb-2 text-base font-bold">{etape.titre}</p>
                   <p className="text-[13.5px] leading-relaxed text-[var(--texte-mute)]">{etape.texte}</p>
+                  <Link href={etape.href} className="mt-3 inline-block text-[12.5px] font-bold text-[var(--sarcelle)]">
+                    Découvrir →
+                  </Link>
                 </div>
               </li>
             ))}
