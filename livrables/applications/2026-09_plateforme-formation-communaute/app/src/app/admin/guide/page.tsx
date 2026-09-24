@@ -16,7 +16,7 @@ const SECTIONS: { titre: string; href: string; texte: string }[] = [
     titre: "Élèves",
     href: "/admin/eleves",
     texte:
-      "Tous les membres avec leur email, leurs espaces (gratuit, en attente, payant, Expert), leur niveau, leur avancement et leur dernière activité. Recherche et filtres. Lecture seule.",
+      "Tous les membres avec leur email, leurs espaces (gratuit, en attente, payant, Expert), leur niveau, leur avancement et leur dernière activité. Recherche et filtres. Le menu « Gérer » d'une ligne permet de retirer un membre de la communauté gratuite (réversible, avec option de supprimer ses contenus), de le réintégrer, et de promouvoir un admin ou de lui retirer le rôle.",
   },
   {
     titre: "Formateurs",
@@ -27,7 +27,7 @@ const SECTIONS: { titre: string; href: string; texte: string }[] = [
     titre: "Administrateurs",
     href: "/admin/administrateurs",
     texte:
-      "Les comptes qui ont les droits admin, avec leur dernière connexion. Lecture seule : ce rôle se donne uniquement depuis la base de données, jamais depuis l'interface.",
+      "Les comptes qui ont les droits admin, leur dernière connexion, et le journal des 50 dernières actions sensibles. Le rôle se donne et se retire depuis le menu « Gérer » de la page Élèves, avec confirmation par le pseudo. Le dernier admin ne peut jamais être retiré.",
   },
   {
     titre: "Inscriptions, candidatures et accès manuel",

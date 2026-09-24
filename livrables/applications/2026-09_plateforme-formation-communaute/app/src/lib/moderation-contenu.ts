@@ -12,7 +12,8 @@ export async function supprimerContenuModeration(
   admin: SupabaseClient,
   adminId: string,
   type: TypeContenu,
-  id: string
+  id: string,
+  options: { journaliser?: boolean } = {}
 ): Promise<{ ok: boolean; message: string }> {
   let espaceId: string | null = null;
   let auteurId: string | null = null;
@@ -48,6 +49,8 @@ export async function supprimerContenuModeration(
     .update({ statut: "traite", traite_at: new Date().toISOString() })
     .eq("type", type)
     .eq("cible_id", id);
+
+  if (options.journaliser === false) return { ok: true, message: type === "post" ? "Post supprimé." : "Commentaire supprimé." };
 
   const { data: auteur } = auteurId
     ? await admin.from("profils").select("pseudo").eq("id", auteurId).maybeSingle()

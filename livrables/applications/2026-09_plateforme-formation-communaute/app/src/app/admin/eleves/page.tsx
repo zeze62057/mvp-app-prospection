@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { NIVEAUX_PAR_DEFAUT, niveauDe, type NiveauConfig } from "@/lib/niveaux";
 import { BarreHautAdmin } from "@/components/admin/BarreHautAdmin";
+import { retirerDeCommunaute, reintegrerDansCommunaute, promouvoirAdmin, retirerRoleAdmin } from "./actions";
 
 const PAR_PAGE = 25;
 
@@ -28,6 +29,7 @@ type Pastille = {
   expert: boolean;
   niveau: string | null;
   avancement: number | null;
+  adhesion: string | null; // statut brut de l'adhesion gratuite, meme si l'acces payant l'emporte a l'affichage
 };
 
 const normaliser = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
@@ -35,7 +37,7 @@ const normaliser = (s: string) => s.normalize("NFD").replace(/\p{M}/gu, "").toLo
 export default async function ElevesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ espace?: string; statut?: string; q?: string; page?: string }>;
+  searchParams: Promise<{ espace?: string; statut?: string; q?: string; page?: string; ok?: string; erreur?: string }>;
 }) {
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
@@ -54,7 +56,8 @@ export default async function ElevesPage({
     );
   }
 
-  const { espace: espaceFiltre = "", statut: statutFiltre = "", q = "", page: pageBrute = "1" } = await searchParams;
+  const { espace: espaceFiltre = "", statut: statutFiltre = "", q = "", page: pageBrute = "1", ok, erreur } = await searchParams;
+  const moiId = userData.user.id;
   const admin = createAdminClient();
 
   // ponytail: un seul appel par table, plafonne a 1000 lignes (limite Supabase). Suffisant a
@@ -132,6 +135,7 @@ export default async function ElevesPage({
           expert: false,
           niveau: statut === "gratuit" ? niveauDe(points, niveaux(espaceId)).libelle : null,
           avancement: null,
+          adhesion: a.statut as string,
         });
       });
 
@@ -149,6 +153,7 @@ export default async function ElevesPage({
           expert: !!a.est_expert,
           niveau: niveauDe(points, niveaux(espaceId)).libelle,
           avancement: total > 0 ? Math.round((faites / total) * 100) : null,
+          adhesion: pastilles.get(espaceId)?.adhesion ?? null,
         });
       });
 
@@ -191,6 +196,8 @@ export default async function ElevesPage({
     return s ? `/admin/eleves?${s}` : "/admin/eleves";
   };
 
+  const retour = lien(page);
+
   const champ =
     "rounded-lg border border-[var(--ligne)] bg-[var(--fond-carte)] px-3 py-1.5 text-[12.5px] outline-none focus:border-[var(--sarcelle)]";
 
@@ -204,8 +211,19 @@ export default async function ElevesPage({
       <h1 className="font-display text-[26px] font-semibold">Élèves</h1>
       <p className="mt-1 text-[13px] text-[var(--texte-mute)]">
         {filtrees.length} membre{filtrees.length !== 1 ? "s" : ""}
-        {filtrees.length !== lignes.length ? ` sur ${lignes.length}` : ""}. Lecture seule : les actions restent dans le tableau de bord.
+        {filtrees.length !== lignes.length ? ` sur ${lignes.length}` : ""}. Le menu « Gérer » d&apos;une ligne permet de retirer un membre de la communauté gratuite ou de changer son rôle admin.
       </p>
+
+      {ok && (
+        <p role="status" className="mt-4 rounded-lg bg-[rgba(43,140,130,0.12)] px-4 py-2.5 text-[12.5px] font-bold text-[var(--sarcelle-texte)]">
+          {ok}
+        </p>
+      )}
+      {erreur && (
+        <p role="alert" className="mt-4 rounded-lg bg-[rgba(255,122,77,0.14)] px-4 py-2.5 text-[12.5px] font-bold text-[var(--corail-texte)]">
+          {erreur}
+        </p>
+      )}
 
       <form method="get" className="mt-5 flex flex-wrap items-center gap-2.5">
         <input name="q" defaultValue={q} placeholder="Pseudo ou email" aria-label="Rechercher" className={`${champ} min-w-full sm:min-w-0 sm:max-w-xs sm:flex-1`} />
@@ -236,7 +254,7 @@ export default async function ElevesPage({
       </form>
 
       <div className="mt-5 overflow-x-auto rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)]">
-        <table className="w-full min-w-[720px] text-left text-[12px]">
+        <table className="w-full min-w-[980px] text-left text-[12px]">
           <thead>
             <tr className="font-mono text-[10px] uppercase tracking-wide text-[var(--texte-mute)]">
               <th className="px-4 py-3">Membre</th>
@@ -244,6 +262,7 @@ export default async function ElevesPage({
               <th className="px-4 py-3">Espaces</th>
               <th className="px-4 py-3 text-right">Points</th>
               <th className="px-4 py-3">Dernière activité</th>
+              <th className="px-4 py-3">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -292,11 +311,74 @@ export default async function ElevesPage({
                 <td className="whitespace-nowrap px-4 py-3 text-[var(--texte-mute)]">
                   {l.derniereActivite ? new Date(l.derniereActivite).toLocaleDateString("fr-FR") : "Aucune"}
                 </td>
+                <td className="px-4 py-3">
+                  <details>
+                    <summary className="w-fit cursor-pointer list-none rounded-md border border-[var(--ligne)] px-2.5 py-1 text-[11px] font-bold [&::-webkit-details-marker]:hidden">
+                      Gérer
+                    </summary>
+                    <div className="mt-2 flex w-64 flex-col gap-3.5 rounded-xl border border-[var(--ligne)] p-3">
+                      {l.pastilles
+                        .filter((x) => x.adhesion === "approuve")
+                        .map((x) => (
+                          <form key={x.espaceId} action={retirerDeCommunaute} className="flex flex-col gap-1.5">
+                            <input type="hidden" name="retour" value={retour} />
+                            <input type="hidden" name="profil_id" value={l.id} />
+                            <input type="hidden" name="espace_id" value={x.espaceId} />
+                            <p className="text-[11.5px] font-bold">Retirer de la communauté gratuite « {x.nom} »</p>
+                            <label className="flex items-start gap-1.5 text-[11px] text-[var(--texte-mute)]">
+                              <input type="checkbox" name="supprimer_contenu" className="mt-0.5" />
+                              Supprimer aussi ses posts et commentaires de la zone gratuite
+                            </label>
+                            <button type="submit" className="w-fit rounded-lg bg-[var(--corail)] px-3 py-1 text-[11.5px] font-bold text-[var(--encre)]">
+                              Retirer
+                            </button>
+                          </form>
+                        ))}
+                      {l.pastilles
+                        .filter((x) => x.adhesion === "refuse")
+                        .map((x) => (
+                          <form key={x.espaceId} action={reintegrerDansCommunaute} className="flex flex-col gap-1.5">
+                            <input type="hidden" name="retour" value={retour} />
+                            <input type="hidden" name="profil_id" value={l.id} />
+                            <input type="hidden" name="espace_id" value={x.espaceId} />
+                            <p className="text-[11.5px] font-bold">Retiré de « {x.nom} »</p>
+                            <button type="submit" className="w-fit rounded-lg border border-[var(--ligne)] px-3 py-1 text-[11.5px] font-bold">
+                              Réintégrer
+                            </button>
+                          </form>
+                        ))}
+                      {l.id === moiId ? (
+                        <p className="text-[11px] text-[var(--texte-mute)]">C&apos;est toi : ton rôle ne se change pas ici.</p>
+                      ) : (
+                        <form action={l.role === "admin" ? retirerRoleAdmin : promouvoirAdmin} className="flex flex-col gap-1.5">
+                          <input type="hidden" name="retour" value={retour} />
+                          <input type="hidden" name="profil_id" value={l.id} />
+                          <p className="text-[11.5px] font-bold">
+                            {l.role === "admin" ? "Retirer le rôle admin" : "Promouvoir admin"}
+                          </p>
+                          <p className="text-[10.5px] text-[var(--texte-mute)]">
+                            Pour confirmer, tape le pseudo : <b>{l.pseudo}</b>
+                          </p>
+                          <input
+                            name="confirmation"
+                            required
+                            autoComplete="off"
+                            aria-label={`Confirmer en tapant ${l.pseudo}`}
+                            className="rounded-lg border border-[var(--ligne)] px-2.5 py-1 text-[12px]"
+                          />
+                          <button type="submit" className="w-fit rounded-lg bg-[var(--encre)] px-3 py-1 text-[11.5px] font-bold text-[var(--sur-encre)]">
+                            {l.role === "admin" ? "Retirer le rôle" : "Promouvoir"}
+                          </button>
+                        </form>
+                      )}
+                    </div>
+                  </details>
+                </td>
               </tr>
             ))}
             {visibles.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-[var(--texte-mute)]">
+                <td colSpan={6} className="px-4 py-8 text-center text-[var(--texte-mute)]">
                   Aucun membre ne correspond à ces filtres.
                 </td>
               </tr>

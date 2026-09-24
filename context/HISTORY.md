@@ -34,6 +34,14 @@
 - Constats : le compte ZzTestB est un compte admin de test resté en base (risque de sécurité, nettoyage à faire). Les 26 profils "Filler" ne sont pas dans l'authentification et faussent les chiffres de Rapports (conversion, demandes). Les 5 paiements en attente sont des tests de Zézé du 15/09, sans référence Chariow
 - 9 commits poussés sur `origin/main` (`899da2a..79a7d4f`) avec l'accord de Zézé
 
+### Pouvoirs d'administration : lot 3, gestion des membres
+
+- Décisions : retirer un membre = adhésion passée à "refusé" (l'historique reste, il ne peut pas se ré-inscrire seul, réversible par "Réintégrer"), ton propre rôle non modifiable, confirmation d'une promotion en tapant le pseudo
+- **Migration 0047 appliquée** : déclencheur `proteger_dernier_admin` qui interdit à la base de retirer le rôle du dernier admin, quel que soit le chemin (testé avant application dans une transaction annulée : dernier admin refusé, promotion, retrait avec un autre admin et changement de pseudo autorisés)
+- Page Élèves : menu "Gérer" par ligne. Retirer de la communauté gratuite (option : supprimer ses posts et commentaires de la zone gratuite, un seul résumé au journal, fichiers du stockage nettoyés), réintégrer, promouvoir admin, retirer le rôle admin. Le journal est écrit avant un changement de rôle (échec = action annulée). Un accès payant n'est jamais touché. Page Administrateurs : journal des 50 dernières actions, texte "lecture seule" remplacé
+- Testé dans un espace jetable avec 3 élèves et un admin de test (supprimés ensuite, journal de test compris) : retrait avec suppression de contenu (2 contenus supprimés, le post d'un autre membre intact), réintégration, retrait d'un membre payant (accès payant conservé), confirmation erronée refusée, promotion, retrait du rôle, ligne de l'admin connecté sans formulaire de rôle, 5 lignes de journal lisibles. Le rôle et les données de Zézé n'ont pas été touchés
+- Non testé : le message vu par un membre retiré (page "demande refusée" existante), et le refus du dernier admin côté action (vérifié seulement en base par la migration : le tester aurait exigé de retirer ton rôle)
+
 ### Pouvoirs d'administration : lot 2, modération
 
 - Décisions : pas de notification à l'auteur d'un contenu supprimé, journal des actions d'admin oui
