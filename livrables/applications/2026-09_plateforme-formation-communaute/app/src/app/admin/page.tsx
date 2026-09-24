@@ -34,6 +34,7 @@ import { FormulaireBadge } from "@/components/admin/FormulaireBadge";
 import { GrapheEvolution } from "@/components/admin/GrapheEvolution";
 import { AnneauRepartition } from "@/components/admin/AnneauRepartition";
 import { BarreHautAdmin } from "@/components/admin/BarreHautAdmin";
+import { SelecteurPeriode } from "@/components/admin/SelecteurPeriode";
 import { AvatarAdmin } from "@/components/admin/AvatarAdmin";
 import { urlsAvatars } from "@/lib/avatars";
 import { getActivite, ilYa } from "@/lib/activite-admin";
@@ -375,15 +376,6 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
 
   const activite = await getActivite(admin, 6);
 
-  // Cloche : tout ce qui attend une action de l'admin (detail dans /admin/notifications).
-  const attentes = [
-    { n: (demandes ?? []).length, href: "#inscriptions" },
-    { n: (candidaturesExpert ?? []).length, href: "#candidatures-expert" },
-    { n: (signalements ?? []).length, href: "#signalements" },
-    { n: (remisesAttente ?? []).length, href: "#devoirs" },
-  ];
-  const nbAttente = attentes.reduce((s, a) => s + a.n, 0);
-
   const raccourcis = [
     { icone: "➕", libelle: "Ajouter un élève", href: "#acces-payant-manuel" },
     { icone: "🎓", libelle: "Créer une formation", href: "#catalogue-formations" },
@@ -423,7 +415,7 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
 
   return (
       <main className="min-w-0 flex-1 p-4 md:p-16">
-      <BarreHautAdmin pseudo={profil?.pseudo ?? ""} nbAttente={nbAttente} />
+      <BarreHautAdmin />
       <div id="tableau-de-bord" className="grid scroll-mt-8 gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
       <div className="min-w-0">
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -434,24 +426,11 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
               Voici un aperçu de l&apos;activité de votre plateforme de formation.
             </p>
           </div>
-          <form method="get" className="flex items-center gap-2">
-            <span aria-hidden>📅</span>
-            <select
-              name="periode"
-              defaultValue={periode}
-              aria-label="Période"
-              className="rounded-lg border border-[var(--ligne)] bg-[var(--fond-carte)] px-3 py-2 text-[12px] font-bold outline-none focus:border-[var(--sarcelle)]"
-            >
-              {Object.entries(PERIODES).map(([valeur, libelle]) => (
-                <option key={valeur} value={valeur}>
-                  {libelle}
-                </option>
-              ))}
-            </select>
-            <button type="submit" className="rounded-lg bg-[var(--sarcelle)] px-3.5 py-2 text-[12px] font-bold text-white">
-              Afficher
-            </button>
-          </form>
+          <SelecteurPeriode
+            periode={periode}
+            options={Object.entries(PERIODES).map(([valeur, libelle]) => ({ valeur, libelle }))}
+            dates={`Du ${new Date(debut).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })} au ${new Date(maintenant).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}`}
+          />
         </div>
 
         <div className="mt-7 grid grid-cols-1 gap-3.5 sm:grid-cols-2 2xl:grid-cols-4">
@@ -480,7 +459,8 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
         <div className="mt-6 grid grid-cols-1 gap-4 2xl:grid-cols-[1fr_340px]">
           <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
             <div className="mb-4 flex items-center justify-between">
-              <span className="font-display text-[14px] font-bold">📈 Évolution des demandes d&apos;adhésion ({PERIODES[periode].toLowerCase()})</span>
+              <span className="font-display text-[14px] font-bold">📈 Évolution des demandes d&apos;adhésion</span>
+              <span className="rounded-lg border border-[var(--ligne)] px-2.5 py-1 font-mono text-[10.5px] text-[var(--texte-mute)]">{PERIODES[periode]}</span>
             </div>
             <GrapheEvolution points={evolutionInscriptions} pasLibelle={jours === 30 ? 5 : 1} />
           </div>
@@ -501,7 +481,16 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
             {(derniersInscrits ?? []).length === 0 ? (
               <p className="text-[12.5px] text-[var(--texte-mute)]">Aucune inscription pour le moment.</p>
             ) : (
-              <table className="w-full text-left text-[12px]">
+              <div className="overflow-x-auto"><table className="w-full text-left text-[12px]">
+                <thead>
+                  <tr className="font-mono text-[9.5px] uppercase tracking-wide text-[var(--texte-mute)]">
+                    <th className="pb-2 font-normal">Élève</th>
+                    <th className="pb-2 font-normal">Formation</th>
+                    <th className="pb-2 text-right font-normal">Inscription</th>
+                    <th className="pb-2 pl-2 text-right font-normal">Statut</th>
+                    <th />
+                  </tr>
+                </thead>
                 <tbody>
                   {(derniersInscrits ?? []).map((d) => {
                     const pr = profilDe(d.profils);
@@ -519,8 +508,9 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
                           </div>
                         </td>
                         <td className="py-2 text-[var(--texte-mute)]">{(d.espaces as unknown as { nom: string } | null)?.nom ?? "?"}</td>
-                        <td className="py-2 text-right font-mono text-[10.5px] text-[var(--texte-mute)]">
-                          {new Date(d.created_at).toLocaleDateString("fr-FR")}
+                        <td className="py-2 text-right font-mono text-[10.5px] leading-tight text-[var(--texte-mute)]">
+                          <div>{new Date(d.created_at).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}</div>
+                          <div>{new Date(d.created_at).toLocaleTimeString("fr-FR", { hour: "2-digit", minute: "2-digit" })}</div>
                         </td>
                         <td className="py-2 pl-2 text-right">
                           <span
@@ -548,7 +538,7 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
                     );
                   })}
                 </tbody>
-              </table>
+              </table></div>
             )}
           </div>
 
@@ -560,7 +550,14 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
             {(paiementsRecents ?? []).length === 0 ? (
               <p className="text-[12.5px] text-[var(--texte-mute)]">Aucun paiement pour le moment.</p>
             ) : (
-              <table className="w-full text-left text-[12px]">
+              <div className="overflow-x-auto"><table className="w-full text-left text-[12px]">
+                <thead>
+                  <tr className="font-mono text-[9.5px] uppercase tracking-wide text-[var(--texte-mute)]">
+                    <th className="pb-2 font-normal">Élève</th>
+                    <th className="pb-2 font-normal">Montant</th>
+                    <th className="pb-2 pl-2 text-right font-normal">Statut</th>
+                  </tr>
+                </thead>
                 <tbody>
                   {(paiementsRecents ?? []).map((p) => {
                     const pr = profilDe(p.profils);
@@ -590,7 +587,7 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
                     );
                   })}
                 </tbody>
-              </table>
+              </table></div>
             )}
           </div>
         </div>
@@ -638,37 +635,55 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
           </div>
 
           <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
-            <div className="mb-3.5 font-display text-[14px] font-bold">Statistiques clés</div>
-            <div className="flex flex-col gap-3">
-              <div className="flex items-center justify-between">
-                <span className="text-[12px] text-[var(--texte-mute)]">Taux de complétion moyen</span>
-                <span className="font-mono text-[13px] font-bold text-[var(--sarcelle)]">
-                  {tauxCompletionMoyen !== null ? `${tauxCompletionMoyen}%` : "Donnée non disponible"}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="text-[12px] text-[var(--texte-mute)]">Satisfaction moyenne</span>
-                <span className="font-mono text-[13px] font-bold text-[var(--sarcelle)]">
-                  {satisfactionMoyenne !== null ? `${satisfactionMoyenne.toFixed(1)} / 5` : "Donnée non disponible"}
-                </span>
-              </div>
-              <div className="flex items-center justify-between gap-3">
-                <span className="text-[12px] text-[var(--texte-mute)]" title="Part des membres actifs sur la période précédente qui le sont encore sur la période choisie (post, like ou section terminée)">
-                  Taux de rétention
-                </span>
-                <span className="text-right font-mono text-[13px] font-bold text-[var(--sarcelle)]">
-                  {tauxRetention !== null ? `${tauxRetention.pct}%` : "Donnée non disponible"}
-                  {tauxRetention !== null && (
-                    <span className="block text-[10px] font-normal text-[var(--texte-mute)]">
-                      {tauxRetention.reste} sur {tauxRetention.avant}
+            <div className="mb-3.5 font-display text-[14px] font-bold">📊 Statistiques clés</div>
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                {
+                  icone: "✅",
+                  couleur: "var(--sarcelle-light)",
+                  libelle: "Taux de complétion",
+                  valeur: tauxCompletionMoyen !== null ? `${tauxCompletionMoyen}%` : "n/d",
+                  sous: undefined as string | undefined,
+                  aide: "Avancement moyen des élèves, pondéré par le nombre d'élèves de chaque formation",
+                },
+                {
+                  icone: "⭐",
+                  couleur: "var(--corail)",
+                  libelle: "Satisfaction moyenne",
+                  valeur: satisfactionMoyenne !== null ? `${satisfactionMoyenne.toFixed(1)} / 5` : "n/d",
+                  sous: undefined,
+                  aide: "Moyenne des notes laissées avec les témoignages",
+                },
+                {
+                  icone: "⏱",
+                  couleur: "var(--sarcelle-light)",
+                  libelle: "Temps moyen de formation",
+                  valeur: "Bientôt",
+                  sous: "aucune mesure du temps passé",
+                  aide: "Aucune mesure du temps passé n'existe en base",
+                },
+                {
+                  icone: "🔁",
+                  couleur: "var(--corail)",
+                  libelle: "Taux de rétention",
+                  valeur: tauxRetention !== null ? `${tauxRetention.pct}%` : "n/d",
+                  sous: tauxRetention !== null ? `${tauxRetention.reste} sur ${tauxRetention.avant}` : undefined,
+                  aide: "Part des membres actifs sur la période précédente qui le sont encore sur la période choisie (post, like ou section terminée)",
+                },
+              ].map((t) => (
+                <div key={t.libelle} title={t.aide} className="rounded-xl border border-[var(--ligne)] p-3">
+                  <div className="flex items-center gap-2">
+                    <span aria-hidden className="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full text-[13px]" style={{ background: t.couleur }}>
+                      {t.icone}
                     </span>
-                  )}
-                </span>
-              </div>
-              <div className="flex items-center justify-between opacity-50">
-                <span className="text-[12px] text-[var(--texte-mute)]" title="Aucune mesure du temps passé n'existe en base">Temps moyen de formation</span>
-                <span className="font-mono text-[11px] font-bold text-[var(--texte-mute)]">Bientôt disponible</span>
-              </div>
+                    <span className="text-[10.5px] leading-tight text-[var(--texte-mute)]">{t.libelle}</span>
+                  </div>
+                  <div className={`mt-2 font-display text-[17px] font-extrabold ${t.valeur === "Bientôt" || t.valeur === "n/d" ? "text-[var(--texte-mute)] opacity-60" : ""}`}>
+                    {t.valeur}
+                  </div>
+                  {t.sous && <div className="text-[10px] text-[var(--texte-mute)]">{t.sous}</div>}
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -720,7 +735,7 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
             <ul className="flex flex-col gap-3.5">
               {activite.map((a, i) => (
                 <li key={i} className="flex gap-3">
-                  <span aria-hidden className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-[var(--fond)] text-[14px]">
+                  <span aria-hidden className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full text-[14px]" style={{ background: a.couleur }}>
                     {a.icone}
                   </span>
                   <div className="min-w-0">

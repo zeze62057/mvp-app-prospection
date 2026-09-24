@@ -27,7 +27,7 @@ export default async function ActivitePage() {
 
   return (
     <main className="min-w-0 flex-1 p-4 md:p-16">
-      <BarreHautAdmin pseudo={profil?.pseudo ?? ""} />
+      <BarreHautAdmin />
 
       <Link href="/admin" className="mb-2 block text-[12px] font-bold text-[var(--sarcelle)] md:hidden">
         ← Tableau de bord
@@ -45,7 +45,7 @@ export default async function ActivitePage() {
           <ul className="flex flex-col gap-4">
             {evenements.map((e, i) => (
               <li key={i} className="flex gap-3">
-                <span aria-hidden className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-[var(--fond)] text-[15px]">
+                <span aria-hidden className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-[15px]" style={{ background: e.couleur }}>
                   {e.icone}
                 </span>
                 <div className="min-w-0 flex-1">

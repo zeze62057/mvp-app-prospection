@@ -33,7 +33,7 @@ export default async function AdministrateursPage() {
 
   return (
     <main className="min-w-0 flex-1 p-4 md:p-16">
-      <BarreHautAdmin pseudo={profil?.pseudo ?? ""} />
+      <BarreHautAdmin />
 
       <Link href="/admin" className="mb-2 block text-[12px] font-bold text-[var(--sarcelle)] md:hidden">
         ← Tableau de bord

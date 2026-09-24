@@ -4,7 +4,7 @@
 
 import type { SupabaseClient } from "@supabase/supabase-js";
 
-export type Evenement = { date: string; icone: string; titre: string; detail: string };
+export type Evenement = { date: string; icone: string; couleur: string; titre: string; detail: string };
 
 export function ilYa(dateIso: string) {
   const min = Math.max(0, Math.round((new Date().getTime() - new Date(dateIso).getTime()) / 60000));
@@ -44,24 +44,28 @@ export async function getActivite(admin: SupabaseClient, limite: number): Promis
     ...(inscriptions ?? []).map((d) => ({
       date: d.created_at as string,
       icone: "👤",
+      couleur: "var(--sarcelle-light)",
       titre: `Inscription de ${pseudoDe(d.profils)}`,
       detail: (d.espaces as unknown as { nom: string } | null)?.nom ?? "?",
     })),
     ...(paiements ?? []).map((p) => ({
       date: p.created_at as string,
       icone: "💳",
+      couleur: "var(--corail)",
       titre: `Paiement ${p.statut === "confirme" ? "confirmé" : p.statut === "echoue" ? "échoué" : "en attente"} de ${(p.montant as number).toLocaleString("fr-FR")} ${p.devise}`,
       detail: pseudoDe(p.profils),
     })),
     ...(remises ?? []).map((r) => ({
       date: r.rendu_at as string,
       icone: "📝",
+      couleur: "var(--sarcelle)",
       titre: `Devoir rendu par ${pseudoDe(r.profils)}`,
       detail: (r.devoirs as unknown as { titre: string } | null)?.titre ?? "?",
     })),
     ...(contenus ?? []).map((c) => ({
       date: c.created_at as string,
       icone: "📰",
+      couleur: "var(--sarcelle-light)",
       titre: "Article publié dans Contenu",
       detail: c.titre as string,
     })),
