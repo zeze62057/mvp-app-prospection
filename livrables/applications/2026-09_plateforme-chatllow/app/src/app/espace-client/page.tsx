@@ -42,6 +42,14 @@ type Livrable = { id: string; categorie: string; titre: string; description: str
 const date = (iso: string) => new Date(iso).toLocaleDateString("fr-FR", { day: "numeric", month: "long", year: "numeric" });
 const taille = (o: number | null) => (o == null ? null : o < 1_000_000 ? `${Math.max(1, Math.round(o / 1000))} Ko` : `${(o / 1_000_000).toFixed(1).replace(".", ",")} Mo`);
 
+// Exemples affiches tant que le client n'a aucune vraie ressource. Ils sont etiquetes et non cliquables.
+const RESSOURCES_EXEMPLES = [
+  { titre: "Guide : 10 cas d'usage IA pour le service client", meta: "PDF · 2,4 Mo" },
+  { titre: "Checklist intégration IA", meta: "PDF · 1,1 Mo" },
+  { titre: "Étude de cas : L'IA en action en entreprise", meta: "PDF · 3,2 Mo" },
+  { titre: "Webinaire : Réussir son projet IA", meta: "Vidéo · 45 min" },
+];
+
 const CARTE = "rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)]";
 
 function LigneLivrable({ l }: { l: Livrable }) {
@@ -332,7 +340,10 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
           {/* Colonne de droite */}
           <aside className="flex flex-col gap-5">
             <section className={`${CARTE} p-5`}>
-              <h2 className="font-[family-name:var(--font-display)] text-[15px] font-semibold">Suggestions rapides</h2>
+              <div className="flex items-center justify-between">
+                <h2 className="font-[family-name:var(--font-display)] text-[15px] font-semibold">Suggestions rapides</h2>
+                <Link href="/diagnostic" className="text-[11.5px] font-semibold text-[oklch(45%_0.19_250)]">Voir tout →</Link>
+              </div>
               <ul className="mt-3.5 flex flex-col gap-2.5">
                 {SUGGESTIONS.map((s) => (
                   <li key={s.texte}>
@@ -355,7 +366,10 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
             </section>
 
             <section className={`${CARTE} p-5`}>
-              <h2 className="font-[family-name:var(--font-display)] text-[15px] font-semibold">Nos experts IA</h2>
+              <div className="flex items-center justify-between">
+                <h2 className="font-[family-name:var(--font-display)] text-[15px] font-semibold">Nos experts IA</h2>
+                <Link href="/rdv" className="text-[11.5px] font-semibold text-[oklch(45%_0.19_250)]">Voir tous →</Link>
+              </div>
               <div className="mt-3.5 flex gap-3.5">
                 <Image src="/zeze-bilivogui.jpg" alt="Zézé Bilivogui" width={64} height={64} className="h-16 w-16 shrink-0 rounded-2xl object-cover object-top" />
                 <div>
@@ -376,13 +390,28 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
               </div>
             </section>
 
-            {ressources.length > 0 && (
+            {(
               <section className={`${CARTE} p-5`}>
                 <div className="flex items-center justify-between">
                   <h2 className="font-[family-name:var(--font-display)] text-[15px] font-semibold">Ressources utiles</h2>
                   <Link href="/espace-client?section=ressources" className="text-[11.5px] font-semibold text-[oklch(45%_0.19_250)]">Voir tout →</Link>
                 </div>
+                {ressources.length === 0 && (
+                  <p className="mt-2 rounded-lg bg-[var(--indigo-soft)] px-3 py-1.5 text-[11.5px] font-semibold text-[oklch(45%_0.19_250)]">
+                    Exemples. Vos ressources apparaîtront ici dès que le cabinet les publie.
+                  </p>
+                )}
                 <ul className="mt-3 flex flex-col divide-y divide-[var(--ligne)]">
+                  {ressources.length === 0 &&
+                    RESSOURCES_EXEMPLES.map((r) => (
+                      <li key={r.titre} className="flex items-center gap-3 py-2.5 text-[12.5px] opacity-75">
+                        <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[rgba(255,107,107,0.12)] text-[#c0392b]"><Icone nom="fichier" /></span>
+                        <div className="min-w-0">
+                          <div className="truncate font-semibold">{r.titre}</div>
+                          <div className="font-[family-name:var(--font-mono)] text-[10.5px] text-[var(--texte-mute)]">{r.meta}</div>
+                        </div>
+                      </li>
+                    ))}
                   {ressources.slice(0, 4).map((r) => (
                     <li key={r.id} className="flex items-center gap-3 py-2.5 text-[12.5px]">
                       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[rgba(255,107,107,0.12)] text-[#c0392b]"><Icone nom="fichier" /></span>
