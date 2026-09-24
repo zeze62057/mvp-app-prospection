@@ -14,8 +14,25 @@
 - Commit `95fcbe9`, non poussé. Barre du haut (recherche de section, cloche des éléments en attente : demandes, candidatures Expert, signalements, devoirs à noter), colonne de droite (bannière, six raccourcis rapides, activité récente fusionnant inscriptions, paiements, devoirs rendus et articles publiés), cartes de formations avec l'image de bannière de l'espace
 - Aucune donnée inventée : chaque chiffre vient d'une requête réelle. Les messages privés n'apparaissent jamais dans le fil d'activité
 - Testé dans le navigateur à 1440 px et 390 px avec un compte admin jetable, créé puis supprimé (seule écriture en base). Plus de débordement horizontal sur mobile. Cloche et fil d'activité non testés avec des données en attente, la base n'avait rien à traiter
-- Toujours grisés "bientôt" : Élèves, Administrateurs, Paiements, Rapports, Messages, les "Voir tout", le sélecteur de période, le taux de rétention
-- Décision : prochaine page admin = Élèves, puis Paiements et Rapports
+- Décision : construire toutes les pages du menu, Paiements en dernier, puis rapprocher le tout du modèle jusqu'à la dernière option
+
+### Pages admin du menu latéral
+
+- Un `layout.tsx` d'admin porte le menu, avec l'entrée active surlignée. Toutes les pages sont en lecture seule
+- **Élèves** (`52873aa`) : membres avec email, pastilles par espace (gratuit, en attente, payant, Expert), niveau, avancement, dernière activité, filtres et pagination
+- **Administrateurs** (`73fc42a`) : comptes admin et dernière connexion. Le rôle ne se donne pas depuis l'interface (migration 0027)
+- **Rapports** (`83734d1`) : inscriptions, accès payants, revenus, conversion, activité, avancement, devoirs, sur 7 jours, 30 jours ou 12 mois, filtre par espace, comparaison à la période précédente seulement si elle a des données
+- **Messages** (`1bd0ec5`) : comptages agrégés de la messagerie, jamais de contenu ni d'identifiant de membre (règle de la migration 0030 étendue aux comptages, accord de Zézé)
+- **Paiements** (`8a4d338`) : liste avec statut, référence Chariow, pastille "à vérifier" après 24 h. Aucune confirmation à la main, seul le webhook n8n confirme
+
+### Fidélité au modèle LearnHub (commit `6b82a59`)
+
+- Sélecteur de période fonctionnel sur le tableau de bord, cartes avec icônes et variations, photos de profil, statuts "Actif" et "Réussi", "Voir tout" partout, recherche avec Ctrl K et repli vers les élèves, bloc utilisateur dans le menu
+- Nouvelles pages : Activité (50 derniers événements), Guide de l'admin, Formateurs (= les Experts), Notifications (= les actions en attente : demandes, candidatures, signalements, devoirs à noter, avec badge dans le menu)
+- Taux de rétention ajouté aux statistiques clés (membres actifs la période précédente encore actifs). "Temps moyen de formation" reste "bientôt disponible" : aucune mesure du temps passé en base
+- Limites : cloche, badge et rétention non testés avec des données réelles (rien en attente, aucun membre actif la période précédente). Messages non testé avec des messages réels (la base n'en contient aucun)
+- Constats : le compte ZzTestB est un compte admin de test resté en base (risque de sécurité, nettoyage à faire). Les 26 profils "Filler" ne sont pas dans l'authentification et faussent les chiffres de Rapports (conversion, demandes). Les 5 paiements en attente sont des tests de Zézé du 15/09, sans référence Chariow
+- 9 commits en avance sur `origin/main`, aucun push
 
 ## 2026-09-23
 
