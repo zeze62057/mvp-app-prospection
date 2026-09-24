@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getEspaceParSlug } from "@/lib/espaces";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { createClient } from "@/lib/supabase/server";
+import { BoutonPayer } from "@/components/tunnel/BoutonPayer";
 import { TexteRiche } from "@/lib/texte-riche";
 import { tempsEcoule } from "@/lib/temps";
 import { chargerPostsFil } from "@/lib/fil";
@@ -22,6 +24,22 @@ export default async function VitrinePage({
 
   const c = espace.contenu_vitrine ?? {};
   const admin = createAdminClient();
+
+  // Visiteur connecte ? Son acces payant decide de ce que montre le bloc d'acces : le formulaire de
+  // paiement existant (BoutonPayer, reutilise tel quel) pour un eleve pas encore debloque, un lien vers
+  // la formation pour un eleve deja debloque, le bouton vers la page de paiement pour un visiteur.
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  const { data: acces } = userData.user
+    ? await supabase
+        .from("acces_payant")
+        .select("actif")
+        .eq("profil_id", userData.user.id)
+        .eq("espace_id", espace.id)
+        .maybeSingle()
+    : { data: null };
+  const connecte = !!userData.user;
+  const dejaDebloque = !!acces?.actif;
 
   const debutMois = new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth(), 1)).toISOString();
   const maintenant = new Date().toISOString();
@@ -506,15 +524,30 @@ export default async function VitrinePage({
           {c.parcours_etape2 && (
             <p className="mt-4 text-[13.5px] leading-relaxed text-[var(--texte-mute)]">{c.parcours_etape2}</p>
           )}
-          <Link
-            href={`/${espace.slug}/tunnel`}
-            className="mt-6 block w-full rounded-[11px] bg-[var(--encre)] px-5 py-4 text-center text-[14.5px] font-extrabold text-[var(--sur-encre)] transition-transform hover:-translate-y-0.5"
-          >
-            Débloquer la formation
-          </Link>
-          <p className="mt-2.5 text-center text-[11.5px] text-[var(--texte-mute)]">
-            Il faut un compte : tu te connectes ou tu en crées un, puis tu arrives sur le paiement.
-          </p>
+          {dejaDebloque ? (
+            <Link
+              href={`/${espace.slug}/communaute-payante`}
+              className="mt-6 block w-full rounded-[11px] bg-[var(--encre)] px-5 py-4 text-center text-[14.5px] font-extrabold text-[var(--sur-encre)]"
+            >
+              Tu as déjà accès : ouvrir la formation
+            </Link>
+          ) : connecte ? (
+            <div className="mt-6">
+              <BoutonPayer espaceSlug={espace.slug} montant={espace.prix} devise={espace.devise} />
+            </div>
+          ) : (
+            <>
+              <Link
+                href={`/${espace.slug}/tunnel`}
+                className="mt-6 block w-full rounded-[11px] bg-[var(--encre)] px-5 py-4 text-center text-[14.5px] font-extrabold text-[var(--sur-encre)] transition-transform hover:-translate-y-0.5"
+              >
+                Débloquer la formation
+              </Link>
+              <p className="mt-2.5 text-center text-[11.5px] text-[var(--texte-mute)]">
+                Il faut un compte : tu te connectes ou tu en crées un, puis tu arrives sur le paiement.
+              </p>
+            </>
+          )}
         </div>
       </section>
 

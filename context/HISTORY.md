@@ -34,6 +34,14 @@
 - Constats : le compte ZzTestB est un compte admin de test resté en base (risque de sécurité, nettoyage à faire). Les 26 profils "Filler" ne sont pas dans l'authentification et faussent les chiffres de Rapports (conversion, demandes). Les 5 paiements en attente sont des tests de Zézé du 15/09, sans référence Chariow
 - 9 commits poussés sur `origin/main` (`899da2a..79a7d4f`) avec l'accord de Zézé
 
+### Vitrines Vivier IA et Bâtisseur Pro refaites (commits 1b128d1 et suivant)
+
+- Mission de Zézé : refaire les deux vitrines d'après une capture de référence (Nova IA Academy), sans reprendre son nom, ses couleurs, ses chiffres ni ses textes, avec le bouton de paiement existant à la place des tarifs. Constat : un seul fichier, `(marketing)/[espace]/page.tsx`, sert les deux vitrines avec le contenu de `espaces.contenu_vitrine`. L'espace s'appelle "Vivier IA" ("Vivier Academies" est le nom de la plateforme). Les pages sont publiques dans le code (seule la protection Vercel les bloque)
+- Ajouté : menu collant dont les entrées suivent les sections affichées, section communauté sur fond sombre, parcours en 3 étapes numérotées, bloc d'accès "paiement unique" (aucun mot mensuel, annuel ou abonnement), pied de page. Bouton "Voir la présentation" désactivé "Bientôt disponible", les boutons qui marchent restent actifs
+- Option A : "Débloquer la formation" mène à la page tunnel existante. Option B faite ensuite : un élève connecté voit le formulaire `BoutonPayer` réutilisé tel quel, un élève déjà débloqué voit un lien vers la formation. Le système de paiement n'est pas modifié
+- Sections masquées faute de contenu réel : trois cartes "écosystème", frise d'histoire du fondateur, "méthode en 4 étapes", chiffres heures de contenu et ateliers par mois, témoignages et compétences de Bâtisseur Pro
+- Limites : rendu visuel non vu (navigateur de test déconnecté, vérification par le HTML servi), état connecté non testé, et le paiement n'a jamais abouti de bout en bout (Chariow)
+
 ### Pouvoirs d'administration : lot 3, gestion des membres
 
 - Décisions : retirer un membre = adhésion passée à "refusé" (l'historique reste, il ne peut pas se ré-inscrire seul, réversible par "Réintégrer"), ton propre rôle non modifiable, confirmation d'une promotion en tapant le pseudo
