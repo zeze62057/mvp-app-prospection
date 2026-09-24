@@ -31,7 +31,6 @@ import { FormulaireCreneauRdv } from "@/components/admin/FormulaireCreneauRdv";
 import { FormulaireDevoir } from "@/components/admin/FormulaireDevoir";
 import { FormulaireNoterRemise } from "@/components/admin/FormulaireNoterRemise";
 import { FormulaireBadge } from "@/components/admin/FormulaireBadge";
-import { MenuAdmin } from "@/components/admin/MenuAdmin";
 import { GrapheEvolution } from "@/components/admin/GrapheEvolution";
 import { AnneauRepartition } from "@/components/admin/AnneauRepartition";
 import { BarreHautAdmin } from "@/components/admin/BarreHautAdmin";
@@ -381,8 +380,6 @@ export default async function AdminPage() {
   ];
 
   return (
-    <div className="md:flex">
-      <MenuAdmin />
       <main className="min-w-0 flex-1 p-4 md:p-16">
       <BarreHautAdmin pseudo={profil?.pseudo ?? ""} nbAttente={nbAttente} cible={cibleCloche} />
       <div id="tableau-de-bord" className="grid scroll-mt-8 gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
@@ -455,7 +452,7 @@ export default async function AdminPage() {
           <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
             <div className="mb-3.5 flex items-center justify-between">
               <span className="font-display text-[14px] font-bold">Derniers inscrits</span>
-              <span title="Bientôt disponible" className="cursor-not-allowed font-mono text-[10.5px] font-bold text-[var(--texte-mute)] opacity-60">Voir tout →</span>
+              <Link href="/admin/eleves" className="font-mono text-[10.5px] font-bold text-[var(--sarcelle)]">Voir tout →</Link>
             </div>
             {(derniersInscrits ?? []).length === 0 ? (
               <p className="text-[12.5px] text-[var(--texte-mute)]">Aucune inscription pour le moment.</p>
@@ -1128,6 +1125,5 @@ export default async function AdminPage() {
         <FormulaireBadge espaces={espaces ?? []} />
       </div>
       </main>
-    </div>
   );
 }

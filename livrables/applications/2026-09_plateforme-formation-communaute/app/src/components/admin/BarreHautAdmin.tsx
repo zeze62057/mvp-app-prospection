@@ -15,14 +15,14 @@ export function BarreHautAdmin({
   cible,
 }: {
   pseudo: string;
-  nbAttente: number;
-  cible: string;
+  nbAttente?: number;
+  cible?: string;
 }) {
   function aller(texte: string) {
     const cherche = normaliser(texte);
     if (!cherche) return;
     const trouvee = SECTIONS.find((s) => normaliser(s.libelle).includes(cherche));
-    if (trouvee) window.location.hash = trouvee.href;
+    if (trouvee) window.location.href = trouvee.href;
   }
 
   return (
@@ -51,6 +51,7 @@ export function BarreHautAdmin({
         </datalist>
       </form>
 
+      {nbAttente !== undefined && cible && (
       <a
         href={cible}
         aria-label={`${nbAttente} élément${nbAttente !== 1 ? "s" : ""} en attente`}
@@ -64,6 +65,7 @@ export function BarreHautAdmin({
           </span>
         )}
       </a>
+      )}
 
       <div className="flex items-center gap-2.5 rounded-full border border-[var(--ligne)] bg-[var(--fond-carte)] py-1 pl-1 pr-4">
         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--encre)] font-display text-[13px] font-bold uppercase text-[var(--sur-encre)]">

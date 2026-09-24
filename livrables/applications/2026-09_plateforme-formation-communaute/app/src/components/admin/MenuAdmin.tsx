@@ -1,7 +1,10 @@
 "use client";
 
-// Menu lateral de l'espace admin, ancre sur les sections reelles de la meme
-// page (pas de sous-pages separees). Trois etats par entree, selon la regle du
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+
+// Menu lateral de l'espace admin, ancre sur les sections reelles de /admin ou
+// sur une sous-page (ex. /admin/eleves). Trois etats par entree, selon la regle du
 // cadrage : active (la section existe), desactivee "Bientot disponible" (une
 // vraie donnee existe mais aucune page dediee), ou absente du menu si rien de
 // reel n'y correspond (Formateurs, Notifications admin : aucun concept dans
@@ -12,34 +15,34 @@ export const GROUPES: { titre: string; entrees: Entree[] }[] = [
   {
     titre: "Utilisateurs",
     entrees: [
-      { libelle: "Élèves" },
-      { libelle: "Inscriptions", href: "#inscriptions" },
-      { libelle: "Candidatures Expert", href: "#candidatures-expert" },
-      { libelle: "Accès payant manuel", href: "#acces-payant-manuel" },
+      { libelle: "Élèves", href: "/admin/eleves" },
+      { libelle: "Inscriptions", href: "/admin#inscriptions" },
+      { libelle: "Candidatures Expert", href: "/admin#candidatures-expert" },
+      { libelle: "Accès payant manuel", href: "/admin#acces-payant-manuel" },
       { libelle: "Administrateurs" },
     ],
   },
   {
     titre: "Formations",
     entrees: [
-      { libelle: "Catalogue des formations", href: "#catalogue-formations" },
-      { libelle: "Cours", href: "#cours" },
-      { libelle: "Masterclass", href: "#masterclass" },
-      { libelle: "RDV", href: "#rdv" },
-      { libelle: "Ressources", href: "#ressources" },
-      { libelle: "Évaluations (devoirs)", href: "#devoirs" },
-      { libelle: "Badges", href: "#badges" },
-      { libelle: "Niveaux", href: "#niveaux" },
-      { libelle: "Statistiques par formation", href: "#statistiques-communaute" },
+      { libelle: "Catalogue des formations", href: "/admin#catalogue-formations" },
+      { libelle: "Cours", href: "/admin#cours" },
+      { libelle: "Masterclass", href: "/admin#masterclass" },
+      { libelle: "RDV", href: "/admin#rdv" },
+      { libelle: "Ressources", href: "/admin#ressources" },
+      { libelle: "Évaluations (devoirs)", href: "/admin#devoirs" },
+      { libelle: "Badges", href: "/admin#badges" },
+      { libelle: "Niveaux", href: "/admin#niveaux" },
+      { libelle: "Statistiques par formation", href: "/admin#statistiques-communaute" },
     ],
   },
   {
     titre: "Gestion",
     entrees: [
-      { libelle: "Catégories", href: "#categories" },
-      { libelle: "Questions d'adhésion", href: "#questions-adhesion" },
-      { libelle: "Modération", href: "#signalements" },
-      { libelle: "Contenu", href: "#contenu" },
+      { libelle: "Catégories", href: "/admin#categories" },
+      { libelle: "Questions d'adhésion", href: "/admin#questions-adhesion" },
+      { libelle: "Modération", href: "/admin#signalements" },
+      { libelle: "Contenu", href: "/admin#contenu" },
       { libelle: "Paiements" },
       { libelle: "Rapports" },
       { libelle: "Messages" },
@@ -48,24 +51,26 @@ export const GROUPES: { titre: string; entrees: Entree[] }[] = [
   {
     titre: "Paramètres",
     entrees: [
-      { libelle: "Paramètres généraux", href: "#parametres-generaux" },
-      { libelle: "Personnalisation", href: "#personnalisation" },
+      { libelle: "Paramètres généraux", href: "/admin#parametres-generaux" },
+      { libelle: "Personnalisation", href: "/admin#personnalisation" },
     ],
   },
 ];
 
 export function MenuAdmin() {
+  const pathname = usePathname();
   const classeLien =
     "block rounded-lg px-3 py-1.5 text-[12.5px] font-bold text-[var(--sur-encre-mute)] hover:bg-[rgba(255,255,255,0.08)] hover:text-[var(--sur-encre)]";
+  const classeActif = "block rounded-lg bg-[var(--sarcelle)] px-3 py-1.5 text-[12.5px] font-bold text-[var(--sur-encre)]";
 
   return (
     <nav
       aria-label="Menu admin"
       className="sticky top-0 hidden h-screen w-60 flex-shrink-0 flex-col overflow-y-auto bg-[var(--encre)] p-4 text-[var(--sur-encre)] md:flex"
     >
-      <a href="#tableau-de-bord" className="mb-4 block rounded-lg bg-[var(--sarcelle)] px-3 py-2 text-[13px] font-bold text-[var(--sur-encre)]">
+      <Link href="/admin#tableau-de-bord" className={`mb-4 ${pathname === "/admin" ? classeActif : classeLien}`}>
         Tableau de bord
-      </a>
+      </Link>
       {GROUPES.map((groupe) => (
         <div key={groupe.titre} className="mb-4">
           <div className="mb-1.5 px-3 font-mono text-[10px] font-bold uppercase tracking-wide text-[var(--sur-encre-mute)] opacity-70">
@@ -74,9 +79,9 @@ export function MenuAdmin() {
           <div className="flex flex-col gap-0.5">
             {groupe.entrees.map((e) =>
               e.href ? (
-                <a key={e.libelle} href={e.href} className={classeLien}>
+                <Link key={e.libelle} href={e.href} className={e.href === pathname ? classeActif : classeLien}>
                   {e.libelle}
-                </a>
+                </Link>
               ) : (
                 <span
                   key={e.libelle}
