@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { MarqueChatllow } from "@/components/MarqueChatllow";
 import { MascotteRobot } from "@/components/MascotteRobot";
+import { Icone, type NomIcone } from "@/components/Icone";
 import { deconnexion } from "@/app/connexion/actions";
 import { nouvelleConversation } from "./actions";
 import { Chat, type MessageChat } from "@/components/espace-client/Chat";
@@ -14,14 +15,14 @@ export const metadata = { title: "Espace client — Chatllow" };
 
 type Section = "chat" | "projets" | "strategie" | "analyses" | "documentation" | "ressources" | "parametres";
 
-const MENU: { id: Section; libelle: string; icone: string }[] = [
-  { id: "chat", libelle: "Chat IA", icone: "◐" },
-  { id: "projets", libelle: "Mes projets", icone: "▣" },
-  { id: "strategie", libelle: "Stratégie IA", icone: "◇" },
-  { id: "analyses", libelle: "Analyses & Rapports", icone: "▤" },
-  { id: "documentation", libelle: "Documentation", icone: "▥" },
-  { id: "ressources", libelle: "Ressources", icone: "▦" },
-  { id: "parametres", libelle: "Paramètres", icone: "⚙" },
+const MENU: { id: Section; libelle: string; icone: NomIcone }[] = [
+  { id: "chat", libelle: "Chat IA", icone: "chat" },
+  { id: "projets", libelle: "Mes projets", icone: "dossier" },
+  { id: "strategie", libelle: "Stratégie IA", icone: "cible" },
+  { id: "analyses", libelle: "Analyses & Rapports", icone: "graphique" },
+  { id: "documentation", libelle: "Documentation", icone: "document" },
+  { id: "ressources", libelle: "Ressources", icone: "bibliotheque" },
+  { id: "parametres", libelle: "Paramètres", icone: "reglages" },
 ];
 
 const CATEGORIE_DE: Partial<Record<Section, string>> = {
@@ -48,7 +49,7 @@ const CARTE = "rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)]";
 function LigneLivrable({ l }: { l: Livrable }) {
   return (
     <li className={`${CARTE} flex flex-wrap items-center gap-4 p-4`}>
-      <span aria-hidden className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--indigo-soft)] text-[16px] text-[oklch(45%_0.19_250)]">▤</span>
+      <span aria-hidden className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[var(--indigo-soft)] text-[oklch(45%_0.19_250)]"><Icone nom="fichier" className="h-5 w-5" /></span>
       <div className="min-w-0 flex-1">
         <div className="text-[14px] font-semibold">{l.titre}</div>
         {l.description && <p className="mt-0.5 text-[12.5px] text-[var(--texte-mute)]">{l.description}</p>}
@@ -126,7 +127,7 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
   const titreSection = MENU.find((m) => m.id === section)?.libelle ?? "";
   const assistantDisponible = Boolean(process.env.ANTHROPIC_API_KEY);
 
-  const chipSujet = "rounded-full border border-[rgba(255,255,255,0.28)] px-4 py-1.5 text-[12px] font-semibold text-white hover:bg-[rgba(255,255,255,0.12)]";
+  const chipSujet = "inline-flex items-center gap-1.5 rounded-full border border-[rgba(255,255,255,0.28)] px-4 py-1.5 text-[12px] font-semibold text-white hover:bg-[rgba(255,255,255,0.12)]";
 
   return (
     <div className="min-h-screen bg-[var(--fond)] lg:flex">
@@ -152,24 +153,24 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
                   section === m.id ? "bg-[var(--indigo)] text-[#0b1020]" : "text-[rgba(255,255,255,0.75)] hover:bg-[rgba(255,255,255,0.07)]"
                 }`}
               >
-                <span aria-hidden className="w-4 text-center">{m.icone}</span>
+                <Icone nom={m.icone} />
                 {m.libelle}
               </Link>
             ))}
           </nav>
 
           <div className="mt-6 border-t border-[rgba(255,255,255,0.1)] pt-5">
-            <p className="px-3.5 font-[family-name:var(--font-mono)] text-[10.5px] uppercase tracking-wide text-[rgba(255,255,255,0.5)]">Nos expertises IA</p>
+            <p className="px-3.5 text-[12px] font-semibold text-[rgba(255,255,255,0.6)]">Nos expertises IA</p>
             <ul className="mt-2.5 flex flex-col gap-0.5">
               {EXPERTISES.map((e) => (
-                <li key={e}>
+                <li key={e.libelle}>
                   <BoutonSujet
-                    texte={questionExpertise(e)}
+                    texte={questionExpertise(e.libelle)}
                     surChat={surChat}
                     className="flex w-full items-center gap-3 rounded-xl px-3.5 py-2 text-left text-[12.5px] font-medium text-[rgba(255,255,255,0.72)] hover:bg-[rgba(255,255,255,0.07)]"
                   >
-                    <span aria-hidden className="text-[oklch(72%_0.15_250)]">◈</span>
-                    {e}
+                    <Icone nom={e.icone} className="h-4 w-4 text-[oklch(72%_0.15_250)]" />
+                    {e.libelle}
                   </BoutonSujet>
                 </li>
               ))}
@@ -178,8 +179,9 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
         </div>
 
         <div className="mt-6 flex flex-col gap-4">
-          <div className="rounded-2xl p-4" style={{ background: "linear-gradient(135deg, oklch(45% 0.19 250), #1a1f33)" }}>
-            <div className="font-[family-name:var(--font-display)] text-[14.5px] font-semibold leading-snug">Un besoin d&apos;accompagnement personnalisé ?</div>
+          <div className="relative overflow-hidden rounded-2xl p-4" style={{ background: "linear-gradient(135deg, oklch(45% 0.19 250), #1a1f33)" }}>
+            <MascotteRobot className="pointer-events-none absolute -right-3 top-1 h-[74px] w-auto opacity-90" />
+            <div className="max-w-[150px] font-[family-name:var(--font-display)] text-[14.5px] font-semibold leading-snug">Un besoin d&apos;accompagnement personnalisé ?</div>
             <p className="mt-1.5 text-[11.5px] leading-relaxed text-[rgba(255,255,255,0.75)]">Le fondateur du cabinet est là pour vous aider à passer à l&apos;action.</p>
             <Link href="/rdv" className="mt-3 block rounded-full bg-white px-4 py-2 text-center text-[12.5px] font-semibold text-[#0b1020]">
               Prendre rendez-vous →
@@ -244,6 +246,7 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
                   }}
                 >
                   <MascotteRobot className="pointer-events-none absolute -right-2 top-1/2 hidden h-[230px] w-auto -translate-y-1/2 sm:block" />
+                  <span aria-hidden className="pointer-events-none absolute right-[210px] top-[34%] hidden rounded-full bg-[rgba(255,255,255,0.14)] px-4 py-2 text-[18px] leading-none tracking-[0.2em] text-white xl:block">•••</span>
                   <p className="font-[family-name:var(--font-display)] text-[15px] font-medium text-[rgba(255,255,255,0.85)]">Bonjour {prenom}</p>
                   <h1 className="font-[family-name:var(--font-display)] mt-2 max-w-md text-[24px] font-semibold leading-tight sm:max-w-[420px] sm:text-[30px]">
                     Je suis votre assistant IA spécialisé dans le conseil et l&apos;intégration de l&apos;IA.
@@ -254,6 +257,7 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
                   <div className="mt-5 flex flex-wrap gap-2 sm:max-w-[520px]">
                     {PASTILLES.map((p) => (
                       <BoutonSujet key={p.libelle} texte={p.question} surChat className={chipSujet}>
+                        <Icone nom={p.icone} className="h-3.5 w-3.5" />
                         {p.libelle}
                       </BoutonSujet>
                     ))}
@@ -344,13 +348,14 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
               <h2 className="font-[family-name:var(--font-display)] text-[15px] font-semibold">Suggestions rapides</h2>
               <ul className="mt-3.5 flex flex-col gap-2.5">
                 {SUGGESTIONS.map((s) => (
-                  <li key={s}>
+                  <li key={s.texte}>
                     <BoutonSujet
-                      texte={s}
+                      texte={s.texte}
                       surChat={surChat}
-                      className="flex w-full items-center gap-3 rounded-xl border border-[var(--ligne)] px-3.5 py-3 text-left text-[12.5px] font-semibold hover:bg-[var(--indigo-soft)]"
+                      className="flex w-full items-center gap-3 rounded-xl border border-[var(--ligne)] px-3 py-2.5 text-left text-[12.5px] font-semibold hover:bg-[var(--indigo-soft)]"
                     >
-                      <span className="flex-1">{s}</span>
+                      <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${s.teinte}`}><Icone nom={s.icone} /></span>
+                      <span className="flex-1">{s.texte}</span>
                       <span aria-hidden>›</span>
                     </BoutonSujet>
                   </li>
@@ -388,10 +393,13 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
                 </div>
                 <ul className="mt-3 flex flex-col divide-y divide-[var(--ligne)]">
                   {ressources.slice(0, 4).map((r) => (
-                    <li key={r.id} className="py-2.5 text-[12.5px]">
-                      <div className="font-semibold">{r.titre}</div>
-                      <div className="font-[family-name:var(--font-mono)] text-[10.5px] text-[var(--texte-mute)]">
-                        {date(r.created_at)}{taille(r.taille_octets) && ` · ${taille(r.taille_octets)}`}
+                    <li key={r.id} className="flex items-center gap-3 py-2.5 text-[12.5px]">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[rgba(255,107,107,0.12)] text-[#c0392b]"><Icone nom="fichier" /></span>
+                      <div className="min-w-0">
+                        <div className="truncate font-semibold">{r.titre}</div>
+                        <div className="font-[family-name:var(--font-mono)] text-[10.5px] text-[var(--texte-mute)]">
+                          {date(r.created_at)}{taille(r.taille_octets) && ` · ${taille(r.taille_octets)}`}
+                        </div>
                       </div>
                     </li>
                   ))}
@@ -399,7 +407,8 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
               </section>
             )}
 
-            <section className="rounded-2xl p-5 text-white" style={{ background: "linear-gradient(135deg, oklch(50% 0.19 250), oklch(45% 0.2 295))" }}>
+            <section className="relative overflow-hidden rounded-2xl p-5 text-white" style={{ background: "linear-gradient(135deg, oklch(50% 0.19 250), oklch(45% 0.2 295))" }}>
+              <span aria-hidden className="pointer-events-none absolute -bottom-2 right-3 text-[84px] leading-none text-[rgba(255,255,255,0.16)]">↗</span>
               <div className="font-[family-name:var(--font-display)] text-[15px] font-semibold leading-snug">L&apos;IA, un levier de croissance pour votre entreprise</div>
               <p className="mt-1.5 text-[12px] leading-relaxed text-[rgba(255,255,255,0.8)]">Notre cabinet vous accompagne de la stratégie à la mise en œuvre.</p>
               <Link href="/rdv" className="mt-3.5 inline-block rounded-full bg-white px-4 py-2 text-[12.5px] font-semibold text-[#0b1020]">

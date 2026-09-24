@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { MarqueChatllow } from "@/components/MarqueChatllow";
+import { Icone } from "@/components/Icone";
 import { EVENEMENT_MESSAGE } from "./BoutonSujet";
 import { LONGUEUR_MAX_MESSAGE } from "@/lib/assistant-public";
 
@@ -23,6 +24,12 @@ const MARKDOWN = {
     />
   ),
   ul: (props: React.ComponentProps<"ul">) => <ul className="my-2 list-disc pl-5" {...props} />,
+  blockquote: ({ children, ...props }: React.ComponentProps<"blockquote">) => (
+    <blockquote className="mt-3 rounded-xl border border-[oklch(82%_0.07_250)] bg-[var(--indigo-soft)] px-4 py-3 text-[12.5px] leading-relaxed [&>p]:mb-0" {...props}>
+      <span className="mb-1 block text-[11.5px] font-bold text-[oklch(45%_0.19_250)]">Chatllow IA</span>
+      {children}
+    </blockquote>
+  ),
   strong: (props: React.ComponentProps<"strong">) => <strong className="font-semibold text-[var(--texte)]" {...props} />,
 };
 
@@ -227,6 +234,9 @@ export function Chat({
           void envoyer(saisie);
         }}
       >
+        <button type="button" disabled title="Bientôt disponible" aria-label="Joindre un fichier (bientôt disponible)" className="mb-2 hidden cursor-not-allowed text-[var(--texte-mute)] opacity-50 sm:block">
+          <Icone nom="trombone" />
+        </button>
         <textarea
           value={saisie}
           onChange={(e) => setSaisie(e.target.value)}
@@ -249,7 +259,7 @@ export function Chat({
           aria-label="Envoyer"
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--indigo)] text-[#0b1020] transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
         >
-          ➤
+          <Icone nom="envoyer" className="h-[18px] w-[18px]" />
         </button>
       </form>
       <p className="border-t border-[var(--ligne)] px-5 py-2.5 text-[10.5px] leading-relaxed text-[var(--texte-mute)]">
