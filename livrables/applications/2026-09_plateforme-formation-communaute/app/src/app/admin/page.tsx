@@ -34,15 +34,17 @@ import { FormulaireBadge } from "@/components/admin/FormulaireBadge";
 import { GrapheEvolution } from "@/components/admin/GrapheEvolution";
 import { AnneauRepartition } from "@/components/admin/AnneauRepartition";
 import { BarreHautAdmin } from "@/components/admin/BarreHautAdmin";
+import { AvatarAdmin } from "@/components/admin/AvatarAdmin";
+import { urlsAvatars } from "@/lib/avatars";
+import { getActivite, ilYa } from "@/lib/activite-admin";
 
-function ilYa(dateIso: string) {
-  const min = Math.max(0, Math.round((Date.now() - new Date(dateIso).getTime()) / 60000));
-  if (min < 60) return `il y a ${min} min`;
-  if (min < 60 * 24) return `il y a ${Math.floor(min / 60)} h`;
-  return `il y a ${Math.floor(min / (60 * 24))} j`;
-}
+const JOUR_MS = 24 * 60 * 60 * 1000;
+const PERIODES: Record<string, string> = { "7": "7 derniers jours", "30": "30 derniers jours", "365": "12 derniers mois" };
 
-export default async function AdminPage() {
+export default async function AdminPage({ searchParams }: { searchParams: Promise<{ periode?: string }> }) {
+  const { periode: periodeBrute = "30" } = await searchParams;
+  const periode = periodeBrute in PERIODES ? periodeBrute : "30";
+  const jours = Number(periode);
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) redirect("/vivier-ia/communaute");
@@ -223,83 +225,126 @@ export default async function AdminPage() {
   // variations ("+X%") ne s'affichent que si les deux periodes comparees ont
   // au moins une valeur.
   // -------------------------------------------------------------------------
-  const il30j = new Date(new Date().getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
-  const il60j = new Date(new Date().getTime() - 60 * 24 * 60 * 60 * 1000).toISOString();
+  const maintenant = new Date().getTime();
+  const debut = maintenant - jours * JOUR_MS;
+  const debutPrecedent = debut - jours * JOUR_MS;
+  const ilDebut = new Date(debut).toISOString();
+  const ilDebutPrecedent = new Date(debutPrecedent).toISOString();
 
   const [
     { count: totalEleves },
     { count: coursPublies },
-    { count: elevesNouveaux30j },
-    { count: elevesPrecedent30j },
-    { data: paiementsConfirmes30j },
-    { data: paiementsConfirmesPrecedent30j },
-    { data: adhesionsAnnee },
+    { count: elevesNouveaux },
+    { count: elevesPrecedent },
+    { count: espacesNouveaux },
+    { data: paiementsConfirmes },
+    { data: paiementsConfirmesPrecedent },
+    { data: adhesionsPeriode },
     { data: derniersInscrits },
     { data: paiementsRecents },
     { data: avisTousEspaces },
-    { data: remisesRecentes },
-    { data: contenusPublies },
+    { data: postsActifs },
+    { data: votesActifs },
+    { data: progressionActive },
+    comptesAuth,
   ] = await Promise.all([
     admin.from("acces_payant").select("*", { count: "exact", head: true }).eq("actif", true),
     admin.from("sections").select("*", { count: "exact", head: true }).or("a_contenu.eq.true,video_path.not.is.null"),
-    admin.from("acces_payant").select("*", { count: "exact", head: true }).eq("actif", true).gte("paye_at", il30j),
-    admin.from("acces_payant").select("*", { count: "exact", head: true }).eq("actif", true).gte("paye_at", il60j).lt("paye_at", il30j),
-    admin.from("paiements").select("montant").eq("statut", "confirme").gte("confirme_at", il30j),
-    admin.from("paiements").select("montant").eq("statut", "confirme").gte("confirme_at", il60j).lt("confirme_at", il30j),
+    admin.from("acces_payant").select("*", { count: "exact", head: true }).eq("actif", true).gte("paye_at", ilDebut),
+    admin.from("acces_payant").select("*", { count: "exact", head: true }).eq("actif", true).gte("paye_at", ilDebutPrecedent).lt("paye_at", ilDebut),
+    admin.from("espaces").select("*", { count: "exact", head: true }).eq("actif", true).gte("created_at", ilDebut),
+    admin.from("paiements").select("montant").eq("statut", "confirme").gte("confirme_at", ilDebut),
+    admin.from("paiements").select("montant").eq("statut", "confirme").gte("confirme_at", ilDebutPrecedent).lt("confirme_at", ilDebut),
+    admin.from("adhesions").select("created_at").gte("created_at", ilDebut),
     admin
       .from("adhesions")
-      .select("created_at")
-      .gte("created_at", new Date(new Date().getTime() - 365 * 24 * 60 * 60 * 1000).toISOString()),
-    admin
-      .from("adhesions")
-      .select("id, statut, created_at, profils(pseudo), espaces(nom)")
+      .select("id, statut, created_at, profils(id, pseudo, avatar_path), espaces(nom)")
       .order("created_at", { ascending: false })
       .limit(5),
     admin
       .from("paiements")
-      .select("id, montant, devise, statut, created_at, profils(pseudo), espaces(nom)")
+      .select("id, montant, devise, statut, created_at, profils(id, pseudo, avatar_path), espaces(nom)")
       .order("created_at", { ascending: false })
       .limit(5),
     admin.from("temoignages").select("espace_id, note"),
-    admin
-      .from("devoirs_remises")
-      .select("id, rendu_at, devoirs(titre), profils(pseudo)")
-      .order("rendu_at", { ascending: false })
-      .limit(5),
-    admin
-      .from("contenus")
-      .select("id, titre, created_at")
-      .eq("statut", "publie")
-      .order("created_at", { ascending: false })
-      .limit(5),
+    admin.from("posts").select("auteur_id, created_at").gte("created_at", ilDebutPrecedent),
+    admin.from("post_votes").select("profil_id, created_at").gte("created_at", ilDebutPrecedent),
+    admin.from("progression").select("profil_id, completed_at").gte("completed_at", ilDebutPrecedent),
+    admin.auth.admin.listUsers({ page: 1, perPage: 1000 }).then((r) => r.data?.users ?? []),
   ]);
 
-  const revenus30j = (paiementsConfirmes30j ?? []).reduce((s, p) => s + p.montant, 0);
-  const revenusPrecedent30j = (paiementsConfirmesPrecedent30j ?? []).reduce((s, p) => s + p.montant, 0);
+  const emailDe = new Map(comptesAuth.map((u) => [u.id, u.email ?? ""]));
+  type ProfilLigne = { id: string; pseudo: string; avatar_path: string | null } | null;
+  const profilDe = (p: unknown) => p as ProfilLigne;
+  const photos = await urlsAvatars(
+    [...(derniersInscrits ?? []), ...(paiementsRecents ?? [])]
+      .map((l) => profilDe(l.profils))
+      .filter((p): p is NonNullable<ProfilLigne> => !!p)
+  );
+
+  const revenusPeriode = (paiementsConfirmes ?? []).reduce((s, p) => s + p.montant, 0);
+  const revenusPrecedent = (paiementsConfirmesPrecedent ?? []).reduce((s, p) => s + p.montant, 0);
   const variationRevenus =
-    revenusPrecedent30j > 0 ? Math.round(((revenus30j - revenusPrecedent30j) / revenusPrecedent30j) * 100) : null;
+    revenusPrecedent > 0 ? Math.round(((revenusPeriode - revenusPrecedent) / revenusPrecedent) * 100) : null;
   const variationEleves =
-    (elevesPrecedent30j ?? 0) > 0
-      ? Math.round((((elevesNouveaux30j ?? 0) - (elevesPrecedent30j ?? 0)) / (elevesPrecedent30j ?? 1)) * 100)
+    (elevesPrecedent ?? 0) > 0
+      ? Math.round((((elevesNouveaux ?? 0) - (elevesPrecedent ?? 0)) / (elevesPrecedent ?? 1)) * 100)
       : null;
   const devise = espaces?.[0]?.devise ?? "GNF";
 
-  // Evolution des inscriptions : 12 derniers mois, comptage reel par mois (adhesions.created_at).
-  const moisLabels: { cle: string; libelle: string }[] = [];
-  for (let i = 11; i >= 0; i--) {
-    const d = new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth() - i, 1));
-    moisLabels.push({
-      cle: `${d.getUTCFullYear()}-${d.getUTCMonth()}`,
-      libelle: d.toLocaleDateString("fr-FR", { month: "short", timeZone: "UTC" }),
+  // Retention : parmi les membres actifs sur la periode precedente, part de ceux qui le sont encore
+  // sur la periode choisie. "Actif" = a poste, aime un post ou termine une section. Rien affiche
+  // sans membre actif avant (pas de base de comparaison).
+  const actifsEntre = (de: number, a: number) => {
+    const ids = new Set<string>();
+    const dans = (iso: string) => {
+      const t = new Date(iso).getTime();
+      return t >= de && t < a;
+    };
+    (postsActifs ?? []).filter((x) => dans(x.created_at)).forEach((x) => ids.add(x.auteur_id));
+    (votesActifs ?? []).filter((x) => dans(x.created_at)).forEach((x) => ids.add(x.profil_id));
+    (progressionActive ?? []).filter((x) => dans(x.completed_at)).forEach((x) => ids.add(x.profil_id));
+    return ids;
+  };
+  const actifsAvant = actifsEntre(debutPrecedent, debut);
+  const actifsMaintenant = actifsEntre(debut, maintenant + 1);
+  const resteActifs = [...actifsAvant].filter((id) => actifsMaintenant.has(id)).length;
+  const tauxRetention =
+    actifsAvant.size > 0
+      ? { pct: Math.round((resteActifs / actifsAvant.size) * 100), reste: resteActifs, avant: actifsAvant.size }
+      : null;
+
+  // Evolution des demandes d'adhesion sur la periode choisie : par jour (7 ou 30 jours) ou par
+  // mois (12 mois), comptage reel sur adhesions.created_at.
+  const evolutionInscriptions: { libelle: string; valeur: number }[] = [];
+  if (jours === 365) {
+    const comptesParMois = new Map<string, number>();
+    (adhesionsPeriode ?? []).forEach((a) => {
+      const d = new Date(a.created_at);
+      const cle = `${d.getUTCFullYear()}-${d.getUTCMonth()}`;
+      comptesParMois.set(cle, (comptesParMois.get(cle) ?? 0) + 1);
     });
+    for (let i = 11; i >= 0; i--) {
+      const d = new Date(Date.UTC(new Date().getUTCFullYear(), new Date().getUTCMonth() - i, 1));
+      evolutionInscriptions.push({
+        libelle: d.toLocaleDateString("fr-FR", { month: "short", timeZone: "UTC" }),
+        valeur: comptesParMois.get(`${d.getUTCFullYear()}-${d.getUTCMonth()}`) ?? 0,
+      });
+    }
+  } else {
+    const comptesParJour = new Map<string, number>();
+    (adhesionsPeriode ?? []).forEach((a) => {
+      const cle = new Date(a.created_at).toISOString().slice(0, 10);
+      comptesParJour.set(cle, (comptesParJour.get(cle) ?? 0) + 1);
+    });
+    for (let i = jours - 1; i >= 0; i--) {
+      const d = new Date(maintenant - i * JOUR_MS);
+      evolutionInscriptions.push({
+        libelle: d.toLocaleDateString("fr-FR", { day: "2-digit", month: "2-digit", timeZone: "UTC" }),
+        valeur: comptesParJour.get(d.toISOString().slice(0, 10)) ?? 0,
+      });
+    }
   }
-  const comptesParMois = new Map<string, number>();
-  (adhesionsAnnee ?? []).forEach((a) => {
-    const d = new Date(a.created_at);
-    const cle = `${d.getUTCFullYear()}-${d.getUTCMonth()}`;
-    comptesParMois.set(cle, (comptesParMois.get(cle) ?? 0) + 1);
-  });
-  const evolutionInscriptions = moisLabels.map((m) => ({ libelle: m.libelle, valeur: comptesParMois.get(m.cle) ?? 0 }));
 
   // Repartition et popularite par formation : reutilise statsParEspace (deja calcule plus bas
   // pour la section "Statistiques de communaute"), pas de nouvelle agregation dupliquee.
@@ -328,39 +373,9 @@ export default async function AdminPage() {
   const tousLesAvis = (avisTousEspaces ?? []).map((a) => a.note);
   const satisfactionMoyenne = tousLesAvis.length > 0 ? tousLesAvis.reduce((s, n) => s + n, 0) / tousLesAvis.length : null;
 
-  // Fil d'activite recente : fusion de 4 sources reelles, la plus recente en premier.
-  // Les messages prives n'en font pas partie (l'admin n'y a jamais acces).
-  const pseudoDe = (p: unknown) => (p as { pseudo: string } | null)?.pseudo ?? "?";
-  const activite = [
-    ...(derniersInscrits ?? []).map((d) => ({
-      date: d.created_at as string,
-      icone: "👤",
-      titre: `Inscription de ${pseudoDe(d.profils)}`,
-      detail: (d.espaces as unknown as { nom: string } | null)?.nom ?? "?",
-    })),
-    ...(paiementsRecents ?? []).map((p) => ({
-      date: p.created_at as string,
-      icone: "💳",
-      titre: `Paiement ${p.statut === "confirme" ? "confirmé" : p.statut === "echoue" ? "échoué" : "en attente"} de ${p.montant.toLocaleString("fr-FR")} ${p.devise}`,
-      detail: pseudoDe(p.profils),
-    })),
-    ...(remisesRecentes ?? []).map((r) => ({
-      date: r.rendu_at as string,
-      icone: "📝",
-      titre: `Devoir rendu par ${pseudoDe(r.profils)}`,
-      detail: (r.devoirs as unknown as { titre: string } | null)?.titre ?? "?",
-    })),
-    ...(contenusPublies ?? []).map((c) => ({
-      date: c.created_at as string,
-      icone: "📰",
-      titre: "Article publié dans Contenu",
-      detail: c.titre as string,
-    })),
-  ]
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-    .slice(0, 6);
+  const activite = await getActivite(admin, 6);
 
-  // Cloche : tout ce qui attend une action de l'admin. Le lien va vers la premiere section non vide.
+  // Cloche : tout ce qui attend une action de l'admin (detail dans /admin/notifications).
   const attentes = [
     { n: (demandes ?? []).length, href: "#inscriptions" },
     { n: (candidaturesExpert ?? []).length, href: "#candidatures-expert" },
@@ -368,7 +383,6 @@ export default async function AdminPage() {
     { n: (remisesAttente ?? []).length, href: "#devoirs" },
   ];
   const nbAttente = attentes.reduce((s, a) => s + a.n, 0);
-  const cibleCloche = attentes.find((a) => a.n > 0)?.href ?? "#tableau-de-bord";
 
   const raccourcis = [
     { icone: "➕", libelle: "Ajouter un élève", href: "#acces-payant-manuel" },
@@ -379,9 +393,37 @@ export default async function AdminPage() {
     { icone: "⭐", libelle: "Gérer les évaluations", href: "#devoirs" },
   ];
 
+  type Delta = { texte: string; positif: boolean } | null;
+  const delta = (v: number | null): Delta =>
+    v === null
+      ? null
+      : { texte: v === 0 ? "→ stable vs période précédente" : `${v > 0 ? "↗ +" : "↘ "}${v}% vs période précédente`, positif: v >= 0 };
+  const cartesChiffres: { icone: string; couleur: string; libelle: string; valeur: string; delta: Delta }[] = [
+    { icone: "👥", couleur: "var(--sarcelle-light)", libelle: "Total des élèves", valeur: String(totalEleves ?? 0), delta: delta(variationEleves) },
+    {
+      icone: "🎓",
+      couleur: "var(--corail)",
+      libelle: "Formations actives",
+      valeur: String((espaces ?? []).filter((e) => e.actif).length),
+      delta:
+        (espacesNouveaux ?? 0) > 0
+          ? { texte: `↗ +${espacesNouveaux} nouvelle${(espacesNouveaux ?? 0) > 1 ? "s" : ""} sur la période`, positif: true }
+          : null,
+    },
+    // Pas de variation : la table sections n'a pas de date de creation, rien d'honnete a comparer.
+    { icone: "▶️", couleur: "var(--sarcelle-light)", libelle: "Cours publiés", valeur: String(coursPublies ?? 0), delta: null },
+    {
+      icone: "💰",
+      couleur: "var(--corail)",
+      libelle: `Revenus (${PERIODES[periode].toLowerCase()})`,
+      valeur: `${revenusPeriode.toLocaleString("fr-FR")} ${devise}`,
+      delta: delta(variationRevenus),
+    },
+  ];
+
   return (
       <main className="min-w-0 flex-1 p-4 md:p-16">
-      <BarreHautAdmin pseudo={profil?.pseudo ?? ""} nbAttente={nbAttente} cible={cibleCloche} />
+      <BarreHautAdmin pseudo={profil?.pseudo ?? ""} nbAttente={nbAttente} />
       <div id="tableau-de-bord" className="grid scroll-mt-8 gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
       <div className="min-w-0">
         <div className="flex flex-wrap items-start justify-between gap-4">
@@ -392,53 +434,55 @@ export default async function AdminPage() {
               Voici un aperçu de l&apos;activité de votre plateforme de formation.
             </p>
           </div>
-          <span
-            title="Bientôt disponible"
-            className="cursor-not-allowed rounded-lg border border-dashed border-[var(--ligne)] px-3.5 py-2 font-mono text-[11.5px] font-bold text-[var(--texte-mute)] opacity-60"
-          >
-            📅 Choisir une période — bientôt disponible
-          </span>
+          <form method="get" className="flex items-center gap-2">
+            <span aria-hidden>📅</span>
+            <select
+              name="periode"
+              defaultValue={periode}
+              aria-label="Période"
+              className="rounded-lg border border-[var(--ligne)] bg-[var(--fond-carte)] px-3 py-2 text-[12px] font-bold outline-none focus:border-[var(--sarcelle)]"
+            >
+              {Object.entries(PERIODES).map(([valeur, libelle]) => (
+                <option key={valeur} value={valeur}>
+                  {libelle}
+                </option>
+              ))}
+            </select>
+            <button type="submit" className="rounded-lg bg-[var(--sarcelle)] px-3.5 py-2 text-[12px] font-bold text-white">
+              Afficher
+            </button>
+          </form>
         </div>
 
-        <div className="mt-7 grid grid-cols-2 gap-3.5 2xl:grid-cols-4">
-          <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
-            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{totalEleves ?? 0}</div>
-            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">total des élèves</div>
-            {variationEleves !== null && (
-              <div className={`mt-1 text-[10.5px] font-bold ${variationEleves >= 0 ? "text-[var(--sarcelle)]" : "text-[var(--corail)]"}`}>
-                {variationEleves >= 0 ? "↗ +" : "↘ "}{variationEleves}% vs 30j précédents
+        <div className="mt-7 grid grid-cols-1 gap-3.5 sm:grid-cols-2 2xl:grid-cols-4">
+          {cartesChiffres.map((c) => (
+            <div key={c.libelle} className="flex gap-3 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
+              <span
+                aria-hidden
+                className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full text-[18px]"
+                style={{ background: c.couleur }}
+              >
+                {c.icone}
+              </span>
+              <div className="min-w-0">
+                <div className="text-xs text-[var(--texte-mute)]">{c.libelle}</div>
+                <div className="font-display text-xl font-extrabold">{c.valeur}</div>
+                {c.delta && (
+                  <div className={`mt-0.5 text-[10.5px] font-bold ${c.delta.positif ? "text-[var(--sarcelle)]" : "text-[var(--corail)]"}`}>
+                    {c.delta.texte}
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
-            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
-              {(espaces ?? []).filter((e) => e.actif).length}
             </div>
-            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">formations actives</div>
-          </div>
-          <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
-            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{coursPublies ?? 0}</div>
-            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">cours publiés</div>
-          </div>
-          <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
-            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
-              {revenus30j.toLocaleString("fr-FR")} {devise}
-            </div>
-            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">revenus (30 derniers jours)</div>
-            {variationRevenus !== null && (
-              <div className={`mt-1 text-[10.5px] font-bold ${variationRevenus >= 0 ? "text-[var(--sarcelle)]" : "text-[var(--corail)]"}`}>
-                {variationRevenus >= 0 ? "↗ +" : "↘ "}{variationRevenus}% vs 30j précédents
-              </div>
-            )}
-          </div>
+          ))}
         </div>
 
         <div className="mt-6 grid grid-cols-1 gap-4 2xl:grid-cols-[1fr_340px]">
           <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
             <div className="mb-4 flex items-center justify-between">
-              <span className="font-display text-[14px] font-bold">📈 Évolution des inscriptions (12 derniers mois)</span>
+              <span className="font-display text-[14px] font-bold">📈 Évolution des demandes d&apos;adhésion ({PERIODES[periode].toLowerCase()})</span>
             </div>
-            <GrapheEvolution points={evolutionInscriptions} />
+            <GrapheEvolution points={evolutionInscriptions} pasLibelle={jours === 30 ? 5 : 1} />
           </div>
           <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
             <div className="mb-4 font-display text-[14px] font-bold">🥧 Répartition des formations</div>
@@ -459,28 +503,50 @@ export default async function AdminPage() {
             ) : (
               <table className="w-full text-left text-[12px]">
                 <tbody>
-                  {(derniersInscrits ?? []).map((d) => (
-                    <tr key={d.id} className="border-t border-[var(--ligne)] first:border-t-0">
-                      <td className="py-2 font-bold">{(d.profils as unknown as { pseudo: string } | null)?.pseudo ?? "?"}</td>
-                      <td className="py-2 text-[var(--texte-mute)]">{(d.espaces as unknown as { nom: string } | null)?.nom ?? "?"}</td>
-                      <td className="py-2 text-right font-mono text-[10.5px] text-[var(--texte-mute)]">
-                        {new Date(d.created_at).toLocaleDateString("fr-FR")}
-                      </td>
-                      <td className="py-2 pl-2 text-right">
-                        <span
-                          className={`rounded-[5px] px-1.5 py-px font-mono text-[9.5px] font-bold ${
-                            d.statut === "approuve"
-                              ? "bg-[rgba(43,140,130,0.12)] text-[var(--sarcelle-texte)]"
-                              : d.statut === "refuse"
-                                ? "bg-[rgba(255,122,77,0.14)] text-[var(--corail-texte)]"
-                                : "bg-[var(--fond)] text-[var(--texte-mute)]"
-                          }`}
-                        >
-                          {d.statut}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                  {(derniersInscrits ?? []).map((d) => {
+                    const pr = profilDe(d.profils);
+                    return (
+                      <tr key={d.id} className="border-t border-[var(--ligne)] first:border-t-0">
+                        <td className="py-2">
+                          <div className="flex items-center gap-2.5">
+                            {pr && <AvatarAdmin id={pr.id} pseudo={pr.pseudo} url={photos.get(pr.id)} />}
+                            <div className="min-w-0">
+                              <div className="font-bold">{pr?.pseudo ?? "?"}</div>
+                              {pr && emailDe.get(pr.id) && (
+                                <div className="max-w-[170px] truncate text-[10.5px] text-[var(--texte-mute)]">{emailDe.get(pr.id)}</div>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-2 text-[var(--texte-mute)]">{(d.espaces as unknown as { nom: string } | null)?.nom ?? "?"}</td>
+                        <td className="py-2 text-right font-mono text-[10.5px] text-[var(--texte-mute)]">
+                          {new Date(d.created_at).toLocaleDateString("fr-FR")}
+                        </td>
+                        <td className="py-2 pl-2 text-right">
+                          <span
+                            className={`rounded-[5px] px-1.5 py-px font-mono text-[9.5px] font-bold ${
+                              d.statut === "approuve"
+                                ? "bg-[rgba(43,140,130,0.12)] text-[var(--sarcelle-texte)]"
+                                : d.statut === "refuse"
+                                  ? "bg-[rgba(255,122,77,0.14)] text-[var(--corail-texte)]"
+                                  : "bg-[var(--fond)] text-[var(--texte-mute)]"
+                            }`}
+                          >
+                            {d.statut === "approuve" ? "Actif" : d.statut === "refuse" ? "Refusé" : "En attente"}
+                          </span>
+                        </td>
+                        <td className="py-2 pl-2 text-right">
+                          <Link
+                            href={`/admin/eleves?q=${encodeURIComponent(pr?.pseudo ?? "")}`}
+                            aria-label={`Voir ${pr?.pseudo ?? "l'élève"} dans la liste des élèves`}
+                            className="font-mono text-[14px] font-bold text-[var(--texte-mute)]"
+                          >
+                            …
+                          </Link>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             )}
@@ -496,25 +562,33 @@ export default async function AdminPage() {
             ) : (
               <table className="w-full text-left text-[12px]">
                 <tbody>
-                  {(paiementsRecents ?? []).map((p) => (
-                    <tr key={p.id} className="border-t border-[var(--ligne)] first:border-t-0">
-                      <td className="py-2 font-bold">{(p.profils as unknown as { pseudo: string } | null)?.pseudo ?? "?"}</td>
-                      <td className="py-2 text-[var(--texte-mute)]">{p.montant.toLocaleString("fr-FR")} {p.devise}</td>
-                      <td className="py-2 pl-2 text-right">
-                        <span
-                          className={`rounded-[5px] px-1.5 py-px font-mono text-[9.5px] font-bold ${
-                            p.statut === "confirme"
-                              ? "bg-[rgba(43,140,130,0.12)] text-[var(--sarcelle-texte)]"
-                              : p.statut === "echoue"
-                                ? "bg-[rgba(255,122,77,0.14)] text-[var(--corail-texte)]"
-                                : "bg-[var(--fond)] text-[var(--texte-mute)]"
-                          }`}
-                        >
-                          {p.statut}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
+                  {(paiementsRecents ?? []).map((p) => {
+                    const pr = profilDe(p.profils);
+                    return (
+                      <tr key={p.id} className="border-t border-[var(--ligne)] first:border-t-0">
+                        <td className="py-2">
+                          <div className="flex items-center gap-2.5">
+                            {pr && <AvatarAdmin id={pr.id} pseudo={pr.pseudo} url={photos.get(pr.id)} />}
+                            <span className="font-bold">{pr?.pseudo ?? "?"}</span>
+                          </div>
+                        </td>
+                        <td className="py-2 text-[var(--texte-mute)]">{p.montant.toLocaleString("fr-FR")} {p.devise}</td>
+                        <td className="py-2 pl-2 text-right">
+                          <span
+                            className={`rounded-[5px] px-1.5 py-px font-mono text-[9.5px] font-bold ${
+                              p.statut === "confirme"
+                                ? "bg-[rgba(43,140,130,0.12)] text-[var(--sarcelle-texte)]"
+                                : p.statut === "echoue"
+                                  ? "bg-[rgba(255,122,77,0.14)] text-[var(--corail-texte)]"
+                                  : "bg-[var(--fond)] text-[var(--texte-mute)]"
+                            }`}
+                          >
+                            {p.statut === "confirme" ? "Réussi" : p.statut === "echoue" ? "Échoué" : "En attente"}
+                          </span>
+                        </td>
+                      </tr>
+                    );
+                  })}
                 </tbody>
               </table>
             )}
@@ -525,7 +599,7 @@ export default async function AdminPage() {
           <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
             <div className="mb-3.5 flex items-center justify-between">
               <span className="font-display text-[14px] font-bold">Formations les plus populaires</span>
-              <span title="Bientôt disponible" className="cursor-not-allowed font-mono text-[10.5px] font-bold text-[var(--texte-mute)] opacity-60">Voir tout →</span>
+              <Link href="/admin#catalogue-formations" className="font-mono text-[10.5px] font-bold text-[var(--sarcelle)]">Voir tout →</Link>
             </div>
             {(statsParEspace ?? []).length === 0 ? (
               <p className="text-[12.5px] text-[var(--texte-mute)]">Aucune formation pour le moment.</p>
@@ -578,8 +652,21 @@ export default async function AdminPage() {
                   {satisfactionMoyenne !== null ? `${satisfactionMoyenne.toFixed(1)} / 5` : "Donnée non disponible"}
                 </span>
               </div>
+              <div className="flex items-center justify-between gap-3">
+                <span className="text-[12px] text-[var(--texte-mute)]" title="Part des membres actifs sur la période précédente qui le sont encore sur la période choisie (post, like ou section terminée)">
+                  Taux de rétention
+                </span>
+                <span className="text-right font-mono text-[13px] font-bold text-[var(--sarcelle)]">
+                  {tauxRetention !== null ? `${tauxRetention.pct}%` : "Donnée non disponible"}
+                  {tauxRetention !== null && (
+                    <span className="block text-[10px] font-normal text-[var(--texte-mute)]">
+                      {tauxRetention.reste} sur {tauxRetention.avant}
+                    </span>
+                  )}
+                </span>
+              </div>
               <div className="flex items-center justify-between opacity-50">
-                <span className="text-[12px] text-[var(--texte-mute)]" title="Bientôt disponible">Taux de rétention</span>
+                <span className="text-[12px] text-[var(--texte-mute)]" title="Aucune mesure du temps passé n'existe en base">Temps moyen de formation</span>
                 <span className="font-mono text-[11px] font-bold text-[var(--texte-mute)]">Bientôt disponible</span>
               </div>
             </div>
@@ -588,17 +675,22 @@ export default async function AdminPage() {
       </div>
 
       <aside className="flex flex-col gap-4">
-        <div className="rounded-2xl bg-[var(--encre)] p-5 text-[var(--sur-encre)]">
-          <p className="font-display text-[16px] font-bold leading-snug">Gérez votre plateforme en toute simplicité</p>
-          <p className="mt-2 text-[12px] text-[var(--sur-encre-mute)]">
+        <div className="relative overflow-hidden rounded-2xl bg-[linear-gradient(135deg,var(--encre),#1c5d54)] p-5 text-[var(--sur-encre)]">
+          <span aria-hidden className="pointer-events-none absolute -right-3 -top-2 select-none text-[76px] opacity-25">
+            🎓
+          </span>
+          <p className="relative max-w-[200px] font-display text-[16px] font-bold leading-snug">
+            Gérez votre plateforme en toute simplicité
+          </p>
+          <p className="relative mt-2 max-w-[230px] text-[12px] text-[var(--sur-encre-mute)]">
             Accédez rapidement aux sections d&apos;administration et gardez le contrôle sur votre communauté de formation.
           </p>
-          <a
-            href="#raccourcis"
-            className="mt-4 inline-block rounded-full bg-[var(--corail)] px-4 py-2 text-[12px] font-bold text-[var(--encre)]"
+          <Link
+            href="/admin/guide"
+            className="relative mt-4 inline-block rounded-full bg-[var(--corail)] px-4 py-2 text-[12px] font-bold text-[var(--encre)]"
           >
-            Voir les raccourcis →
-          </a>
+            Voir le guide admin →
+          </Link>
         </div>
 
         <div id="raccourcis" className="scroll-mt-8 rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
@@ -618,7 +710,10 @@ export default async function AdminPage() {
         </div>
 
         <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
-          <div className="mb-3.5 font-display text-[14px] font-bold">Activité récente</div>
+          <div className="mb-3.5 flex items-center justify-between">
+            <span className="font-display text-[14px] font-bold">Activité récente</span>
+            <Link href="/admin/activite" className="font-mono text-[10.5px] font-bold text-[var(--sarcelle)]">Voir tout →</Link>
+          </div>
           {activite.length === 0 ? (
             <p className="text-[12.5px] text-[var(--texte-mute)]">Aucune activité pour le moment.</p>
           ) : (
