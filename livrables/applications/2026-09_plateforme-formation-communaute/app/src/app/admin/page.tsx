@@ -35,6 +35,7 @@ import { GrapheEvolution } from "@/components/admin/GrapheEvolution";
 import { AnneauRepartition } from "@/components/admin/AnneauRepartition";
 import { BarreHautAdmin } from "@/components/admin/BarreHautAdmin";
 import { SelecteurPeriode } from "@/components/admin/SelecteurPeriode";
+import { IllustrationBanniere } from "@/components/admin/IllustrationBanniere";
 import { AvatarAdmin } from "@/components/admin/AvatarAdmin";
 import { urlsAvatars } from "@/lib/avatars";
 import { getActivite, ilYa } from "@/lib/activite-admin";
@@ -691,13 +692,11 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
 
       <aside className="flex flex-col gap-4">
         <div className="relative overflow-hidden rounded-2xl bg-[linear-gradient(135deg,var(--encre),#1c5d54)] p-5 text-[var(--sur-encre)]">
-          <span aria-hidden className="pointer-events-none absolute -right-3 -top-2 select-none text-[76px] opacity-25">
-            🎓
-          </span>
-          <p className="relative max-w-[200px] font-display text-[16px] font-bold leading-snug">
+          <IllustrationBanniere className="pointer-events-none absolute -right-1 top-2 w-[118px]" />
+          <p className="relative max-w-[175px] font-display text-[16px] font-bold leading-snug">
             Gérez votre plateforme en toute simplicité
           </p>
-          <p className="relative mt-2 max-w-[230px] text-[12px] text-[var(--sur-encre-mute)]">
+          <p className="relative mt-2 max-w-[190px] text-[12px] text-[var(--sur-encre-mute)]">
             Accédez rapidement aux sections d&apos;administration et gardez le contrôle sur votre communauté de formation.
           </p>
           <Link

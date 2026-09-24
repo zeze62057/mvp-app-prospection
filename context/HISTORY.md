@@ -34,6 +34,12 @@
 - Constats : le compte ZzTestB est un compte admin de test resté en base (risque de sécurité, nettoyage à faire). Les 26 profils "Filler" ne sont pas dans l'authentification et faussent les chiffres de Rapports (conversion, demandes). Les 5 paiements en attente sont des tests de Zézé du 15/09, sans référence Chariow
 - 9 commits poussés sur `origin/main` (`899da2a..79a7d4f`) avec l'accord de Zézé
 
+### Second passage de fidélité au modèle (commits `b40a329` et suivant)
+
+- Écarts d'apparence fermés : logo Clé et marque dans le menu, pictos typographiques (les emoji grisés étaient illisibles sur fond sombre), courbe avec axe, grille, remplissage et bulle, en-têtes de tables, 4 tuiles de statistiques clés, période en un seul menu avec dates réelles, puce utilisateur avec menu, cloche sur toutes les pages (contexte admin partagé, `lib/admin-contexte.ts`), ronds colorés dans l'activité, illustration SVG de la bannière
+- Régression trouvée par les tests mobile et corrigée : les tables du tableau de bord débordaient de 10 px à 390 px
+- Différences volontaires conservées : pas de message dans l'activité, pas de temps moyen de formation, pas de "+N cours ce mois-ci", couleurs de l'anneau limitées à la palette Vivier
+
 ### Nettoyage des comptes de test
 
 - Inventaire lu en base puis validé par Zézé : 32 profils dont un seul réel (le sien). 31 supprimés : ZzTestB (admin de test), ZzTestA, TestAnnuM1 à M3 (dont un Expert avec 2 posts) et 26 profils Filler sans compte de connexion
