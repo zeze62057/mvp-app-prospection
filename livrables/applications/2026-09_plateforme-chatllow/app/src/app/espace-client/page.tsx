@@ -118,10 +118,12 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
   const section: Section = MENU.some((m) => m.id === brute) ? (brute as Section) : "chat";
   const surChat = section === "chat";
 
-  const [{ data: projets }, { data: livrables }] = await Promise.all([
+  const [{ data: projets }, { data: livrables }, { data: adminChatllow }] = await Promise.all([
     supabase.from("chatllow_projets").select("*").order("created_at", { ascending: false }).returns<Projet[]>(),
     supabase.from("chatllow_livrables").select("*").order("created_at", { ascending: false }).returns<Livrable[]>(),
+    supabase.from("chatllow_admins").select("profil_id").maybeSingle(),
   ]);
+  const estAdmin = Boolean(adminChatllow);
   const mesProjets = projets ?? [];
   const mesLivrables = livrables ?? [];
   const ressources = mesLivrables.filter((l) => l.categorie === "ressource");
@@ -175,6 +177,12 @@ export default async function EspaceClientPage({ searchParams }: { searchParams:
         </div>
 
         <div className="mt-6 flex flex-col gap-4">
+          {estAdmin && (
+            <Link href="/admin" className="flex items-center gap-3 rounded-xl border border-[rgba(255,255,255,0.18)] px-3.5 py-2.5 text-[13px] font-semibold text-white hover:bg-[rgba(255,255,255,0.07)]">
+              <Icone nom="reglages" />
+              Administration
+            </Link>
+          )}
           <div className="relative overflow-hidden rounded-2xl p-4" style={{ background: "linear-gradient(135deg, oklch(45% 0.19 250), #1a1f33)" }}>
             <MascotteRobot className="pointer-events-none absolute -right-3 top-1 h-[74px] w-auto opacity-90" />
             <div className="max-w-[150px] font-[family-name:var(--font-display)] text-[14.5px] font-semibold leading-snug">Besoin d&apos;un accompagnement personnalisé ?</div>
