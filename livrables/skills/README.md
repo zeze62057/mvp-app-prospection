@@ -16,6 +16,7 @@ Fiches des skills de ton Jarvis. **Les fichiers actifs sont dans `.claude/skills
 | `programme-marketing-reseau` | Référence du programme marketing de réseau (8 parties) | Seulement sur demande explicite : "utilise le programme MLM" |
 | `formation-cybersecurite-ia` | Construire et faire évoluer le Module 6 Cybersécurité IA de Vivier IA (Claude et agents, application web, entreprise, tests d'intrusion en cadre légal), avec des limites éthiques strictes et des sources officielles vérifiées | "Le module cybersécurité", "un chapitre de sécurité", "sécuriser un agent ou un projet" |
 | `cybersecurity-expert` (tiers) | Référence secondaire générique installée depuis personamanagmentlayer/pcl, lue en entier avant installation, accès réduit à la lecture. Pas une source de vérité | Seulement en complément, jamais à la place du skill ci-dessus |
+| `n8n-*` (9 skills, tiers) | Connaissances n8n : `n8n-expression-syntax`, `n8n-code-javascript`, `n8n-code-python`, `n8n-code-tool`, `n8n-error-handling`, `n8n-binary-and-data`, `n8n-subworkflows`, `n8n-agents`, `n8n-workflow-patterns`. Installés depuis czlonkowski/n8n-skills après lecture, hooks et serveur distant écartés (détails dans `n8n-skills/ORIGINE.md`) | Chargés automatiquement quand tu travailles sur un workflow n8n. `agent-n8n` précharge `n8n-expression-syntax` |
 | `recherche-actualites` | Veille personnalisée filtrée selon ton contexte. Son nom interne est `recherche-actualites-contextualisees` | "Fais-moi un point sur les actualités", ou la commande `/morning` |
 
 ## Skills installés de l'extérieur
