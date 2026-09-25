@@ -69,8 +69,15 @@ Pour un ajustement mineur d'un visuel déjà validé, pas besoin de refaire tout
 
 ### 3. Rendre en PNG et regarder
 
-- Rendre avec le navigateur de test (outils Playwright) : ouvrir le HTML, régler la fenêtre à la taille exacte, capturer. Si l'ouverture directe d'un fichier local est refusée, le servir depuis un petit serveur local temporaire (à arrêter ensuite).
-- Ouvrir le PNG obtenu et le regarder pour de vrai : texte coupé, débordement, police de repli, contraste, logo. Corriger puis refaire le rendu.
+- Rendre avec le navigateur de test (outils Playwright). Marche éprouvée le 2026-09-25 :
+  1. Servir le dossier `infographies/` depuis un serveur local temporaire lié à `127.0.0.1` (par exemple `python -m http.server 8765 --bind 127.0.0.1`, en arrière-plan). L'ouverture directe d'un fichier local (`file://`) n'a pas été essayée.
+  2. `browser_resize` à la taille exacte du format, puis `browser_navigate` vers l'adresse locale du HTML.
+  3. Mesurer avec `browser_evaluate` avant de capturer : `document.documentElement.scrollHeight` et `scrollWidth` ne dépassent pas la taille du format, marge du bas d'au moins 60 px, plus petite taille de texte d'au moins 28 px, polices réellement chargées (`document.fonts`, statut `loaded`).
+  4. `browser_take_screenshot` avec `filename` (chemin relatif à la racine du workspace), `type: png`, `scale: css`.
+  5. Fermer le navigateur (`browser_close`) et arrêter le serveur temporaire.
+- Un `favicon.ico` en erreur 404 dans la console vient du serveur local : sans importance.
+- Fixer `overflow: hidden` sur `html` et `body` pour éviter les barres de défilement dans le rendu.
+- Ouvrir le PNG obtenu et le regarder pour de vrai : texte coupé, débordement, police de repli, contraste, logo. Corriger puis refaire le rendu. Le premier rendu d'une infographie déborde souvent de quelques dizaines de pixels : ne pas s'en fier avant la mesure.
 - Si le navigateur de test est indisponible, livrer l'HTML seul et le dire clairement. Ne jamais prétendre avoir vu un rendu qu'on n'a pas vu.
 
 ### 4. Livrer
