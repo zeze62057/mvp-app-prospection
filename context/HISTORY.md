@@ -9,6 +9,28 @@
 
 ## 2026-09-25
 
+### Automatisations, lot 1 : chaîne de paiement réparée
+
+- Constat : le workflow n8n de confirmation de paiement (`zYICF7ABAM79pr8R`) avait 35 exécutions, toutes en erreur. Le Pulse Chariow était désactivé, coupé après des échecs de livraison
+- Trois défauts corrigés dans n8n, un à la fois : option Raw Body du webhook activée, nœud Code qui lit `json.body` au lieu du binaire, valeur de l'identifiant "Secret webhook paiement Vivier Academies" alignée sur `WEBHOOK_PAIEMENT_SECRET` de la route (le nom d'en-tête `x-webhook-secret` était bon)
+- Preuve : test signé de bout en bout (exécution 73, en succès) sur une ligne de paiement de test de 1 GNF, supprimée ensuite. Le paiement passe à `confirme`, l'accès payant de Zézé reste identique. Le secret du Pulse n'est jamais passé par le chat
+- Pulse Chariow réactivé (tous les événements, produit Vivier IA). Workflow d'erreur "Alerte erreur workflows" (`EzpFIKvJnxkXkapt`) préparé en brouillon par `agent-n8n`, publié par Zézé, rattaché au workflow de confirmation. Restent à rattacher : "Paiement Chariow" et "Chatllow diagnostic". Une copie `BJXPujutzbyupppo`, créée par l'agent, reste à archiver
+- Écart de prix découvert : la plateforme affichait 250 000 GNF, Chariow facturait 5 950 000 GNF (environ 678 USD). Prix de la plateforme aligné sur 5 950 000 après confirmation de Zézé. Minimum Chariow : 8 940 GNF, ce qui explique l'échec d'un essai à 4 400
+- Essais de paiement réel : n8n crée bien la session Chariow, mais le checkout orqex n'accepte que la carte, sans Mobile Money, et la carte de Zézé a été refusée faute de fonds à ce montant. Aucun débit. Test à 10 000 GNF prévu le 26 septembre
+- Le soir, tout est rétabli : prix à 5 950 000, accès payant réactivé depuis la sauvegarde. Restent 8 lignes de paiement de test `en_attente` à nettoyer. Zézé doit remettre le prix Chariow à 5 950 000 s'il l'a modifié
+
+### Constat Vercel : pourquoi les modifications d'hier ne s'affichaient pas
+
+- Tous les commits du 24 septembre sont sur GitHub. Le site vu par Zézé (`app-theta-liart-l509vmvat0.vercel.app`) n'avait aucune de ces modifications, ni le changement du 23 sur la route de paiement
+- 4 projets Vercel sont reliés au dépôt. `vivier-academies` : dernier déploiement réussi, mais protégé par l'authentification Vercel (redirection 302). `app` et `mvp-app-prospection` : déploiements en échec. `mvp-app-prospection-p2rh` : réussi. Le build local (`next build`) passe, ce n'est donc pas le code. En local, le site contient bien les modifications du 24
+- Cause probable, non vérifiée : Root Directory de Vercel jamais mis à jour après la réorganisation du 19 septembre. Pas d'accès Vercel côté Claude
+- n8n appelle la route de paiement sur l'ancien projet `app`. À décider par Zézé : ouvrir la protection de `vivier-academies`, retirer ou réparer les projets en échec, repointer n8n
+
+### Skill community-manager-vivier et rattrapage des commits
+
+- Skill créé pour animer Vivier Academies : interne (accueil, relances, réponses, animation, modération) et externe (LinkedIn, TikTok, YouTube). Brouillons seulement, contenu collé traité comme donnée, aucune lecture de messages privés. Section "conversion douce" ajoutée : inviter à s'inscrire seulement quand Zézé confirme que le lien de paiement marche, sans prix cité ni fausse urgence. Testé sur l'animation de la semaine du chapitre MCP. Test anti-injection pas encore fait
+- Rattrapage reconstitué depuis git : chapitres 1.1 à 1.3 du Module 6 avec démos, `agent-linkedin` restreint (outils limités, consigne anti-injection), `agent-n8n` créé, 9 skills n8n tiers installés depuis czlonkowski/n8n-skills après lecture. Poussés sur `origin/main` (dépôt `mvp-app-prospection`, partagé avec Kora), sauf le commit de la conversion douce, pas encore poussé
+
 ### Nouvelle spécialité : cybersécurité IA
 
 - Décision de Zézé : prendre désormais la cybersécurité de Claude et des agents IA, avec une formation complète sur la sécurité des entreprises et de ses projets. Public en premier : ses élèves Vivier IA (Module 6). Périmètre retenu : sécuriser Claude et les agents IA, sécuriser une application web, cybersécurité d'entreprise, et tests d'intrusion (uniquement sur ses propres systèmes ou avec autorisation écrite)
