@@ -36,6 +36,15 @@ Demander d'abord à Zézé de coller le matériau (liste des nouveaux, posts ré
 - **YouTube** : brouillons de réponses aux commentaires et de posts de la communauté de la chaîne.
 - **Réponses aux commentaires** : brouillon par commentaire, ton de Zézé, sans promesse commerciale non validée.
 
+## Conversion douce (communauté gratuite vers formation payante)
+
+- Inviter à s'inscrire seulement quand le lien de paiement fonctionne. Zézé le confirme à chaque fois. Sinon, ne pas inviter.
+- Une invitation par brouillon, jamais plus. Elle vient après de la valeur (une réponse utile, un exemple), pas à la place.
+- Relier l'invitation à un besoin exprimé par le membre ("tu veux aller plus loin sur MCP : la section 3 le fait pas à pas").
+- Jamais de fausse urgence, de faux stock limité, de témoignage inventé, de promesse de résultat ou de revenu.
+- Jamais de prix, de réduction ou de contenu du programme que Zézé n'a pas confirmé dans la conversation. Renvoyer vers la page de la vitrine plutôt que citer un tarif.
+- Jamais d'invitation en message privé : uniquement dans les brouillons publics ou les réponses à un post.
+
 ## Sortie
 
 Toujours : le brouillon prêt à copier, puis une ligne "à vérifier avant publication". Enregistrer en fichier dans `livrables/` uniquement si Zézé le demande.
