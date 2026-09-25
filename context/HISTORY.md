@@ -7,6 +7,28 @@
 
 ---
 
+## 2026-09-25
+
+### Vivier Academies : connexion, compte, paiement, WhatsApp
+
+- Écran de connexion refait en deux volets d'après une capture de référence (portrait du fondateur, cartes de verre avec chiffres réels). Google, Microsoft, LinkedIn et mot de passe oublié affichés désactivés "bientôt" : ces fonctions n'existent pas
+- Création de compte : prénom, nom, téléphone et confirmation du mot de passe, tous obligatoires, vérifiés côté serveur. Stockés dans une table séparée `profils_contact` (migration 0049), car les autres membres peuvent lire toutes les colonnes de la table des profils. L'admin Élèves affiche le nom et le téléphone avec un lien WhatsApp
+- Page de paiement refaite d'après une capture : en-tête de formation, étapes, mode de paiement, bouton "Payer" dans le récapitulatif, champs préremplis. L'action de paiement, Chariow et le webhook ne sont pas touchés. Aucun paiement réel testé
+- Bouton WhatsApp de support configurable par espace dans l'admin (migration 0050), affiché sur la page de paiement et la vitrine quand un numéro est renseigné. Le numéro reste à saisir
+- Accès payant de Zézé retiré temporairement pour voir la page de paiement, puis rétabli à l'identique depuis une sauvegarde. Le compte n'a pas été supprimé : c'est le seul compte et le seul admin, la suppression aurait emporté ses posts et sa progression
+- Tout est poussé sur `origin/main`. Le site en ligne reste derrière l'authentification Vercel, rien n'y a été vérifié
+
+### Chatllow : espace client, assistant, administration
+
+- Connexion réservée aux clients (table `chatllow_clients`), sans inscription publique. Les comptes clients portent la métadonnée `origine = chatllow` : le déclencheur d'inscription partagé avec Vivier ne leur crée aucun profil (migration 0004)
+- Tableau de bord client d'après une maquette : projets, documents dans un stockage privé avec lien de téléchargement de 60 secondes, expertises, suggestions, carte de l'expert. Textes de la maquette repris sauf ce qui inventerait une preuve : "+10 ans d'expérience", personnages, chiffres, cloche à badge
+- Assistant IA branché à Claude construit (flux en direct, 30 messages par jour, conversations archivées, migration 0005), testé contre un faux serveur Claude, puis **retiré à la demande de Zézé** : plus de clé API, plus de SDK, plus d'appel externe. Le chat est un aperçu avec une conversation d'exemple étiquetée. La table `chatllow_messages` reste en base, inutilisée
+- Vitrine publique refaite dans le style du tableau de bord, sans preuve sociale
+- Administration sur `/admin` : clients, fiche client (projets, documents, mot de passe, suppression avec confirmation), diagnostics reçus, demandes de rendez-vous. Réservée à la table `chatllow_admins` (migration 0006). Envoi des fichiers par lien temporaire, 50 Mo, formats limités. Testée de bout en bout par requêtes réelles : 17 vérifications passées. Mot de passe d'un nouveau client affiché une seule fois à l'écran, jamais dans le chat
+- Tableau de bord d'administration en thème sombre d'après une maquette, avec les données réelles (tuiles et courbes, répartition des réponses du diagnostic, clients, activité, synthèse calculée sans IA)
+- Décisions : Chatllow et Vivier restent deux produits distincts avec la même base de comptes. Supprimer un client dont le compte est partagé ne retire que son accès Chatllow. La réinitialisation du mot de passe est refusée pour un compte partagé avec Vivier
+- Ouverts : mur d'authentification Vercel sur `vivier-academies`, aucune adresse publique pour Chatllow (variables d'environnement à ajouter en ligne), Chariow, numéro WhatsApp à saisir, images des vitrines à déposer, compte de démo `demo-1992@chatllow-test.local` à supprimer
+
 ## 2026-09-24
 
 ### Pouvoirs admin : programme, modération, membres, approbation des publications
