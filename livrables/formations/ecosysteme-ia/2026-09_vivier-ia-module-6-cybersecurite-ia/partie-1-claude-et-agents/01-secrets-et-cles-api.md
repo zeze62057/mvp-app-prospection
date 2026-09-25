@@ -80,7 +80,7 @@ Ce que dit la documentation, et ce qu'il faut en retenir :
 
 - Une règle de refus `Read` bloque les outils de lecture de fichiers de Claude, et aussi les commandes de fichier que Claude Code reconnaît dans le terminal, comme `cat`, `head`, `tail`.
 - Elle ne bloque **pas** une commande qui lit des fichiers sans les nommer, par exemple `grep -r` lancé depuis le dossier qui contient le fichier. Elle ne bloque pas non plus un script qui ouvre lui-même les fichiers.
-- Pour interdire l'accès à **tous** les processus, la documentation indique d'activer le **bac à sable** (`/sandbox`).
+- Pour interdire l'accès à **tous** les processus, la documentation indique d'activer le **bac à sable** (`/sandbox`). Attention : il fonctionne sur macOS, Linux et WSL2, **pas sur Windows natif** (voir le chapitre 1.3). Sur Windows natif, le seul vrai mur est de ne pas laisser de vrais secrets dans un dossier où travaille un agent.
 - Les réglages sont du JSON strict : un commentaire ou une virgule en trop provoque une erreur au démarrage.
 - Les fichiers de réglages existent à plusieurs niveaux : entreprise, ligne de commande, projet local, projet partagé, utilisateur. Un niveau plus haut l'emporte sur un niveau plus bas.
 - Pour vérifier vos réglages, la documentation propose la commande `/permissions`.
@@ -135,7 +135,7 @@ Travaillez uniquement sur un projet qui est le vôtre.
 3. Une règle de refus `Read` bloque-t-elle `grep -r` ? Quelle protection ajoutez-vous si vous voulez tout bloquer ?
 4. Une clé a fuit. Quelle est la toute première action ?
 
-Réponses : 1) un mot de passe. 2) `git check-ignore -v .env`. 3) Non. Le bac à sable. 4) La révoquer.
+Réponses : 1) un mot de passe. 2) `git check-ignore -v .env`. 3) Non. Le bac à sable (macOS, Linux, WSL2). 4) La révoquer.
 
 ## Sources et vérifications (2026-09-25)
 
@@ -161,4 +161,4 @@ Réponses : 1) un mot de passe. 2) `git check-ignore -v .env`. 3) Non. Le bac à
 - Création du fichier par l'outil d'écriture : **refusée** aussi (la règle `Read` a bloqué l'écriture du même fichier).
 - La règle a pris effet tout de suite après l'enregistrement du fichier de réglages, sans redémarrage. À revérifier sur d'autres versions.
 
-Conclusion pour l'élève : la règle de refus ferme les deux chemins évidents, pas le chemin détourné. Le bac à sable reste nécessaire pour un vrai mur.
+Conclusion pour l'élève : la règle de refus ferme les deux chemins évidents, pas le chemin détourné. Le bac à sable reste nécessaire pour un vrai mur, et il n'existe pas sur Windows natif (macOS, Linux et WSL2 seulement).

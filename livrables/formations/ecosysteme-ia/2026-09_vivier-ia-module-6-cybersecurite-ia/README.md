@@ -1,6 +1,6 @@
 # Module 6 : Cybersécurité IA (Vivier IA)
 
-> Squelette validé le 2026-09-25, à relire. Chapitres 1.1 et 1.2 testés (2026-09-25), les autres restent à cadrer. Méthode et limites : skill `formation-cybersecurite-ia`.
+> Squelette validé le 2026-09-25, à relire. Chapitres 1.1, 1.2 et 1.3 testés (2026-09-25), les autres restent à cadrer. Méthode et limites : skill `formation-cybersecurite-ia`.
 
 **Promesse.** À la fin, l'élève sait identifier les risques de ses projets, sécuriser Claude, ses agents et son application web, et livrer un audit de sécurité simple à une entreprise, dans un cadre légal.
 
@@ -46,7 +46,7 @@
 |---|----------|--------------|----------------|------|
 | 1.1 | [Secrets et clés API : où ils vivent, où ils ne vont jamais](partie-1-claude-et-agents/01-secrets-et-cles-api.md) | Fichiers `.env` ignorés par Git, clés lues depuis un fichier local, jamais collées dans une conversation | Documentation Anthropic, GitHub sur les secrets | testé le 2026-09-25 (sources lues, commandes Git et règle de refus essayées en direct), relecture de Zézé à faire |
 | 1.2 | [L'injection de prompt : directe et indirecte](partie-1-claude-et-agents/02-injection-de-prompt.md) | Un agent qui lit du contenu extérieur (pages, e-mails, résultats d'outils) et l'obéit | OWASP Top 10 pour les applications LLM, documentation Anthropic sur la sécurité | testé le 2026-09-25 (sources lues, détecteur testé, un essai d'agent non représentatif), relecture de Zézé à faire |
-| 1.3 | Permissions des outils et des agents : le moindre privilège | Modes de permission de Claude Code, accès Bash retiré à un skill tiers | Documentation Claude Code (permissions, hooks) | à cadrer |
+| 1.3 | [Permissions des outils et des agents : le moindre privilège](partie-1-claude-et-agents/03-permissions-et-moindre-privilege.md) | Modes de permission de Claude Code, accès Bash retiré à un skill tiers | Documentation Claude Code (permissions, hooks) | testé le 2026-09-25 (sources lues, script d'audit et règles de refus essayés, Windows natif sans bac à sable), relecture de Zézé à faire |
 | 1.4 | Serveurs MCP, skills et plugins tiers : lire avant d'installer | Skill `cybersecurity-expert` lu en entier, `allowed-tools` réduit ; skill de 3,8 Mo exclu faute d'audit | Documentation Claude Code (skills, MCP), dépôts lus | à cadrer |
 | 1.5 | Les données confiées à l'IA : ce qui part chez le fournisseur | Classer ce qu'on écrit à l'IA, ce qu'on ne lui écrit jamais (renvoi Module 4) | Politique de données du fournisseur, RGPD (renvoi Module 4) | à cadrer |
 | 1.6 | Automatisations n8n et webhooks : ne jamais faire confiance à l'appelant | Le paiement n'est confirmé que par le webhook vérifié, jamais par le navigateur | Documentation n8n, du prestataire de paiement | à cadrer |
@@ -95,7 +95,7 @@ Chaque chapitre a une **démo** (dossier local avec de faux secrets, exécuté s
 | 0.2 | Aucune (chapitre de cadre) | Carte des actifs, attaquants et impacts, sur une page | à concevoir |
 | 1.1 | [Projet factice avec 4 erreurs de secrets, script de vérification](demos/1.1-secrets-et-cles-api/README.md) | [Registre des secrets](demos/1.1-secrets-et-cles-api/registre-des-secrets.md) | démo testée le 2026-09-25 |
 | 1.2 | [Page piégée factice, détecteur de contenu caché, observation d'un agent](demos/1.2-injection-de-prompt/README.md) | [Règles pour un agent qui lit du contenu extérieur](demos/1.2-injection-de-prompt/regles-agent-contenu-externe.md) | démo testée le 2026-09-25 |
-| 1.3 | Essais de règles `allow` et `deny` sur un dossier factice | Fichier de réglages de permissions de son projet | à concevoir |
+| 1.3 | [Audit de réglages par script, 8 essais de règles sur un terrain factice](demos/1.3-permissions-et-moindre-privilege/README.md) | [Matrice des accès de son projet](demos/1.3-permissions-et-moindre-privilege/matrice-des-acces.md) | démo testée le 2026-09-25 |
 | 1.4 | Lecture d'un skill factice avant installation, repérer les accès excessifs | Fiche de lecture d'un skill ou d'un serveur MCP tiers | à concevoir |
 | 1.5 | Classer 10 exemples de données : peut-on les écrire à une IA ? | Règle personnelle « ce que j'écris à l'IA » | à concevoir |
 | 1.6 | Récepteur de webhook local qui vérifie une signature avec un faux secret | Checklist de webhook pour son automatisation | à concevoir |

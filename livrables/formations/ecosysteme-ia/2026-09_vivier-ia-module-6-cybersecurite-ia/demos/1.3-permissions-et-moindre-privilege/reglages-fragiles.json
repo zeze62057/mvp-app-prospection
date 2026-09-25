@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "defaultMode": "bypassPermissions",
+    "allow": [
+      "Bash",
+      "Bash(git *)",
+      "Bash(npx *)",
+      "Write(./docs/**)",
+      "Bash(command:rm *)",
+      "mcp__*",
+      "Read(/Users/eleve/notes/**)"
+    ],
+    "deny": [
+      "Bash(curl *)"
+    ]
+  },
+  "enableAllProjectMcpServers": true
+}
