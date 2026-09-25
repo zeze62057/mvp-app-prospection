@@ -49,6 +49,10 @@ et à ceux d'une entreprise. À la fin du module, l'élève sait : identifier se
    "Installation pratique" avec les vraies commandes quand un outil est présenté.
 4. **Faire pratiquer** : un exercice sur le propre système de l'élève ou sur le laboratoire, avec un signal de
    réussite clair. Utiliser le skill `pratiquer-technique` pour le vérifier avec Zézé en direct.
+   Chaque chapitre a aussi une **démo** (dossier local dans `demos/`, faux secrets, scripts qui n'affichent
+   jamais une valeur secrète, aucun accès à un tiers) et un **projet** (livrable sur le propre système de
+   l'élève). Modèle : `demos/1.1-secrets-et-cles-api/`. La démo s'écrit après le chapitre et se teste avant
+   d'être marquée dans le tableau "Démos et projets" du README.
 5. **Vérifier** : relire contre les sources, tester chaque commande, refuser tout contenu qui sortirait des
    limites ci-dessus.
 6. **Publier** : fiche pour la plateforme et, si demandé, vidéo avec le skill `creer-video-formation`. Le

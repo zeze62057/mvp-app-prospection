@@ -85,6 +85,42 @@
 | 4.3 | Laboratoire local fourni : s'entraîner sans risque | Application volontairement fragile fournie avec le module, exécutée sur la machine de l'élève seulement | À concevoir, jamais un service en ligne d'un tiers | à cadrer |
 | 4.4 | Rédiger un rapport d'audit et un plan de correction | Un rapport type, du constat à la correction | NIST, OWASP | à cadrer |
 
+## Démos et projets par chapitre
+
+Chaque chapitre a une **démo** (dossier local avec de faux secrets, exécuté sur la machine de l'élève, jamais sur un tiers) et un **projet** (livrable que l'élève produit sur son propre système). Dossier : `demos/`. Une démo n'est écrite qu'après le chapitre correspondant, puis testée.
+
+| # | Démo prévue | Projet prévu | État |
+|---|-------------|--------------|------|
+| 0.1 | Aucune (chapitre de cadre) | Lettre d'autorisation remplie pour son propre projet | à concevoir |
+| 0.2 | Aucune (chapitre de cadre) | Carte des actifs, attaquants et impacts, sur une page | à concevoir |
+| 1.1 | [Projet factice avec 4 erreurs de secrets, script de vérification](demos/1.1-secrets-et-cles-api/README.md) | [Registre des secrets](demos/1.1-secrets-et-cles-api/registre-des-secrets.md) | démo testée le 2026-09-25 |
+| 1.2 | Page locale avec une instruction cachée fictive, résumée par un agent : observer ce qui se passe | Règles écrites pour un agent qui lit du contenu extérieur | à concevoir |
+| 1.3 | Essais de règles `allow` et `deny` sur un dossier factice | Fichier de réglages de permissions de son projet | à concevoir |
+| 1.4 | Lecture d'un skill factice avant installation, repérer les accès excessifs | Fiche de lecture d'un skill ou d'un serveur MCP tiers | à concevoir |
+| 1.5 | Classer 10 exemples de données : peut-on les écrire à une IA ? | Règle personnelle « ce que j'écris à l'IA » | à concevoir |
+| 1.6 | Récepteur de webhook local qui vérifie une signature avec un faux secret | Checklist de webhook pour son automatisation | à concevoir |
+| 2.1 | Mini-application locale avec deux rôles, tenter (chez soi) de se donner le rôle admin | Tableau des rôles de son application et de ce que chacun peut faire | à concevoir |
+| 2.2 | Base locale de test avec règles d'accès, essais avec de vrais rôles dans une transaction annulée | Jeu de tests des règles d'accès de sa propre base | à concevoir |
+| 2.3 | Table avec données sensibles, retrait des droits colonne par colonne | Inventaire des données sensibles de son appli et de leur exposition | à concevoir |
+| 2.4 | Stockage privé local, lien temporaire qui expire | Plan d'accès aux fichiers de ses clients | à concevoir |
+| 2.5 | Faux paiement : le prix envoyé par le navigateur est ignoré par le serveur | Liste des décisions faites côté serveur dans son paiement | à concevoir |
+| 2.6 | Deux produits, une base : vérifier qu'un compte partagé ne peut pas être supprimé | Règles de comptes partagés de ses produits | à concevoir |
+| 2.7 | Déclencheur qui refuse de retirer le dernier admin, lecture du journal | Journal des actions sensibles de son appli | à concevoir |
+| 2.8 | Projet factice : repérer une clé serveur exposée côté navigateur | Fiche de déploiement : variables publiques, variables serveur, protection du site | à concevoir |
+| 3.1 | Aucune | Registre des risques d'une petite entreprise | à concevoir |
+| 3.2 | Aucune (renvoi Module 4) | Fiche de conformité renvoyant au Module 4 | à concevoir |
+| 3.3 | Faux e-mail d'hameçonnage fourni, à analyser en groupe | Atelier de sensibilisation de 45 minutes prêt à animer | à concevoir |
+| 3.4 | Simulation d'incident sur un projet factice (chronologie fournie) | Plan de réponse à incident sur une page | à concevoir |
+| 3.5 | Sauvegarde et restauration d'une base locale | Compte rendu d'un test de restauration réel | à concevoir |
+| 3.6 | Audit des dépendances d'un projet factice | Rapport d'audit des dépendances de son projet | à concevoir |
+| 3.7 | Aucune | Proposition et trame de rapport d'audit (offre Chatllow) | à concevoir |
+| 4.1 | Aucune (cadre légal) | Lettre d'autorisation et règles d'engagement | à concevoir |
+| 4.2 | Vérifier sa propre application (rôles, règles d'accès, secrets, en-têtes) | Liste des constats classés par gravité | à concevoir |
+| 4.3 | Laboratoire local fourni : application volontairement fragile, sur la machine de l'élève seulement | Rapport sur le laboratoire | à concevoir |
+| 4.4 | Aucune | Rapport d'audit complet avec plan de correction (= projet fil rouge) | à concevoir |
+
+Règles des démos : faux secrets seulement, aucun accès réseau vers un tiers, scripts qui n'affichent jamais une valeur secrète, chaque commande testée avant publication.
+
 ## Projet fil rouge
 
 **Audit de sécurité d'un projet réel.** L'élève audite l'un de ses propres projets, avec la trame du chapitre 3.7 et les vérifications du chapitre 4.2, puis livre un rapport avec un plan de correction. Cas de démonstration : Vivier Academies, avec l'accord de Zézé.

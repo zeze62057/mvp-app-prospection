@@ -123,6 +123,11 @@ Travaillez uniquement sur un projet qui est le vôtre.
 3. Demandez à Claude Code de lire votre `.env`. **Signal de réussite** : il refuse. Si ce n'est pas le cas, relisez la section sur les niveaux de réglages.
 4. Écrivez sur une feuille la liste de vos clés, où chacune est rangée, et quand vous les avez changées pour la dernière fois. **Signal de réussite** : chaque clé a un endroit, une date, et un usage unique.
 
+## Démo et projet
+
+- **Démo (15 minutes)** : un projet factice avec quatre erreurs de secrets. Vous les trouvez, vous les réparez, un script vérifie. Dossier : [demos/1.1-secrets-et-cles-api](../demos/1.1-secrets-et-cles-api/README.md).
+- **Projet** : remplir le [registre des secrets](../demos/1.1-secrets-et-cles-api/registre-des-secrets.md) de l'un de vos propres projets, sans jamais y écrire une valeur.
+
 ## Vérifiez vos acquis
 
 1. Une clé d'API est-elle plus proche d'un mot de passe ou d'un identifiant public ?
