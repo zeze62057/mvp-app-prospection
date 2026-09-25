@@ -1,6 +1,12 @@
 {
   "version": 1,
   "skills": {
+    "cybersecurity-expert": {
+      "source": "personamanagmentlayer/pcl",
+      "sourceType": "github",
+      "skillPath": "stdlib/domains/cybersecurity-expert/SKILL.md",
+      "computedHash": "565b04b3f7d2b39295a1518fc2cf8bd54f5a94dc5a81688bfd3bb6beebef7cd0"
+    },
     "supabase": {
       "source": "supabase/agent-skills",
       "sourceType": "github",

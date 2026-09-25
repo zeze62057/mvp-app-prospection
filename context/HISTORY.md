@@ -9,6 +9,14 @@
 
 ## 2026-09-25
 
+### Nouvelle spécialité : cybersécurité IA
+
+- Décision de Zézé : prendre désormais la cybersécurité de Claude et des agents IA, avec une formation complète sur la sécurité des entreprises et de ses projets. Public en premier : ses élèves Vivier IA (Module 6). Périmètre retenu : sécuriser Claude et les agents IA, sécuriser une application web, cybersécurité d'entreprise, et tests d'intrusion (uniquement sur ses propres systèmes ou avec autorisation écrite)
+- Commande demandée : `npx skills add personamanagmentlayer/pcl --skill cybersecurity-expert`. Avant installation, les deux fichiers du skill ont été lus en entier : du texte et des démonstrations Python en bibliothèque standard, sans réseau, sans fichier, sans commande système. Le dépôt est récent (organisation créée en janvier 2026, 6 abonnés) et le skill est générique, orienté centre de sécurité d'entreprise : il sert de référence secondaire, pas de formation. L'outil `skills` est publié par vercel-labs et envoie un signal d'installation anonyme
+- Installé au niveau du projet par copie, sans lien symbolique (première tentative : connexion coupée, seconde réussie). Les fichiers installés sont identiques à ceux lus. L'accès du skill a été réduit à Read, Grep et Glob (l'original autorisait aussi Write, Bash et WebSearch). Le hash de `skills-lock.json` ne correspond donc plus à l'original, volontairement
+- Suite : squelette du Module 6 et skill `formation-cybersecurite-ia`, à valider avant d'écrire les chapitres. Règles : aucun contenu offensif opérationnel, affirmations techniques et réglementaires vérifiées dans les sources officielles (OWASP, NIST, documentation Anthropic et Supabase)
+
+
 ### Vivier Academies : connexion, compte, paiement, WhatsApp
 
 - Écran de connexion refait en deux volets d'après une capture de référence (portrait du fondateur, cartes de verre avec chiffres réels). Google, Microsoft, LinkedIn et mot de passe oublié affichés désactivés "bientôt" : ces fonctions n'existent pas
