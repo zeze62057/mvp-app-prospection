@@ -3,7 +3,7 @@ name: agent-infographe
 description: >-
   Génère l'affiche visuelle d'un post LinkedIn déjà rédigé et l'attache à sa
   ligne dans la base Notion "Posts rédigés". Se déclenche à la suite de
-  l'agent agent-linkedin (chaînage direct, une invocation par post), ou peut
+  l'agent agent-linkedin, lancé par Zézé après relecture (une invocation par post), ou peut
   être appelé manuellement en donnant l'URL ou l'id d'une ligne de "Posts
   rédigés". Mission unique, l'agent ne fait que ça.
 model: sonnet
