@@ -46,3 +46,6 @@ next-env.d.ts
 
 # supabase cli local cache
 /supabase/.temp/
+
+# graphify : graphe genere localement
+/graphify-out/
