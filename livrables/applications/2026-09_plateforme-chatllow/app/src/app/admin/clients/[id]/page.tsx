@@ -39,7 +39,7 @@ export default async function FicheClient({
 
   return (
     <CoqueAdmin section="clients" titre={client.entreprise} sousTitre={`${client.contact} · ${email} · client depuis le ${date(client.created_at)}`} ok={ok} erreur={erreur}>
-      <Link href="/admin/clients" className="-mt-2 mb-4 inline-block text-[12.5px] font-semibold text-[oklch(45%_0.19_250)]">← Tous les clients</Link>
+      <Link href="/admin/clients" className="-mt-2 mb-4 inline-block text-[12.5px] font-semibold text-[var(--lien)]">← Tous les clients</Link>
 
       <section className={CARTE}>
         <h2 className="font-[family-name:var(--font-display)] text-[15px] font-semibold">Accès</h2>
@@ -77,7 +77,7 @@ export default async function FicheClient({
                 <form action={supprimerProjet}>
                   <input type="hidden" name="projet_id" value={p.id} />
                   <input type="hidden" name="client_id" value={id} />
-                  <button type="submit" className="rounded-full border border-[var(--ligne)] px-4 py-2 text-[12.5px] font-semibold text-[#b53a3a]">Supprimer</button>
+                  <button type="submit" className="rounded-full border border-[var(--ligne)] px-4 py-2 text-[12.5px] font-semibold text-[var(--rouge-texte)]">Supprimer</button>
                 </form>
               </div>
             </li>
@@ -135,7 +135,7 @@ export default async function FicheClient({
               <form action={supprimerLivrable}>
                 <input type="hidden" name="livrable_id" value={l.id} />
                 <input type="hidden" name="client_id" value={id} />
-                <button type="submit" className="rounded-full border border-[var(--ligne)] px-4 py-2 text-[12.5px] font-semibold text-[#b53a3a]">Supprimer</button>
+                <button type="submit" className="rounded-full border border-[var(--ligne)] px-4 py-2 text-[12.5px] font-semibold text-[var(--rouge-texte)]">Supprimer</button>
               </form>
             </li>
           ))}
@@ -147,7 +147,7 @@ export default async function FicheClient({
       </section>
 
       <section className="mt-10 rounded-2xl border border-[rgba(255,107,107,0.4)] p-5">
-        <h2 className="font-[family-name:var(--font-display)] text-[15px] font-semibold text-[#b53a3a]">Zone sensible</h2>
+        <h2 className="font-[family-name:var(--font-display)] text-[15px] font-semibold text-[var(--rouge-texte)]">Zone sensible</h2>
         <p className="mt-1 max-w-xl text-[12.5px] leading-relaxed text-[var(--texte-mute)]">
           Supprimer ce client efface ses projets, ses documents et ses fichiers. S&apos;il a un compte partagé avec Vivier Academies, seul son accès Chatllow est retiré et son compte est conservé.
         </p>
@@ -157,7 +157,7 @@ export default async function FicheClient({
             Pour confirmer, tapez « {client.entreprise} »
             <input name="confirmation" required autoComplete="off" className={`${CHAMP} mt-1 block w-64`} />
           </label>
-          <button type="submit" className="rounded-full bg-[#b53a3a] px-5 py-2.5 text-[13px] font-semibold text-white">Supprimer le client</button>
+          <button type="submit" className="rounded-full bg-[var(--rouge-texte)] px-5 py-2.5 text-[13px] font-semibold text-[#0a0e1a]">Supprimer le client</button>
         </form>
       </section>
     </CoqueAdmin>

@@ -35,7 +35,7 @@ export default async function DiagnosticsPage() {
                 </div>
                 <p className="mt-1 text-[12.5px] text-[var(--texte-mute)]">Pilote recommandé : <b className="text-[var(--texte)]">{d.pilote_recommande ?? "aucun"}</b></p>
                 <details className="mt-3">
-                  <summary className="cursor-pointer text-[12.5px] font-semibold text-[oklch(45%_0.19_250)]">Voir les {QUESTIONS.length} réponses</summary>
+                  <summary className="cursor-pointer text-[12.5px] font-semibold text-[var(--lien)]">Voir les {QUESTIONS.length} réponses</summary>
                   <dl className="mt-3 flex flex-col gap-3">
                     {QUESTIONS.map((q, i) => (
                       <div key={q.question}>

@@ -25,6 +25,7 @@ const CHEMINS = {
   liste: "M8 6h12 M8 12h12 M8 18h12 M4 6h.01 M4 12h.01 M4 18h.01",
   plus: "M12 5v14 M5 12h14",
   etincelle: "M12 3l1.800 5.200L19 10l-5.200 1.800L12 17l-1.800-5.200L5 10l5.200-1.800L12 3Z",
+  cloche: "M6 9a6 6 0 1 1 12 0c0 6 2 7 2 7H4s2-1 2-7 M10 20a2 2 0 0 0 4 0",
   envoyer: "M22 2 11 13 M22 2l-7 20-4-9-9-4 20-7Z",
 } as const;
 

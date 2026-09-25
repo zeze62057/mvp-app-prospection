@@ -34,7 +34,7 @@ export function FormulaireNouveauClient() {
         </div>
       </form>
 
-      {etat.erreur && <p role="alert" className="mt-3 rounded-lg bg-[rgba(255,107,107,0.14)] px-3.5 py-2 text-[12.5px] font-semibold text-[#b53a3a]">{etat.erreur}</p>}
+      {etat.erreur && <p role="alert" className="mt-3 rounded-lg bg-[rgba(255,107,107,0.14)] px-3.5 py-2 text-[12.5px] font-semibold text-[var(--rouge-texte)]">{etat.erreur}</p>}
 
       {ident && (
         <div role="status" className="mt-4 rounded-xl border border-[oklch(82%_0.07_250)] bg-[var(--indigo-soft)] p-4">
@@ -56,7 +56,7 @@ export function FormulaireNouveauClient() {
                   await navigator.clipboard.writeText(`Connexion : ${ident.email}\nMot de passe : ${ident.motDePasse}`).catch(() => {});
                   setCopie(true);
                 }}
-                className="mt-3 rounded-full border border-[var(--ligne)] bg-white px-4 py-1.5 text-[12px] font-semibold"
+                className="mt-3 rounded-full border border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-1.5 text-[12px] font-semibold"
               >
                 {copie ? "Copié ✓" : "Copier les identifiants"}
               </button>

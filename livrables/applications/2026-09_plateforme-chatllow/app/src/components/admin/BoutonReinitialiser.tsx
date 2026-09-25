@@ -14,7 +14,7 @@ export function BoutonReinitialiser({ clientId, email }: { clientId: string; ema
           {enCours ? "Réinitialisation…" : "Réinitialiser le mot de passe"}
         </button>
       </form>
-      {etat.erreur && <p role="alert" className="mt-2 text-[12px] font-semibold text-[#b53a3a]">{etat.erreur}</p>}
+      {etat.erreur && <p role="alert" className="mt-2 text-[12px] font-semibold text-[var(--rouge-texte)]">{etat.erreur}</p>}
       {etat.motDePasse && (
         <p role="status" className="mt-2 rounded-lg bg-[var(--indigo-soft)] px-3.5 py-2 text-[12.5px]">
           Nouveau mot de passe pour {email} : <b className="font-[family-name:var(--font-mono)]">{etat.motDePasse}</b>

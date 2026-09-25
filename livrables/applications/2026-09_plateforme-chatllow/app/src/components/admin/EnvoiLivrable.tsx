@@ -82,8 +82,8 @@ export function EnvoiLivrable({ clientId }: { clientId: string }) {
         <button type="submit" disabled={etat === "envoi"} className="rounded-full bg-[var(--encre)] px-5 py-2.5 text-[13px] font-semibold text-[var(--fond)] disabled:opacity-60">
           {etat === "envoi" ? "Envoi en cours…" : "Ajouter le document →"}
         </button>
-        {erreur && <p role="alert" className="mt-3 rounded-lg bg-[rgba(255,107,107,0.14)] px-3.5 py-2 text-[12.5px] font-semibold text-[#b53a3a]">{erreur}</p>}
-        {ok && <p role="status" className="mt-3 rounded-lg bg-[rgba(34,160,110,0.14)] px-3.5 py-2 text-[12.5px] font-semibold text-[#157a52]">Document ajouté.</p>}
+        {erreur && <p role="alert" className="mt-3 rounded-lg bg-[rgba(255,107,107,0.14)] px-3.5 py-2 text-[12.5px] font-semibold text-[var(--rouge-texte)]">{erreur}</p>}
+        {ok && <p role="status" className="mt-3 rounded-lg bg-[rgba(34,160,110,0.14)] px-3.5 py-2 text-[12.5px] font-semibold text-[var(--vert-texte)]">Document ajouté.</p>}
       </div>
     </form>
   );

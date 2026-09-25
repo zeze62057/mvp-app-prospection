@@ -50,3 +50,25 @@ body::before {
   font-weight: 400;
   color: var(--indigo);
 }
+
+/* Theme sombre de l'administration : redefinit les variables de couleur pour tout ce qui est dans .theme-admin.
+   Les couleurs "de texte sur fond clair" (liens, rouge, vert) ont une variante lisible sur fond sombre. */
+:root {
+  --lien: oklch(45% 0.19 250);
+  --rouge-texte: #b53a3a;
+  --vert-texte: #157a52;
+}
+.theme-admin {
+  --fond: #0a0e1a;
+  --fond-carte: #111729;
+  --texte: #e8ecf8;
+  --texte-mute: rgba(232, 236, 248, 0.62);
+  --ligne: rgba(140, 160, 255, 0.16);
+  --encre: #e8ecf8;
+  --indigo-soft: rgba(110, 130, 255, 0.16);
+  --lien: oklch(80% 0.12 250);
+  --rouge-texte: #ff8a8a;
+  --vert-texte: #34d399;
+  background: var(--fond);
+  color: var(--texte);
+}
