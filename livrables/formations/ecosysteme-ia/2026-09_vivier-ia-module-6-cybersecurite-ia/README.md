@@ -1,6 +1,6 @@
 # Module 6 : Cybersécurité IA (Vivier IA)
 
-> Squelette validé le 2026-09-25, à relire. Aucun chapitre n'est encore rédigé. Méthode et limites : skill `formation-cybersecurite-ia`.
+> Squelette validé le 2026-09-25, à relire. Chapitre 1.1 testé (2026-09-25), les autres restent à cadrer. Méthode et limites : skill `formation-cybersecurite-ia`.
 
 **Promesse.** À la fin, l'élève sait identifier les risques de ses projets, sécuriser Claude, ses agents et son application web, et livrer un audit de sécurité simple à une entreprise, dans un cadre légal.
 
@@ -44,7 +44,7 @@
 
 | # | Chapitre | Ancrage réel | Sources à lire | État |
 |---|----------|--------------|----------------|------|
-| 1.1 | Secrets et clés API : où ils vivent, où ils ne vont jamais | Fichiers `.env` ignorés par Git, clés lues depuis un fichier local, jamais collées dans une conversation | Documentation Anthropic, GitHub sur les secrets | à cadrer |
+| 1.1 | [Secrets et clés API : où ils vivent, où ils ne vont jamais](partie-1-claude-et-agents/01-secrets-et-cles-api.md) | Fichiers `.env` ignorés par Git, clés lues depuis un fichier local, jamais collées dans une conversation | Documentation Anthropic, GitHub sur les secrets | testé le 2026-09-25 (sources lues, commandes Git et règle de refus essayées en direct), relecture de Zézé à faire |
 | 1.2 | L'injection de prompt : directe et indirecte | Un agent qui lit du contenu extérieur (pages, e-mails, résultats d'outils) et l'obéit | OWASP Top 10 pour les applications LLM, documentation Anthropic sur la sécurité | à cadrer |
 | 1.3 | Permissions des outils et des agents : le moindre privilège | Modes de permission de Claude Code, accès Bash retiré à un skill tiers | Documentation Claude Code (permissions, hooks) | à cadrer |
 | 1.4 | Serveurs MCP, skills et plugins tiers : lire avant d'installer | Skill `cybersecurity-expert` lu en entier, `allowed-tools` réduit ; skill de 3,8 Mo exclu faute d'audit | Documentation Claude Code (skills, MCP), dépôts lus | à cadrer |
