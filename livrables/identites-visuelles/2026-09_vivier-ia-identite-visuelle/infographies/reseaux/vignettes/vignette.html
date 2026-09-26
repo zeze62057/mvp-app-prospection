@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Vignette d'un chapitre Vivier IA</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Manrope:wght@700;800&display=swap">
+<style>
+  /* Gabarit de vignette 1280 x 720. Usage : vignette.html?repere=MODULE 1 · SECTION 3 · CHAPITRE 4&titre=Titre complet */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1280px; height: 720px; overflow: hidden; background: #0b2622; }
+  .vignette {
+    position: relative; width: 1280px; height: 720px; padding: 64px 72px;
+    display: flex; flex-direction: column;
+    color: #F2F7F5; font-family: 'Manrope', system-ui, sans-serif;
+    background:
+      radial-gradient(circle at 18% 12%, rgba(95,199,184,0.45), transparent 52%),
+      radial-gradient(circle at 92% 18%, rgba(255,122,77,0.30), transparent 48%),
+      radial-gradient(rgba(234,245,242,0.13) 2.4px, transparent 2.4px) 0 0 / 40px 40px,
+      linear-gradient(135deg, #16443c, #0b2622);
+  }
+  .motif { position: absolute; right: 0; top: 0; width: 560px; height: 720px; }
+  .repere { position: relative; font-size: 30px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #5FC7B8; }
+  .zone { position: relative; flex: 1; display: flex; align-items: center; }
+  .titre {
+    width: 700px; max-height: 400px; overflow: hidden;
+    font-family: 'Unbounded', system-ui, sans-serif; font-weight: 700; line-height: 1.12; letter-spacing: -0.01em;
+    hyphens: none; overflow-wrap: normal;
+  }
+  .pied { position: relative; display: flex; align-items: center; gap: 20px; }
+  .marque { font-family: 'Unbounded', system-ui, sans-serif; font-weight: 700; font-size: 32px; }
+</style>
+</head>
+<body>
+<div class="vignette">
+  <svg class="motif" viewBox="0 0 560 720" fill="none" aria-hidden="true">
+    <!-- La Clé, très grande, rognée par le bord droit : anneau, trait en diagonale, point d'accès corail. -->
+    <circle cx="294" cy="470" r="150" stroke="#5FC7B8" stroke-opacity="0.16" stroke-width="6"/>
+    <circle cx="294" cy="470" r="230" stroke="#5FC7B8" stroke-opacity="0.10" stroke-width="6"/>
+    <circle cx="294" cy="470" r="88" stroke="#5FC7B8" stroke-width="42"/>
+    <line x1="356" y1="408" x2="484" y2="280" stroke="#5FC7B8" stroke-width="42" stroke-linecap="round"/>
+    <circle cx="484" cy="280" r="42" fill="#FF7A4D"/>
+  </svg>
+  <div class="repere" id="repere"></div>
+  <div class="zone"><div class="titre" id="titre"></div></div>
+  <div class="pied">
+    <svg width="60" height="60" viewBox="0 0 120 120" fill="none" aria-label="Logo Vivier IA">
+      <circle cx="45" cy="75" r="22" stroke="#5FC7B8" stroke-width="9"/>
+      <line x1="61" y1="59" x2="95" y2="25" stroke="#5FC7B8" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="95" cy="25" r="9" fill="#FF7A4D"/>
+    </svg>
+    <div class="marque">Vivier IA</div>
+  </div>
+</div>
+<script>
+  const q = new URLSearchParams(location.search);
+  document.getElementById('repere').textContent = q.get('repere') || '';
+  const t = document.getElementById('titre');
+  t.textContent = q.get('titre') || '';
+  // Le titre n'est jamais abrégé : sa taille diminue jusqu'à tenir sur 3 lignes au plus,
+  // dans 700 x 400 px (les arrondis de l'interligne ajoutent quelques pixels, d'où la tolérance).
+  function lignesDe(s) { return Math.round(t.scrollHeight / (s * 1.12)); }
+  function ajuster() {
+    let s = 80;
+    t.style.fontSize = s + 'px';
+    while ((lignesDe(s) > 3 || t.scrollHeight > 400 || t.scrollWidth > 701) && s > 44) { s -= 2; t.style.fontSize = s + 'px'; }
+    window.__fit = { taille: s, lignes: lignesDe(s), tient: lignesDe(s) <= 3 && t.scrollHeight <= 400 && t.scrollWidth <= 701 };
+  }
+  Promise.all([document.fonts.load('700 80px Unbounded'), document.fonts.load('800 30px Manrope')]).then(() => document.fonts.ready).then(ajuster);
+</script>
+</body>
+</html>

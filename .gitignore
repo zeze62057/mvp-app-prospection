@@ -36,3 +36,8 @@ tmp/
 temp/
 *.tmp
 .playwright-mcp/
+
+# Vignettes PNG generees localement (sources regenerables avec toutes.html et sections.html).
+# Seules les vignettes du site (app/public/vignettes) sont suivies par git.
+livrables/identites-visuelles/*/infographies/reseaux/vignettes/*.png
+livrables/identites-visuelles/*/infographies/plateforme/vignettes-sections/**/*.png

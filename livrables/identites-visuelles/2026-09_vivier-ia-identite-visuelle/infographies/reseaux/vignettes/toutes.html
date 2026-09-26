@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Vignettes des chapitres Vivier IA (31 chapitres a script pret)</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700&family=Manrope:wght@700;800&display=swap">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #0b2622; width: 1280px; }
+  .vignette {
+    position: relative; width: 1280px; height: 720px; padding: 64px 72px; overflow: hidden;
+    display: flex; flex-direction: column;
+    color: #F2F7F5; font-family: 'Manrope', system-ui, sans-serif;
+    background:
+      radial-gradient(circle at 18% 12%, rgba(95,199,184,0.45), transparent 52%),
+      radial-gradient(circle at 92% 18%, rgba(255,122,77,0.30), transparent 48%),
+      radial-gradient(rgba(234,245,242,0.13) 2.4px, transparent 2.4px) 0 0 / 40px 40px,
+      linear-gradient(135deg, #16443c, #0b2622);
+  }
+  .motif { position: absolute; right: 0; top: 0; width: 560px; height: 720px; }
+  .repere { position: relative; font-size: 30px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; color: #5FC7B8; }
+  .zone { position: relative; flex: 1; display: flex; align-items: center; }
+  .titre {
+    width: 700px; max-height: 400px; overflow: hidden;
+    font-family: 'Unbounded', system-ui, sans-serif; font-weight: 700; line-height: 1.12; letter-spacing: -0.01em;
+    hyphens: none; overflow-wrap: normal;
+  }
+  .pied { position: relative; display: flex; align-items: center; gap: 20px; }
+  .marque { font-family: 'Unbounded', system-ui, sans-serif; font-weight: 700; font-size: 32px; }
+</style>
+</head>
+<body>
+<script>
+  // Titres validés par Zézé le 2026-09-26. Un titre n'est jamais reformulé : au plus, on retire sa fin.
+  const CH = [
+    ['s0-c1', 'BIENVENUE · CHAPITRE 1', 'Présentation de la formation'],
+    ['s0-c2', 'BIENVENUE · CHAPITRE 2', 'Comment bien suivre la formation'],
+    ['s0-c3', 'BIENVENUE · CHAPITRE 3', 'Installer votre assistant personnel'],
+    ['m1-s1-c1', 'MODULE 1 · SECTION 1 · CHAPITRE 1', 'Pourquoi Claude Code va changer votre métier'],
+    ['m1-s1-c2', 'MODULE 1 · SECTION 1 · CHAPITRE 2', "Le terminal et l'IDE"],
+    ['m1-s1-c3', 'MODULE 1 · SECTION 1 · CHAPITRE 3', 'Git et GitHub'],
+    ['m1-s1-c4', 'MODULE 1 · SECTION 1 · CHAPITRE 4', 'Vercel et OVH'],
+    ['m1-s2-c1', 'MODULE 1 · SECTION 2 · CHAPITRE 1', 'Agentic Coding vs Vibe Coding'],
+    ['m1-s2-c2', 'MODULE 1 · SECTION 2 · CHAPITRE 2', "L'art de donner des instructions à Claude Code"],
+    ['m1-s2-c3', 'MODULE 1 · SECTION 2 · CHAPITRE 3', 'Le workflow Plan, Execute, Validate'],
+    ['m1-s2-c4', 'MODULE 1 · SECTION 2 · CHAPITRE 4', 'Quand ça casse, debugger et vérifier'],
+    ['m1-s3-c1', 'MODULE 1 · SECTION 3 · CHAPITRE 1', 'Premiers pas, outils principaux et permissions'],
+    ['m1-s3-c2', 'MODULE 1 · SECTION 3 · CHAPITRE 2', 'CLAUDE.md, le cerveau de votre projet'],
+    ['m1-s3-c3', 'MODULE 1 · SECTION 3 · CHAPITRE 3', 'Skills et Slash Commands'],
+    ['m1-s3-c4', 'MODULE 1 · SECTION 3 · CHAPITRE 4', 'MCP, connecter Claude Code à votre écosystème'],
+    ['m1-s3-c5', 'MODULE 1 · SECTION 3 · CHAPITRE 5', 'Hooks, automatiser Claude Code'],
+    ['m1-s3-c6', 'MODULE 1 · SECTION 3 · CHAPITRE 6', 'Structurer son projet'],
+    ['m1-s3-c7', 'MODULE 1 · SECTION 3 · CHAPITRE 7', 'Gérer les coûts intelligemment'],
+    ['m1-s4-c1', 'MODULE 1 · SECTION 4 · CHAPITRE 1', 'Second Brain, organiser son quotidien'],
+    ['m1-s4-c2', 'MODULE 1 · SECTION 4 · CHAPITRE 2', 'Préparer vos livrables professionnels'],
+    ['m1-s4-c3', 'MODULE 1 · SECTION 4 · CHAPITRE 3', 'Gérer votre propre business'],
+    ['m1-s5-c1', 'MODULE 1 · SECTION 5 · CHAPITRE 1', 'De Lovable à Claude Code'],
+    ['m1-s5-c2', 'MODULE 1 · SECTION 5 · CHAPITRE 2', "L'architecture fullstack n8n + Claude Code"],
+    ['m1-s5-c3', 'MODULE 1 · SECTION 5 · CHAPITRE 3', 'MCP Playwright'],
+    ['m1-s5-c4', 'MODULE 1 · SECTION 5 · CHAPITRE 4', "Build Phase 1, formulaire d'intake client"],
+    ['m1-s5-c5', 'MODULE 1 · SECTION 5 · CHAPITRE 5', 'Build Phase 2, dashboard de suivi'],
+    ['m1-s5-c6', 'MODULE 1 · SECTION 5 · CHAPITRE 6', 'Build Phase 3, page de statut'],
+    ['m1-s6-c1', 'MODULE 1 · SECTION 6 · CHAPITRE 1', 'Préparer une livraison client'],
+    ['m1-s6-c2', 'MODULE 1 · SECTION 6 · CHAPITRE 2', 'Maintenir et faire évoluer un projet'],
+    ['m1-s6-c3', 'MODULE 1 · SECTION 6 · CHAPITRE 3', 'Ce que vous pouvez vendre'],
+    ['m1-s6-c4', 'MODULE 1 · SECTION 6 · CHAPITRE 4', 'Construire votre bibliothèque de starters'],
+  ];
+  const MOTIF = `<svg class="motif" viewBox="0 0 560 720" fill="none" aria-hidden="true">
+    <circle cx="294" cy="470" r="150" stroke="#5FC7B8" stroke-opacity="0.16" stroke-width="6"/>
+    <circle cx="294" cy="470" r="230" stroke="#5FC7B8" stroke-opacity="0.10" stroke-width="6"/>
+    <circle cx="294" cy="470" r="88" stroke="#5FC7B8" stroke-width="42"/>
+    <line x1="356" y1="408" x2="484" y2="280" stroke="#5FC7B8" stroke-width="42" stroke-linecap="round"/>
+    <circle cx="484" cy="280" r="42" fill="#FF7A4D"/></svg>`;
+  const LOGO = `<svg width="60" height="60" viewBox="0 0 120 120" fill="none" aria-label="Logo Vivier IA">
+    <circle cx="45" cy="75" r="22" stroke="#5FC7B8" stroke-width="9"/>
+    <line x1="61" y1="59" x2="95" y2="25" stroke="#5FC7B8" stroke-width="9" stroke-linecap="round"/>
+    <circle cx="95" cy="25" r="9" fill="#FF7A4D"/></svg>`;
+  CH.forEach(([id, repere, titre]) => {
+    const d = document.createElement('div');
+    d.className = 'vignette'; d.id = id;
+    d.innerHTML = MOTIF + '<div class="repere"></div><div class="zone"><div class="titre"></div></div><div class="pied">' + LOGO + '<div class="marque">Vivier IA</div></div>';
+    d.querySelector('.repere').textContent = repere;
+    d.querySelector('.titre').textContent = titre;
+    document.body.appendChild(d);
+  });
+  // Le titre tient sur 3 lignes au plus dans 700 x 400 px (tolérance pour les arrondis d'interligne).
+  function ajuster(t) {
+    const lignesDe = s => Math.round(t.scrollHeight / (s * 1.12));
+    let s = 80; t.style.fontSize = s + 'px';
+    while ((lignesDe(s) > 3 || t.scrollHeight > 400 || t.scrollWidth > 701) && s > 44) { s -= 2; t.style.fontSize = s + 'px'; }
+    return { taille: s, lignes: lignesDe(s), tient: lignesDe(s) <= 3 && t.scrollHeight <= 400 && t.scrollWidth <= 701 };
+  }
+  Promise.all([document.fonts.load('700 80px Unbounded'), document.fonts.load('800 30px Manrope')]).then(() => document.fonts.ready).then(() => {
+    window.__fits = CH.map(([id]) => ({ id, ...ajuster(document.querySelector('#' + id + ' .titre')) }));
+    window.__pret = true;
+  });
+</script>
+</body>
+</html>
