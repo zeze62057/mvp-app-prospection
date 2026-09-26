@@ -1,12 +1,9 @@
-"use client";
-
 import Image from "next/image";
-import Link from "next/link";
-import { useState, type CSSProperties } from "react";
+import type { CSSProperties } from "react";
 import { CompteurAnime } from "@/components/progression/CompteurAnime";
 
 // Bandeau d'accueil de la communaute (gratuite et payante) : texte a gauche, photo de Zeze a droite,
-// puces flottantes, stats reelles en bas. Le bouton "Inviter" copie le lien de la vitrine.
+// puces flottantes, decor de la marque, stats reelles en bas. Texte generique : il sert tous les espaces.
 // Les animations sont dans globals.css et s'arretent pour qui a demande moins d'animations.
 const PUCES = [
   { titre: "Apprendre", detail: "pas à pas", icone: "M12 3 2 8l10 5 8-4v6h2V8L12 3zm-6 9v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4l-6 3-6-3z" },
@@ -14,44 +11,64 @@ const PUCES = [
   { titre: "Booster", detail: "tes projets", icone: "M12 2c3 2 5 5 5 9l2 3-3 1-1 3h-6l-1-3-3-1 2-3c0-4 2-7 5-9zm0 5a2 2 0 100 4 2 2 0 000-4z" },
 ];
 
+const ETINCELLE = "M12 0 14 10 24 12 14 14 12 24 10 14 0 12 10 10Z";
+const ETINCELLES = [
+  { x: "5%", y: "12%", t: 22, d: "0s" },
+  { x: "46%", y: "9%", t: 16, d: "1.1s" },
+  { x: "54%", y: "56%", t: 20, d: "2.2s" },
+  { x: "36%", y: "80%", t: 14, d: "0.6s" },
+  { x: "93%", y: "86%", t: 22, d: "1.7s" },
+];
+
 export function BandeauCommunaute({
   espaceNom,
-  espaceSlug,
-  tagline,
   nbMembres,
   nbEleves,
 }: {
   espaceNom: string;
-  espaceSlug: string;
-  tagline: string;
   nbMembres: number;
   nbEleves: number;
 }) {
-  const [copie, setCopie] = useState(false);
-  // Chemin relatif seulement : window n'existe pas au rendu serveur (ecart d'hydratation sinon).
-  const cheminVitrine = `/${espaceSlug}`;
-
-  async function copierLien() {
-    try {
-      await navigator.clipboard.writeText(`${window.location.origin}${cheminVitrine}`);
-      setCopie(true);
-      setTimeout(() => setCopie(false), 2000);
-    } catch {
-      // Presse-papiers indisponible : le lien vitrine ci-dessous reste cliquable.
-    }
-  }
-
   return (
     <section
       className="anim-entree relative overflow-hidden rounded-3xl border border-[var(--ligne)]"
       style={{
         background:
-          "radial-gradient(circle at 0% 0%, rgba(95,199,184,0.22), transparent 45%), radial-gradient(circle at 60% 100%, rgba(255,122,77,0.10), transparent 40%), linear-gradient(135deg, #ffffff, #F2F7F5)",
+          "radial-gradient(circle at 0% 0%, rgba(95,199,184,0.26), transparent 45%), radial-gradient(circle at 62% 100%, rgba(255,122,77,0.12), transparent 40%), radial-gradient(rgba(43,140,130,0.16) 1.4px, transparent 1.4px) 0 0 / 22px 22px, linear-gradient(135deg, #ffffff, #F2F7F5)",
       }}
     >
-      <div className="grid md:grid-cols-[1.15fr_0.85fr]">
+      {/* Decor : la Cle de la marque (anneau + point d'acces), grand cercle en pointilles, etincelles */}
+      <svg aria-hidden className="pointer-events-none absolute -bottom-24 -left-24 hidden h-[340px] w-[340px] sm:block" viewBox="0 0 120 120" fill="none">
+        <g className="anim-flotte">
+          <circle cx="45" cy="75" r="22" stroke="#2B8C82" strokeOpacity="0.14" strokeWidth="9" />
+          <line x1="61" y1="59" x2="95" y2="25" stroke="#2B8C82" strokeOpacity="0.14" strokeWidth="9" strokeLinecap="round" />
+          <circle className="anim-lueur" cx="95" cy="25" r="9" fill="#FF7A4D" fillOpacity="0.4" />
+        </g>
+      </svg>
+      <svg aria-hidden className="pointer-events-none absolute -right-32 -top-32 h-[520px] w-[520px] hidden md:block" viewBox="0 0 200 200" fill="none">
+        <circle className="anim-tourne" cx="100" cy="100" r="96" stroke="#2B8C82" strokeOpacity="0.6" strokeWidth="1.6" strokeDasharray="2 7" strokeLinecap="round" />
+        <circle cx="100" cy="100" r="74" stroke="#5FC7B8" strokeOpacity="0.5" strokeWidth="1.4" />
+        <circle cx="100" cy="100" r="52" stroke="#FF7A4D" strokeOpacity="0.4" strokeWidth="1.4" />
+      </svg>
+      {ETINCELLES.map((e, i) => (
+        <svg
+          key={i}
+          aria-hidden
+          viewBox="0 0 24 24"
+          className={`anim-scintille pointer-events-none absolute ${i === 2 || i === 3 ? "hidden md:block" : ""}`}
+          style={{ left: e.x, top: e.y, width: e.t, height: e.t, animationDelay: e.d } as CSSProperties}
+          fill={i % 2 ? "#FF7A4D" : "#2B8C82"}
+        >
+          <path d={ETINCELLE} />
+        </svg>
+      ))}
+
+      <div className="relative grid md:grid-cols-[1.15fr_0.85fr]">
         {/* Photo : en haut sur mobile, a droite sur ordinateur (order pour garder le texte en premier dans le code) */}
         <div className="relative order-first h-60 md:order-last md:h-auto md:min-h-[340px]">
+          <div className="pointer-events-none absolute -left-10 top-0 hidden h-72 w-72 rounded-full bg-[rgba(95,199,184,0.4)] blur-3xl md:block" />
+          <div className="pointer-events-none absolute right-16 top-2 hidden h-32 w-32 rounded-full bg-[rgba(255,122,77,0.35)] blur-2xl md:block" />
+          <div className="pointer-events-none absolute -left-3.5 inset-y-4 hidden rounded-l-[150px] border-2 border-dashed border-[rgba(43,140,130,0.55)] md:block md:w-[calc(100%-0.5rem)]" />
           <div className="absolute inset-0 overflow-hidden rounded-b-[60px] bg-[#EEF1F0] md:rounded-b-none md:rounded-l-[140px]">
             <Image
               src="/zeze-bilivogui.jpg"
@@ -88,38 +105,27 @@ export function BandeauCommunaute({
           </div>
         </div>
 
-        <div className="relative flex flex-col justify-center px-6 py-7 sm:px-9 sm:py-9">
+        <div className="relative flex flex-col justify-center px-6 py-8 sm:px-10 sm:py-10">
           <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-[var(--ligne)] bg-white px-3 py-1.5 text-[11px] font-bold text-[var(--texte)]">
             <span className="anim-lueur h-2 w-2 rounded-full bg-[var(--corail)]" aria-hidden />
             La communauté qui fait grandir tes idées
           </span>
-          <h2 className="font-display text-[28px] font-extrabold leading-[1.1] tracking-tight sm:text-[34px]">
-            Rejoins la communauté
+          <h2 className="font-display text-[30px] font-extrabold leading-[1.08] tracking-tight sm:text-[38px]">
+            Ton avenir commence ici
             <span className="block text-[var(--sarcelle)]">{espaceNom}</span>
           </h2>
-          <p className="mt-3.5 max-w-md text-[13.5px] leading-relaxed text-[var(--texte-mute)]">
-            {tagline || `Communauté ${espaceNom}`}
+          <span
+            aria-hidden
+            className="mt-4 block h-1 w-16 rounded-full"
+            style={{ background: "linear-gradient(90deg, #2B8C82, #FF7A4D)" }}
+          />
+          <p className="mt-4 max-w-md text-[14px] leading-relaxed text-[var(--texte-mute)]">
+            Apprends, pose tes questions et avance avec des élèves qui visent le même objectif que toi.
           </p>
-          <div className="mt-6 flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              onClick={copierLien}
-              className="rounded-full bg-[var(--corail)] px-6 py-3 text-[13px] font-extrabold text-[var(--encre)] shadow-[0_8px_20px_rgba(255,122,77,0.35)] transition-transform hover:-translate-y-0.5"
-            >
-              {copie ? "Lien copié !" : "Inviter →"}
-            </button>
-            <Link
-              href={cheminVitrine}
-              target="_blank"
-              className="truncate font-mono text-[11.5px] font-bold text-[var(--sarcelle)] hover:underline"
-            >
-              {cheminVitrine}
-            </Link>
-          </div>
         </div>
       </div>
 
-      <div className="flex gap-3 border-t border-[var(--ligne)] bg-white/70 px-6 py-4 sm:px-9">
+      <div className="relative flex gap-3 border-t border-[var(--ligne)] bg-white/70 px-6 py-4 sm:px-10">
         <div className="flex flex-1 items-center gap-3">
           <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-[rgba(43,140,130,0.12)] text-lg" aria-hidden>
             👥

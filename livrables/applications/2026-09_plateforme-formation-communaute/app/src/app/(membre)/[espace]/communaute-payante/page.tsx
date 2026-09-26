@@ -216,8 +216,6 @@ export default async function CommunautePayantePage({
       <div className="mx-auto max-w-5xl px-7 pt-7">
         <BandeauCommunaute
           espaceNom={espace.nom}
-          espaceSlug={espace.slug}
-          tagline={espace.tagline}
           nbMembres={stats?.nb_membres ?? 0}
           nbEleves={stats?.nb_eleves ?? 0}
         />

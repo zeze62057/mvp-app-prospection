@@ -73,6 +73,13 @@ body {
   from { transform: scaleX(0); }
   to { transform: scaleX(1); }
 }
+@keyframes scintille {
+  0%, 100% { opacity: 0.2; transform: scale(0.6) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.1) rotate(25deg); }
+}
+@keyframes tourne {
+  to { transform: rotate(360deg); }
+}
 @keyframes lueur {
   0%, 100% { opacity: 0.55; }
   50% { opacity: 0.9; }
@@ -85,12 +92,14 @@ body {
 .anim-anneau { animation: anneau 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s backwards; }
 .anim-barre { transform-origin: left center; animation: barre 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s backwards; }
 .anim-lueur { animation: lueur 5s ease-in-out infinite; }
+.anim-scintille { transform-box: fill-box; transform-origin: center; animation: scintille 3.2s ease-in-out infinite; }
+.anim-tourne { transform-box: fill-box; transform-origin: center; animation: tourne 90s linear infinite; }
 
 .carte-vivante { transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
 .carte-vivante:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(17, 56, 50, 0.12); border-color: rgba(43, 140, 130, 0.35); }
 
 @media (prefers-reduced-motion: reduce) {
-  .anim-entree, .anim-flotte, .anim-salue, .anim-flamme, .anim-anneau, .anim-barre, .anim-lueur { animation: none !important; }
+  .anim-entree, .anim-flotte, .anim-salue, .anim-flamme, .anim-anneau, .anim-barre, .anim-lueur, .anim-scintille, .anim-tourne { animation: none !important; }
   .carte-vivante { transition: none !important; }
   .carte-vivante:hover { transform: none !important; }
 }
