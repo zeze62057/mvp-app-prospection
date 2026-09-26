@@ -9,7 +9,7 @@ import { FilCommunaute } from "@/components/communaute/fil/FilCommunaute";
 import { MessageAccueil } from "@/components/communaute/MessageAccueil";
 import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
 import { CartePostulerExpert } from "@/components/communaute/CartePostulerExpert";
-import { CarteCommunaute } from "@/components/communaute/CarteCommunaute";
+import { BandeauCommunaute } from "@/components/communaute/BandeauCommunaute";
 import { CarteProchainsEvenements } from "@/components/communaute/CarteProchainsEvenements";
 import { CarteClassement } from "@/components/communaute/CarteClassement";
 import { CarteEncouragement } from "@/components/communaute/CarteEncouragement";
@@ -213,6 +213,16 @@ export default async function CommunautePayantePage({
         )}
       </div>
 
+      <div className="mx-auto max-w-5xl px-7 pt-7">
+        <BandeauCommunaute
+          espaceNom={espace.nom}
+          espaceSlug={espace.slug}
+          tagline={espace.tagline}
+          nbMembres={stats?.nb_membres ?? 0}
+          nbEleves={stats?.nb_eleves ?? 0}
+        />
+      </div>
+
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 p-7 md:grid-cols-[1fr_300px]">
         <div>
           <MessageAccueil espaceId={espace.id} />
@@ -260,19 +270,6 @@ export default async function CommunautePayantePage({
         </div>
 
         <div className="flex flex-col gap-4">
-          <CarteCommunaute
-            espaceNom={espace.nom}
-            espaceSlug={espace.slug}
-            tagline={espace.tagline}
-            nbMembres={stats?.nb_membres ?? 0}
-            nbEleves={stats?.nb_eleves ?? 0}
-            banniereUrl={
-              espace.banniere_path
-                ? supabase.storage.from("bannieres-espaces").getPublicUrl(espace.banniere_path).data.publicUrl
-                : null
-            }
-          />
-
           <CarteProchainsEvenements supabase={supabase} espace={espace} userId={userData.user.id} />
 
           <CarteClassement espaceSlug={espace.slug} classement={stats?.classement ?? []} />
