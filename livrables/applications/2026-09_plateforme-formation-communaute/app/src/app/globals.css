@@ -80,6 +80,25 @@ body {
 @keyframes tourne {
   to { transform: rotate(360deg); }
 }
+@keyframes icone-apprendre {
+  0%, 60%, 100% { transform: translateY(0) rotate(0deg); }
+  15% { transform: translateY(-3px) rotate(-12deg); }
+  30% { transform: translateY(0) rotate(9deg); }
+  45% { transform: translateY(-1px) rotate(-3deg); }
+}
+@keyframes icone-echange {
+  0%, 55%, 100% { transform: scale(1) rotate(0deg); }
+  65% { transform: scale(1.3) rotate(-7deg); }
+  75% { transform: scale(0.95) rotate(0deg); }
+  85% { transform: scale(1.15) rotate(5deg); }
+}
+@keyframes icone-booster {
+  0%, 50%, 100% { transform: translateY(0) rotate(0deg); }
+  58% { transform: translateY(-4px) rotate(5deg); }
+  66% { transform: translateY(1px) rotate(-5deg); }
+  74% { transform: translateY(-4px) rotate(4deg); }
+  86% { transform: translateY(0) rotate(0deg); }
+}
 @keyframes lueur {
   0%, 100% { opacity: 0.55; }
   50% { opacity: 0.9; }
@@ -92,6 +111,9 @@ body {
 .anim-anneau { animation: anneau 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s backwards; }
 .anim-barre { transform-origin: left center; animation: barre 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s backwards; }
 .anim-lueur { animation: lueur 5s ease-in-out infinite; }
+.anim-icone-apprendre { animation: icone-apprendre 4s ease-in-out infinite; }
+.anim-icone-echange { animation: icone-echange 3.6s ease-in-out infinite; }
+.anim-icone-booster { animation: icone-booster 3.2s ease-in-out infinite; }
 .anim-scintille { transform-box: fill-box; transform-origin: center; animation: scintille 3.2s ease-in-out infinite; }
 .anim-tourne { transform-box: fill-box; transform-origin: center; animation: tourne 90s linear infinite; }
 
@@ -99,7 +121,7 @@ body {
 .carte-vivante:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(17, 56, 50, 0.12); border-color: rgba(43, 140, 130, 0.35); }
 
 @media (prefers-reduced-motion: reduce) {
-  .anim-entree, .anim-flotte, .anim-salue, .anim-flamme, .anim-anneau, .anim-barre, .anim-lueur, .anim-scintille, .anim-tourne { animation: none !important; }
+  .anim-entree, .anim-flotte, .anim-salue, .anim-flamme, .anim-anneau, .anim-barre, .anim-lueur, .anim-scintille, .anim-tourne, .anim-icone-apprendre, .anim-icone-echange, .anim-icone-booster { animation: none !important; }
   .carte-vivante { transition: none !important; }
   .carte-vivante:hover { transform: none !important; }
 }

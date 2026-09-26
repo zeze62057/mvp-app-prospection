@@ -4,9 +4,9 @@ import type { CSSProperties } from "react";
 // Bandeau photo de la communaute gratuite : version inversee du bandeau de la payante (photo a gauche,
 // fond sombre, icones en ligne sous le texte). Texte generique : il sert tous les espaces.
 const ATOUTS = [
-  { titre: "Apprendre", icone: "M12 3 2 8l10 5 8-4v6h2V8L12 3zm-6 9v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4l-6 3-6-3z" },
-  { titre: "Échanger", icone: "M4 4h16v11H8l-4 4V4zm4 4v2h8V8H8z" },
-  { titre: "Booster", icone: "M12 2c3 2 5 5 5 9l2 3-3 1-1 3h-6l-1-3-3-1 2-3c0-4 2-7 5-9zm0 5a2 2 0 100 4 2 2 0 000-4z" },
+  { titre: "Apprendre", icone: "M12 3 2 8l10 5 8-4v6h2V8L12 3zm-6 9v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4l-6 3-6-3z", anim: "anim-icone-apprendre" },
+  { titre: "Échanger", icone: "M4 4h16v11H8l-4 4V4zm4 4v2h8V8H8z", anim: "anim-icone-echange" },
+  { titre: "Booster", icone: "M12 2c3 2 5 5 5 9l2 3-3 1-1 3h-6l-1-3-3-1 2-3c0-4 2-7 5-9zm0 5a2 2 0 100 4 2 2 0 000-4z", anim: "anim-icone-booster" },
 ];
 
 const ETINCELLE = "M12 0 14 10 24 12 14 14 12 24 10 14 0 12 10 10Z";
@@ -76,11 +76,11 @@ export function BandeauGratuite({ espaceNom }: { espaceNom: string }) {
             {ATOUTS.map((a, i) => (
               <li
                 key={a.titre}
-                className="anim-entree flex items-center gap-2.5 rounded-full border border-[rgba(234,245,242,0.16)] bg-[rgba(234,245,242,0.08)] py-1.5 pl-1.5 pr-4"
+                className="anim-entree carte-vivante flex items-center gap-2.5 rounded-full border border-[rgba(234,245,242,0.16)] bg-[rgba(234,245,242,0.08)] py-1.5 pl-1.5 pr-4"
                 style={{ "--d": `${300 + i * 110}ms` } as CSSProperties}
               >
                 <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[rgba(95,199,184,0.2)]">
-                  <svg viewBox="0 0 24 24" className="h-4 w-4" fill="#5FC7B8" aria-hidden>
+                  <svg viewBox="0 0 24 24" className={`h-4 w-4 ${a.anim}`} fill="#5FC7B8" aria-hidden>
                     <path d={a.icone} />
                   </svg>
                 </span>

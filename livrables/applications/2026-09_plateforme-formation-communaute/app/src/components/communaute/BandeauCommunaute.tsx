@@ -6,9 +6,9 @@ import { CompteurAnime } from "@/components/progression/CompteurAnime";
 // puces flottantes, decor de la marque, stats reelles en bas. Texte generique : il sert tous les espaces.
 // Les animations sont dans globals.css et s'arretent pour qui a demande moins d'animations.
 const PUCES = [
-  { titre: "Apprendre", detail: "pas à pas", icone: "M12 3 2 8l10 5 8-4v6h2V8L12 3zm-6 9v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4l-6 3-6-3z" },
-  { titre: "Échanger", detail: "entre élèves", icone: "M4 4h16v11H8l-4 4V4zm4 4v2h8V8H8z" },
-  { titre: "Booster", detail: "tes projets", icone: "M12 2c3 2 5 5 5 9l2 3-3 1-1 3h-6l-1-3-3-1 2-3c0-4 2-7 5-9zm0 5a2 2 0 100 4 2 2 0 000-4z" },
+  { titre: "Apprendre", detail: "pas à pas", icone: "M12 3 2 8l10 5 8-4v6h2V8L12 3zm-6 9v4c0 1.7 2.7 3 6 3s6-1.3 6-3v-4l-6 3-6-3z", anim: "anim-icone-apprendre" },
+  { titre: "Échanger", detail: "entre élèves", icone: "M4 4h16v11H8l-4 4V4zm4 4v2h8V8H8z", anim: "anim-icone-echange" },
+  { titre: "Booster", detail: "tes projets", icone: "M12 2c3 2 5 5 5 9l2 3-3 1-1 3h-6l-1-3-3-1 2-3c0-4 2-7 5-9zm0 5a2 2 0 100 4 2 2 0 000-4z", anim: "anim-icone-booster" },
 ];
 
 const ETINCELLE = "M12 0 14 10 24 12 14 14 12 24 10 14 0 12 10 10Z";
@@ -91,7 +91,7 @@ export function BandeauCommunaute({
                   style={{ animationDelay: `${-i * 2.2}s` }}
                 >
                   <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-[var(--encre)]">
-                    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="#5FC7B8" aria-hidden>
+                    <svg viewBox="0 0 24 24" className={`h-4 w-4 ${p.anim}`} fill="#5FC7B8" aria-hidden>
                       <path d={p.icone} />
                     </svg>
                   </span>
