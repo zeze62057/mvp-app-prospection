@@ -15,6 +15,9 @@ import { LignePrixEspace } from "@/components/admin/LignePrixEspace";
 import { FormulaireCreationEspace } from "@/components/admin/FormulaireCreationEspace";
 import { getStatsEspace } from "@/lib/stats-communaute";
 import { CarteStatsEspace } from "@/components/admin/CarteStatsEspace";
+import { CompteurAnime } from "@/components/progression/CompteurAnime";
+import { dateDuJourConakry, salutationConakry } from "@/lib/salutation";
+import type { CSSProperties } from "react";
 import { FormulaireParametresCommunaute } from "@/components/admin/FormulaireParametresCommunaute";
 import { FormulairePresentationEspace } from "@/components/admin/FormulairePresentationEspace";
 import { FormulaireBanniereEspace } from "@/components/admin/FormulaireBanniereEspace";
@@ -391,20 +394,21 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
     v === null
       ? null
       : { texte: v === 0 ? "→ stable vs période précédente" : `${v > 0 ? "↗ +" : "↘ "}${v}% vs période précédente`, positif: v >= 0 };
-  const cartesChiffres: { icone: string; couleur: string; libelle: string; valeur: string; delta: Delta }[] = [
-    { icone: "👥", couleur: "var(--sarcelle-light)", libelle: "Total des élèves", valeur: String(totalEleves ?? 0), delta: delta(variationEleves) },
+  const cartesChiffres: { icone: string; couleur: string; libelle: string; valeur: string; nombre?: number; delta: Delta }[] = [
+    { icone: "👥", couleur: "var(--sarcelle-light)", libelle: "Total des élèves", valeur: String(totalEleves ?? 0), nombre: totalEleves ?? 0, delta: delta(variationEleves) },
     {
       icone: "🎓",
       couleur: "var(--corail)",
       libelle: "Formations actives",
       valeur: String((espaces ?? []).filter((e) => e.actif).length),
+      nombre: (espaces ?? []).filter((e) => e.actif).length,
       delta:
         (espacesNouveaux ?? 0) > 0
           ? { texte: `↗ +${espacesNouveaux} nouvelle${(espacesNouveaux ?? 0) > 1 ? "s" : ""} sur la période`, positif: true }
           : null,
     },
     // Pas de variation : la table sections n'a pas de date de creation, rien d'honnete a comparer.
-    { icone: "▶️", couleur: "var(--sarcelle-light)", libelle: "Cours publiés", valeur: String(coursPublies ?? 0), delta: null },
+    { icone: "▶️", couleur: "var(--sarcelle-light)", libelle: "Cours publiés", valeur: String(coursPublies ?? 0), nombre: coursPublies ?? 0, delta: null },
     {
       icone: "💰",
       couleur: "var(--corail)",
@@ -419,24 +423,57 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
       <BarreHautAdmin />
       <div id="tableau-de-bord" className="grid scroll-mt-8 gap-6 xl:grid-cols-[minmax(0,1fr)_320px]">
       <div className="min-w-0">
-        <div className="flex flex-wrap items-start justify-between gap-4">
-          <div>
-            <p className="font-display text-[15px] font-bold">Bonjour {profil?.pseudo ?? ""} 👋</p>
-            <h1 className="font-display mt-1 text-[26px] font-semibold">Tableau de bord administrateur</h1>
-            <p className="mt-1 text-[13px] text-[var(--texte-mute)]">
+        {/* Bandeau d'accueil : meme style que le tableau de bord eleve. Que des donnees reelles. Les animations
+            sont dans globals.css et s'arretent pour qui a demande moins d'animations. */}
+        <section
+          className="anim-entree relative overflow-hidden rounded-3xl px-6 py-7 text-[var(--sur-encre)] sm:px-9 sm:py-8"
+          style={{
+            background:
+              "radial-gradient(circle at 12% 0%, rgba(95,199,184,0.42), transparent 52%), radial-gradient(circle at 96% 8%, rgba(255,122,77,0.26), transparent 46%), radial-gradient(rgba(234,245,242,0.12) 1.5px, transparent 1.5px) 0 0 / 20px 20px, linear-gradient(135deg, #16443c, #0b2622)",
+          }}
+        >
+          <svg
+            aria-hidden
+            className="anim-flotte pointer-events-none absolute -right-6 -top-4 hidden h-[240px] w-[240px] sm:block"
+            viewBox="0 0 120 120"
+            fill="none"
+          >
+            <circle cx="45" cy="75" r="22" stroke="#5FC7B8" strokeOpacity="0.5" strokeWidth="9" />
+            <line x1="61" y1="59" x2="95" y2="25" stroke="#5FC7B8" strokeOpacity="0.5" strokeWidth="9" strokeLinecap="round" />
+            <circle className="anim-lueur" cx="95" cy="25" r="9" fill="#FF7A4D" />
+          </svg>
+          <div className="relative sm:max-w-[62%]">
+            <p className="font-mono text-[11px] capitalize tracking-wide text-[var(--sarcelle-light)]">{dateDuJourConakry()}</p>
+            <p className="font-display mt-2 text-[28px] font-extrabold leading-tight tracking-tight sm:text-[34px]">
+              {salutationConakry()}{" "}
+              <span className="text-[var(--sarcelle-light)]">{profil?.pseudo ?? ""}</span>{" "}
+              <span className="anim-salue" aria-hidden>
+                👋
+              </span>
+            </p>
+            <h1 className="mt-2 font-mono text-xs uppercase tracking-wide text-[var(--sur-encre-mute)]">
+              Tableau de bord administrateur
+            </h1>
+            <p className="mt-2 text-[13.5px] text-[var(--sur-encre-mute)]">
               Voici un aperçu de l&apos;activité de votre plateforme de formation.
             </p>
+            <div className="mt-5 inline-block text-[var(--texte)]">
+              <SelecteurPeriode
+                periode={periode}
+                options={Object.entries(PERIODES).map(([valeur, libelle]) => ({ valeur, libelle }))}
+                dates={`Du ${new Date(debut).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })} au ${new Date(maintenant).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}`}
+              />
+            </div>
           </div>
-          <SelecteurPeriode
-            periode={periode}
-            options={Object.entries(PERIODES).map(([valeur, libelle]) => ({ valeur, libelle }))}
-            dates={`Du ${new Date(debut).toLocaleDateString("fr-FR", { day: "numeric", month: "short" })} au ${new Date(maintenant).toLocaleDateString("fr-FR", { day: "numeric", month: "short", year: "numeric" })}`}
-          />
-        </div>
+        </section>
 
         <div className="mt-7 grid grid-cols-1 gap-3.5 sm:grid-cols-2 2xl:grid-cols-4">
-          {cartesChiffres.map((c) => (
-            <div key={c.libelle} className="flex gap-3 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
+          {cartesChiffres.map((c, i) => (
+            <div
+              key={c.libelle}
+              className="anim-entree carte-vivante flex gap-3 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4"
+              style={{ "--d": `${120 + i * 80}ms` } as CSSProperties}
+            >
               <span
                 aria-hidden
                 className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-full text-[18px]"
@@ -446,7 +483,9 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
               </span>
               <div className="min-w-0">
                 <div className="text-xs text-[var(--texte-mute)]">{c.libelle}</div>
-                <div className="font-display text-xl font-extrabold">{c.valeur}</div>
+                <div className="font-display text-xl font-extrabold">
+                  {c.nombre !== undefined ? <CompteurAnime valeur={c.nombre} /> : c.valeur}
+                </div>
                 {c.delta && (
                   <div className={`mt-0.5 text-[10.5px] font-bold ${c.delta.positif ? "text-[var(--sarcelle)]" : "text-[var(--corail)]"}`}>
                     {c.delta.texte}
