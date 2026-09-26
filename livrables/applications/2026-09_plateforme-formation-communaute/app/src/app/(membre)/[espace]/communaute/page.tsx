@@ -8,7 +8,8 @@ import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAd
 import { FilCommunaute } from "@/components/communaute/fil/FilCommunaute";
 import { MessageAccueil } from "@/components/communaute/MessageAccueil";
 import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
-import { BandeauCommunaute } from "@/components/communaute/BandeauCommunaute";
+import { AccueilGratuite } from "@/components/communaute/AccueilGratuite";
+import { BandeauGratuite } from "@/components/communaute/BandeauGratuite";
 import { CarteProchainsEvenements } from "@/components/communaute/CarteProchainsEvenements";
 import { CarteClassement } from "@/components/communaute/CarteClassement";
 import { CarteEncouragement } from "@/components/communaute/CarteEncouragement";
@@ -134,12 +135,13 @@ export default async function CommunauteGratuitePage({
 
       <OngletsFlottants espaceSlug={espace.slug} />
 
-      <div className="mx-auto max-w-5xl px-7 pt-7">
-        <BandeauCommunaute
-          espaceNom={espace.nom}
+      <div className="mx-auto flex max-w-5xl flex-col gap-5 px-7 pt-7">
+        <AccueilGratuite
+          pseudo={monProfil?.pseudo ?? ""}
           nbMembres={stats?.nb_membres ?? 0}
           nbEleves={stats?.nb_eleves ?? 0}
         />
+        <BandeauGratuite espaceNom={espace.nom} />
       </div>
 
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 p-7 md:grid-cols-[1fr_300px]">
