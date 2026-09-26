@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import { MarqueChatllow } from "@/components/MarqueChatllow";
-import { MascotteRobot } from "@/components/MascotteRobot";
+import { EntonnoirIA } from "@/components/vitrine/EntonnoirIA";
+import { FluxDiagnostic } from "@/components/vitrine/FluxDiagnostic";
+import { ParcoursMethode } from "@/components/vitrine/ParcoursMethode";
 
 // Vitrine publique de Chatllow, dans le style du tableau de bord de l'espace client : barre laterale
 // sombre, banniere, cartes, colonne de droite. Le contenu est celui de la vitrine (diagnostic, methode,
@@ -127,7 +129,7 @@ export default function AccueilPage() {
                   "radial-gradient(circle at 88% 30%, oklch(62% 0.19 250 / 0.55), transparent 45%), radial-gradient(circle at 75% 100%, oklch(62% 0.19 300 / 0.4), transparent 45%), linear-gradient(135deg, #10131f, #1c2340)",
               }}
             >
-              <MascotteRobot className="pointer-events-none absolute -right-2 top-1/2 hidden h-[230px] w-auto -translate-y-1/2 sm:block" />
+              <EntonnoirIA className="pointer-events-none absolute -right-2 top-1/2 hidden h-[290px] w-[335px] -translate-y-1/2 sm:block" />
               <div className="mb-4 inline-flex items-center rounded-full border border-[rgba(255,255,255,0.25)] px-3.5 py-1.5 font-[family-name:var(--font-mono)] text-[11px] uppercase tracking-wide text-[oklch(80%_0.12_250)]">
                 Diagnostic gratuit &middot; 8 minutes
               </div>
@@ -146,37 +148,14 @@ export default function AccueilPage() {
               </div>
             </section>
 
-            {/* Exemple de diagnostic */}
-            <section className={`${CARTE} p-6`}>
-              <p className="font-[family-name:var(--font-mono)] text-[10.5px] uppercase tracking-wide text-[var(--texte-mute)]">Exemple de diagnostic</p>
-              <div className="mt-3">
-                {exempleDiagnostic.map((ligne, i) => (
-                  <div
-                    key={ligne.label}
-                    className={`flex flex-wrap items-baseline justify-between gap-2 py-3.5 text-[13.5px] ${i < exempleDiagnostic.length - 1 ? "border-b border-[var(--ligne)]" : ""}`}
-                  >
-                    <span>{ligne.label}</span>
-                    <span className="font-[family-name:var(--font-mono)] text-[12px] text-[var(--indigo)]">{ligne.valeur}</span>
-                  </div>
-                ))}
-              </div>
-            </section>
+            {/* Exemple de diagnostic, en flux */}
+            <FluxDiagnostic lignes={exempleDiagnostic} />
 
             {/* Méthode, en étapes numérotées comme les réponses de l'assistant */}
             <section id="methode" className={`${CARTE} scroll-mt-6 p-6 sm:p-7`}>
               <p className="font-[family-name:var(--font-mono)] text-[10.5px] uppercase tracking-wide text-[var(--texte-mute)]">La méthode</p>
               <h2 className="font-[family-name:var(--font-display)] mt-1.5 text-[22px] font-semibold">Une méthode, pas une promesse</h2>
-              <ol className="mt-6 flex flex-col gap-5">
-                {methode.map((e, i) => (
-                  <li key={e.titre} className="flex gap-4">
-                    <span aria-hidden className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--indigo)] text-[13px] font-bold text-white">{i + 1}</span>
-                    <div>
-                      <div className="font-[family-name:var(--font-display)] text-[15.5px] font-semibold">{e.titre}</div>
-                      <p className="mt-1 text-[13.5px] leading-relaxed text-[var(--texte-mute)]">{e.corps}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
+              <ParcoursMethode etapes={methode} />
               <Link href="/diagnostic" className="mt-6 inline-flex items-center gap-2 rounded-full bg-[var(--encre)] px-5 py-2.5 text-[13px] font-semibold text-[var(--fond)]">
                 Commencer par le diagnostic <span aria-hidden>&rarr;</span>
               </Link>

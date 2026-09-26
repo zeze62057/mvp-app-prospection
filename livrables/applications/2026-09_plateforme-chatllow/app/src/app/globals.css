@@ -72,3 +72,50 @@ body::before {
   background: var(--fond);
   color: var(--texte);
 }
+
+/* Infographies de la vitrine (voir components/vitrine). Discretes, sobres. Les animations liees au defilement
+   (apparition des cartes, trace des lignes) ne s'activent que si le navigateur les gere : sinon l'etat final
+   s'affiche tel quel. Tout s'arrete pour qui a demande moins d'animations. */
+@keyframes cl-scintille {
+  0%, 100% { fill-opacity: 0.22; }
+  50% { fill-opacity: 0.7; }
+}
+@keyframes cl-onde {
+  0% { transform: scale(0.85); opacity: 0.9; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+@keyframes cl-dash {
+  to { stroke-dashoffset: -72; }
+}
+@keyframes cl-point {
+  0% { transform: translateX(4px); opacity: 0; }
+  15%, 85% { opacity: 1; }
+  100% { transform: translateX(50px); opacity: 0; }
+}
+@keyframes cl-revele {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes cl-trace-h {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes cl-trace-v {
+  from { transform: scaleY(0); }
+  to { transform: scaleY(1); }
+}
+
+.cl-scintille { animation: cl-scintille 4s ease-in-out infinite; }
+.cl-onde { transform-box: fill-box; transform-origin: center; animation: cl-onde 3.5s ease-out infinite; }
+.cl-flux-dash { animation: cl-dash 4s linear infinite; }
+.cl-flux-point { animation: cl-point 2.4s ease-in-out infinite; }
+
+@supports (animation-timeline: view()) {
+  .cl-revele { animation: cl-revele linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
+  .cl-trace-h { transform-origin: left center; animation: cl-trace-h linear both; animation-timeline: view(); animation-range: entry 0% cover 55%; }
+  .cl-trace-v { transform-origin: center top; animation: cl-trace-v linear both; animation-timeline: view(); animation-range: entry 0% cover 55%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cl-scintille, .cl-onde, .cl-flux-dash, .cl-flux-point, .cl-revele, .cl-trace-h, .cl-trace-v { animation: none !important; }
+}
