@@ -14,6 +14,9 @@ import { CarteProchainsEvenements } from "@/components/communaute/CarteProchains
 import { CarteClassement } from "@/components/communaute/CarteClassement";
 import { CarteEncouragement } from "@/components/communaute/CarteEncouragement";
 import { couleurAvatar } from "@/lib/avatar";
+import { CompteurAnime } from "@/components/progression/CompteurAnime";
+import { salutationConakry } from "@/lib/salutation";
+import type { CSSProperties } from "react";
 import type { AccesPayant, CandidatureExpert, StatsCommunaute } from "@/types/membre";
 
 export default async function CommunautePayantePage({
@@ -139,35 +142,72 @@ export default async function CommunautePayantePage({
 
       <OngletsFlottants espaceSlug={espace.slug} />
 
-      <div className="bg-[var(--encre)] px-4 py-7 text-[var(--sur-encre)] sm:px-7">
-        <p className="font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-light)]">
-          communauté payante
-        </p>
-        <h1 className="font-display mt-1.5 text-2xl font-semibold sm:text-[27px]">
-          Bienvenue {monProfil?.pseudo ?? "parmi les élèves"}
-        </h1>
-        {espace.tagline && (
-          <p className="mt-1.5 max-w-lg text-[13.5px] text-[var(--sur-encre-mute)]">{espace.tagline}</p>
-        )}
+      {/* Bandeau d'accueil : meme style que le tableau de bord eleve. Que des donnees reelles (pseudo, accroche,
+          statut Expert). Les animations sont dans globals.css et s'arretent pour qui a demande moins d'animations. */}
+      <div
+        className="relative overflow-hidden px-4 py-9 text-[var(--sur-encre)] sm:px-7 sm:py-11"
+        style={{
+          background:
+            "radial-gradient(circle at 10% 0%, rgba(95,199,184,0.4), transparent 50%), radial-gradient(circle at 96% 10%, rgba(255,122,77,0.24), transparent 45%), radial-gradient(rgba(234,245,242,0.12) 1.5px, transparent 1.5px) 0 0 / 20px 20px, linear-gradient(135deg, #16443c, #0b2622)",
+        }}
+      >
+        <div className="anim-entree relative mx-auto max-w-5xl">
+          <svg
+            aria-hidden
+            className="anim-flotte pointer-events-none absolute -right-2 -top-8 hidden h-[230px] w-[230px] sm:block"
+            viewBox="0 0 120 120"
+            fill="none"
+          >
+            <circle cx="45" cy="75" r="22" stroke="#5FC7B8" strokeOpacity="0.5" strokeWidth="9" />
+            <line x1="61" y1="59" x2="95" y2="25" stroke="#5FC7B8" strokeOpacity="0.5" strokeWidth="9" strokeLinecap="round" />
+            <circle className="anim-lueur" cx="95" cy="25" r="9" fill="#FF7A4D" />
+          </svg>
+          <div className="relative sm:max-w-[62%]">
+            <p className="font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-light)]">communauté payante</p>
+            <h1 className="font-display mt-1.5 text-[28px] font-extrabold leading-tight tracking-tight sm:text-[36px]">
+              {salutationConakry()}{" "}
+              <span className="text-[var(--sarcelle-light)]">{monProfil?.pseudo ?? "parmi les élèves"}</span>{" "}
+              <span className="anim-salue" aria-hidden>
+                👋
+              </span>
+            </h1>
+            {espace.tagline && (
+              <p className="mt-2 text-[13.5px] text-[var(--sur-encre-mute)]">{espace.tagline}</p>
+            )}
+            {acces.est_expert && (
+              <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-[rgba(255,122,77,0.35)] bg-[rgba(255,122,77,0.14)] px-4 py-2 font-mono text-xs font-bold text-[var(--corail)]">
+                ★ Expert {espace.nom}
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* "En ligne maintenant" de la capture de reference est omis : aucun suivi de presence n'existe. */}
       <div className="mx-auto flex max-w-5xl flex-wrap gap-3.5 p-7 pb-0">
-        <div className="min-w-[140px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4">
-          <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{stats?.nb_eleves ?? 0}</div>
+        <div className="anim-entree carte-vivante min-w-[140px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4" style={{ "--d": "120ms" } as CSSProperties}>
+          <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
+            <CompteurAnime valeur={stats?.nb_eleves ?? 0} />
+          </div>
           <div className="mt-0.5 text-xs text-[var(--texte-mute)]">élève{(stats?.nb_eleves ?? 0) !== 1 ? "s" : ""}</div>
         </div>
-        <div className="min-w-[140px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4">
-          <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{nbDiscussionsMois ?? 0}</div>
+        <div className="anim-entree carte-vivante min-w-[140px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4" style={{ "--d": "200ms" } as CSSProperties}>
+          <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
+            <CompteurAnime valeur={nbDiscussionsMois ?? 0} />
+          </div>
           <div className="mt-0.5 text-xs text-[var(--texte-mute)]">discussion{(nbDiscussionsMois ?? 0) !== 1 ? "s" : ""} ce mois</div>
         </div>
-        <div className="min-w-[140px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4">
-          <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{nbMasterclassAvenir ?? 0}</div>
+        <div className="anim-entree carte-vivante min-w-[140px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4" style={{ "--d": "280ms" } as CSSProperties}>
+          <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
+            <CompteurAnime valeur={nbMasterclassAvenir ?? 0} />
+          </div>
           <div className="mt-0.5 text-xs text-[var(--texte-mute)]">événement{(nbMasterclassAvenir ?? 0) !== 1 ? "s" : ""} à venir</div>
         </div>
         {noteMoyenne !== null && (
-          <div className="min-w-[140px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4">
-            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{noteMoyenne.toFixed(1)}/5</div>
+          <div className="anim-entree carte-vivante min-w-[140px] flex-1 rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] px-5 py-4" style={{ "--d": "360ms" } as CSSProperties}>
+            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
+              <CompteurAnime valeur={noteMoyenne} decimales={1} />/5
+            </div>
             <div className="mt-0.5 text-xs text-[var(--texte-mute)]">satisfaction des membres</div>
           </div>
         )}

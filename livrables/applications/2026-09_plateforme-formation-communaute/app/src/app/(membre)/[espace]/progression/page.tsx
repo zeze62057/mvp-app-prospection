@@ -11,6 +11,9 @@ import { urlsAvatars } from "@/lib/avatars";
 import { chargerNiveaux } from "@/lib/niveaux-donnees";
 import { niveauDe, prochainNiveau } from "@/lib/niveaux";
 import { tempsEcoule } from "@/lib/temps";
+import { CompteurAnime } from "@/components/progression/CompteurAnime";
+import { dateDuJourConakry, salutationConakry } from "@/lib/salutation";
+import type { CSSProperties } from "react";
 import type { AccesPayant, BadgeManuel, Devoir, DevoirRemise, Module, Section } from "@/types/membre";
 
 function calculerStreak(dates: string[]): number {
@@ -199,7 +202,8 @@ export default async function ProgressionPage({
     urlVideoCourante = urlSignee?.signedUrl ?? null;
   }
 
-  const dateDuJour = new Date().toLocaleDateString("fr-FR", { weekday: "long", day: "numeric", month: "long" });
+  const salutation = salutationConakry();
+  const dateDuJour = dateDuJourConakry();
 
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
@@ -225,36 +229,79 @@ export default async function ProgressionPage({
       </div>
 
       <div className="mx-auto max-w-6xl px-7 py-8">
-        <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <p className="font-display text-[23px] font-extrabold tracking-tight">
-              Bonjour {profil?.pseudo ?? ""} 👋
-            </p>
-            <p className="mt-1 text-[12.5px] text-[var(--texte-mute)]">
+        {/* Bandeau d'accueil : que des donnees reelles (pseudo, serie, avancement). Les animations sont
+            definies dans globals.css et s'arretent pour qui a demande moins d'animations. */}
+        <section
+          className="anim-entree relative mb-6 overflow-hidden rounded-3xl px-6 py-7 text-[var(--sur-encre)] sm:px-9 sm:py-8"
+          style={{
+            background:
+              "radial-gradient(circle at 12% 0%, rgba(95,199,184,0.42), transparent 52%), radial-gradient(circle at 96% 8%, rgba(255,122,77,0.26), transparent 46%), radial-gradient(rgba(234,245,242,0.12) 1.5px, transparent 1.5px) 0 0 / 20px 20px, linear-gradient(135deg, #16443c, #0b2622)",
+          }}
+        >
+          <svg
+            aria-hidden
+            className="anim-flotte pointer-events-none absolute -right-6 -top-4 hidden h-[240px] w-[240px] sm:block"
+            viewBox="0 0 120 120"
+            fill="none"
+          >
+            <circle cx="45" cy="75" r="22" stroke="#5FC7B8" strokeOpacity="0.5" strokeWidth="9" />
+            <line x1="61" y1="59" x2="95" y2="25" stroke="#5FC7B8" strokeOpacity="0.5" strokeWidth="9" strokeLinecap="round" />
+            <circle className="anim-lueur" cx="95" cy="25" r="9" fill="#FF7A4D" />
+          </svg>
+
+          <div className="relative sm:max-w-[62%]">
+            <p className="font-mono text-[11px] capitalize tracking-wide text-[var(--sarcelle-light)]">{dateDuJour}</p>
+            <h1 className="font-display mt-2 text-[28px] font-extrabold leading-tight tracking-tight sm:text-[36px]">
+              {salutation}{" "}
+              <span className="text-[var(--sarcelle-light)]">{profil?.pseudo ?? ""}</span>{" "}
+              <span className="anim-salue" aria-hidden>
+                👋
+              </span>
+            </h1>
+            <p className="mt-2 text-[13.5px] text-[var(--sur-encre-mute)]">
               Voici un aperçu de ton parcours et de tes dernières activités.
             </p>
-            <p className="mt-1 text-[11px] capitalize text-[var(--texte-mute)]">{dateDuJour}</p>
+            {streak > 0 && (
+              <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-[rgba(255,122,77,0.35)] bg-[rgba(255,122,77,0.14)] px-4 py-2 font-mono text-xs font-bold text-[var(--corail)]">
+                <span className="anim-flamme" aria-hidden>
+                  🔥
+                </span>
+                {streak} jour{streak > 1 ? "s" : ""} de suite
+              </div>
+            )}
           </div>
-          {streak > 0 && (
-            <div className="flex items-center gap-2 rounded-full border border-[rgba(255,122,77,0.25)] bg-[rgba(255,122,77,0.1)] px-4 py-2 font-mono text-xs font-bold text-[var(--corail)]">
-              🔥 {streak} jour{streak > 1 ? "s" : ""} de suite
+
+          {totalSections > 0 && (
+            <div className="relative mt-6 sm:max-w-[62%]">
+              <div className="mb-1.5 flex items-center justify-between font-mono text-[11px] text-[var(--sur-encre-mute)]">
+                <span>
+                  {totalTerminees} / {totalSections} leçons terminées
+                </span>
+                <span className="font-bold text-[var(--sarcelle-light)]">{pctGlobal}%</span>
+              </div>
+              <div className="h-2 overflow-hidden rounded-full bg-[rgba(234,245,242,0.14)]">
+                <div
+                  className="anim-barre h-full rounded-full"
+                  style={{ width: `${pctGlobal}%`, background: "linear-gradient(90deg, #5FC7B8, #FF7A4D)" }}
+                />
+              </div>
             </div>
           )}
-        </div>
+        </section>
 
         <div className="mb-6 grid grid-cols-2 gap-3.5 sm:grid-cols-4">
-          <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
+          <div className="anim-entree carte-vivante rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4" style={{ "--d": "120ms" } as CSSProperties}>
             <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
-              {modulesSuivis} / {modulesAffiches.length}
+              <CompteurAnime valeur={modulesSuivis} /> / {modulesAffiches.length}
             </div>
             <div className="mt-0.5 text-xs text-[var(--texte-mute)]">cours suivis</div>
             {modulesSuivisSemaine > 0 && (
               <div className="mt-1 text-[10.5px] font-bold text-[var(--sarcelle)]">↗ +{modulesSuivisSemaine} cette semaine</div>
             )}
           </div>
-          <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
+          <div className="anim-entree carte-vivante rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4" style={{ "--d": "200ms" } as CSSProperties}>
             <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
-              {(remises ?? []).length} / {(devoirs ?? []).length}
+              <CompteurAnime valeur={(remises ?? []).length} /> / {(devoirs ?? []).length}
             </div>
             <div className="mt-0.5 text-xs text-[var(--texte-mute)]">devoirs rendus</div>
             {devoirsRendusSemaine > 0 && (
@@ -262,8 +309,10 @@ export default async function ProgressionPage({
             )}
           </div>
           {moyenneGenerale !== null ? (
-            <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
-              <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{moyenneGenerale.toFixed(1)} / 20</div>
+            <div className="anim-entree carte-vivante rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4" style={{ "--d": "280ms" } as CSSProperties}>
+              <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
+                <CompteurAnime valeur={moyenneGenerale} decimales={1} /> / 20
+              </div>
               <div className="mt-0.5 text-xs text-[var(--texte-mute)]">moyenne générale</div>
               {moyenneDelta !== null && (
                 <div className={`mt-1 text-[10.5px] font-bold ${moyenneDelta >= 0 ? "text-[var(--sarcelle)]" : "text-[var(--corail)]"}`}>
@@ -272,14 +321,16 @@ export default async function ProgressionPage({
               )}
             </div>
           ) : (
-            <div className="rounded-xl border border-dashed border-[var(--ligne)] bg-[var(--fond-carte)] p-4 opacity-70">
+            <div className="anim-entree rounded-xl border border-dashed border-[var(--ligne)] bg-[var(--fond-carte)] p-4 opacity-70" style={{ "--d": "280ms" } as CSSProperties}>
               <div className="font-display text-xl font-extrabold text-[var(--texte-mute)]">—</div>
               <div className="mt-0.5 text-xs text-[var(--texte-mute)]">moyenne générale</div>
               <div className="mt-1 font-mono text-[9px] font-bold text-[var(--texte-mute)]">Pas encore de note</div>
             </div>
           )}
-          <div className="rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
-            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">{streak}</div>
+          <div className="anim-entree carte-vivante rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4" style={{ "--d": "360ms" } as CSSProperties}>
+            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
+              <CompteurAnime valeur={streak} />
+            </div>
             <div className="mt-0.5 text-xs text-[var(--texte-mute)]">jour{streak !== 1 ? "s" : ""} de suite</div>
           </div>
         </div>

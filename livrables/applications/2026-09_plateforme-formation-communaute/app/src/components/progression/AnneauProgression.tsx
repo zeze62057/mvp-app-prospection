@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 export function AnneauProgression({ pct }: { pct: number }) {
   const rayon = 27;
   const circonference = 2 * Math.PI * rayon;
@@ -7,7 +9,11 @@ export function AnneauProgression({ pct }: { pct: number }) {
     <div className="flex items-center gap-4">
       <svg width="64" height="64" viewBox="0 0 64 64">
         <circle cx="32" cy="32" r={rayon} fill="none" stroke="var(--ligne)" strokeWidth="7" />
+        {/* L'anneau se remplit de 0 a sa valeur (animation CSS, voir globals.css). La valeur finale reste
+            posee dans strokeDashoffset : sans animation, le trait est deja au bon endroit. */}
         <circle
+          className="anim-anneau"
+          style={{ "--circ": circonference, "--decalage": decalage } as CSSProperties}
           cx="32"
           cy="32"
           r={rayon}

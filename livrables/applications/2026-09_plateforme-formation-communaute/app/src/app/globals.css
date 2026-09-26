@@ -41,3 +41,56 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans), sans-serif;
 }
+
+/* ---------------------------------------------------------------------------
+   Animations du tableau de bord eleve. Discretes, sans effet sur la lecture.
+   Toutes s'arretent pour qui a demande moins d'animations dans son systeme
+   (prefers-reduced-motion) : le contenu reste alors visible tel quel.
+   --------------------------------------------------------------------------- */
+@keyframes entree {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes flotte {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2.5deg); }
+}
+@keyframes salue {
+  0%, 60%, 100% { transform: rotate(0deg); }
+  10%, 30% { transform: rotate(16deg); }
+  20%, 40% { transform: rotate(-10deg); }
+  50% { transform: rotate(8deg); }
+}
+@keyframes flamme {
+  0%, 100% { transform: scale(1) rotate(-2deg); }
+  50% { transform: scale(1.14) rotate(3deg); }
+}
+@keyframes anneau {
+  from { stroke-dashoffset: var(--circ); }
+  to { stroke-dashoffset: var(--decalage); }
+}
+@keyframes barre {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+@keyframes lueur {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.9; }
+}
+
+.anim-entree { animation: entree 0.65s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; animation-delay: var(--d, 0ms); }
+.anim-flotte { animation: flotte 8s ease-in-out infinite; }
+.anim-salue { display: inline-block; transform-origin: 70% 75%; animation: salue 2.2s ease-in-out 0.9s 2; }
+.anim-flamme { display: inline-block; animation: flamme 1.6s ease-in-out infinite; }
+.anim-anneau { animation: anneau 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s backwards; }
+.anim-barre { transform-origin: left center; animation: barre 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s backwards; }
+.anim-lueur { animation: lueur 5s ease-in-out infinite; }
+
+.carte-vivante { transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease; }
+.carte-vivante:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(17, 56, 50, 0.12); border-color: rgba(43, 140, 130, 0.35); }
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-entree, .anim-flotte, .anim-salue, .anim-flamme, .anim-anneau, .anim-barre, .anim-lueur { animation: none !important; }
+  .carte-vivante { transition: none !important; }
+  .carte-vivante:hover { transform: none !important; }
+}
