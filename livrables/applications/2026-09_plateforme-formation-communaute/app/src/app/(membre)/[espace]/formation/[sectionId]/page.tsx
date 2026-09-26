@@ -129,7 +129,15 @@ export default async function LeconPage({
         <h1 className="font-display mt-2 text-[28px] font-extrabold leading-tight tracking-tight">{section.titre}</h1>
 
         {urlVideo && (
-          <video key={urlVideo} src={urlVideo} controls className="mt-6 w-full rounded-xl" />
+          // Vignette par convention de nom : public/vignettes/<espace>/m<module>-s<section>.png.
+          // Une image absente laisse simplement le navigateur afficher la premiere image de la video.
+          <video
+            key={urlVideo}
+            src={urlVideo}
+            poster={`/vignettes/${espace.slug}/m${module.ordre}-s${section.ordre}.png`}
+            controls
+            className="mt-6 w-full rounded-xl"
+          />
         )}
 
         <div className="mt-8">
