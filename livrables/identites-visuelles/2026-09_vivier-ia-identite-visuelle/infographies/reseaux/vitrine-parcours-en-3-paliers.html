@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Vivier IA : du terminal vide au premier client, en trois paliers</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Manrope:wght@500;700;800&display=swap">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1080px; height: 1350px; background: #F2F7F5; overflow: hidden; }
+  .page {
+    width: 1080px; height: 1350px; padding: 64px 72px;
+    display: flex; flex-direction: column; gap: 22px;
+    background: #F2F7F5; color: #113832;
+    font-family: 'Manrope', system-ui, sans-serif;
+  }
+  .eyebrow { font-size: 28px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #2B8C82; }
+  h1 {
+    font-family: 'Unbounded', system-ui, sans-serif; font-weight: 700;
+    font-size: 50px; line-height: 1.16; letter-spacing: -0.01em;
+  }
+  .paliers { position: relative; display: flex; flex-direction: column; gap: 18px; padding-left: 96px; margin-top: 6px; }
+  .paliers::before {
+    content: ''; position: absolute; left: 29px; top: 36px; bottom: 36px; width: 6px;
+    background: #2B8C8266; border-radius: 3px;
+  }
+  .palier { position: relative; border-radius: 26px; padding: 22px 30px; background: #FFFFFF; border: 3px solid #2B8C82; }
+  .num {
+    position: absolute; left: -96px; top: 14px; width: 64px; height: 64px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Unbounded', system-ui, sans-serif; font-weight: 700; font-size: 30px;
+    background: #2B8C82; color: #FFFFFF; border: 5px solid #F2F7F5;
+  }
+  .label { font-family: 'Unbounded', system-ui, sans-serif; font-weight: 700; font-size: 28px; margin-bottom: 8px; color: #2B8C82; }
+  .text { font-size: 28px; line-height: 1.32; font-weight: 500; text-wrap: balance; }
+  .dernier { background: #113832; border-color: #113832; color: #F2F7F5; }
+  .dernier .label { color: #5FC7B8; }
+  .dernier .num { background: #FF7A4D; color: #113832; }
+  .modules { border-radius: 26px; padding: 22px 30px; background: #2B8C8214; }
+  .modules .label { margin-bottom: 8px; }
+  .liste { display: flex; flex-wrap: wrap; gap: 10px; }
+  .chip { font-size: 28px; font-weight: 700; padding: 6px 18px; border-radius: 999px; background: #FFFFFF; border: 2px solid #2B8C82; }
+  .footer { margin-top: auto; display: flex; align-items: center; gap: 24px; }
+  .wordmark { font-family: 'Unbounded', system-ui, sans-serif; font-weight: 700; font-size: 34px; }
+  .tagline { font-size: 28px; font-weight: 500; color: #113832B3; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="eyebrow">Vivier IA · Le parcours</div>
+  <h1>Du terminal vide au premier client, en trois paliers</h1>
+
+  <div class="paliers">
+    <div class="palier">
+      <div class="num">1</div>
+      <div class="label">Communauté gratuite</div>
+      <div class="text">Demande d'accès approuvée manuellement. Contenu gratuit pour découvrir Claude Code et l'IA appliquée, sans engagement.</div>
+    </div>
+    <div class="palier">
+      <div class="num">2</div>
+      <div class="label">Formation complète</div>
+      <div class="text">Accès immédiat aux modules complets et à ta page de progression personnelle.</div>
+    </div>
+    <div class="palier dernier">
+      <div class="num">3</div>
+      <div class="label">Communauté payante</div>
+      <div class="text">Exercices envoyés chaque semaine, échanges avec les autres élèves, et un vrai suivi jusqu'à ton premier projet livré.</div>
+    </div>
+  </div>
+
+  <div class="modules">
+    <div class="label">5 modules</div>
+    <div class="liste">
+      <span class="chip">Écosystème Claude</span><span class="chip">n8n</span><span class="chip">Mindset Early Adopter &amp; Business IA</span><span class="chip">RGPD / AI Act</span><span class="chip">Prospection froide (Lemlist)</span>
+    </div>
+  </div>
+
+  <div class="footer">
+    <svg width="72" height="72" viewBox="0 0 120 120" fill="none" aria-label="Logo Vivier IA">
+      <circle cx="45" cy="75" r="22" stroke="#2B8C82" stroke-width="9"/>
+      <line x1="61" y1="59" x2="95" y2="25" stroke="#2B8C82" stroke-width="9" stroke-linecap="round"/>
+      <circle cx="95" cy="25" r="9" fill="#FF7A4D"/>
+    </svg>
+    <div>
+      <div class="wordmark">Vivier IA</div>
+      <div class="tagline">Le vivier des talents IA francophones</div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
