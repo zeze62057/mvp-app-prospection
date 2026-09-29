@@ -4,7 +4,6 @@ import { notFound } from "next/navigation";
 import { getEspaceParSlug } from "@/lib/espaces";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
-import { BoutonPayer } from "@/components/tunnel/BoutonPayer";
 import { TexteRiche } from "@/lib/texte-riche";
 import { tempsEcoule } from "@/lib/temps";
 import { chargerPostsFil } from "@/lib/fil";
@@ -626,11 +625,7 @@ export default async function VitrinePage({
           <p className="mb-2 font-mono text-xs uppercase tracking-wide text-[var(--sarcelle-texte)]">formation complète</p>
           <h2 className="font-display text-2xl font-semibold">{espace.nom}</h2>
           {espace.tagline && <p className="mt-1.5 text-[13.5px] text-[var(--texte-mute)]">{espace.tagline}</p>}
-          <p className="font-display mt-5 text-4xl font-extrabold text-[var(--sarcelle)]">
-            {espace.prix.toLocaleString("fr-FR")}
-            <span className="ml-1.5 font-mono text-sm font-normal text-[var(--texte-mute)]">{espace.devise}</span>
-          </p>
-          <p className="mt-1 font-mono text-[11px] uppercase tracking-wide text-[var(--texte-mute)]">paiement unique</p>
+          <p className="mt-5 font-mono text-[11px] uppercase tracking-wide text-[var(--texte-mute)]">paiement unique, prix affiché à l&apos;étape de paiement</p>
           {c.parcours_etape2 && (
             <p className="mt-4 text-[13.5px] leading-relaxed text-[var(--texte-mute)]">{c.parcours_etape2}</p>
           )}
@@ -643,7 +638,12 @@ export default async function VitrinePage({
             </Link>
           ) : connecte ? (
             <div className="mt-6">
-              <BoutonPayer espaceSlug={espace.slug} montant={espace.prix} devise={espace.devise} />
+              <Link
+                href={`/${espace.slug}/tunnel`}
+                className="block w-full rounded-[11px] bg-[var(--encre)] px-5 py-4 text-center text-[14.5px] font-extrabold text-[var(--sur-encre)] transition-transform hover:-translate-y-0.5"
+              >
+                Débloquer la formation
+              </Link>
               {lienWhatsApp(espace.whatsapp_support, espace.whatsapp_message, espace.nom) && (
                 <a
                   href={lienWhatsApp(espace.whatsapp_support, espace.whatsapp_message, espace.nom) ?? undefined}
@@ -689,7 +689,7 @@ export default async function VitrinePage({
                   {item.question}
                 </summary>
                 <p className="text-[13.5px] leading-relaxed text-[var(--texte-mute)]">
-                  {item.reponse.replace("{{prix}}", `${espace.prix.toLocaleString("fr-FR")} ${espace.devise}`)}
+                  {item.reponse.replace("{{prix}}", "Le prix s'affiche à l'étape de paiement")}
                 </p>
               </details>
             ))}
