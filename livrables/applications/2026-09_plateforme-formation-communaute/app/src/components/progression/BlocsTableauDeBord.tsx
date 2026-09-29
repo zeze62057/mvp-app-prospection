@@ -73,6 +73,19 @@ function AnneauGrand({ pct, taille, clair = false }: { pct: number; taille: numb
   );
 }
 
+// Montagne et drapeau : illustration de la marque, pas une photo. Posee en bas a droite d'un bandeau sombre.
+export function MontagneDrapeau() {
+  return (
+    <svg aria-hidden className="pointer-events-none absolute bottom-0 right-0 hidden h-full w-[68%] md:block" viewBox="0 0 400 200" preserveAspectRatio="xMaxYMax slice" fill="none">
+      <path d="M60 200 190 55l45 55 40-32 125 122z" fill="#0d3029" fillOpacity="0.85" />
+      <path d="M120 200 250 40l70 90 45-35 35 105z" fill="#154a41" fillOpacity="0.9" />
+      <path d="M250 40l-26 34 18-8 12 14 14-18 12 10z" fill="#EAF5F2" fillOpacity="0.85" />
+      <line x1="250" y1="40" x2="250" y2="14" stroke="#EAF5F2" strokeWidth="2" strokeLinecap="round" />
+      <path className="anim-lueur" d="M250 14l24 6-24 7z" fill="#FF7A4D" />
+    </svg>
+  );
+}
+
 // ---------------------------------------------------------------------------------------------
 // Bandeau d'accueil : texte a gauche, montagne et drapeau (illustration), carte de progression a droite
 // ---------------------------------------------------------------------------------------------
@@ -89,14 +102,7 @@ export function BandeauAccueil({
           "radial-gradient(circle at 12% 0%, rgba(95,199,184,0.34), transparent 52%), radial-gradient(circle at 70% 0%, rgba(255,122,77,0.22), transparent 44%), linear-gradient(135deg, #16443c, #0b2622)",
       }}
     >
-      {/* Montagne et drapeau : illustration de la marque, pas une photo */}
-      <svg aria-hidden className="pointer-events-none absolute bottom-0 right-0 hidden h-full w-[68%] md:block" viewBox="0 0 400 200" preserveAspectRatio="xMaxYMax slice" fill="none">
-        <path d="M60 200 190 55l45 55 40-32 125 122z" fill="#0d3029" fillOpacity="0.85" />
-        <path d="M120 200 250 40l70 90 45-35 35 105z" fill="#154a41" fillOpacity="0.9" />
-        <path d="M250 40l-26 34 18-8 12 14 14-18 12 10z" fill="#EAF5F2" fillOpacity="0.85" />
-        <line x1="250" y1="40" x2="250" y2="14" stroke="#EAF5F2" strokeWidth="2" strokeLinecap="round" />
-        <path className="anim-lueur" d="M250 14l24 6-24 7z" fill="#FF7A4D" />
-      </svg>
+      <MontagneDrapeau />
 
       <div className="relative grid gap-6 px-6 py-8 sm:px-9 md:grid-cols-[1fr_auto] md:items-center">
         <div className="md:max-w-[440px]">
@@ -168,7 +174,7 @@ const TEINTES = [
   ["#16443c", "#2b8c82"], ["#113832", "#5fc7b8"], ["#1b4d45", "#ff7a4d"],
   ["#0e2f2a", "#2b8c82"], ["#16443c", "#ff7a4d"], ["#113832", "#2b8c82"],
 ];
-function Vignette({ rang, className }: { rang: number; className: string }) {
+export function Vignette({ rang, className }: { rang: number; className: string }) {
   const [a, b] = TEINTES[rang % TEINTES.length];
   return (
     <div className={`relative shrink-0 overflow-hidden rounded-xl ${className}`} style={{ background: `linear-gradient(135deg, ${a}, ${b})` }} aria-hidden>
