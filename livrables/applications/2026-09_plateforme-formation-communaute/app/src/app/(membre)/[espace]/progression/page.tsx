@@ -4,17 +4,19 @@ import { getEspaceParSlug } from "@/lib/espaces";
 import { createClient } from "@/lib/supabase/server";
 import { marquerSectionTerminee } from "./actions";
 import { ModuleCard } from "@/components/progression/ModuleCard";
-import { AnneauProgression } from "@/components/progression/AnneauProgression";
 import { FormulaireTemoignage } from "@/components/progression/FormulaireTemoignage";
-import { Avatar } from "@/components/communaute/fil/Avatar";
-import { urlsAvatars } from "@/lib/avatars";
+import { CarteClassement } from "@/components/communaute/CarteClassement";
+import { chargerEvenements } from "@/lib/calendrier-donnees";
+import { parseMois, type EvenementCalendrier } from "@/lib/calendrier";
+import {
+  BandeauAccueil, CarteCitation, CartesStats, FormationEnCours, ListeModules, MaCommunaute, MonCalendrier,
+  ProchainesSessions, ProfilProgression, RessourcesUtiles, type ModuleResume,
+} from "@/components/progression/BlocsTableauDeBord";
 import { chargerNiveaux } from "@/lib/niveaux-donnees";
 import { niveauDe, prochainNiveau } from "@/lib/niveaux";
 import { tempsEcoule } from "@/lib/temps";
-import { CompteurAnime } from "@/components/progression/CompteurAnime";
-import { dateDuJourConakry, salutationConakry } from "@/lib/salutation";
-import type { CSSProperties } from "react";
-import type { AccesPayant, BadgeManuel, Devoir, DevoirRemise, Module, Section } from "@/types/membre";
+import { salutationConakry } from "@/lib/salutation";
+import type { AccesPayant, BadgeManuel, Devoir, DevoirRemise, Module, Section, StatsCommunaute } from "@/types/membre";
 
 function calculerStreak(dates: string[]): number {
   const jours = new Set(dates.map((d) => new Date(d).toDateString()));
@@ -42,7 +44,7 @@ export default async function ProgressionPage({
 
   const { data: profil } = await supabase
     .from("profils")
-    .select("pseudo, role, points, avatar_path")
+    .select("pseudo, role, points")
     .eq("id", userData.user.id)
     .maybeSingle();
 
@@ -89,15 +91,18 @@ export default async function ProgressionPage({
     ? await supabase.from("sections").select("id, module_id, ordre, titre, video_path, a_contenu").in("module_id", moduleIds).order("ordre").returns<Section[]>()
     : { data: [] as Section[] };
 
-  const [{ data: progressionRows }, niveaux, { data: devoirs }, { data: remises }, { data: badgesManuels }] =
+  const [{ data: progressionRows }, niveaux, { data: devoirs }, { data: remises }, { data: badgesManuels }, { data: statsRpc }, { data: ressources }] =
     await Promise.all([
       supabase.from("progression").select("section_id, completed_at").eq("profil_id", userData.user.id),
       chargerNiveaux(supabase, espace.id),
       supabase.from("devoirs").select("*").eq("espace_id", espace.id).order("date_limite").returns<Devoir[]>(),
       supabase.from("devoirs_remises").select("*").eq("profil_id", userData.user.id).returns<DevoirRemise[]>(),
       supabase.from("badges_manuels").select("*").eq("espace_id", espace.id).eq("profil_id", userData.user.id).returns<BadgeManuel[]>(),
+      // Compteur, classement et liste des eleves : fonction reservee aux membres (migration 0031).
+      supabase.rpc("stats_communaute", { p_espace: espace.id }),
+      supabase.from("ressources").select("id, titre, description").eq("espace_id", espace.id).order("type").order("ordre").limit(4),
     ]);
-  const photos = await urlsAvatars(profil ? [{ id: userData.user.id, avatar_path: profil.avatar_path }] : []);
+  const stats = statsRpc as StatsCommunaute | null;
 
   const sectionsTerminees = new Set((progressionRows ?? []).map((p) => p.section_id));
   const streak = calculerStreak((progressionRows ?? []).map((p) => p.completed_at));
@@ -113,15 +118,15 @@ export default async function ProgressionPage({
   // premiere section non terminee, quelle qu'elle soit.
   // Boucle plutot que map : les variables sont reassignees pendant le parcours, ce que
   // React interdit dans un callback (regle react-hooks/immutability).
-  let moduleCourant: { titre: string; section: Section } | null = null;
-  let premiereNonTerminee: { titre: string; section: Section } | null = null;
+  let moduleCourant: { module: Module; section: Section } | null = null;
+  let premiereNonTerminee: { module: Module; section: Section } | null = null;
   const modulesAffiches: { module: Module; sections: Section[] }[] = [];
   for (const m of modules ?? []) {
     const secs = sectionsParModule.get(m.id) ?? [];
     for (const s of secs) {
       if (sectionsTerminees.has(s.id)) continue;
-      if (!premiereNonTerminee) premiereNonTerminee = { titre: m.titre, section: s };
-      if (!moduleCourant && (s.a_contenu || s.video_path)) moduleCourant = { titre: m.titre, section: s };
+      if (!premiereNonTerminee) premiereNonTerminee = { module: m, section: s };
+      if (!moduleCourant && (s.a_contenu || s.video_path)) moduleCourant = { module: m, section: s };
     }
     modulesAffiches.push({ module: m, sections: secs });
   }
@@ -130,9 +135,6 @@ export default async function ProgressionPage({
   const totalSections = (sections ?? []).length;
   const totalTerminees = (sections ?? []).filter((s) => sectionsTerminees.has(s.id)).length;
   const pctGlobal = totalSections > 0 ? Math.round((totalTerminees / totalSections) * 100) : 0;
-
-  // "Cours suivis" : un module compte comme suivi des qu'au moins une section est terminee.
-  const modulesSuivis = modulesAffiches.filter(({ sections: secs }) => secs.some((s) => sectionsTerminees.has(s.id))).length;
 
   // Activite recente : les dernieres sections terminees, les plus recentes d'abord.
   const titreParSection = new Map((sections ?? []).map((s) => [s.id, s.titre]));
@@ -146,42 +148,13 @@ export default async function ProgressionPage({
 
   // Devoirs, notes et echeances : donnees reelles (migration 0043).
   const remiseParDevoir = new Map((remises ?? []).map((r) => [r.devoir_id, r]));
-  const notesObtenues = (remises ?? []).filter((r) => r.note !== null).map((r) => r.note as number);
-  const moyenneGenerale = notesObtenues.length > 0 ? notesObtenues.reduce((s, n) => s + n, 0) / notesObtenues.length : null;
   const maintenant = new Date().getTime();
   const echeances = (devoirs ?? [])
     .map((d) => ({ devoir: d, remise: remiseParDevoir.get(d.id) ?? null }))
     .filter(({ remise }) => !remise) // deja rendu : ne compte plus comme echeance a venir
     .sort((a, b) => a.devoir.date_limite.localeCompare(b.devoir.date_limite));
 
-  // Tendances "cette semaine" : uniquement quand elles se calculent depuis des
-  // dates deja reelles (completion, remise, notation). La moyenne generale n'a
-  // pas de tendance affichee tant qu'il n'y a pas de notes des deux cotes de la
-  // semaine a comparer : jamais de delta invente. La serie de jours n'a pas de
-  // tendance non plus : un delta n'aurait pas de sens pour un compteur qui se
-  // reinitialise a chaque jour manque.
   const ilYA7Jours = new Date(maintenant - 7 * 24 * 60 * 60 * 1000).toISOString();
-  const moduleIdParSection = new Map((sections ?? []).map((s) => [s.id, s.module_id]));
-  const premiereCompletionParModule = new Map<string, string>();
-  (progressionRows ?? []).forEach((p) => {
-    const modId = moduleIdParSection.get(p.section_id);
-    if (!modId) return;
-    const actuel = premiereCompletionParModule.get(modId);
-    if (!actuel || p.completed_at < actuel) premiereCompletionParModule.set(modId, p.completed_at);
-  });
-  const modulesSuivisSemaine = [...premiereCompletionParModule.values()].filter((d) => d >= ilYA7Jours).length;
-  const devoirsRendusSemaine = (remises ?? []).filter((r) => r.rendu_at >= ilYA7Jours).length;
-  const notesRecentes = (remises ?? [])
-    .filter((r) => r.note !== null && r.note_le && r.note_le >= ilYA7Jours)
-    .map((r) => r.note as number);
-  const notesAnciennes = (remises ?? [])
-    .filter((r) => r.note !== null && r.note_le && r.note_le < ilYA7Jours)
-    .map((r) => r.note as number);
-  const moyenneDelta =
-    notesRecentes.length > 0 && notesAnciennes.length > 0
-      ? notesRecentes.reduce((s, n) => s + n, 0) / notesRecentes.length -
-        notesAnciennes.reduce((s, n) => s + n, 0) / notesAnciennes.length
-      : null;
 
   // Badges automatiques : calcules depuis la progression deja reelle, jamais stockes.
   const badgesAuto = [
@@ -194,16 +167,38 @@ export default async function ProgressionPage({
     ...(badgesManuels ?? []).map((b) => ({ libelle: b.libelle, emoji: b.emoji })),
   ];
 
-  let urlVideoCourante: string | null = null;
-  if (moduleCourant && (moduleCourant as { section: Section }).section.video_path) {
-    const { data: urlSignee } = await supabase.storage
-      .from("videos-cours")
-      .createSignedUrl((moduleCourant as { section: Section }).section.video_path!, 3600);
-    urlVideoCourante = urlSignee?.signedUrl ?? null;
+  // Modules complets (toutes les sections terminees) : c'est ce que la maquette appelle "modules completes".
+  const dateParSection = new Map((progressionRows ?? []).map((p) => [p.section_id, p.completed_at]));
+  const modulesComplets = modulesAffiches.filter(({ sections: secs }) => secs.length > 0 && secs.every((s) => sectionsTerminees.has(s.id)));
+  const modulesCompletsSemaine = modulesComplets.filter(({ sections: secs }) =>
+    (secs.map((s) => dateParSection.get(s.id) ?? "").sort().pop() ?? "") >= ilYA7Jours
+  ).length;
+
+  // Resume par module pour la maquette : progression reelle, lien vers la premiere lecon non terminee.
+  const resumes: ModuleResume[] = modulesAffiches.map(({ module, sections: secs }, i) => {
+    const faites = secs.filter((s) => sectionsTerminees.has(s.id)).length;
+    const cible = secs.find((s) => !sectionsTerminees.has(s.id) && s.a_contenu) ?? secs.find((s) => !sectionsTerminees.has(s.id)) ?? secs[0];
+    return {
+      id: module.id, rang: i, titre: module.titre, faites, total: secs.length,
+      pct: secs.length > 0 ? Math.round((faites / secs.length) * 100) : 0,
+      lien: cible ? `/${espace.slug}/formation/${cible.id}` : `/${espace.slug}/formation`,
+    };
+  });
+  const courantModule = moduleCourant ? resumes.find((r) => r.id === moduleCourant!.module.id) ?? null : null;
+  const lienCourant = moduleCourant?.section.a_contenu
+    ? `/${espace.slug}/formation/${moduleCourant.section.id}`
+    : `/${espace.slug}/formation`;
+
+  // Prochaines sessions : les memes evenements que le calendrier (masterclasses et appels decouverte).
+  let evenements: EvenementCalendrier[] = [];
+  try {
+    const tous = await chargerEvenements(supabase, { id: espace.id, slug: espace.slug }, userData.user.id, parseMois(undefined));
+    evenements = tous.filter((e) => e.debut >= new Date().toISOString()).slice(0, 3);
+  } catch {
+    // ponytail: un calendrier en erreur ne doit pas casser le tableau de bord, le bloc affiche "aucune session".
   }
 
   const salutation = salutationConakry();
-  const dateDuJour = dateDuJourConakry();
 
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
@@ -228,197 +223,50 @@ export default async function ProgressionPage({
         </div>
       </div>
 
-      <div className="mx-auto max-w-6xl px-7 py-8">
-        {/* Bandeau d'accueil : que des donnees reelles (pseudo, serie, avancement). Les animations sont
-            definies dans globals.css et s'arretent pour qui a demande moins d'animations. */}
-        <section
-          className="anim-entree relative mb-6 overflow-hidden rounded-3xl px-6 py-7 text-[var(--sur-encre)] sm:px-9 sm:py-8"
-          style={{
-            background:
-              "radial-gradient(circle at 12% 0%, rgba(95,199,184,0.42), transparent 52%), radial-gradient(circle at 96% 8%, rgba(255,122,77,0.26), transparent 46%), radial-gradient(rgba(234,245,242,0.12) 1.5px, transparent 1.5px) 0 0 / 20px 20px, linear-gradient(135deg, #16443c, #0b2622)",
-          }}
-        >
-          <svg
-            aria-hidden
-            className="anim-flotte pointer-events-none absolute -right-6 -top-4 hidden h-[240px] w-[240px] sm:block"
-            viewBox="0 0 120 120"
-            fill="none"
-          >
-            <circle cx="45" cy="75" r="22" stroke="#5FC7B8" strokeOpacity="0.5" strokeWidth="9" />
-            <line x1="61" y1="59" x2="95" y2="25" stroke="#5FC7B8" strokeOpacity="0.5" strokeWidth="9" strokeLinecap="round" />
-            <circle className="anim-lueur" cx="95" cy="25" r="9" fill="#FF7A4D" />
-          </svg>
+      <div className="mx-auto max-w-6xl px-4 py-6 sm:px-7 sm:py-8">
+        <BandeauAccueil
+          salutation={salutation}
+          pseudo={profil?.pseudo ?? ""}
+          pctGlobal={pctGlobal}
+          modulesCompletes={modulesComplets.length}
+          totalModules={modulesAffiches.length}
+          lienReprise={lienCourant}
+        />
 
-          <div className="relative sm:max-w-[62%]">
-            <p className="font-mono text-[11px] capitalize tracking-wide text-[var(--sarcelle-light)]">{dateDuJour}</p>
-            <h1 className="font-display mt-2 text-[28px] font-extrabold leading-tight tracking-tight sm:text-[36px]">
-              {salutation}{" "}
-              <span className="text-[var(--sarcelle-light)]">{profil?.pseudo ?? ""}</span>{" "}
-              <span className="anim-salue" aria-hidden>
-                👋
-              </span>
-            </h1>
-            <p className="mt-2 text-[13.5px] text-[var(--sur-encre-mute)]">
-              Voici un aperçu de ton parcours et de tes dernières activités.
-            </p>
-            {streak > 0 && (
-              <div className="mt-4 inline-flex items-center gap-2 rounded-full border border-[rgba(255,122,77,0.35)] bg-[rgba(255,122,77,0.14)] px-4 py-2 font-mono text-xs font-bold text-[var(--corail)]">
-                <span className="anim-flamme" aria-hidden>
-                  🔥
-                </span>
-                {streak} jour{streak > 1 ? "s" : ""} de suite
-              </div>
-            )}
-          </div>
-
-          {totalSections > 0 && (
-            <div className="relative mt-6 sm:max-w-[62%]">
-              <div className="mb-1.5 flex items-center justify-between font-mono text-[11px] text-[var(--sur-encre-mute)]">
-                <span>
-                  {totalTerminees} / {totalSections} leçons terminées
-                </span>
-                <span className="font-bold text-[var(--sarcelle-light)]">{pctGlobal}%</span>
-              </div>
-              <div className="h-2 overflow-hidden rounded-full bg-[rgba(234,245,242,0.14)]">
-                <div
-                  className="anim-barre h-full rounded-full"
-                  style={{ width: `${pctGlobal}%`, background: "linear-gradient(90deg, #5FC7B8, #FF7A4D)" }}
-                />
-              </div>
-            </div>
-          )}
-        </section>
-
-        <div className="mb-6 grid grid-cols-2 gap-3.5 sm:grid-cols-4">
-          <div className="anim-entree carte-vivante rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4" style={{ "--d": "120ms" } as CSSProperties}>
-            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
-              <CompteurAnime valeur={modulesSuivis} /> / {modulesAffiches.length}
-            </div>
-            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">cours suivis</div>
-            {modulesSuivisSemaine > 0 && (
-              <div className="mt-1 text-[10.5px] font-bold text-[var(--sarcelle)]">↗ +{modulesSuivisSemaine} cette semaine</div>
-            )}
-          </div>
-          <div className="anim-entree carte-vivante rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4" style={{ "--d": "200ms" } as CSSProperties}>
-            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
-              <CompteurAnime valeur={(remises ?? []).length} /> / {(devoirs ?? []).length}
-            </div>
-            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">devoirs rendus</div>
-            {devoirsRendusSemaine > 0 && (
-              <div className="mt-1 text-[10.5px] font-bold text-[var(--sarcelle)]">↗ +{devoirsRendusSemaine} cette semaine</div>
-            )}
-          </div>
-          {moyenneGenerale !== null ? (
-            <div className="anim-entree carte-vivante rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4" style={{ "--d": "280ms" } as CSSProperties}>
-              <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
-                <CompteurAnime valeur={moyenneGenerale} decimales={1} /> / 20
-              </div>
-              <div className="mt-0.5 text-xs text-[var(--texte-mute)]">moyenne générale</div>
-              {moyenneDelta !== null && (
-                <div className={`mt-1 text-[10.5px] font-bold ${moyenneDelta >= 0 ? "text-[var(--sarcelle)]" : "text-[var(--corail)]"}`}>
-                  {moyenneDelta >= 0 ? "↗ +" : "↘ "}{moyenneDelta.toFixed(1)} cette semaine
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="anim-entree rounded-xl border border-dashed border-[var(--ligne)] bg-[var(--fond-carte)] p-4 opacity-70" style={{ "--d": "280ms" } as CSSProperties}>
-              <div className="font-display text-xl font-extrabold text-[var(--texte-mute)]">—</div>
-              <div className="mt-0.5 text-xs text-[var(--texte-mute)]">moyenne générale</div>
-              <div className="mt-1 font-mono text-[9px] font-bold text-[var(--texte-mute)]">Pas encore de note</div>
-            </div>
-          )}
-          <div className="anim-entree carte-vivante rounded-xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4" style={{ "--d": "360ms" } as CSSProperties}>
-            <div className="font-display text-xl font-extrabold text-[var(--sarcelle)]">
-              <CompteurAnime valeur={streak} />
-            </div>
-            <div className="mt-0.5 text-xs text-[var(--texte-mute)]">jour{streak !== 1 ? "s" : ""} de suite</div>
-          </div>
-        </div>
+        {/* "Heures d'apprentissage" de la maquette : aucune mesure du temps en base, remplace par la serie de jours. */}
+        <CartesStats
+          stats={[
+            { icone: "cap", libelle: "Modules complétés", valeur: modulesComplets.length, sur: modulesAffiches.length, delta: modulesCompletsSemaine },
+            { icone: "flamme", libelle: "Jours de suite", valeur: streak },
+            { icone: "trophee", libelle: "Badges obtenus", valeur: badgesObtenus.length },
+            { icone: "membres", libelle: "Membres de la communauté", valeur: stats ? stats.nb_membres : null },
+          ]}
+        />
 
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[2fr_1fr]">
-          <div>
-            <div className="mb-5 grid grid-cols-1 gap-5 md:grid-cols-[2fr_1fr]">
-              {moduleCourant ? (
-                <div className="relative overflow-hidden rounded-2xl bg-[var(--encre)] px-7 py-[26px] text-[var(--sur-encre)]">
-                  <p className="mb-2 font-mono text-[10.5px] uppercase tracking-wide text-[var(--sarcelle-light)]">
-                    reprendre ou tu en etais
-                  </p>
-                  <p className="font-display mb-1 text-[17px] font-bold">
-                    {(moduleCourant as { titre: string }).titre}
-                  </p>
-                  <p className="mb-4 text-[12.5px] text-[var(--sur-encre-mute)]">
-                    {(moduleCourant as { section: Section }).section.titre}
-                  </p>
-                  {urlVideoCourante && (
-                    <video
-                      key={urlVideoCourante}
-                      src={urlVideoCourante}
-                      controls
-                      className="mb-4 w-full rounded-lg"
-                    />
-                  )}
-                  <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
-                    {(moduleCourant as { section: Section }).section.a_contenu && (
-                      <Link
-                        href={`/${espace.slug}/formation/${(moduleCourant as { section: Section }).section.id}`}
-                        className="rounded-[9px] bg-[var(--corail)] px-[22px] py-3 text-[13px] font-extrabold text-[var(--encre)]"
-                      >
-                        Lire la leçon →
-                      </Link>
-                    )}
-                    <form
-                      action={marquerSectionTerminee.bind(
-                        null,
-                        espace.slug,
-                        (moduleCourant as { section: Section }).section.id
-                      )}
-                    >
-                      {(moduleCourant as { section: Section }).section.a_contenu ? (
-                        <button type="submit" className="text-xs font-bold text-[var(--sarcelle-light)] underline">
-                          Marquer comme terminée
-                        </button>
-                      ) : (
-                        <button
-                          type="submit"
-                          className="rounded-[9px] bg-[var(--corail)] px-[22px] py-3 text-[13px] font-extrabold text-[var(--encre)]"
-                        >
-                          Continuer →
-                        </button>
-                      )}
-                    </form>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex items-center rounded-2xl bg-[var(--encre)] px-7 py-[26px] text-[var(--sur-encre)]">
-                  <p className="font-display text-[15px] font-bold">
-                    Formation terminee, felicitations !
-                  </p>
-                </div>
-              )}
-              <div className="flex flex-col justify-center gap-4 rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-[22px]">
-                <div className="font-display text-[13px] font-bold">Ma progression</div>
-                <AnneauProgression pct={pctGlobal} />
-                {modulesAffiches.length > 0 && (
-                  <div className="flex flex-col gap-2 border-t border-[var(--ligne)] pt-3.5">
-                    {modulesAffiches.map(({ module, sections: secs }) => {
-                      const pct = secs.length > 0 ? Math.round((secs.filter((s) => sectionsTerminees.has(s.id)).length / secs.length) * 100) : 0;
-                      return (
-                        <div key={module.id}>
-                          <div className="mb-1 flex items-center justify-between text-[10.5px] text-[var(--texte-mute)]">
-                            <span className="truncate">{module.titre}</span>
-                            <span className="shrink-0 font-mono font-bold">{pct}%</span>
-                          </div>
-                          <div className="h-1.5 overflow-hidden rounded-full bg-[var(--fond)]">
-                            <div className="h-full rounded-full bg-[var(--sarcelle)]" style={{ width: `${pct}%` }} />
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                )}
-              </div>
-            </div>
+          <div className="flex min-w-0 flex-col gap-6">
+            <FormationEnCours
+              espaceSlug={espace.slug}
+              courant={
+                moduleCourant && courantModule
+                  ? { module: courantModule, titreSection: moduleCourant.section.titre, lien: lienCourant }
+                  : null
+              }
+              actionTerminer={
+                moduleCourant ? (
+                  <form action={marquerSectionTerminee.bind(null, espace.slug, moduleCourant.section.id)}>
+                    <button type="submit" className="text-xs font-bold text-[var(--sarcelle-texte)] underline">
+                      Marquer comme terminée
+                    </button>
+                  </form>
+                ) : null
+              }
+            />
+            <ListeModules modules={resumes} />
+            <ProchainesSessions espaceSlug={espace.slug} evenements={evenements} />
+            <RessourcesUtiles espaceSlug={espace.slug} ressources={ressources ?? []} />
 
+            {/* Hors maquette, gardes pour ne perdre aucune fonction : echeances des devoirs, detail des lecons, activite, temoignage. */}
             <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
               <div className="font-display mb-3.5 text-[14px] font-bold">Mes prochaines échéances</div>
               {echeances.length === 0 ? (
@@ -445,73 +293,28 @@ export default async function ProgressionPage({
             </div>
 
             {modulesAffiches.length > 0 && (
-              <>
-                <p className="mb-3.5 mt-7 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle)]">
-                  Mes cours en cours
-                </p>
-                <div className="mb-3.5 grid grid-cols-1 gap-3.5 sm:grid-cols-2">
-                  {modulesAffiches.map(({ module, sections: secs }) => {
-                    const pct = secs.length > 0 ? Math.round((secs.filter((s) => sectionsTerminees.has(s.id)).length / secs.length) * 100) : 0;
-                    const premiereSection = secs[0];
-                    return (
-                      <div key={module.id} className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4">
-                        <div className="font-display mb-2 text-[13.5px] font-bold">{module.titre}</div>
-                        <div className="mb-1 flex items-center justify-between text-[10.5px] text-[var(--texte-mute)]">
-                          <span>Progression</span>
-                          <span className="font-mono font-bold text-[var(--sarcelle)]">{pct}%</span>
-                        </div>
-                        <div className="mb-3 h-1.5 overflow-hidden rounded-full bg-[var(--fond)]">
-                          <div className="h-full rounded-full bg-[var(--sarcelle)]" style={{ width: `${pct}%` }} />
-                        </div>
-                        {premiereSection ? (
-                          <Link
-                            href={`/${espace.slug}/formation/${premiereSection.id}`}
-                            className="text-[11.5px] font-bold text-[var(--sarcelle)]"
-                          >
-                            Accéder au cours →
-                          </Link>
-                        ) : (
-                          <span className="text-[11.5px] text-[var(--texte-mute)]">Aucune section pour le moment.</span>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
+              <div>
+                <p className="mb-3.5 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle)]">Détail de ta formation</p>
+                {modulesAffiches.map(({ module, sections: secs }) => (
+                  <ModuleCard
+                    key={module.id}
+                    espaceSlug={espace.slug}
+                    titre={module.titre}
+                    sections={secs}
+                    sectionsTerminees={sectionsTerminees}
+                  />
+                ))}
+              </div>
             )}
 
-            <p className="mb-3.5 mt-7 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle)]">
-              Ta formation
-            </p>
-
-            {modulesAffiches.length === 0 && (
-              <p className="rounded-[14px] border border-dashed border-[var(--ligne)] p-6 text-center text-sm text-[var(--texte-mute)]">
-                Aucun module pour le moment.
-              </p>
-            )}
-
-            {modulesAffiches.map(({ module, sections: secs }) => (
-              <ModuleCard
-                key={module.id}
-                espaceSlug={espace.slug}
-                titre={module.titre}
-                sections={secs}
-                sectionsTerminees={sectionsTerminees}
-              />
-            ))}
-
-            <p className="mb-3.5 mt-7 font-mono text-[11px] uppercase tracking-wide text-[var(--sarcelle)]">
-              Activité récente
-            </p>
-            <div className="mb-3.5 rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+            <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
+              <div className="font-display mb-3 text-[14px] font-bold">Activité récente</div>
               {activiteRecente.length === 0 ? (
                 <p className="text-[12.5px] text-[var(--texte-mute)]">Aucune activité pour le moment.</p>
               ) : (
                 activiteRecente.map((a, i) => (
                   <div key={i} className="flex items-center justify-between gap-3 py-1.5 text-[12.5px]">
-                    <span>
-                      Tu as terminé « {a.titre} »
-                    </span>
+                    <span>Tu as terminé « {a.titre} »</span>
                     <span className="shrink-0 font-mono text-[10.5px] text-[var(--texte-mute)]">{tempsEcoule(a.date)}</span>
                   </div>
                 ))
@@ -521,34 +324,21 @@ export default async function ProgressionPage({
             <FormulaireTemoignage espaceSlug={espace.slug} />
           </div>
 
-          <div className="flex flex-col gap-4">
-            <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5 text-center">
-              <div className="mx-auto mb-2.5 h-16 w-16 overflow-hidden rounded-full">
-                <Avatar id={userData.user.id} pseudo={profil?.pseudo ?? "Moi"} taille={64} urlPhoto={photos.get(userData.user.id) ?? null} />
-              </div>
-              <div className="font-display text-[15px] font-bold">{profil?.pseudo ?? "Moi"}</div>
-              {userData.user.email && (
-                <div className="mt-0.5 truncate text-[11px] text-[var(--texte-mute)]">{userData.user.email}</div>
-              )}
-              <div className="mt-3.5 border-t border-[var(--ligne)] pt-3.5 text-left">
-                <div className="mb-1 flex items-center justify-between text-[11px] font-bold">
-                  <span>{niveauActuel.libelle}</span>
-                  <span className="font-mono text-[var(--sarcelle)]">
-                    {profil?.points ?? 0}{niveauSuivant ? ` / ${niveauSuivant.points_requis} pts` : " pts"}
-                  </span>
-                </div>
-                {niveauSuivant && (
-                  <div className="h-1.5 overflow-hidden rounded-full bg-[var(--fond)]">
-                    <div
-                      className="h-full rounded-full bg-[var(--sarcelle)]"
-                      style={{
-                        width: `${Math.min(100, Math.round((((profil?.points ?? 0) - niveauActuel.points_requis) / (niveauSuivant.points_requis - niveauActuel.points_requis)) * 100))}%`,
-                      }}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
+          <div className="flex min-w-0 flex-col gap-6">
+            <ProfilProgression
+              pct={pctGlobal}
+              lignes={[
+                { icone: "cap", libelle: "Modules complétés", valeur: `${modulesComplets.length} / ${modulesAffiches.length}` },
+                { icone: "trophee", libelle: "Badges obtenus", valeur: String(badgesObtenus.length) },
+                { icone: "flamme", libelle: "Jours de suite", valeur: String(streak) },
+                { icone: "niveau", libelle: "Niveau actuel", valeur: niveauActuel.libelle },
+                { icone: "niveau", libelle: "Points", valeur: `${profil?.points ?? 0}${niveauSuivant ? ` / ${niveauSuivant.points_requis}` : ""}` },
+              ]}
+            />
+            <MonCalendrier espaceSlug={espace.slug} evenements={evenements} />
+            <MaCommunaute espaceSlug={espace.slug} nbMembres={stats ? stats.nb_membres : null} eleves={stats?.eleves ?? []} />
+            <CarteClassement espaceSlug={espace.slug} classement={stats?.classement ?? []} />
+            <CarteCitation />
 
             <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
               <div className="font-display mb-3.5 text-[14px] font-bold">Mes badges</div>
@@ -566,36 +356,12 @@ export default async function ProgressionPage({
               )}
             </div>
 
-            <div className="rounded-2xl bg-[var(--encre)] p-5 text-[var(--sur-encre)]">
-              <p className="font-display mb-1.5 text-[14px] font-bold">Continue comme ça</p>
-              <p className="mb-3.5 text-[12px] text-[var(--sur-encre-mute)]">
-                Chaque leçon terminée te rapproche de la fin de la formation.
-              </p>
-              <Link
-                href={`/${espace.slug}/objectifs`}
-                className="block w-full rounded-[9px] bg-[var(--corail)] px-4 py-2.5 text-center text-[12px] font-bold text-[var(--encre)]"
-              >
-                Voir mes objectifs →
-              </Link>
-            </div>
-
-            <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
-              <div className="font-display mb-3.5 text-[13px] font-bold">Accès rapide</div>
-              <div className="grid grid-cols-2 gap-2.5">
-                <Link href={`/${espace.slug}/ressources`} className="rounded-lg border border-[var(--ligne)] px-3 py-2.5 text-center text-[11.5px] font-bold text-[var(--texte-mute)] hover:text-[var(--sarcelle)]">
-                  Ressources
-                </Link>
-                <Link href={`/${espace.slug}/formation`} className="rounded-lg border border-[var(--ligne)] px-3 py-2.5 text-center text-[11.5px] font-bold text-[var(--texte-mute)] hover:text-[var(--sarcelle)]">
-                  Formation
-                </Link>
-                <Link href={`/${espace.slug}/messages`} className="rounded-lg border border-[var(--ligne)] px-3 py-2.5 text-center text-[11.5px] font-bold text-[var(--texte-mute)] hover:text-[var(--sarcelle)]">
-                  Messages
-                </Link>
-                <Link href={`/${espace.slug}/communaute-payante`} className="rounded-lg border border-[var(--ligne)] px-3 py-2.5 text-center text-[11.5px] font-bold text-[var(--texte-mute)] hover:text-[var(--sarcelle)]">
-                  Communauté
-                </Link>
-              </div>
-            </div>
+            <Link
+              href={`/${espace.slug}/objectifs`}
+              className="block rounded-2xl bg-[var(--encre)] p-5 text-center text-[12.5px] font-bold text-[var(--sur-encre)]"
+            >
+              Voir mes objectifs →
+            </Link>
           </div>
         </div>
       </div>
