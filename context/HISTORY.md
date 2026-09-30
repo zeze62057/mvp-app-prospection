@@ -7,6 +7,28 @@
 
 ---
 
+## 2026-09-29
+
+### MCP Vivier sécurité : diagnostic en lecture seule branché à Cowork
+
+- Cowork exigeant un serveur distant en HTTPS (le stdio local ne marche pas), version distante construite : OAuth 2.1 avec PKCE via Google, liste blanche à une adresse, jetons d'une heure en mémoire, journal, interrupteur d'urgence (fichier REVOQUE ou variable MCP_REVOQUE)
+- 5 outils, tous en lecture : 4 sur n8n (workflows, exécutions), 1 audit statique du code. Aucune écriture, aucune correction automatique
+- Déployé sur Railway (projet perfect-prosperity, essai de 30 jours ou 5 $), projet Google Cloud dédié "Vivier MCP" en mode test, connecteur ajouté dans Cowork, connexion Google prouvée par le journal
+- Premier audit du code : aucun secret en clair, aucune dépendance vulnérable. À traiter : comparaison de secret non constante dans le webhook de paiement, 4 usages de service_role et 2 actions serveur à vérifier
+- Restent : clé n8n en lecture seule, test des outils depuis Cowork, rôle mcp_diag (migration 0051), audit du code à distance, sous-domaine à toi, 2FA Google (adresse de récupération et clé d'accès manquantes)
+
+### Refonte du tableau de bord élève et de la page Formation
+
+- Deux maquettes reproduites en charte Vivier, données réelles seulement : heures d'apprentissage et durées omises, photos remplacées par des illustrations, logo feuille remplacé par la Clé
+- Tableau de bord : bandeau, statistiques, formation en cours, modules, sessions, ressources, profil, calendrier, communauté, classement. Échéances, détail des leçons, activité et témoignage gardés dessous. Page Formation : cartes par module avec statut réel
+- Testé dans le navigateur (ordinateur et mobile). Non vu avec des données riches : module terminé, calendrier rempli
+
+### Prix affiché uniquement au paiement
+
+- Retiré de la vitrine, de la FAQ et du bandeau de la communauté. Le formulaire de paiement direct de la vitrine est remplacé par le lien vers la page de paiement
+- Commits 7a5ec70, 3dc2263, cfcba6c, 46f853b poussés sur origin/main (avec 2 anciens commits jamais poussés)
+- Trou dans ce journal : les sessions du 26 au 28 septembre (mot de passe oublié, bibliothèque de prompts, bannières, infographies) ne sont pas tracées
+
 ## 2026-09-25
 
 ### Automatisations, lot 1 : chaîne de paiement réparée
