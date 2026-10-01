@@ -41,12 +41,22 @@ function IconeCloche() {
   );
 }
 
-export async function OngletsFlottants({ espaceSlug, nbNotifications = 0 }: { espaceSlug: string; nbNotifications?: number }) {
+// Les onglets d'espaces (Chatllow, Bâtisseur Pro, Vivier IA) sont réservés aux administrateurs : un élève reste
+// dans son espace et ne bascule pas dans un autre. Les icônes Messages et Notifications restent pour tous.
+export async function OngletsFlottants({
+  espaceSlug,
+  nbNotifications = 0,
+  estAdmin = false,
+}: {
+  espaceSlug: string;
+  nbNotifications?: number;
+  estAdmin?: boolean;
+}) {
   // Un eleve deja passe par le paiement va directement a la communaute payante.
   let vivierPaye = false;
   const supabase = await createClient();
   const { data: userData } = await supabase.auth.getUser();
-  if (userData.user) {
+  if (estAdmin && userData.user) {
     const vivier = await getEspaceParSlug(SLUG_VIVIER);
     if (vivier) {
       const { data } = await supabase.rpc("a_acces_zone", {
@@ -82,6 +92,8 @@ export async function OngletsFlottants({ espaceSlug, nbNotifications = 0 }: { es
             </span>
           )}
         </Link>
+        {estAdmin && (
+          <>
         <span aria-hidden="true" className="mx-1 h-5 w-px shrink-0 bg-[var(--ligne)]" />
         {LIEN_CHATLLOW ? (
           <a href={LIEN_CHATLLOW} target="_blank" rel="noopener noreferrer" className={`${base} ${neutre}`}>
@@ -105,6 +117,8 @@ export async function OngletsFlottants({ espaceSlug, nbNotifications = 0 }: { es
         <Link href={lienVivier} className={`${base} ${vivierPaye ? neutre : appel}`}>
           Vivier IA
         </Link>
+          </>
+        )}
       </div>
     </nav>
   );

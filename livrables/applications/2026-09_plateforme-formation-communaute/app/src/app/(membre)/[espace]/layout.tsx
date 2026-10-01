@@ -73,7 +73,7 @@ export default async function LayoutMembre({
         pourcentage={Math.min(100, Math.max(0, pourcentage))}
       />
       <div className="min-w-0 flex-1">
-        <OngletsFlottants espaceSlug={espace.slug} nbNotifications={count ?? 0} />
+        <OngletsFlottants espaceSlug={espace.slug} nbNotifications={count ?? 0} estAdmin={role === "admin"} />
         {children}
         {/* Reserve la place de la barre fixe du bas, mobile uniquement : sur ordinateur le menu lateral la remplace. */}
         <div aria-hidden="true" className="h-20 md:hidden" />
