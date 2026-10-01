@@ -7,12 +7,12 @@ import { EcranConnexion } from "@/components/communaute/EcranConnexion";
 import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAdhesion";
 import { FilCommunaute } from "@/components/communaute/fil/FilCommunaute";
 import { MessageAccueil } from "@/components/communaute/MessageAccueil";
-import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
 import { AccueilGratuite } from "@/components/communaute/AccueilGratuite";
 import { BandeauGratuite } from "@/components/communaute/BandeauGratuite";
 import { CarteProchainsEvenements } from "@/components/communaute/CarteProchainsEvenements";
 import { CarteClassement } from "@/components/communaute/CarteClassement";
 import { CarteEncouragement } from "@/components/communaute/CarteEncouragement";
+import { BandeauFormationDebloquee } from "@/components/communaute/BandeauFormationDebloquee";
 import type { Adhesion, StatsCommunaute } from "@/types/membre";
 
 export default async function CommunauteGratuitePage({
@@ -126,6 +126,39 @@ export default async function CommunauteGratuitePage({
   ]);
   const stats = statsRpc as StatsCommunaute | null;
 
+  // Élève qui a déjà payé : au lieu de « Débloque », un bandeau de reprise de la formation.
+  const { data: accesPayant } = await supabase
+    .from("acces_payant")
+    .select("actif")
+    .eq("profil_id", userData.user.id)
+    .eq("espace_id", espace.id)
+    .maybeSingle();
+  let reprise: { faites: number; total: number; prochain: { id: string; titre: string } | null } | null = null;
+  if (accesPayant?.actif) {
+    const { data: modules } = await supabase.from("modules").select("id, ordre").eq("espace_id", espace.id);
+    const ordreModule = new Map((modules ?? []).map((m) => [m.id, m.ordre as number]));
+    const [{ data: sections }, { data: faitesRows }] = await Promise.all([
+      ordreModule.size
+        ? supabase
+            .from("sections")
+            .select("id, module_id, ordre, titre, video_path, a_contenu")
+            .in("module_id", [...ordreModule.keys()])
+        : Promise.resolve({ data: [] as { id: string; module_id: string; ordre: number; titre: string; video_path: string | null; a_contenu: boolean }[] }),
+      supabase.from("progression").select("section_id").eq("profil_id", userData.user.id),
+    ]);
+    const terminees = new Set((faitesRows ?? []).map((p) => p.section_id));
+    const triees = [...(sections ?? [])].sort(
+      (a, b) => (ordreModule.get(a.module_id) ?? 0) - (ordreModule.get(b.module_id) ?? 0) || a.ordre - b.ordre
+    );
+    // Même règle que la page Formation : un chapitre est ouvrable s'il a du contenu ou une vidéo.
+    const ouvrables = triees.filter((x) => x.a_contenu || !!x.video_path);
+    reprise = {
+      faites: ouvrables.filter((x) => terminees.has(x.id)).length,
+      total: ouvrables.length,
+      prochain: ouvrables.find((x) => !terminees.has(x.id)) ?? null,
+    };
+  }
+
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
       <div className="flex items-center justify-between gap-4 border-b border-[var(--ligne)] bg-[var(--fond-carte)] px-4 py-4 sm:px-7">
@@ -133,7 +166,6 @@ export default async function CommunauteGratuitePage({
         {boutonDeconnexion}
       </div>
 
-      <OngletsFlottants espaceSlug={espace.slug} />
 
       <div className="mx-auto flex max-w-5xl flex-col gap-5 px-7 pt-7">
         <AccueilGratuite
@@ -146,6 +178,15 @@ export default async function CommunauteGratuitePage({
 
       <div className="mx-auto grid max-w-5xl grid-cols-1 gap-6 p-7 md:grid-cols-[1fr_300px]">
         <div>
+          {reprise ? (
+            <BandeauFormationDebloquee
+              pseudo={monProfil?.pseudo ?? "toi"}
+              espaceSlug={espace.slug}
+              faites={reprise.faites}
+              total={reprise.total}
+              prochain={reprise.prochain}
+            />
+          ) : (
           <Link
             href={`/${espace.slug}/tunnel`}
             className="relative mb-[18px] flex items-center justify-between overflow-hidden rounded-[14px] bg-[var(--encre)] px-6 py-5 text-[var(--sur-encre)]"
@@ -162,6 +203,7 @@ export default async function CommunauteGratuitePage({
               Debloquer
             </span>
           </Link>
+          )}
 
           <MessageAccueil espaceId={espace.id} />
 
