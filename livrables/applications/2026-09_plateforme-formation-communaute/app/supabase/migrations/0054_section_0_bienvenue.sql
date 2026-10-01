@@ -6,7 +6,7 @@
 -- L'ordre 0 la place avant les sections 1 à 7 (les pages trient par ordre). Aucune autre ligne n'est touchée.
 
 insert into sections (module_id, ordre, titre, contenu)
-select m.id, 0, 'Bienvenue', $c$## Chapitre 1 : Présentation de la formation
+select m.id, 0, 'Bienvenue', replace($c$## Chapitre 1 : Présentation de la formation
 
 ### Ce que Vivier IA cherche à faire
 
@@ -164,7 +164,7 @@ Relis mes trois fichiers (CLAUDE.md, context/CONTEXT.md, context/HISTORY.md). Di
 
 ### Réflexion
 5. Regarde les 5 modules du programme. Y en a-t-il un qui répond à un besoin que tu as déjà, aujourd'hui ? Si oui, lequel, et pourquoi ?
-6. Une fois ton assistant personnel installé, relis les trois fichiers créés. Est-ce qu'ils te représentent fidèlement ? Qu'est-ce que tu changerais ou ajouterais dès maintenant ?$c$
+6. Une fois ton assistant personnel installé, relis les trois fichiers créés. Est-ce qu'ils te représentent fidèlement ? Qu'est-ce que tu changerais ou ajouterais dès maintenant ?$c$, chr(13), '')
 from modules m
 join espaces e on e.id = m.espace_id
 where e.slug = 'vivier-ia' and m.ordre = 1

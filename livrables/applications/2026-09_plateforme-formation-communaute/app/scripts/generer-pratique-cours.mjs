@@ -66,6 +66,20 @@ export function reperSuivant(chapitre, genre = "Chapitre") {
 }
 export const REPER_QUESTIONS = "\n\n---\n\n## Questions pour les apprenants";
 
+// Écrit un repère multi-lignes avec chr(10) au lieu de vrais retours à la ligne. L'éditeur SQL de Supabase
+// convertit les retours à la ligne d'un texte collé en CRLF : un repère écrit avec de vrais retours ne
+// correspondrait plus au contenu stocké (LF) et rien ne serait ajouté, sans erreur. Avec chr(10), le repère
+// est identique quelle que soit la façon dont le fichier est collé.
+export function sqlAncre(texte) {
+  if (texte.includes("'") || texte.includes("\r")) throw new Error(`Repère non sûr : ${texte}`);
+  return texte
+    .split("\n")
+    .map((p) => `'${p}'`)
+    .join(" || chr(10) || ")
+    .replace(/^'' \|\| /, "")
+    .replace(/'' \|\| chr\(10\) \|\| /g, "chr(10) || ");
+}
+
 export function construireSql(blocs) {
   const out = [];
   out.push(`-- Blocs « À faire maintenant » dans les chapitres de Vivier IA : prompts et commandes à copier.
@@ -74,16 +88,23 @@ export function construireSql(blocs) {
 -- Ajoute du contenu à la fin de chaque chapitre concerné, sans rien retirer. Idempotent : un bloc déjà présent
 -- n'est pas ajouté une seconde fois, et rien ne change si le repère de chapitre est absent ou ambigu.
 -- Les blocs de code sont affichés en cartes avec bouton Copier par la page de leçon.
+-- Insensible au collage dans l'éditeur SQL de Supabase (qui convertit les retours à la ligne en CRLF) :
+-- les repères utilisent chr(10) et les retours chariot (chr(13)) sont retirés du texte inséré.
+
+-- Nettoyage : les sections d'accueil collées plus tôt dans l'éditeur SQL contiennent des retours chariot parasites.
+update sections set contenu = replace(contenu, chr(13), '')
+where contenu like '%' || chr(13) || '%'
+  and module_id = (select m.id from modules m join espaces e on e.id = m.espace_id where e.slug = 'vivier-ia' and m.ordre = 1);
 `);
   for (const b of blocs) {
     const repere = reperDuBloc(b.texte);
     out.push(`-- Section ${b.section}, chapitre ${b.chapitre}
 do $m$
 declare
-  v_bloc text := $b$${b.texte}$b$;
-  v_repere text := $r$${repere}$r$;
-  v_fin_chapitre text := $f$${reperSuivant(b.chapitre, b.genre)}$f$;
-  v_fin_dernier text := $q$${REPER_QUESTIONS}$q$;
+  v_bloc text := replace($b$${b.texte}$b$, chr(13), '');
+  v_repere text := replace($r$${repere}$r$, chr(13), '');
+  v_fin_chapitre text := ${sqlAncre(reperSuivant(b.chapitre, b.genre))};
+  v_fin_dernier text := ${sqlAncre(REPER_QUESTIONS)};
   v_contenu text;
   v_fin text;
 begin

@@ -30,7 +30,7 @@ export function construireSql(contenu) {
 -- L'ordre 0 la place avant les sections 1 à 7 (les pages trient par ordre). Aucune autre ligne n'est touchée.
 
 insert into sections (module_id, ordre, titre, contenu)
-select m.id, 0, '${TITRE}', $c$${contenu}$c$
+select m.id, 0, '${TITRE}', replace($c$${contenu}$c$, chr(13), '')
 from modules m
 join espaces e on e.id = m.espace_id
 where e.slug = 'vivier-ia' and m.ordre = 1
@@ -58,7 +58,7 @@ export function lireOutils() {
 function insertion(ordre, titre, contenu, delim) {
   if (contenu.includes(`$${delim}$`)) throw new Error(`Le contenu de « ${titre} » contient le délimiteur $${delim}$.`);
   return `insert into sections (module_id, ordre, titre, contenu)
-select m.id, ${ordre}, '${titre}', $${delim}$${contenu}$${delim}$
+select m.id, ${ordre}, '${titre}', replace($${delim}$${contenu}$${delim}$, chr(13), '')
 from modules m
 join espaces e on e.id = m.espace_id
 where e.slug = 'vivier-ia' and m.ordre = 1

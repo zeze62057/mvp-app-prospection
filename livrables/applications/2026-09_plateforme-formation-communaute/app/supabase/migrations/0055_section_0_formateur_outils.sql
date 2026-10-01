@@ -10,7 +10,7 @@ where ordre = 0 and titre = 'Bienvenue'
   and module_id = (select m.id from modules m join espaces e on e.id = m.espace_id where e.slug = 'vivier-ia' and m.ordre = 1);
 
 insert into sections (module_id, ordre, titre, contenu)
-select m.id, -1, 'Présentation du formateur', $f$## Chapitre 1 : Qui est ton formateur
+select m.id, -1, 'Présentation du formateur', replace($f$## Chapitre 1 : Qui est ton formateur
 
 ### Zézé Bilivogui, fondateur de Vivier IA
 
@@ -88,14 +88,14 @@ Tu dois recevoir un engagement court et tenable. Garde-le sous les yeux.
 
 ### Réflexion
 4. Qu'est-ce qui te retient de commencer aujourd'hui ? Comment ce chapitre répond-il à ce frein ?
-5. Quelle question aimerais-tu poser au formateur ? Écris-la dans la communauté.$f$
+5. Quelle question aimerais-tu poser au formateur ? Écris-la dans la communauté.$f$, chr(13), '')
 from modules m
 join espaces e on e.id = m.espace_id
 where e.slug = 'vivier-ia' and m.ordre = 1
 on conflict (module_id, ordre) do nothing;
 
 insert into sections (module_id, ordre, titre, contenu)
-select m.id, 0, 'Installation des outils', $o$## Chapitre 1 : Les outils dont tu as besoin
+select m.id, 0, 'Installation des outils', replace($o$## Chapitre 1 : Les outils dont tu as besoin
 
 ### Une petite boîte à outils, installée une seule fois
 
@@ -328,7 +328,7 @@ Tu dois recevoir un état des lieux point par point. Quand tout est au vert, tu 
 
 ### Réflexion
 4. Quel outil t'a posé le plus de difficulté ? Que ferais-tu différemment si tu devais le réinstaller ?
-5. Décris en deux phrases ce que tu pourrais construire avec cette boîte à outils.$o$
+5. Décris en deux phrases ce que tu pourrais construire avec cette boîte à outils.$o$, chr(13), '')
 from modules m
 join espaces e on e.id = m.espace_id
 where e.slug = 'vivier-ia' and m.ordre = 1
