@@ -141,12 +141,31 @@ export type Paiement = {
   confirme_at: string | null;
 };
 
-export type CategoriePrompt = "fondations" | "methode" | "quotidien" | "business" | "n8n";
+export type CategoriePrompt =
+  | "fondations"
+  | "methode"
+  | "quotidien"
+  | "business"
+  | "n8n"
+  | "design_maquettes"
+  | "design_identite"
+  | "design_site"
+  | "design_supports"
+  | "design_ameliorer"
+  | "design_vers_code"
+  | "codex_migration"
+  | "chatgpt_ameliorer"
+  | "chatgpt_integrer"
+  | "chatgpt_securite";
+
+// 'payante' : lu seulement par un acces payant actif (migration 0051). La base le garantit, pas l'interface.
+export type AccesPrompt = "gratuite" | "payante";
 
 export type Prompt = {
   id: string;
   espace_id: string;
   categorie: CategoriePrompt;
+  acces: AccesPrompt;
   titre: string;
   contenu: string;
   ordre: number;

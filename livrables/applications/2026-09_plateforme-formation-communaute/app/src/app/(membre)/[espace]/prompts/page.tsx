@@ -134,8 +134,8 @@ export default async function PromptsPage({
           Bibliotheque de prompts
         </p>
         <p className="mt-1.5 max-w-lg text-[13px] text-[var(--texte-mute)]">
-          Des prompts prets a l&apos;emploi, tires directement des fiches du cours,
-          pour pratiquer des ton arrivee dans la communaute gratuite.
+          Des prompts prets a l&apos;emploi : ceux des fiches du cours, et ceux pour
+          creer tes maquettes, ton logo et tes supports avec Claude Design.
         </p>
 
         <div className="mt-5 max-w-2xl rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-5">
@@ -152,8 +152,26 @@ export default async function PromptsPage({
             <li>
               L&apos;erreur la plus frequente : sauter la validation. Un agent qui annonce &quot;c&apos;est fait&quot; n&apos;a pas encore prouve que ca fonctionne reellement.
             </li>
+            <li>
+              Colle chaque prompt dans le bon outil : ceux de la famille « Claude Design » se collent dans Claude Design, sauf ceux marqués [Claude Code]. Pour la famille « Codex et ChatGPT », l&apos;outil est indiqué entre crochets au début du titre.
+            </li>
           </ul>
         </div>
+
+        {!aAccesPayant && (
+          <div className="mt-5 max-w-2xl rounded-2xl border border-dashed border-[var(--ligne)] p-5">
+            <p className="font-display mb-1.5 text-[14px] font-bold">Prompts avancés : réservés à la communauté payante</p>
+            <p className="text-[12.5px] text-[var(--texte-mute)]">
+              Migrer ton projet de Claude Code vers Codex, l&apos;améliorer avec ChatGPT et l&apos;enrichir avec l&apos;API OpenAI, en sécurité et en maîtrisant les coûts.
+            </p>
+            <Link
+              href={`/${espace.slug}/tunnel`}
+              className="mt-3 inline-block text-[12.5px] font-bold text-[var(--sarcelle)] underline"
+            >
+              Découvrir la communauté payante
+            </Link>
+          </div>
+        )}
 
         <div className="mt-6">
           <BibliothequePrompts prompts={prompts ?? []} />
