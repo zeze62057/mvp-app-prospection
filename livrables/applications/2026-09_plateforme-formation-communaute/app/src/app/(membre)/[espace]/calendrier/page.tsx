@@ -15,7 +15,6 @@ import {
   type EvenementCalendrier,
 } from "@/lib/calendrier";
 import { EnTeteMembre } from "@/components/navigation/EnTeteMembre";
-import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
 
 const JOURS = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
 
@@ -81,7 +80,6 @@ export default async function CalendrierPage({
   return (
     <div className="min-h-screen bg-[var(--fond)] text-[var(--texte)]">
       {entete}
-      <OngletsFlottants espaceSlug={espace.slug} />
 
       <div className="mx-auto max-w-3xl p-5 sm:p-7">
         <div className="mb-4 flex items-center justify-between gap-3">

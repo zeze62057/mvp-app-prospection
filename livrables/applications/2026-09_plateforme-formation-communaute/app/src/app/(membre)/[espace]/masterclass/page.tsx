@@ -6,7 +6,6 @@ import { deconnexion } from "../communaute/actions";
 import { sInscrire, seDesinscrire } from "./actions";
 import { EcranConnexion } from "@/components/communaute/EcranConnexion";
 import { BoutonDemanderAdhesion } from "@/components/communaute/BoutonDemanderAdhesion";
-import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
 import { chargerNiveaux } from "@/lib/niveaux-donnees";
 import { libelleDuNiveau } from "@/lib/niveaux";
 import type { Adhesion, Masterclass } from "@/types/membre";
@@ -149,7 +148,6 @@ export default async function MasterclassPage({
         {boutonDeconnexion}
       </div>
 
-      <OngletsFlottants espaceSlug={espace.slug} />
 
       <div className="mx-auto max-w-3xl px-7 py-8">
         <p className="font-display text-[23px] font-extrabold tracking-tight">

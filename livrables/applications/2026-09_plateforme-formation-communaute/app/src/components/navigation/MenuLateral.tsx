@@ -149,14 +149,24 @@ export function MenuLateral({
   userId,
   pseudo,
   avatarUrl,
-  nbNotifications,
+  points,
+  niveau,
+  pointsRestants,
+  prochainLibelle,
+  pourcentage,
+  estExpert,
 }: {
   espaceSlug: string;
   espaceNom: string;
   userId: string;
   pseudo: string;
   avatarUrl: string | null;
-  nbNotifications: number;
+  points: number;
+  niveau: string;
+  pointsRestants: number | null;
+  prochainLibelle: string | null;
+  pourcentage: number;
+  estExpert: boolean;
 }) {
   const chemin = usePathname();
   const base = `/${espaceSlug}`;
@@ -215,38 +225,47 @@ export function MenuLateral({
         ))}
       </div>
 
-      <div className="mt-4 flex flex-col gap-0.5 border-t border-[rgba(255,255,255,0.12)] pt-3">
-        <Link href={`${base}/messages`} className={classeLien(estActif(`${base}/messages`))} aria-current={estActif(`${base}/messages`) ? "page" : undefined}>
-          <Icone nom="messages" />
-          Messages
-        </Link>
-        <Link
-          href={`${base}/notifications`}
-          className={`${classeLien(estActif(`${base}/notifications`))} justify-between`}
-          aria-current={estActif(`${base}/notifications`) ? "page" : undefined}
-        >
-          <span className="flex items-center gap-2.5">
-            <Icone nom="notifications" />
-            Notifications
+      <Link
+        href={`${base}/profil`}
+        aria-current={estActif(`${base}/profil`) ? "page" : undefined}
+        className="mt-4 block overflow-hidden rounded-xl border border-[rgba(255,255,255,0.14)] bg-gradient-to-br from-[var(--sarcelle)] to-[var(--encre-2)] p-3.5 shadow-[0_6px_18px_rgba(0,0,0,0.25)] transition-transform hover:-translate-y-0.5"
+      >
+        <div className="flex items-center gap-3">
+          <span className="rounded-full ring-2 ring-[var(--corail)] ring-offset-2 ring-offset-[var(--encre-2)]">
+            <Avatar id={userId} pseudo={pseudo} taille={44} urlPhoto={avatarUrl} />
           </span>
-          {nbNotifications > 0 && (
-            <span
-              aria-label={`${nbNotifications} notification${nbNotifications > 1 ? "s" : ""} non lue${nbNotifications > 1 ? "s" : ""}`}
-              className="flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--corail)] px-1 font-mono text-[9.5px] font-bold text-[var(--encre)]"
-            >
-              {nbNotifications > 99 ? "99+" : nbNotifications}
-            </span>
-          )}
-        </Link>
-        <Link
-          href={`${base}/profil`}
-          className={classeLien(estActif(`${base}/profil`))}
-          aria-current={estActif(`${base}/profil`) ? "page" : undefined}
+          <div className="min-w-0">
+            <div className="font-display truncate text-[14px] font-extrabold">{pseudo}</div>
+            <div className="mt-0.5 inline-block rounded-full bg-[rgba(255,255,255,0.18)] px-2 py-0.5 text-[10.5px] font-bold">
+              {niveau}
+            </div>
+          </div>
+        </div>
+        <div className="mt-3 flex items-baseline justify-between text-[11px]">
+          <span className="text-[var(--sur-encre-mute)]">Points</span>
+          <b className="font-mono text-[13px] text-[var(--corail)]">{points}</b>
+        </div>
+        <div
+          role="progressbar"
+          aria-valuemin={0}
+          aria-valuemax={100}
+          aria-valuenow={pourcentage}
+          aria-label="Progression vers le niveau suivant"
+          className="mt-1.5 h-1.5 overflow-hidden rounded-full bg-[rgba(255,255,255,0.2)]"
         >
-          <Avatar id={userId} pseudo={pseudo} taille={24} urlPhoto={avatarUrl} />
-          {pseudo}
-        </Link>
-      </div>
+          <div className="h-full rounded-full bg-[var(--corail)]" style={{ width: `${pourcentage}%` }} />
+        </div>
+        <p className="mt-1.5 text-[10.5px] text-[var(--sur-encre-mute)]">
+          {pointsRestants !== null && prochainLibelle
+            ? `Encore ${pointsRestants} point${pointsRestants > 1 ? "s" : ""} pour « ${prochainLibelle} »`
+            : "Niveau maximum atteint"}
+        </p>
+        {estExpert && (
+          <div className="mt-3 rounded-lg bg-[var(--corail)] px-2.5 py-1.5 text-center text-[11px] font-extrabold tracking-wide text-[var(--encre)]">
+            ★ Expert Agentic Coding
+          </div>
+        )}
+      </Link>
     </nav>
   );
 }

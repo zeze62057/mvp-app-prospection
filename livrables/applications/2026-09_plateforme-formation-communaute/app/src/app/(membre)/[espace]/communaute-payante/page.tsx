@@ -7,7 +7,6 @@ import { deconnexion } from "../communaute/actions";
 import { EcranConnexion } from "@/components/communaute/EcranConnexion";
 import { FilCommunaute } from "@/components/communaute/fil/FilCommunaute";
 import { MessageAccueil } from "@/components/communaute/MessageAccueil";
-import { OngletsFlottants } from "@/components/navigation/OngletsFlottants";
 import { CartePostulerExpert } from "@/components/communaute/CartePostulerExpert";
 import { BandeauCommunaute } from "@/components/communaute/BandeauCommunaute";
 import { CarteProchainsEvenements } from "@/components/communaute/CarteProchainsEvenements";
@@ -140,7 +139,6 @@ export default async function CommunautePayantePage({
         {boutonDeconnexion}
       </div>
 
-      <OngletsFlottants espaceSlug={espace.slug} />
 
       {/* Bandeau d'accueil : meme style que le tableau de bord eleve. Que des donnees reelles (pseudo, accroche,
           statut Expert). Les animations sont dans globals.css et s'arretent pour qui a demande moins d'animations. */}
