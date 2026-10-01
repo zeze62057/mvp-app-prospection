@@ -1,9 +1,10 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useRef, useState } from "react";
 import Markdown from "react-markdown";
 import { enregistrerLecon } from "@/app/admin/programme/actions";
 import { composants } from "@/components/formation/composants-lecon";
+import { BLOCS_LECON, gabaritLecon, resteDesCrochets } from "@/lib/gabarit-lecon";
 
 const etatInitial = { erreur: null as string | null, succes: false };
 
@@ -18,8 +19,28 @@ export function EditeurLecon({
   contenu: string;
 }) {
   const [etat, action, enCours] = useActionState(enregistrerLecon, etatInitial);
-  const [texte, setTexte] = useState(contenu);
+  // Leçon vide (section toute neuve) : le modèle complet est proposé. Il n'est enregistré qu'au clic sur
+  // « Enregistrer la leçon », donc jamais visible des élèves tant que l'admin ne l'a pas validé.
+  const modeleCharge = contenu.trim() === "";
+  const [texte, setTexte] = useState(modeleCharge ? gabaritLecon(titre) : contenu);
+  const zone = useRef<HTMLTextAreaElement>(null);
   const [onglet, setOnglet] = useState<"editer" | "apercu">("editer");
+
+  function inserer(bloc: string) {
+    setOnglet("editer");
+    setTexte((t) => t.trimEnd() + bloc);
+    // Place la vue sur le bloc ajouté, en bas du texte.
+    setTimeout(() => {
+      const z = zone.current;
+      if (z) {
+        z.focus();
+        z.scrollTop = z.scrollHeight;
+      }
+    }, 0);
+  }
+
+  const boutonBloc =
+    "rounded-lg border border-[var(--sarcelle)] px-2.5 py-1 text-[11.5px] font-bold text-[var(--sarcelle)] hover:bg-[var(--sarcelle)] hover:text-white";
 
   const classeOnglet = (actif: boolean) =>
     `rounded-lg px-3 py-1.5 text-[12px] font-bold ${actif ? "bg-[var(--sarcelle)] text-white" : "border border-[var(--ligne)] text-[var(--texte-mute)]"}`;
@@ -42,6 +63,35 @@ export function EditeurLecon({
         />
       </div>
 
+      {modeleCharge && (
+        <p className="rounded-lg bg-[rgba(43,140,130,0.12)] px-4 py-2.5 text-[12.5px] font-bold text-[var(--sarcelle-texte)]">
+          Modèle prérempli : remplace les parties entre crochets, puis clique « Enregistrer la leçon ». Tant que tu
+          n&apos;as pas enregistré, les élèves ne voient rien.
+        </p>
+      )}
+
+      <div className="flex flex-wrap items-center gap-2" role="group" aria-label="Ajouter un bloc">
+        <span className="text-[11.5px] font-bold text-[var(--texte-mute)]">Ajouter :</span>
+        <button type="button" onClick={() => inserer(BLOCS_LECON.chapitre)} className={boutonBloc}>
+          + Chapitre
+        </button>
+        <button type="button" onClick={() => inserer(BLOCS_LECON.prompt)} className={boutonBloc}>
+          + Prompt à copier
+        </button>
+        <button type="button" onClick={() => inserer(BLOCS_LECON.commande)} className={boutonBloc}>
+          + Commande
+        </button>
+        <button type="button" onClick={() => inserer(BLOCS_LECON.commandeClaude)} className={boutonBloc}>
+          + Commande Claude Code
+        </button>
+        <button type="button" onClick={() => inserer(BLOCS_LECON.modele)} className={boutonBloc}>
+          + Modèle de fichier
+        </button>
+        <button type="button" onClick={() => inserer(BLOCS_LECON.pointsCles)} className={boutonBloc}>
+          + Points clés
+        </button>
+      </div>
+
       <div className="flex items-center gap-2">
         <button type="button" onClick={() => setOnglet("editer")} className={classeOnglet(onglet === "editer")}>
           Écrire
@@ -56,6 +106,7 @@ export function EditeurLecon({
 
       {/* Le champ reste dans le formulaire meme quand l'apercu est affiche. */}
       <textarea
+        ref={zone}
         name="contenu"
         value={texte}
         onChange={(e) => setTexte(e.target.value)}
@@ -72,6 +123,12 @@ export function EditeurLecon({
             <p className="text-sm text-[var(--texte-mute)]">Rien à afficher : la leçon est vide.</p>
           )}
         </div>
+      )}
+
+      {resteDesCrochets(texte) && (
+        <p role="status" className="text-[12px] font-bold text-[var(--corail-texte)]">
+          Il reste des parties entre crochets à remplir (elles commencent par une majuscule). Relis avant d&apos;enregistrer.
+        </p>
       )}
 
       <p className="text-[11px] text-[var(--texte-mute)]">
