@@ -92,21 +92,25 @@ export async function OngletsFlottants({
             </span>
           )}
         </Link>
-        {estAdmin && (
-          <>
-        <span aria-hidden="true" className="mx-1 h-5 w-px shrink-0 bg-[var(--ligne)]" />
+        {(LIEN_CHATLLOW || estAdmin) && <span aria-hidden="true" className="mx-1 h-5 w-px shrink-0 bg-[var(--ligne)]" />}
+        {/* Chatllow est une prestation de service, pas un espace de formation : visible de tous, mis en avant.
+            Tant que son adresse n'est pas renseignée, seul l'admin voit l'onglet, grisé, pour y penser. */}
         {LIEN_CHATLLOW ? (
-          <a href={LIEN_CHATLLOW} target="_blank" rel="noopener noreferrer" className={`${base} ${neutre}`}>
-            Chatllow ↗
+          <a href={LIEN_CHATLLOW} target="_blank" rel="noopener noreferrer" className={`${base} ${appel}`}>
+            Chatllow, conseil IA ↗
           </a>
         ) : (
-          <span
-            className={`${base} cursor-not-allowed border-dashed border-[var(--ligne)] text-[var(--texte-mute)]`}
-            title="Le lien Chatllow n'est pas encore renseigné"
-          >
-            Chatllow
-          </span>
+          estAdmin && (
+            <span
+              className={`${base} cursor-not-allowed border-dashed border-[var(--ligne)] text-[var(--texte-mute)]`}
+              title="Le lien Chatllow n'est pas encore renseigné (NEXT_PUBLIC_LIEN_CHATLLOW)"
+            >
+              Chatllow
+            </span>
+          )
         )}
+        {estAdmin && (
+          <>
         <Link
           href={`/${SLUG_BATISSEUR}/communaute`}
           aria-current={espaceSlug === SLUG_BATISSEUR ? "page" : undefined}
