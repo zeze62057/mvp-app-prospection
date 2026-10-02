@@ -1,0 +1,327 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>Présentation Vivier Academies et Chatllow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700;9..144,800&family=Public+Sans:wght@400;600;800&family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=IBM+Plex+Sans:wght@400;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --encre:#113832; --encre2:#16443c; --sarcelle:#2b8c82; --sarcelle-clair:#5fc7b8; --corail:#ff7a4d; --fond:#f2f7f5; --carte:#fff; --sur:#eaf5f2;
+  --c-encre:#14161f; --c-indigo:#3f78f2; --c-fond:#f6f1e9; --c-carte:#fffdf8;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
+body{font-family:"Public Sans",system-ui,sans-serif;color:var(--sur)}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;background:var(--encre)}
+.scene{position:absolute;inset:0;opacity:0;transition:opacity .7s ease;pointer-events:none}
+.scene.on{opacity:1}
+.viv{background:radial-gradient(1200px 800px at 80% 10%,var(--encre2),var(--encre) 60%)}
+.chat{background:var(--c-fond);color:var(--c-encre);font-family:"IBM Plex Sans",system-ui,sans-serif}
+.disp{font-family:Fraunces,Georgia,serif}
+.mono{font-family:"Space Mono",ui-monospace,monospace}
+/* éléments qui apparaissent quand la phrase data-p commence */
+.el{opacity:0;transform:translateY(34px) scale(.98);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.el.v{opacity:1;transform:none}
+.el.pop{transform:scale(.6)}
+.el.pop.v{transform:scale(1);transition-timing-function:cubic-bezier(.3,1.6,.4,1)}
+.el.left{transform:translateX(-80px)} .el.left.v{transform:none}
+.el.right{transform:translateX(80px)} .el.right.v{transform:none}
+/* décor animé permanent */
+.bulle{position:absolute;border-radius:50%;background:radial-gradient(circle at 30% 30%,rgba(95,199,184,.35),rgba(95,199,184,0));animation:flotte 14s ease-in-out infinite}
+@keyframes flotte{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-60px)}}
+.grille{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:80px 80px;mask-image:radial-gradient(900px 700px at 50% 50%,#000,transparent)}
+.chip{display:inline-block;padding:14px 28px;border-radius:99px;border:2px solid rgba(255,255,255,.25);font-weight:800;font-size:30px;letter-spacing:.02em}
+.kick{font-family:"Space Mono",monospace;text-transform:uppercase;letter-spacing:.2em;font-size:24px;color:var(--sarcelle-clair)}
+.grand{font-family:Fraunces,Georgia,serif;font-weight:800;letter-spacing:-.02em;line-height:1.05}
+.centre{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:34px;text-align:center;padding:0 160px 140px}
+/* fenêtre de navigateur */
+.fen{position:absolute;background:var(--carte);color:#10302b;border-radius:22px;overflow:hidden;box-shadow:0 40px 100px rgba(0,0,0,.45)}
+.fen .barre{height:54px;background:#e4ece9;display:flex;align-items:center;gap:10px;padding:0 20px}
+.fen .barre i{width:15px;height:15px;border-radius:50%;background:#c3d1cd;display:block}
+.fen .barre b{margin-left:18px;font:700 17px "Space Mono",monospace;color:#5b716c;background:#f7faf9;border-radius:99px;padding:7px 22px}
+.lat{position:absolute;left:0;top:54px;bottom:0;width:230px;background:var(--encre);color:var(--sur);padding:26px 20px;display:flex;flex-direction:column;gap:12px;font-weight:600;font-size:19px}
+.lat div{padding:11px 14px;border-radius:10px;opacity:.75} .lat .act{background:var(--sarcelle);opacity:1;color:#fff}
+.cont{position:absolute;left:230px;right:0;top:54px;bottom:0;padding:26px 30px;background:var(--fond)}
+.bande{display:flex;gap:12px;align-items:center;margin-bottom:22px}
+.rond{width:42px;height:42px;border-radius:50%;background:#fff;border:2px solid #cfdcd8;display:flex;align-items:center;justify-content:center;font-size:19px}
+.onglet{padding:9px 20px;border-radius:99px;border:2px solid #cfdcd8;font-weight:800;font-size:17px;background:#fff}
+.onglet.c{background:var(--corail);border-color:var(--corail);color:var(--encre)}
+.sq{height:16px;border-radius:8px;background:#d5e2de;margin:11px 0}
+.post{background:#fff;border:2px solid #dbe6e3;border-radius:16px;padding:20px 22px;margin-bottom:16px}
+.tag{display:inline-block;font:700 15px "Space Mono",monospace;padding:5px 14px;border-radius:99px;margin-bottom:10px;background:rgba(43,140,130,.14);color:#226f66}
+.tag.q{background:rgba(255,122,77,.16);color:#c2410c} .tag.a{background:rgba(17,56,50,.12);color:var(--encre)}
+.bandeau{background:linear-gradient(135deg,var(--encre),var(--encre2) 55%,var(--sarcelle));color:var(--sur);border-radius:18px;padding:22px 26px;border-left:8px solid var(--corail);margin-bottom:18px}
+.bandeau b{font:800 25px Fraunces,Georgia,serif;display:block}
+.pastille{display:inline-block;background:var(--corail);color:var(--encre);font:700 15px "Space Mono",monospace;padding:5px 13px;border-radius:99px;margin-bottom:10px}
+.barreprog{height:12px;border-radius:99px;background:rgba(255,255,255,.22);overflow:hidden;margin-top:14px}
+.barreprog i{display:block;height:100%;width:0;background:var(--corail);border-radius:99px;transition:width 2.4s ease}
+.v .barreprog.plein i, .el.v .barreprog i{width:62%}
+.carte{background:#fff;border:2px solid #dbe6e3;border-radius:18px;padding:22px 24px;color:#10302b}
+.carte h4{font:800 22px Fraunces,Georgia,serif;margin:8px 0 6px}
+.badge{display:inline-block;font:700 15px "Space Mono",monospace;padding:5px 13px;border-radius:99px}
+.badge.g{background:rgba(43,140,130,.16);color:#226f66} .badge.p{background:var(--encre);color:var(--corail)}
+.famille{padding:16px 34px;border-radius:99px;font-weight:800;font-size:28px;border:3px solid rgba(255,255,255,.25);color:var(--sur);transition:all .6s}
+.famille.act{background:var(--sarcelle);border-color:var(--sarcelle);color:#fff}
+.famille.pay.act{background:var(--corail);border-color:var(--corail);color:var(--encre)}
+.mod{position:absolute;width:330px;border-radius:26px;padding:34px 30px;background:rgba(255,255,255,.07);border:2px solid rgba(255,255,255,.18)}
+.mod .n{font:800 84px Fraunces,Georgia,serif;color:var(--corail);line-height:1}
+.mod h3{font:800 34px Fraunces,Georgia,serif;margin:14px 0 8px;line-height:1.1}
+.mod p{font-size:23px;opacity:.78;line-height:1.35}
+.mod.accueil{border-color:var(--sarcelle-clair);background:rgba(95,199,184,.12)}
+.term{background:#0b1a18;border-radius:18px;color:#d7f3ee;font:500 25px "Space Mono",monospace;padding:30px 34px;line-height:1.6;box-shadow:0 30px 80px rgba(0,0,0,.45)}
+.carteprompt{border-radius:20px;overflow:hidden;background:var(--encre);box-shadow:0 30px 80px rgba(0,0,0,.4);border:2px solid rgba(43,140,130,.5)}
+.carteprompt .t{display:flex;justify-content:space-between;align-items:center;background:linear-gradient(90deg,var(--sarcelle),var(--encre2));padding:16px 22px;font:700 21px "Space Mono",monospace;text-transform:uppercase;letter-spacing:.06em}
+.carteprompt .b{background:var(--corail);color:var(--encre);border-radius:12px;padding:9px 22px;font:800 22px "Public Sans",sans-serif;text-transform:none;letter-spacing:0;transition:all .3s}
+.carteprompt .b.ok{background:var(--sarcelle-clair)}
+.carteprompt pre{padding:22px 26px;font:500 23px/1.55 "Space Mono",monospace;white-space:pre-wrap;color:var(--sur)}
+.entete{background:linear-gradient(135deg,var(--encre),var(--encre2) 55%,var(--sarcelle));border-radius:22px;padding:26px 32px;border-left:9px solid var(--corail)}
+.etape{display:flex;gap:20px;align-items:flex-start;background:var(--c-carte);border:2px solid rgba(20,22,31,.12);border-radius:24px;padding:22px 24px;width:560px;height:150px;transition:all .6s}
+.etape .num{flex:none;width:58px;height:58px;border-radius:50%;background:var(--c-encre);color:var(--c-fond);display:flex;align-items:center;justify-content:center;font:700 30px "Space Grotesk",sans-serif}
+.etape h3{font:700 29px "Space Grotesk",sans-serif;margin-bottom:6px}
+.etape p{font-size:21px;line-height:1.35;color:rgba(20,22,31,.7)}
+.etape.focus{border-color:var(--c-indigo);box-shadow:0 20px 60px rgba(63,120,242,.28);transform:scale(1.04)}
+.etape.focus .num{background:var(--c-indigo)}
+.bouton{display:inline-block;font:800 40px "Public Sans",sans-serif;padding:34px 56px;border-radius:26px;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+/* légende */
+#legende{position:absolute;left:0;right:0;bottom:0;padding:70px 220px 56px;text-align:center;background:linear-gradient(transparent,rgba(5,15,13,.82));font:600 46px/1.28 "Public Sans",sans-serif;color:#fff;text-shadow:0 3px 14px rgba(0,0,0,.6);opacity:0;transition:opacity .35s;z-index:10}
+#legende.v{opacity:1}
+#prog{position:absolute;left:0;bottom:0;height:7px;width:0;background:var(--corail);z-index:11}
+#noir{position:absolute;inset:0;background:#000;opacity:1;transition:opacity 1.1s;z-index:20;pointer-events:none}
+#noir.off{opacity:0}
+#fin{position:absolute;inset:0;opacity:0;transition:opacity 1.2s;z-index:15;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:30px;background:radial-gradient(1200px 800px at 50% 40%,var(--encre2),var(--encre) 65%)}
+#fin.on{opacity:1}
+</style>
+</head>
+<body>
+<div id="stage">
+
+<!-- SCÈNE 0 : accroche -->
+<section class="scene viv" data-s="0">
+  <div class="grille"></div>
+  <div class="bulle" style="width:520px;height:520px;left:-120px;top:520px"></div>
+  <div class="bulle" style="width:380px;height:380px;right:60px;top:-60px;animation-delay:-5s"></div>
+  <div class="centre">
+    <div class="kick el" data-p="0">Vivier Academies</div>
+    <div class="grand el" data-p="0" style="font-size:110px;max-width:1500px">Construire un vrai produit avec l'IA</div>
+    <div class="grand el pop" data-p="1" style="font-size:150px;color:var(--corail)">Maintenant.</div>
+    <div class="el" data-p="2" style="display:flex;align-items:center;gap:22px">
+      <svg width="86" height="86" viewBox="0 0 64 64" fill="none" stroke="#5fc7b8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="32" r="12"/><path d="M34 32h24M50 32v10M42 32v7"/></svg>
+      <div class="grand" style="font-size:72px">Vivier Academies</div>
+    </div>
+    <div class="el" data-p="3" style="display:flex;gap:22px"><span class="chip">La plateforme</span><span class="chip">La formation</span><span class="chip" style="border-color:#9db8ff;color:#cfdcff">Chatllow</span></div>
+  </div>
+</section>
+
+<!-- SCÈNE 1 : le fondateur -->
+<section class="scene viv" data-s="1">
+  <div class="grille"></div>
+  <div class="bulle" style="width:600px;height:600px;right:-100px;bottom:-100px;animation-delay:-3s"></div>
+  <div class="el left" data-p="0" style="position:absolute;left:170px;top:130px;width:520px;height:520px">
+    <div style="position:absolute;inset:-26px;border-radius:50%;border:4px dashed rgba(95,199,184,.55);animation:tourne 30s linear infinite"></div>
+    <img src="assets/zeze-bilivogui.jpg" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 25%;border-radius:50%;border:10px solid var(--sarcelle);box-shadow:0 30px 90px rgba(0,0,0,.5)">
+  </div>
+  <style>@keyframes tourne{to{transform:rotate(360deg)}}</style>
+  <div class="el" data-p="0" style="position:absolute;left:150px;top:705px;width:560px;text-align:center"><div class="grand" style="font-size:54px">Zézé Bilivogui</div><div class="kick" style="margin-top:8px">Fondateur</div></div>
+  <div style="position:absolute;left:860px;top:150px;right:130px;display:flex;flex-direction:column;gap:26px">
+    <div class="el right" data-p="1" style="display:flex;align-items:center;gap:24px;font:800 52px Fraunces,Georgia,serif"><span style="font-size:60px">📍</span>Guinée Forestière</div>
+    <div class="el right" data-p="2" style="font:600 40px 'Public Sans',sans-serif;opacity:.9">Pas de diplôme d'informatique.</div>
+    <div class="el right" data-p="3" style="font:800 46px Fraunces,Georgia,serif;color:var(--sarcelle-clair)">Claude Code, sur de vrais projets</div>
+    <div class="el right" data-p="4" style="font:600 40px 'Public Sans',sans-serif">La méthode apprise <span style="color:var(--corail)">en marchant</span>.</div>
+    <div class="el right" data-p="5" style="font:700 40px 'Public Sans',sans-serif;opacity:.9">Vivier Academies, pour t'éviter ses détours.</div>
+    <div class="el right pop" data-p="6" style="margin-top:14px;padding:34px 40px;border-radius:28px;background:rgba(255,122,77,.14);border:3px solid var(--corail);font:800 56px/1.12 Fraunces,Georgia,serif">Former et recruter<br>les meilleurs.</div>
+  </div>
+</section>
+
+<!-- SCÈNE 2 : la plateforme -->
+<section class="scene viv" data-s="2">
+  <div class="grille"></div>
+  <div class="fen el left" data-p="0" style="left:110px;top:70px;width:1120px;height:700px">
+    <div class="barre"><i></i><i></i><i></i><b>vivier-academies</b></div>
+    <div class="lat"><div style="font:800 21px Fraunces,Georgia,serif;opacity:1;margin-bottom:8px">Vivier IA</div><div class="act">Communauté</div><div>Membres</div><div>Calendrier</div><div>Prompts</div><div>Ressources</div>
+      <div class="el" data-p="4" style="margin-top:auto;background:linear-gradient(135deg,#2b8c82,#16443c);border-radius:14px;padding:16px;opacity:1"><div style="font-weight:800">Ton profil</div><div class="barreprog plein"><i></i></div><div style="font-size:15px;opacity:.8;margin-top:8px">Niveau · points</div></div></div>
+    <div class="cont">
+      <div class="bande"><span class="rond">💬</span><span class="rond">🔔</span><span class="onglet c">Chatllow, conseil IA</span></div>
+      <div class="el" data-p="3"><div class="bandeau"><span class="pastille">✓ Formation débloquée</span><b>Continue ta formation</b></div></div>
+      <div class="el" data-p="1"><div class="post"><span class="tag q">Question</span><div class="sq" style="width:90%"></div><div class="sq" style="width:62%"></div></div></div>
+      <div class="el" data-p="2" style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div class="post"><span class="tag">Victoire</span><div class="sq" style="width:88%"></div><div class="sq" style="width:50%"></div></div><div class="post"><span class="tag a">Prompt</span><div class="sq" style="width:92%"></div><div class="sq" style="width:70%"></div></div></div>
+    </div>
+  </div>
+  <div style="position:absolute;left:1330px;top:190px;right:90px;display:flex;flex-direction:column;gap:34px">
+    <div class="el right" data-p="1"><div class="kick">Gratuit</div><div class="grand" style="font-size:60px">Communauté</div></div>
+    <div class="el right" data-p="2" style="font:600 38px/1.3 'Public Sans',sans-serif">Questions · Victoires · Prompts prêts à copier</div>
+    <div class="el right" data-p="3"><div class="kick" style="color:var(--corail)">Pour aller plus loin</div><div class="grand" style="font-size:60px">Formation complète</div></div>
+    <div class="el right" data-p="4" style="font:600 38px/1.3 'Public Sans',sans-serif">Progression · Ressources · Élèves qui pratiquent</div>
+  </div>
+</section>
+
+<!-- SCÈNE 3 : bibliothèque de prompts -->
+<section class="scene viv" data-s="3">
+  <div class="grille"></div>
+  <div class="el" data-p="0" style="position:absolute;left:0;right:0;top:70px;text-align:center"><div class="kick">Bibliothèque de prompts</div><div class="grand" style="font-size:78px;margin-top:10px">Classés par catégorie</div></div>
+  <div class="el" data-p="0" style="position:absolute;left:0;right:0;top:300px;display:flex;justify-content:center;gap:30px">
+    <span class="famille" data-t="cours">Cours</span><span class="famille act" id="fam-design">Claude Design · gratuit</span><span class="famille pay" id="fam-codex">Codex et ChatGPT · payant</span>
+  </div>
+  <div id="grille-design" class="el" data-p="1" style="position:absolute;left:150px;right:150px;top:450px;display:grid;grid-template-columns:repeat(4,1fr);gap:26px">
+    <div class="carte"><span class="badge g">Maquettes</span><h4>Maquette d'un tableau de bord</h4></div>
+    <div class="carte"><span class="badge g">Identité</span><h4>Trois directions de logo</h4></div>
+    <div class="carte"><span class="badge g">Identité</span><h4>Charte graphique à partir du logo choisi</h4></div>
+    <div class="carte"><span class="badge g">Site</span><h4>Page d'accueil complète</h4></div>
+  </div>
+  <div id="grille-codex" style="position:absolute;left:150px;right:150px;top:450px;display:grid;grid-template-columns:repeat(4,1fr);gap:26px;opacity:0;transition:opacity .8s">
+    <div class="carte" id="k1"><span class="badge p">Payant · Migrer</span><h4>Ce qui change entre Claude Code et Codex pour mon projet</h4></div>
+    <div class="carte" id="k2"><span class="badge p">Payant · Améliorer</span><h4>Revue de code avant livraison</h4></div>
+    <div class="carte" id="k3"><span class="badge p">Payant · Améliorer</span><h4>Audit de sécurité</h4></div>
+    <div class="carte" id="k4"><span class="badge p">Payant · Sécurité et coûts</span><h4>Plafonner les dépenses d'IA</h4></div>
+  </div>
+  <div class="el" data-p="6" style="position:absolute;left:0;right:0;top:760px;display:flex;justify-content:center;gap:16px;flex-wrap:wrap;padding:0 160px"><span class="chip">Maquettes</span><span class="chip">Identité</span><span class="chip">Site</span><span class="chip">Supports</span><span class="chip" style="border-color:var(--corail);color:var(--corail)">Migrer</span><span class="chip" style="border-color:var(--corail);color:var(--corail)">Intégrer l'IA</span><span class="chip" style="border-color:var(--corail);color:var(--corail)">Sécurité</span></div>
+</section>
+
+<!-- SCÈNE 4 : les cinq modules -->
+<section class="scene viv" data-s="4">
+  <div class="grille"></div>
+  <div class="el" data-p="0" style="position:absolute;left:0;right:0;top:80px;text-align:center"><div class="kick">Le parcours</div><div class="grand" style="font-size:84px;margin-top:10px">Cinq modules</div></div>
+  <div class="el pop mod" data-p="1" style="left:60px;top:330px;width:340px"><div class="n">1</div><h3>Écosystème Claude</h3><p>Livrer un vrai produit, du terminal à la mise en ligne.</p></div>
+  <div class="el pop mod" data-p="2" style="left:420px;top:330px;width:340px"><div class="n">2</div><h3>n8n</h3><p>Connecter des outils, construire des agents.</p></div>
+  <div class="el pop mod" data-p="3" style="left:780px;top:330px;width:340px"><div class="n">3</div><h3>Early Adopter et business IA</h3><p>Te positionner, trouver tes premiers clients.</p></div>
+  <div class="el pop mod" data-p="4" style="left:1140px;top:330px;width:340px"><div class="n">4</div><h3>RGPD et AI Act</h3><p>La conformité, argument de confiance.</p></div>
+  <div class="el pop mod" data-p="5" style="left:1500px;top:330px;width:340px"><div class="n">5</div><h3>Lemlist</h3><p>Prospecter par email.</p></div>
+  <div class="el pop mod accueil" data-p="6" style="left:60px;top:705px;width:1780px;padding:24px 40px;display:flex;align-items:center;gap:50px"><div class="kick" style="flex:none">Avant tout ça</div><div style="font:800 46px Fraunces,Georgia,serif;flex:none">Bienvenue</div><div style="font:600 34px 'Public Sans',sans-serif;opacity:.9">Ton formateur · L'installation de tes outils · Ton assistant personnel</div></div>
+</section>
+
+<!-- SCÈNE 5 : la méthode -->
+<section class="scene viv" data-s="5">
+  <div class="grille"></div>
+  <div class="centre" style="justify-content:flex-start;padding-top:60px;gap:26px">
+    <div class="el" data-p="0"><div class="kick">La méthode</div><div class="grand" style="font-size:78px;margin-top:6px">Du concret, tout de suite</div></div>
+    <div class="el" data-p="1" style="width:1480px;text-align:left"><div class="entete"><div class="pastille">Chapitre 3 sur 7</div><div class="grand" style="font-size:46px">À faire maintenant</div></div></div>
+    <div class="el" data-p="2" style="display:flex;gap:40px;width:1480px;text-align:left;align-items:stretch">
+      <div class="carteprompt" style="flex:1.15"><div class="t"><span>✦ Prompt prêt à l'emploi</span><span class="b" id="btn-copier">Copier</span></div><pre>Contexte : je travaille sur [mon projet].
+Objectif : à la fin, ceci doit être vrai : [résultat].
+Périmètre : ne touche pas à [zone].</pre></div>
+      <div class="term" style="flex:1" id="term"><div style="opacity:.55">claude</div><div id="term-sortie" style="min-height:140px;white-space:pre-wrap"></div></div>
+    </div>
+    <div style="display:flex;gap:30px;margin-top:6px">
+      <span class="el pop chip" data-p="4" style="border-color:var(--sarcelle-clair);color:var(--sarcelle-clair)">✓ Signal de passage</span>
+      <span class="el pop chip" data-p="6" style="border-color:var(--corail);color:var(--corail)">Cadrer</span>
+      <span class="el pop chip" data-p="6" style="border-color:var(--corail);color:var(--corail)">Tester</span>
+      <span class="el pop chip" data-p="6" style="border-color:var(--corail);color:var(--corail)">Vérifier</span>
+    </div>
+    <div class="el" data-p="5" style="font:700 38px 'Public Sans',sans-serif;opacity:.92">Les outils changent chaque mois. <span style="color:var(--corail)">La méthode reste.</span></div>
+  </div>
+</section>
+
+<!-- SCÈNE 6 : Chatllow -->
+<section class="scene chat" data-s="6" id="sc-chat">
+  <div style="position:absolute;inset:0;background:radial-gradient(900px 600px at 15% 0%,rgba(63,120,242,.14),transparent),radial-gradient(900px 600px at 100% 100%,rgba(63,120,242,.10),transparent)"></div>
+  <div class="el" data-p="0" style="position:absolute;left:100px;top:70px"><div class="mono" style="font-size:24px;letter-spacing:.2em;text-transform:uppercase;color:var(--c-indigo)">Cabinet de conseil en IA</div><div style="font:700 110px 'Space Grotesk',sans-serif;letter-spacing:-.03em;margin-top:6px">Chatllow</div></div>
+  <div class="el" data-p="2" style="position:absolute;left:100px;top:290px;width:600px;font:italic 400 56px/1.15 'Instrument Serif',Georgia,serif">Pas de promesses.<br>Une méthode, en trois temps.</div>
+  <div class="el right" data-p="1" style="position:absolute;right:90px;top:60px;width:900px;height:620px;border-radius:24px;overflow:hidden;box-shadow:0 40px 100px rgba(20,22,31,.28);border:3px solid rgba(20,22,31,.12);background:#fff">
+    <img id="img-vitrine" src="assets/chatllow-vitrine.png" alt="" style="width:900px;display:block;animation:defile 40s ease-in-out infinite alternate">
+  </div>
+  <style>@keyframes defile{from{transform:translateY(0)}to{transform:translateY(-560px)}}</style>
+  <div style="position:absolute;left:100px;top:700px;display:flex;gap:22px">
+    <div class="etape el" data-p="3" id="e1"><div class="num">1</div><div><h3>Diagnostic gratuit</h3><p>Vos freins, vos usages, vos processus coûteux.</p></div></div>
+    <div class="etape el" data-p="4" id="e2"><div class="num">2</div><div><h3>Recommandation</h3><p>Un pilote concret, selon votre contexte.</p></div></div>
+    <div class="etape el" data-p="6" id="e3"><div class="num">3</div><div><h3>Espace client</h3><p>Suivre la mission et les livrables.</p></div></div>
+  </div>
+  <div class="el pop" data-p="5" style="position:absolute;left:100px;top:478px;background:var(--c-encre);color:var(--c-fond);border-radius:99px;padding:16px 32px;font:600 28px 'IBM Plex Sans',sans-serif">🔒 Vos réponses restent confidentielles</div>
+  <div class="el" data-p="7" style="position:absolute;left:100px;top:560px;width:780px;font:italic 400 56px/1.1 'Instrument Serif',Georgia,serif;color:var(--c-indigo)">Conseil et exécution,<br>au même endroit.</div>
+</section>
+
+<!-- SCÈNE 7 : appel à l'action -->
+<section class="scene viv" data-s="7">
+  <div class="grille"></div>
+  <div class="bulle" style="width:520px;height:520px;left:1200px;top:520px"></div>
+  <div class="centre">
+    <div class="grand el" data-p="0" style="font-size:112px">Par où commencer ?</div>
+    <div style="display:flex;gap:60px;align-items:center">
+      <div class="el pop" data-p="1"><span class="bouton" style="background:var(--sarcelle);color:#fff">Rejoindre la communauté gratuite</span><div class="kick" style="margin-top:22px">Vivier Academies</div></div>
+      <div class="el pop" data-p="2"><span class="bouton" style="background:var(--c-fond);color:var(--c-encre);font-family:'Space Grotesk',sans-serif">Lancer le diagnostic gratuit</span><div class="kick" style="margin-top:22px;color:#9db8ff">Chatllow</div></div>
+    </div>
+    <div class="grand el pop" data-p="3" style="font-size:84px;color:var(--corail)">Le premier pas ne coûte rien.</div>
+    <div class="el" data-p="5" style="font:600 46px 'Public Sans',sans-serif;opacity:.9">À très vite.</div>
+  </div>
+</section>
+
+<div id="fin"><svg width="120" height="120" viewBox="0 0 64 64" fill="none" stroke="#5fc7b8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><circle cx="22" cy="32" r="12"/><path d="M34 32h24M50 32v10M42 32v7"/></svg><div class="grand" style="font-size:96px">Vivier Academies</div><div class="kick">et Chatllow</div></div>
+<div id="legende"></div>
+<div id="prog"></div>
+<div id="noir"></div>
+</div>
+
+<script type="module">
+import { construireLigneDeTemps } from "../timeline.mjs";
+const narration = await (await fetch("../sortie/narration.json")).json();
+const TL = construireLigneDeTemps(narration);
+const scenes = [...document.querySelectorAll(".scene")];
+const legende = document.getElementById("legende");
+const prog = document.getElementById("prog");
+const fin = document.getElementById("fin");
+const noir = document.getElementById("noir");
+let T0 = null, dernierTerm = -1;
+const SORTIE_TERM = "› Cadrage reçu. Voici mon plan :\n  1. Lire le contexte du projet\n  2. Proposer les étapes\n  3. Attendre ton accord\n✓ Prêt.";
+
+function etat(t) {
+  noir.classList.toggle("off", t > 0.5 && t < TL.total - 0.6);
+  let si = TL.scenes.findIndex((s) => t < s.fin);
+  const termine = si < 0;
+  if (termine) si = TL.scenes.length - 1;
+  scenes.forEach((el, i) => {
+    const s = TL.scenes[i];
+    el.classList.toggle("on", !termine && t >= s.debut - 0.5 && t < s.fin + 0.1);
+  });
+  fin.classList.toggle("on", termine);
+  const s = TL.scenes[si];
+  const n = s.phrases.length;
+  let idx = -1;
+  s.phrases.forEach((p, k) => { if (t >= p.debut) idx = k; });
+  if (t < s.debut) idx = -1;
+  scenes[si].querySelectorAll(".el").forEach((el) => {
+    const p = Math.min(Number(el.dataset.p), n - 1);
+    el.classList.toggle("v", idx >= p);
+  });
+  // légende
+  const cur = TL.phrases.find((p) => t >= p.debut - 0.05 && t <= p.fin + 0.2);
+  if (cur) { if (legende.dataset.k !== String(cur.debut)) { legende.textContent = cur.texte; legende.dataset.k = String(cur.debut); } legende.classList.add("v"); }
+  else legende.classList.remove("v");
+  prog.style.width = Math.min(100, (t / TL.total) * 100) + "%";
+  // détails de scène : bibliothèque (bascule gratuit -> payant) et méthode (copie + résultat)
+  if (si === 3) {
+    const payant = idx >= 2;
+    document.getElementById("fam-design").classList.toggle("act", !payant);
+    document.getElementById("fam-codex").classList.toggle("act", payant);
+    document.getElementById("grille-design").style.opacity = payant ? 0 : "";
+    document.getElementById("grille-codex").style.opacity = payant ? 1 : 0;
+    ["k1", "k2", "k3", "k4"].forEach((id, j) => document.getElementById(id).style.outline = payant && idx >= 3 + (j === 0 ? 0 : j === 3 ? 3 : 1) ? "4px solid var(--corail)" : "none");
+  }
+  if (si === 5) {
+    const b = document.getElementById("btn-copier");
+    const copie = idx >= 2 && t >= s.phrases[2].debut + 1.3;
+    b.textContent = copie ? "Copié ✓" : "Copier"; b.classList.toggle("ok", copie);
+    const out = document.getElementById("term-sortie");
+    const k = copie ? Math.floor((t - (s.phrases[2].debut + 1.3)) * 28) : 0;
+    if (k !== dernierTerm) { out.textContent = SORTIE_TERM.slice(0, Math.max(0, k)); dernierTerm = k; }
+  }
+  if (si === 6) {
+    ["e1", "e2", "e3"].forEach((id, j) => document.getElementById(id).classList.toggle("focus", idx === [3, 4, 6][j]));
+  }
+}
+
+const gel = new URLSearchParams(location.search).get("t");
+await document.fonts.ready;
+if (gel !== null) { etat(Number(gel)); window.__pret = true; }
+else {
+  window.__duree = TL.total;
+  window.__go = () => {
+    T0 = performance.now();
+    const boucle = () => { const t = (performance.now() - T0) / 1000; etat(t); if (t >= TL.total) window.__fini = true; else requestAnimationFrame(boucle); };
+    boucle();
+  };
+  window.__pret = true;
+}
+</script>
+</body>
+</html>
