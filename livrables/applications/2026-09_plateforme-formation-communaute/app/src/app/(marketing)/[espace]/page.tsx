@@ -12,6 +12,8 @@ import { Avatar } from "@/components/communaute/fil/Avatar";
 import { TexteAvecMentions } from "@/components/communaute/fil/TexteAvecMentions";
 import { IconePouce } from "@/components/communaute/fil/CartePost";
 import { lienWhatsApp } from "@/lib/whatsapp";
+import { videoVitrine } from "@/lib/video-vitrine";
+import { LecteurPresentation } from "@/components/marketing/LecteurPresentation";
 
 // Visuels fournis par Zezé : public/vitrines/<slug>/<nom>.jpg (hero, eco-1..3, comp-1..6, banniere).
 // Une image absente laisse le degrade en dessous : aucun trou, aucun test de fichier a faire.
@@ -143,9 +145,13 @@ export default async function VitrinePage({
   const classement = (statsRpc as { classement?: { id: string; pseudo: string; points: number }[] } | null)
     ?.classement ?? [];
 
+  // Video de presentation : seulement pour les espaces qui en ont une (voir lib/video-vitrine).
+  const video = videoVitrine(espace.slug);
+
   // Entrees du menu : seulement celles dont la section existe et s'affiche.
   const menu = [
     { href: "#accueil", libelle: "Accueil" },
+    ...(video ? [{ href: "#presentation", libelle: "Présentation" }] : []),
     ...(c.parcours_titre ? [{ href: "#parcours", libelle: "Parcours" }] : []),
     ...(modulesAvecContenu.length >= 2 ? [{ href: "#methode", libelle: "Méthode" }] : []),
     ...(c.competences && c.competences.length > 0 ? [{ href: "#programme", libelle: "Programme" }] : []),
@@ -221,15 +227,25 @@ export default async function VitrinePage({
             >
               Rejoindre la communauté gratuite
             </Link>
-            <button
-              type="button"
-              disabled
-              title="Bientôt disponible"
-              className="cursor-not-allowed rounded-[10px] border border-[rgba(234,245,242,0.3)] bg-transparent px-6 py-4 text-[14.5px] font-bold text-[var(--sur-encre-mute)] opacity-70"
-            >
-              Voir la présentation
-              <span className="ml-2 font-mono text-[10px] font-normal">bientôt</span>
-            </button>
+            {video ? (
+              <a
+                href="#presentation"
+                className="rounded-[10px] border border-[rgba(234,245,242,0.45)] bg-transparent px-6 py-4 text-[14.5px] font-bold text-[var(--sur-encre)] transition-colors hover:bg-[rgba(234,245,242,0.1)]"
+              >
+                ▶ Voir la présentation
+                <span className="ml-2 font-mono text-[10px] font-normal text-[var(--sur-encre-mute)]">{video.duree}</span>
+              </a>
+            ) : (
+              <button
+                type="button"
+                disabled
+                title="Bientôt disponible"
+                className="cursor-not-allowed rounded-[10px] border border-[rgba(234,245,242,0.3)] bg-transparent px-6 py-4 text-[14.5px] font-bold text-[var(--sur-encre-mute)] opacity-70"
+              >
+                Voir la présentation
+                <span className="ml-2 font-mono text-[10px] font-normal">bientôt</span>
+              </button>
+            )}
             <span className="text-xs text-[var(--sur-encre-mute)]">
               Sur approbation — réponse sous 24h
             </span>
@@ -317,6 +333,34 @@ export default async function VitrinePage({
           </div>
         ))}
       </div>
+
+      {video && (
+        <section
+          id="presentation"
+          className="relative mb-16 scroll-mt-20 overflow-hidden bg-[var(--encre)] px-6 py-20 text-[var(--sur-encre)] sm:px-16"
+          style={{
+            backgroundImage:
+              "radial-gradient(circle at 8% 0%, rgba(95,199,184,0.26), transparent 42%), radial-gradient(circle at 96% 100%, rgba(255,122,77,0.2), transparent 42%), radial-gradient(rgba(234,245,242,0.07) 1.5px, transparent 1.5px)",
+            backgroundSize: "auto, auto, 24px 24px",
+          }}
+        >
+          <div className="relative mx-auto max-w-6xl">
+            <div className="mb-12 max-w-2xl">
+              <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[rgba(95,199,184,0.35)] bg-[rgba(95,199,184,0.12)] py-1.5 pl-2.5 pr-3.5 font-mono text-xs tracking-wide text-[var(--sarcelle-light)]">
+                <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[var(--corail)]" />
+                Présentation · {video.duree}
+              </div>
+              <h2 className="font-display mb-4 text-3xl font-semibold leading-[1.12] tracking-tight sm:text-[42px]">
+                Découvre <span className="bg-gradient-to-r from-[#5fc7b8] to-[#ff9068] bg-clip-text text-transparent">Vivier Academies</span> en cinq minutes.
+              </h2>
+              <p className="text-[16.5px] leading-relaxed text-[var(--sur-encre-mute)]">
+                Zézé Bilivogui te présente la plateforme, la formation et la communauté, puis le cabinet de conseil Chatllow. Clique sur une partie pour y aller directement.
+              </p>
+            </div>
+            <LecteurPresentation video={video} lienRejoindre={`/${espace.slug}/communaute`} />
+          </div>
+        </section>
+      )}
 
       {prochaineMasterclass && (
         <div className="mx-6 mb-16 flex flex-col items-start gap-4 rounded-[20px] bg-[var(--encre)] p-6 text-[var(--sur-encre)] sm:mx-16 sm:flex-row sm:items-center sm:justify-between">
