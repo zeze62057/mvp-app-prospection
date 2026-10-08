@@ -59,7 +59,7 @@ export function BoutonPayer({
 
       <div className="flex flex-col gap-1">
         <label className="font-mono text-[10.5px] uppercase tracking-wide text-[var(--texte-mute)]">
-          Numéro de téléphone (Mobile Money)
+          Numéro de téléphone
         </label>
         <input
           name="telephone"

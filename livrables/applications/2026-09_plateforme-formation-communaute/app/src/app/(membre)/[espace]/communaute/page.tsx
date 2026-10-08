@@ -196,7 +196,7 @@ export default async function CommunauteGratuitePage({
                 Debloque la formation complete
               </b>
               <span className="text-xs text-[var(--sur-encre-mute)]">
-                Paiement Mobile Money, acces active dès reception.
+                Paiement par carte bancaire, acces active dès reception.
               </span>
             </div>
             <span className="whitespace-nowrap rounded-[9px] bg-[var(--corail)] px-[18px] py-2.5 text-[12.5px] font-extrabold text-[var(--encre)]">

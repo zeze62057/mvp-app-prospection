@@ -168,17 +168,18 @@ export default async function TunnelPage({
                     <span aria-hidden className="flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full border-2 border-[var(--sarcelle)]">
                       <span className="h-2.5 w-2.5 rounded-full bg-[var(--sarcelle)]" />
                     </span>
-                    <span aria-hidden className="text-[22px]">📱</span>
+                    <span aria-hidden className="text-[22px]">💳</span>
                     <div className="min-w-0 flex-1">
-                      <div className="text-[14px] font-bold">Mobile Money</div>
+                      <div className="text-[14px] font-bold">Carte bancaire</div>
                       <p className="text-[12px] text-[var(--texte-mute)]">
-                        Orange Money, MTN Money ou autre moyen disponible, sur la page de paiement sécurisée.
+                        Visa, Mastercard, sur la page de paiement sécurisée.
                       </p>
                     </div>
                   </div>
-                  {/* Les autres moyens n'existent pas encore : affiches desactives, jamais selectionnables. */}
+                  {/* Les autres moyens n'existent pas encore : affiches desactives, jamais selectionnables.
+                      Mobile Money n'est pas encore propose par le prestataire de paiement (Chariow n'accepte que la carte). */}
                   {[
-                    { i: "💳", t: "Carte bancaire", d: "Visa, Mastercard" },
+                    { i: "📱", t: "Mobile Money", d: "Orange Money, MTN Money" },
                     { i: "🅿️", t: "PayPal", d: "Avec ton compte PayPal" },
                     { i: "🍎", t: "Apple Pay", d: "Sur appareil compatible" },
                     { i: "🏦", t: "Virement bancaire", d: "Instructions après la commande" },
