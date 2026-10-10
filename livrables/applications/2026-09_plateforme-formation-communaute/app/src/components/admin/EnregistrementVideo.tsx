@@ -83,11 +83,20 @@ export function EnregistrementVideo({
     setEtat("envoi");
     setMessage(null);
 
-    const reponse = await fetch(`/api/admin/video/${sectionId}`, {
-      method: "POST",
-      headers: { "Content-Type": fichier.type || "video/webm" },
-      body: fichier,
-    });
+    let reponse: Response;
+    try {
+      reponse = await fetch(`/api/admin/video/${sectionId}`, {
+        method: "POST",
+        headers: { "Content-Type": fichier.type || "video/webm" },
+        body: fichier,
+      });
+    } catch {
+      // Coupure reseau ou serveur injoignable : sans ce filet, l'interface
+      // restait bloquee sur "Envoi..." (promesse rejetee non geree).
+      setEtat("erreur");
+      setMessage("Connexion perdue pendant l'envoi. Verifie ton reseau et reessaie.");
+      return;
+    }
 
     if (!reponse.ok) {
       const corps = await reponse.json().catch(() => null);

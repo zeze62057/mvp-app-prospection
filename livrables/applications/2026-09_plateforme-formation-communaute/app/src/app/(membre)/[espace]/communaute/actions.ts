@@ -6,6 +6,19 @@ import { getEspaceParSlug } from "@/lib/espaces";
 
 type EtatAction = { erreur: string | null };
 
+// Messages bruts de Supabase Auth (anglais) traduits pour l'eleve.
+const MESSAGES_AUTH: Record<string, string> = {
+  "Invalid login credentials": "Email ou mot de passe incorrect.",
+  "User already registered": "Un compte existe déjà avec cet email.",
+  "Password should be at least 6 characters": "Le mot de passe doit contenir au moins 6 caractères.",
+  "Unable to validate email address: invalid format": "L'adresse email n'est pas valide.",
+  "Email not confirmed": "Confirme d'abord ton adresse email (lien recu par courriel).",
+};
+
+function traduireErreurAuth(message: string): string {
+  return MESSAGES_AUTH[message] ?? "Une erreur est survenue. Réessaie.";
+}
+
 export async function inscription(
   _etat: EtatAction,
   formData: FormData
@@ -34,7 +47,7 @@ export async function inscription(
     options: { data: { pseudo, prenom, nom, telephone } },
   });
 
-  if (error) return { erreur: error.message };
+  if (error) return { erreur: traduireErreurAuth(error.message) };
 
   revalidatePath(`/${espaceSlug}/communaute`);
   return { erreur: null };
@@ -54,7 +67,7 @@ export async function connexion(
     password: motDePasse,
   });
 
-  if (error) return { erreur: error.message };
+  if (error) return { erreur: traduireErreurAuth(error.message) };
 
   revalidatePath(`/${espaceSlug}/communaute`);
   return { erreur: null };

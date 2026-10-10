@@ -205,7 +205,7 @@ export function CartePost({
     // eslint-disable-next-line @next/next/no-img-element -- lien temporaire signe, pas d'optimisation possible
     <img
       src={imageUrl}
-      alt=""
+      alt={post.titre ? `Image du post « ${post.titre} » de ${auteur.pseudo}` : `Image du post de ${auteur.pseudo}`}
       loading="lazy"
       className={
         detail

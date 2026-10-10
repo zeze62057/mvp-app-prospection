@@ -20,7 +20,15 @@ const spaceMono = Space_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Vivier Academies",
+  // Base des URL absolues (OpenGraph, sitemap) : NEXT_PUBLIC_URL_SITE en
+  // production, repli sur l'adresse Vercel actuelle.
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_URL_SITE ?? "https://vivier-academies-zeze62057.vercel.app"
+  ),
+  title: {
+    default: "Vivier Academies",
+    template: "%s — Vivier Academies",
+  },
   description: "Le vivier des talents IA francophones",
 };
 

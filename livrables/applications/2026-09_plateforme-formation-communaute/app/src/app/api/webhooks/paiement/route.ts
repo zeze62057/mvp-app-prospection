@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { timingSafeEqual } from "node:crypto";
 import { createAdminClient } from "@/lib/supabase/admin";
 
 // Recoit la confirmation de paiement envoyee par n8n (voir CADRAGE.md
@@ -12,9 +13,18 @@ type CorpsWebhook = {
   reference_chariow?: string;
 };
 
+// Comparaison a temps constant : une simple "!==" fuiterait la longueur du
+// secret par les temps de reponse.
+function secretValide(recu: string | null, attendu: string): boolean {
+  if (!recu) return false;
+  const a = Buffer.from(recu);
+  const b = Buffer.from(attendu);
+  return a.length === b.length && timingSafeEqual(a, b);
+}
+
 export async function POST(request: Request) {
   const secretRecu = request.headers.get("x-webhook-secret");
-  if (!process.env.WEBHOOK_PAIEMENT_SECRET || secretRecu !== process.env.WEBHOOK_PAIEMENT_SECRET) {
+  if (!process.env.WEBHOOK_PAIEMENT_SECRET || !secretValide(secretRecu, process.env.WEBHOOK_PAIEMENT_SECRET)) {
     return NextResponse.json({ erreur: "Non autorise" }, { status: 401 });
   }
 
@@ -35,7 +45,13 @@ export async function POST(request: Request) {
     return NextResponse.json({ erreur: "Paiement introuvable" }, { status: 404 });
   }
 
-  await admin
+  // Idempotence : un webhook "confirme" rejoue (n8n reessaie en cas d'erreur
+  // reseau) ne doit ni recrire confirme_at ni relancer le message d'accueil.
+  if (paiement.statut === "confirme" && body.statut === "confirme") {
+    return NextResponse.json({ recu: true, dejaConfirme: true }, { status: 200 });
+  }
+
+  const { error: erreurMaj } = await admin
     .from("paiements")
     .update({
       statut: body.statut,
@@ -43,6 +59,11 @@ export async function POST(request: Request) {
       confirme_at: body.statut === "confirme" ? new Date().toISOString() : null,
     })
     .eq("id", body.paiement_id);
+
+  if (erreurMaj) {
+    console.error("webhook paiement: echec mise a jour", erreurMaj);
+    return NextResponse.json({ erreur: "Echec de la mise a jour" }, { status: 500 });
+  }
 
   if (body.statut === "confirme") {
     await admin

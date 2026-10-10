@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getEspaceParSlug } from "@/lib/espaces";
 import { createAdminClient } from "@/lib/supabase/admin";
@@ -56,6 +57,28 @@ function Visuel({
       {children}
     </div>
   );
+}
+
+// Titre et description propres a chaque espace (vitrine publique = outil
+// d'acquisition) : sinon toutes les pages auraient le titre generique du layout.
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ espace: string }>;
+}): Promise<Metadata> {
+  const { espace: slug } = await params;
+  const espace = await getEspaceParSlug(slug);
+  if (!espace) return {};
+  return {
+    title: espace.nom,
+    description: espace.tagline ?? undefined,
+    openGraph: {
+      title: espace.nom,
+      description: espace.tagline ?? undefined,
+      type: "website",
+      locale: "fr_FR",
+    },
+  };
 }
 
 export default async function VitrinePage({

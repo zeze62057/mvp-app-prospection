@@ -6,6 +6,19 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 type EtatRemise = { erreur: string | null; envoye: boolean };
 
+const TAILLE_MAX_FICHIER = 10 * 1024 * 1024;
+const TYPES_FICHIER: Record<string, string> = {
+  "application/pdf": "pdf",
+  "application/zip": "zip",
+  "application/msword": "doc",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document": "docx",
+  "text/plain": "txt",
+  "image/png": "png",
+  "image/jpeg": "jpg",
+  "image/webp": "webp",
+};
+const REGEX_UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 // Remise d'un devoir (texte et/ou fichier). Le fichier passe par le client admin
 // car le bucket devoirs-fichiers n'a pas de policy storage.objects cote client
 // (voir migration 0043) : tous les acces sont mediatises par le serveur. La ligne
@@ -21,18 +34,42 @@ export async function soumettreDevoir(_etat: EtatRemise, formData: FormData): Pr
   const { data: userData } = await supabase.auth.getUser();
   if (!userData.user) return { erreur: "Non connecté.", envoye: false };
 
+  if (!REGEX_UUID.test(devoirId)) {
+    return { erreur: "Devoir invalide.", envoye: false };
+  }
+
+  // Le devoir doit exister et etre visible par l'eleve (le RLS filtre) : sans
+  // cette verification, n'importe quel identifiant servirait de dossier Storage.
+  const { data: devoir } = await supabase
+    .from("devoirs")
+    .select("id")
+    .eq("id", devoirId)
+    .maybeSingle();
+  if (!devoir) return { erreur: "Devoir introuvable.", envoye: false };
+
   if (!texte && (!fichier || fichier.size === 0)) {
     return { erreur: "Ajoute un texte ou un fichier.", envoye: false };
   }
 
+  if (fichier && fichier.size > 0) {
+    if (fichier.size > TAILLE_MAX_FICHIER) {
+      return { erreur: "Le fichier dépasse 10 Mo.", envoye: false };
+    }
+    if (!TYPES_FICHIER[fichier.type]) {
+      return { erreur: "Type de fichier non accepté (PDF, Word, ZIP, texte ou image).", envoye: false };
+    }
+  }
+
   let fichierPath: string | null = null;
   if (fichier && fichier.size > 0) {
-    const ext = fichier.name.split(".").pop() ?? "bin";
-    fichierPath = `${devoirId}/${userData.user.id}/${Date.now()}.${ext}`;
+    fichierPath = `${devoirId}/${userData.user.id}/${Date.now()}.${TYPES_FICHIER[fichier.type]}`;
     const { error: erreurUpload } = await createAdminClient()
       .storage.from("devoirs-fichiers")
-      .upload(fichierPath, fichier, { upsert: true });
-    if (erreurUpload) return { erreur: erreurUpload.message, envoye: false };
+      .upload(fichierPath, fichier, { upsert: true, contentType: fichier.type });
+    if (erreurUpload) {
+      console.error("devoirs: echec upload", erreurUpload);
+      return { erreur: "L'envoi du fichier a échoué. Réessaie.", envoye: false };
+    }
   }
 
   const { error } = await supabase.from("devoirs_remises").upsert(
@@ -47,7 +84,11 @@ export async function soumettreDevoir(_etat: EtatRemise, formData: FormData): Pr
   );
   // Echec le plus probable ici : la remise existante est deja notee (RLS refuse
   // la modification), pas une vraie erreur technique.
-  if (error) return { erreur: "Impossible d'enregistrer : ta remise est peut-être déjà notée.", envoye: false };
+  if (error) {
+    // Ne pas laisser de fichier orphelin si la remise n'a pas ete enregistree.
+    if (fichierPath) await createAdminClient().storage.from("devoirs-fichiers").remove([fichierPath]);
+    return { erreur: "Impossible d'enregistrer : ta remise est peut-être déjà notée.", envoye: false };
+  }
 
   revalidatePath(`/${espaceSlug}/devoirs/${devoirId}`);
   revalidatePath(`/${espaceSlug}/progression`);

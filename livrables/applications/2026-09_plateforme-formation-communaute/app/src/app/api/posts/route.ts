@@ -91,7 +91,10 @@ export async function POST(request: Request) {
     const { error: erreurUpload } = await createAdminClient()
       .storage.from("posts-images")
       .upload(imagePath, Buffer.from(validation.image.octets), { contentType: validation.image.type });
-    if (erreurUpload) return NextResponse.json({ erreur: erreurUpload.message }, { status: 500 });
+    if (erreurUpload) {
+      console.error("posts: echec upload image", erreurUpload);
+      return NextResponse.json({ erreur: "L'envoi de l'image a échoué. Réessaie." }, { status: 500 });
+    }
   }
 
   let fichierPath: string | null = null;
@@ -105,7 +108,8 @@ export async function POST(request: Request) {
       .upload(fichierPath, Buffer.from(await fichier.arrayBuffer()), { contentType: fichier.type });
     if (erreurUploadFichier) {
       if (imagePath) await createAdminClient().storage.from("posts-images").remove([imagePath]);
-      return NextResponse.json({ erreur: erreurUploadFichier.message }, { status: 500 });
+      console.error("posts: echec upload fichier", erreurUploadFichier);
+      return NextResponse.json({ erreur: "L'envoi du fichier a échoué. Réessaie." }, { status: 500 });
     }
   }
 
@@ -127,7 +131,8 @@ export async function POST(request: Request) {
   if (error) {
     if (imagePath) await createAdminClient().storage.from("posts-images").remove([imagePath]);
     if (fichierPath) await createAdminClient().storage.from("posts-fichiers").remove([fichierPath]);
-    return NextResponse.json({ erreur: error.message }, { status: 400 });
+    console.error("posts: echec insertion", error);
+    return NextResponse.json({ erreur: "La publication a échoué. Réessaie." }, { status: 400 });
   }
 
   // Le statut est fixe par la base (migration 0048) : "en_attente" si l'espace exige l'approbation.

@@ -29,6 +29,17 @@ export async function initierPaiement(
   const espace = await getEspaceParSlug(espaceSlug);
   if (!espace) return { erreur: "Espace introuvable.", checkoutUrl: null };
 
+  // Garde AVANT l'insert : sans webhook n8n configure, on ne cree pas de ligne
+  // "en_attente" orpheline (source des paiements fantomes, voir CADRAGE §10).
+  const urlWebhookN8n = process.env.N8N_WEBHOOK_CREER_PAIEMENT_URL;
+  if (!urlWebhookN8n) {
+    return {
+      erreur:
+        "Le paiement en ligne n'est pas encore disponible. Reessaie plus tard ou contacte le formateur.",
+      checkoutUrl: null,
+    };
+  }
+
   const { data: paiement, error } = await supabase
     .from("paiements")
     .insert({
@@ -40,15 +51,9 @@ export async function initierPaiement(
     .select()
     .single();
 
-  if (error) return { erreur: error.message, checkoutUrl: null };
-
-  const urlWebhookN8n = process.env.N8N_WEBHOOK_CREER_PAIEMENT_URL;
-  if (!urlWebhookN8n) {
-    return {
-      erreur:
-        "Le paiement n'est pas encore branche cote n8n. Ta demande est enregistree, reessaie une fois la connexion Chariow configuree.",
-      checkoutUrl: null,
-    };
+  if (error) {
+    console.error("tunnel: echec creation paiement", error);
+    return { erreur: "Impossible de preparer le paiement. Reessaie.", checkoutUrl: null };
   }
 
   try {

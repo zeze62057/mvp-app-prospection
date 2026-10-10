@@ -178,20 +178,17 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
     ])
   );
 
+  // Select embarque : une seule requete pour les masterclasses ET leurs
+  // inscrits (avant : une requete par masterclass, N+1).
   const { data: masterclasses } = await admin
     .from("masterclasses")
-    .select("id, titre, date_heure")
+    .select("id, titre, date_heure, inscriptions_masterclass(profils(pseudo))")
     .order("date_heure", { ascending: false });
 
-  const inscritsParMasterclass = await Promise.all(
-    (masterclasses ?? []).map(async (m) => {
-      const { data: inscriptions } = await admin
-        .from("inscriptions_masterclass")
-        .select("profils(pseudo)")
-        .eq("masterclass_id", m.id);
-      return { masterclass: m, inscrits: inscriptions ?? [] };
-    })
-  );
+  const inscritsParMasterclass = (masterclasses ?? []).map((m) => ({
+    masterclass: { id: m.id as string, titre: m.titre as string, date_heure: m.date_heure as string },
+    inscrits: (m.inscriptions_masterclass ?? []) as unknown as { profils: { pseudo: string } | null }[],
+  }));
 
   const { data: brouillonsContenu } = await admin
     .from("contenus")
