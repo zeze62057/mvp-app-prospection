@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useActionState, useState } from "react";
-import { inscription, connexion } from "@/app/(membre)/[espace]/communaute/actions";
+import { inscription, connexion, demanderReinitialisation } from "@/app/(membre)/[espace]/communaute/actions";
 import { couleurAvatar } from "@/lib/avatar";
 
 const etatInitial = { erreur: null };
@@ -17,8 +17,9 @@ export type StatsConnexion = {
 
 // Ecran de connexion plein ecran, deux volets comme la capture de reference. Recouvre la page qui
 // l'affiche (fixed) : les six pages qui l'utilisent n'ont pas a changer de structure. Les connexions
-// Google, Microsoft, LinkedIn et le mot de passe oublie n'existent pas dans la plateforme : ils sont
-// affiches desactives, jamais actifs. Les cartes flottantes n'affichent que des chiffres reels.
+// Google, Microsoft et LinkedIn n'existent pas dans la plateforme : elles sont affichees desactivees,
+// jamais actives. Le mot de passe oublie, lui, est actif (lien par email). Les cartes flottantes
+// n'affichent que des chiffres reels.
 const ATOUTS = [
   { titre: "Une formation pas à pas", texte: "Des modules dans l'ordre, à ton rythme.", couleur: "#5fc7b8" },
   { titre: "Une communauté d'entraide", texte: "Pose tes questions, avance avec les autres.", couleur: "#ff7a4d" },
@@ -59,13 +60,15 @@ export function FormulaireAuth({
   espaceNom?: string;
   stats?: StatsConnexion;
 }) {
-  const [mode, setMode] = useState<"connexion" | "inscription">("inscription");
+  const [mode, setMode] = useState<"connexion" | "inscription" | "oubli">("inscription");
   const [voir, setVoir] = useState(false);
   const [etatInscription, actionInscription] = useActionState(inscription, etatInitial);
   const [etatConnexion, actionConnexion] = useActionState(connexion, etatInitial);
+  const [etatOubli, actionOubli] = useActionState(demanderReinitialisation, { erreur: null, envoye: false });
 
-  const etat = mode === "inscription" ? etatInscription : etatConnexion;
+  const etat = mode === "oubli" ? etatOubli : mode === "inscription" ? etatInscription : etatConnexion;
   const insc = mode === "inscription";
+  const oubli = mode === "oubli";
   const nbMembres = stats?.membres ?? null;
 
   return (
@@ -219,12 +222,18 @@ export function FormulaireAuth({
               </p>
             </div>
 
-            <h2 className="font-display mt-8 text-[24px] font-bold">{insc ? "Crée ton compte" : "Bon retour !"}</h2>
+            <h2 className="font-display mt-8 text-[24px] font-bold">
+              {oubli ? "Mot de passe oublié" : insc ? "Crée ton compte" : "Bon retour !"}
+            </h2>
             <p className="mt-1.5 text-[13px] leading-relaxed text-[var(--sur-encre-mute)]">
-              {insc ? "Un compte pour demander l'accès à la communauté et suivre ta formation." : "Accède à ton compte et continue ta formation."}
+              {oubli
+                ? "Indique ton email : tu recevras un lien pour choisir un nouveau mot de passe."
+                : insc
+                  ? "Un compte pour demander l'accès à la communauté et suivre ta formation."
+                  : "Accède à ton compte et continue ta formation."}
             </p>
 
-            <form action={insc ? actionInscription : actionConnexion} className="mt-6 flex flex-col gap-4">
+            <form action={oubli ? actionOubli : insc ? actionInscription : actionConnexion} className="mt-6 flex flex-col gap-4">
               <input type="hidden" name="espace_slug" value={espaceSlug} />
               {insc && (
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -279,37 +288,43 @@ export function FormulaireAuth({
                   </div>
                 </div>
               )}
-              <div>
-                <label htmlFor="auth-mdp" className="mb-1.5 block text-[13px] font-bold">
-                  Mot de passe
-                </label>
-                <div className="relative">
-                  <Icone d="M6 11h12v9H6v-9Zm2 0V8a4 4 0 0 1 8 0v3" />
-                  <input
-                    id="auth-mdp"
-                    type={voir ? "text" : "password"}
-                    name="mot_de_passe"
-                    placeholder="Ton mot de passe"
-                    required
-                    minLength={6}
-                    autoComplete={insc ? "new-password" : "current-password"}
-                    className={`${CHAMP} pr-16`}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setVoir((v) => !v)}
-                    aria-label={voir ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-                    className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[11px] font-bold text-[rgba(234,245,242,0.6)]"
-                  >
-                    {voir ? "Masquer" : "Voir"}
-                  </button>
+              {!oubli && (
+                <div>
+                  <label htmlFor="auth-mdp" className="mb-1.5 block text-[13px] font-bold">
+                    Mot de passe
+                  </label>
+                  <div className="relative">
+                    <Icone d="M6 11h12v9H6v-9Zm2 0V8a4 4 0 0 1 8 0v3" />
+                    <input
+                      id="auth-mdp"
+                      type={voir ? "text" : "password"}
+                      name="mot_de_passe"
+                      placeholder="Ton mot de passe"
+                      required
+                      minLength={6}
+                      autoComplete={insc ? "new-password" : "current-password"}
+                      className={`${CHAMP} pr-16`}
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setVoir((v) => !v)}
+                      aria-label={voir ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[11px] font-bold text-[rgba(234,245,242,0.6)]"
+                    >
+                      {voir ? "Masquer" : "Voir"}
+                    </button>
+                  </div>
+                  {!insc && (
+                    <button
+                      type="button"
+                      onClick={() => setMode("oubli")}
+                      className="mt-2 block w-full text-right text-[11.5px] font-semibold text-[var(--sarcelle-light)]"
+                    >
+                      Mot de passe oublié ?
+                    </button>
+                  )}
                 </div>
-                {!insc && (
-                  <span title="Bientôt disponible" className="mt-2 block cursor-not-allowed text-right text-[11.5px] font-semibold text-[rgba(143,220,207,0.5)]">
-                    Mot de passe oublié ? · bientôt
-                  </span>
-                )}
-              </div>
+              )}
               {insc && (
                 <div>
                   <label htmlFor="auth-conf" className="mb-1.5 block text-[13px] font-bold">
@@ -326,21 +341,28 @@ export function FormulaireAuth({
                   {etat.erreur}
                 </p>
               )}
+              {oubli && etatOubli.envoye && (
+                <p role="status" className="rounded-lg bg-[rgba(95,199,184,0.14)] px-3.5 py-2.5 text-[13px] font-semibold text-[var(--sarcelle-light)]">
+                  Si un compte existe avec cet email, tu vas recevoir un lien de réinitialisation.
+                </p>
+              )}
               <button
                 type="submit"
                 className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#2b8c82] via-[#5fc7b8] to-[#8fdccf] px-4 py-3.5 text-[14.5px] font-extrabold text-[#0b2622] shadow-[0_10px_28px_rgba(43,140,130,0.45)] transition-transform hover:-translate-y-0.5"
               >
-                {insc ? "Créer mon compte" : "Se connecter"}
+                {oubli ? "M'envoyer le lien" : insc ? "Créer mon compte" : "Se connecter"}
                 <span aria-hidden>→</span>
               </button>
             </form>
 
-            <div className="my-6 flex items-center gap-3 text-[12px] text-[rgba(234,245,242,0.5)]">
-              <span className="h-px flex-1 bg-[rgba(234,245,242,0.14)]" />
-              ou
-              <span className="h-px flex-1 bg-[rgba(234,245,242,0.14)]" />
-            </div>
-            <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+            {!oubli && (
+              <>
+                <div className="my-6 flex items-center gap-3 text-[12px] text-[rgba(234,245,242,0.5)]">
+                  <span className="h-px flex-1 bg-[rgba(234,245,242,0.14)]" />
+                  ou
+                  <span className="h-px flex-1 bg-[rgba(234,245,242,0.14)]" />
+                </div>
+                <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
               {[
                 { nom: "Google", g: "G", style: "bg-[rgba(255,255,255,0.88)] text-[#1c2b28] opacity-60" },
                 { nom: "Microsoft", g: "M", style: "border border-[rgba(234,245,242,0.18)] text-[rgba(234,245,242,0.5)]" },
@@ -360,16 +382,18 @@ export function FormulaireAuth({
                   <span className="font-mono text-[10px] font-normal">bientôt</span>
                 </button>
               ))}
-            </div>
+                </div>
+              </>
+            )}
 
             <p className="mt-7 text-center text-[13px] text-[var(--sur-encre-mute)]">
-              {insc ? "Tu as déjà un compte ?" : "Tu n'as pas encore de compte ?"}
+              {oubli ? "Tu te souviens de ton mot de passe ?" : insc ? "Tu as déjà un compte ?" : "Tu n'as pas encore de compte ?"}
               <button
                 type="button"
-                onClick={() => setMode(insc ? "connexion" : "inscription")}
+                onClick={() => setMode(oubli ? "connexion" : insc ? "connexion" : "inscription")}
                 className="mt-1 block w-full text-[13.5px] font-bold text-[var(--sarcelle-light)]"
               >
-                {insc ? "Se connecter →" : "Créer un compte →"}
+                {oubli ? "Retour à la connexion →" : insc ? "Se connecter →" : "Créer un compte →"}
               </button>
             </p>
           </div>

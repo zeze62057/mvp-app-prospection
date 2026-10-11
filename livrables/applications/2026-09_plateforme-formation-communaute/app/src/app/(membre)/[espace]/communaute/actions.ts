@@ -1,6 +1,8 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { getEspaceParSlug } from "@/lib/espaces";
 
@@ -77,6 +79,65 @@ export async function deconnexion(espaceSlug: string) {
   const supabase = await createClient();
   await supabase.auth.signOut();
   revalidatePath(`/${espaceSlug}/communaute`);
+}
+
+// Envoie le lien de reinitialisation du mot de passe. Repond toujours pareil,
+// que l'email existe ou non : ne jamais reveler quels comptes existent.
+// Le lien pointe vers /auth/reinitialisation (route qui echange le code contre
+// une session) puis renvoie vers la page de nouveau mot de passe de l'espace.
+export async function demanderReinitialisation(
+  _etat: EtatAction & { envoye?: boolean },
+  formData: FormData
+): Promise<EtatAction & { envoye?: boolean }> {
+  const email = String(formData.get("email") ?? "").trim();
+  const espaceSlug = String(formData.get("espace_slug") ?? "");
+  if (!email) return { erreur: "Indique ton email." };
+
+  const entetes = await headers();
+  const hote = entetes.get("x-forwarded-host") ?? entetes.get("host");
+  const proto = entetes.get("x-forwarded-proto") ?? "http";
+  const redirectTo = `${proto}://${hote}/auth/reinitialisation?next=/${espaceSlug}/reinitialisation`;
+
+  const supabase = await createClient();
+  const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo });
+  if (error) {
+    console.error("reinitialisation: echec d'envoi de l'email", error);
+    return { erreur: "L'envoi a échoué. Réessaie dans un instant." };
+  }
+
+  return { erreur: null, envoye: true };
+}
+
+// Nouveau mot de passe apres le clic sur le lien recu par email. La session de
+// recuperation est deja en place (posee par /auth/reinitialisation).
+export async function definirNouveauMotDePasse(
+  _etat: EtatAction,
+  formData: FormData
+): Promise<EtatAction> {
+  const espaceSlug = String(formData.get("espace_slug") ?? "");
+  const motDePasse = String(formData.get("mot_de_passe") ?? "");
+  const confirmation = String(formData.get("confirmation") ?? "");
+
+  if (motDePasse.length < 6) {
+    return { erreur: "Le mot de passe doit contenir au moins 6 caractères." };
+  }
+  if (motDePasse !== confirmation) {
+    return { erreur: "Les deux mots de passe ne sont pas identiques." };
+  }
+
+  const supabase = await createClient();
+  const { data: userData } = await supabase.auth.getUser();
+  if (!userData.user) {
+    return { erreur: "Le lien a expiré. Redemande un lien de réinitialisation." };
+  }
+
+  const { error } = await supabase.auth.updateUser({ password: motDePasse });
+  if (error) {
+    console.error("reinitialisation: echec updateUser", error);
+    return { erreur: "Impossible d'enregistrer le nouveau mot de passe. Réessaie." };
+  }
+
+  redirect(`/${espaceSlug}/communaute`);
 }
 
 // Messages de la fonction demander_adhesion (fichier SQL en ASCII) traduits avec leurs accents.
