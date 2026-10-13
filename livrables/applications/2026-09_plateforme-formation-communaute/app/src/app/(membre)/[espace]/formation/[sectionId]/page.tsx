@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import Markdown from "react-markdown";
 import { composants } from "@/components/formation/composants-lecon";
 import { getEspaceParSlug } from "@/lib/espaces";
+import { ESPACE_MODULES_INTERACTIFS, NUMERO_MODULE_SANS_BASE } from "@/lib/modules-interactifs";
 import { createClient } from "@/lib/supabase/server";
 import { marquerSectionTerminee } from "../../progression/actions";
 import type { AccesPayant, Module, Section } from "@/types/membre";
@@ -122,9 +123,19 @@ export default async function LeconPage({
       </div>
 
       <article className="mx-auto max-w-3xl px-5 py-8 sm:px-7 sm:py-10">
-        <Link href={`/${espace.slug}/formation`} className="text-xs font-bold text-[var(--texte-mute)] hover:text-[var(--sarcelle)]">
-          ← Retour au programme
-        </Link>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <Link href={`/${espace.slug}/formation`} className="text-xs font-bold text-[var(--texte-mute)] hover:text-[var(--sarcelle)]">
+            ← Retour au programme
+          </Link>
+          {espace.slug === ESPACE_MODULES_INTERACTIFS && module.ordre < NUMERO_MODULE_SANS_BASE && (
+            <Link
+              href={`/${espace.slug}/formation/pratique/${module.ordre}`}
+              className="inline-flex items-center gap-1.5 rounded-full bg-[var(--corail)] px-3.5 py-1.5 text-[12px] font-bold text-[var(--encre)] hover:opacity-90"
+            >
+              Module {module.ordre} interactif ›
+            </Link>
+          )}
+        </div>
 
         <header className="relative mt-5 overflow-hidden rounded-[20px] bg-gradient-to-br from-[var(--encre)] via-[var(--encre-2)] to-[var(--sarcelle)] p-6 text-[var(--sur-encre)] shadow-[0_10px_28px_rgba(0,0,0,0.2)] sm:p-8">
           <span aria-hidden="true" className="pointer-events-none absolute -right-12 -top-14 h-48 w-48 rounded-full bg-[rgba(255,255,255,0.07)]" />

@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { notFound, redirect } from "next/navigation";
 import { getEspaceParSlug } from "@/lib/espaces";
+import {
+  ESPACE_MODULES_INTERACTIFS,
+  NUMERO_MODULE_SANS_BASE,
+  TITRES_MODULES_INTERACTIFS,
+} from "@/lib/modules-interactifs";
 import { createClient } from "@/lib/supabase/server";
+import { CouvertureModule } from "@/components/formation/CouvertureModule";
 import { MontagneDrapeau, Vignette } from "@/components/progression/BlocsTableauDeBord";
 import type { AccesPayant, Module, Section } from "@/types/membre";
 
@@ -73,6 +79,7 @@ export default async function FormationPage({
     sectionsParModule.set(s.module_id, [...(sectionsParModule.get(s.module_id) ?? []), s]);
   });
 
+  const modulesInteractifs = espace.slug === ESPACE_MODULES_INTERACTIFS;
   const ouvrable = (s: Section) => s.a_contenu || !!s.video_path;
   const modulesAffiches = (modules ?? []).map((m, rang) => {
     const secs = sectionsParModule.get(m.id) ?? [];
@@ -147,7 +154,11 @@ export default async function FormationPage({
               style={{ animationDelay: `${Math.min(rang, 6) * 70}ms` }}
             >
               <div className="flex flex-col gap-4 sm:flex-row sm:items-stretch">
-                <Vignette rang={rang} className="h-40 w-full sm:h-auto sm:min-h-[150px] sm:w-[170px]" />
+                {modulesInteractifs && m.ordre < NUMERO_MODULE_SANS_BASE ? (
+                  <CouvertureModule numero={m.ordre} className="h-40 w-full sm:h-auto sm:min-h-[150px] sm:w-[170px]" />
+                ) : (
+                  <Vignette rang={rang} className="h-40 w-full sm:h-auto sm:min-h-[150px] sm:w-[170px]" />
+                )}
 
                 <div className="flex min-w-0 flex-1 gap-3.5">
                   <span className="font-display flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[rgba(43,140,130,0.14)] text-[14px] font-extrabold text-[var(--sarcelle-texte)]">
@@ -180,6 +191,14 @@ export default async function FormationPage({
                         <li className="text-[12.5px] text-[var(--texte-mute)]">Aucune section pour l&apos;instant.</li>
                       )}
                     </ul>
+                    {modulesInteractifs && m.ordre < NUMERO_MODULE_SANS_BASE && (
+                      <Link
+                        href={`/${espace.slug}/formation/pratique/${m.ordre}`}
+                        className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[var(--corail)] px-3.5 py-1.5 text-[12px] font-bold text-[var(--encre)] hover:opacity-90"
+                      >
+                        Module interactif ›
+                      </Link>
+                    )}
                   </div>
                 </div>
 
@@ -212,6 +231,25 @@ export default async function FormationPage({
           ))}
           {modulesAffiches.length === 0 && (
             <p className="text-sm text-[var(--texte-mute)]">Aucun module pour l&apos;instant.</p>
+          )}
+          {modulesInteractifs && (
+            <div className="rounded-2xl border border-[var(--ligne)] bg-[var(--fond-carte)] p-4 sm:p-5">
+              <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
+                <CouvertureModule numero={NUMERO_MODULE_SANS_BASE} className="h-40 w-full sm:h-[120px] sm:w-[170px]" />
+                <div className="min-w-0 flex-1">
+                  <p className="font-mono text-[10.5px] font-bold uppercase tracking-wide text-[var(--sarcelle)]">Module interactif</p>
+                  <h2 className="font-display mt-1 text-[16px] font-bold">
+                    Module {NUMERO_MODULE_SANS_BASE} — {TITRES_MODULES_INTERACTIFS[NUMERO_MODULE_SANS_BASE]}
+                  </h2>
+                </div>
+                <Link
+                  href={`/${espace.slug}/formation/pratique/${NUMERO_MODULE_SANS_BASE}`}
+                  className="inline-flex shrink-0 items-center gap-1.5 rounded-full bg-[var(--corail)] px-3.5 py-1.5 text-[12px] font-bold text-[var(--encre)] hover:opacity-90"
+                >
+                  Module interactif ›
+                </Link>
+              </div>
+            </div>
           )}
         </div>
       </div>

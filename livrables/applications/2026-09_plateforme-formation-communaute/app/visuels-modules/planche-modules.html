@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vivier IA : planche des couvertures des modules interactifs (prototype)</title>
+<!-- Polices chargées depuis Google Fonts : Unbounded (titres) et Public Sans (étiquettes). Sans connexion, une police de repli s'affiche. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@600;800&family=Public+Sans:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --encre:#113832; --sarcelle:#2B8C82; --sarcelle-clair:#5FC7B8; --corail:#FF7A4D; --fond:#F2F7F5; --texte:#0F2E29; --sur-encre:#EAF5F2;
+  /* Une seule définition des polices : pour changer, modifier ces deux lignes. */
+  --police-titre:"Unbounded","Segoe UI",system-ui,sans-serif;
+  --police-texte:"Public Sans","Segoe UI",system-ui,sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:var(--fond);color:var(--texte);font-family:var(--police-texte);line-height:1.5;padding:32px 20px 64px}
+.wrap{max-width:1000px;margin:0 auto}
+h1{font-family:var(--police-titre);font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--encre)}
+.intro{margin:8px 0 6px;color:rgba(15,46,41,.75)}
+.etat{display:inline-block;margin:6px 0 30px;padding:4px 12px;border-radius:99px;background:rgba(255,122,77,.16);border:1px solid rgba(217,72,15,.4);color:#d9480f;font-size:12.5px;font-weight:700}
+.mod{margin-bottom:46px}
+.mod h2{font-family:var(--police-titre);font-size:15px;font-weight:600;color:var(--encre);margin-bottom:12px}
+.formats{display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start;margin-top:16px}
+.lab{display:block;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(15,46,41,.6);margin-bottom:6px}
+
+/* Bannière 16:9, mise à l'échelle avec les unités du conteneur */
+.ban{position:relative;container-type:inline-size;aspect-ratio:16/9;width:100%;max-width:960px;border-radius:14px;overflow:hidden;background-color:var(--a);background-repeat:no-repeat;background-position:center;background-size:100% 100%;color:var(--sur-encre)}
+.ban .num{position:absolute;right:5cqw;top:2.6cqw;font-family:var(--police-titre);font-weight:800;font-size:9cqw;line-height:1;color:var(--sur-encre);opacity:.14}
+.ban .txt{position:absolute;left:5.6cqw;top:5.4cqw;bottom:4.6cqw;width:52cqw;display:flex;flex-direction:column}
+.ban .eye{font-weight:700;font-size:2.1cqw;letter-spacing:.12em;text-transform:uppercase;color:var(--sarcelle-clair)}
+.ban .titre{flex:1;display:flex;align-items:center;font-family:var(--police-titre);font-weight:800;line-height:1.12;color:var(--sur-encre)}
+.ban .chiffres{font-weight:500;font-size:1.85cqw;color:rgba(234,245,242,.78);margin-bottom:2.4cqw}
+.ban .pied{display:flex;align-items:center;gap:1.6cqw;font-family:var(--police-titre);font-weight:600;font-size:2.3cqw}
+.ban .pied svg{width:3.4cqw;height:3.4cqw}
+.ban .pied small{font-family:var(--police-texte);font-weight:500;font-size:1.7cqw;color:rgba(234,245,242,.65)}
+
+/* Carte et mini : l'art est recadré sur le symbole */
+.carte{position:relative;width:170px;height:120px;border-radius:12px;overflow:hidden;background-color:var(--a);background-repeat:no-repeat;background-size:510px auto;background-position:-318px -127px}
+.carte span{position:absolute;left:12px;bottom:8px;font-family:var(--police-titre);font-weight:800;font-size:38px;line-height:1;color:var(--sur-encre)}
+.mini{width:80px;height:56px;border-radius:10px;overflow:hidden;background-color:var(--a);background-repeat:no-repeat;background-size:192px auto;background-position:-112px -42px}
+
+/* Mobile : 360 px, empilé */
+.mob{width:360px;max-width:100%;border-radius:14px;overflow:hidden;background-color:var(--a);color:var(--sur-encre)}
+.mob .art{height:170px;background-repeat:no-repeat;background-size:720px auto;background-position:-318px -179px}
+.mob .corps{padding:16px 18px 18px}
+.mob .eye{font-weight:700;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--sarcelle-clair)}
+.mob .titre{font-family:var(--police-titre);font-weight:800;font-size:20px;line-height:1.2;margin:8px 0 10px}
+.mob .chiffres{font-size:12.5px;color:rgba(234,245,242,.78);margin-bottom:14px}
+.mob .pied{display:flex;align-items:center;gap:8px;font-family:var(--police-titre);font-weight:600;font-size:13px}
+.mob .pied svg{width:22px;height:22px}
+.mob .pied small{font-family:var(--police-texte);font-weight:500;font-size:11px;color:rgba(234,245,242,.65)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Couvertures des 6 modules interactifs</h1>
+  <p class="intro">Les fonds sont les fichiers module-1.svg à module-6.svg (symbole, sans texte). L'étiquette, le numéro, le titre et la ligne de chiffres sont ajoutés ici en HTML.</p>
+  <span class="etat">Prototype, non vérifié visuellement</span>
+  <div id="liste"></div>
+</div>
+<script>
+/* Titres exacts : TITRES_MODULES_INTERACTIFS de l'app. Chiffres : stats d'accueil de chaque module HTML.
+   fs = taille du titre en unités de conteneur (cqw), adaptée à la longueur du titre. */
+const MODULES=[
+ {n:1,a:"#16443C",eye:"Module 1 · Claude Code",titre:"Devenez architecte et validateur avec Claude Code",prompts:21,quiz:35,fs:3.7},
+ {n:2,a:"#113832",eye:"Module 2 · n8n",titre:"Maîtrisez n8n",prompts:21,quiz:35,fs:6.2},
+ {n:3,a:"#1B4D45",eye:"Module 3 · Activité IA",titre:"De l'opportunité IA à votre première vente",prompts:27,quiz:45,fs:4.1},
+ {n:4,a:"#0E2F2A",eye:"Module 4 · Sécurité IA",titre:"Sécurité et conformité IA",prompts:12,quiz:20,fs:5},
+ {n:5,a:"#16443C",eye:"Module 5 · Prospection IA",titre:"Prospection et Lemlist",prompts:12,quiz:20,fs:5.4},
+ {n:6,a:"#113832",eye:"Module 6 · Cybersécurité",titre:"Cybersécurité IA en 5 points",prompts:18,quiz:30,fs:4.6}
+];
+const LOGO='<svg viewBox="0 0 120 120" fill="none" aria-hidden="true"><circle cx="45" cy="75" r="22" stroke="#5FC7B8" stroke-width="11"/><line x1="61" y1="59" x2="95" y2="25" stroke="#5FC7B8" stroke-width="11" stroke-linecap="round"/><circle cx="95" cy="25" r="12" fill="#FF7A4D"/></svg>';
+document.getElementById("liste").innerHTML=MODULES.map(m=>{
+  const bg='url(module-'+m.n+'.svg)';
+  const chiffres=m.prompts+' prompts à copier · '+m.quiz+' questions de quiz';
+  return `<section class="mod" style="--a:${m.a}">
+    <h2>Module ${m.n}</h2>
+    <span class="lab">Bannière 16:9</span>
+    <div class="ban" style="background-image:${bg}">
+      <div class="num">0${m.n}</div>
+      <div class="txt">
+        <div class="eye">${m.eye}</div>
+        <div class="titre" style="font-size:${m.fs}cqw">${m.titre}</div>
+        <div class="chiffres">${chiffres}</div>
+        <div class="pied">${LOGO}<span>Vivier IA</span><small>· Module interactif</small></div>
+      </div>
+    </div>
+    <div class="formats">
+      <div><span class="lab">Carte</span><div class="carte" style="background-image:${bg}"><span>${m.n}</span></div></div>
+      <div><span class="lab">Mini</span><div class="mini" style="background-image:${bg}"></div></div>
+      <div><span class="lab">Mobile (360 px)</span>
+        <div class="mob">
+          <div class="art" style="background-image:${bg}"></div>
+          <div class="corps">
+            <div class="eye">${m.eye}</div>
+            <div class="titre">${m.titre}</div>
+            <div class="chiffres">${chiffres}</div>
+            <div class="pied">${LOGO}<span>Vivier IA</span><small>· Module interactif</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+}).join("");
+</script>
+</body>
+</html>
